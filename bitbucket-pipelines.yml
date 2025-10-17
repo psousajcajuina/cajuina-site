@@ -10,18 +10,6 @@ pipelines:
   branches:
     cms/push:
       - step:
-          name: Create PR to main
-          script:
-            - pipe: atlassian/git-push:0.11.0
-              variables:
-                USER_ID: $BITBUCKET_USER
-                ACCESS_TOKEN: $BITBUCKET_APP_PASSWORD
-                REPOSITORY: 'cajuinasaogeraldo/cajuina-site'
-                DESTINATION_BRANCH: 'main'
-                SOURCE_BRANCH: $BITBUCKET_BRANCH
-
-    main:
-      - step:
           name: Build
           trigger: automatic
           script: [*setup-pnpm, pnpm install, pnpm build]
