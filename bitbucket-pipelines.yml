@@ -1,0 +1,42 @@
+image: node:20.18.0
+
+definitions:
+  scripts:
+    setup-pnpm: &setup-pnpm npm install --global corepack@latest
+      && corepack enable
+      && corepack prepare pnpm@9.12.3 --activate
+
+pipelines:
+  branches:
+    cms/push:
+    - step:
+        name: Create PR to main
+        script:
+          - pipe: atlassian/git-push:0.11.0
+            variables:
+              USER_ID: $BITBUCKET_USER
+              ACCESS_TOKEN: $BITBUCKET_APP_PASSWORD
+              REPOSITORY: 'cajuinasaogeraldo/cajuina-site'
+              DESTINATION_BRANCH: 'main'
+              SOURCE_BRANCH: $BITBUCKET_BRANCH
+
+    main:
+      - step:
+          name: Build
+          trigger: automatic
+          script: [*setup-pnpm, pnpm install, pnpm build]
+
+      - step:
+          name: Deploy Hostinger SSH
+          trigger: automatic
+          deployment: production
+          script:
+            - pipe: atlassian/ftp-deploy:0.7.1
+              variables:
+                USER: $USER
+                PASSWORD: $PASSWORD
+                SERVER: $SERVER
+                REMOTE_PATH: $REMOTE_PATH
+                LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/dist'
+          depends_on:
+            - Build
