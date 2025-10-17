@@ -1,6 +1,7 @@
 backend:
-  name: github
-  repo: psousajcajuina/cajuina-site
+  name: bitbucket
+  repo: cajuinasaogeraldo/cajuina-site
+  branch: cms/push
 
 media_folder: "src/assets/images/blog" 
 public_folder: "assets/images/blog" 
