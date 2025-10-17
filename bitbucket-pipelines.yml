@@ -10,17 +10,13 @@ pipelines:
   branches:
     cms/push:
       - step:
-          name: Build
-          trigger: automatic
-          script: [*setup-pnpm, pnpm install, pnpm build]
-          artifacts:
-            - dist/**
-
-      - step:
-          name: Deploy Hostinger SSH
+          name: Build & Deploy
           trigger: automatic
           deployment: production
           script:
+            - *setup-pnpm
+            - pnpm install
+            - pnpm build
             - pipe: atlassian/ftp-deploy:0.7.1
               variables:
                 USER: $USER
@@ -28,5 +24,3 @@ pipelines:
                 SERVER: $SERVER
                 REMOTE_PATH: $REMOTE_PATH
                 LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/dist'
-          depends_on:
-            - Build
