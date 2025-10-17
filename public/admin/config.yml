@@ -2,6 +2,7 @@ backend:
   name: bitbucket
   repo: cajuinasaogeraldo/cajuina-site
   branch: cms/push
+  app_id: ATATT3xFfGF0Dw-O74w93Y7td8Pd3IYzvxA-RRXYFi70DhlBnmDKUvzEJWsD_0ypw8ZHh91jrzhzkoSCZTOII0vDytOa8D9RvtyCx2gOVpD_GopXboPueEO7lHKLjnG_cIOL2fSpjt5fJYgrTTyIsJpH7xv34bD9ObznbnkMMvDj3D7gYQljXwk=323DF1E6
 
 media_folder: "src/assets/images/blog" 
 public_folder: "assets/images/blog" 
