@@ -13,6 +13,8 @@ pipelines:
           name: Build
           trigger: automatic
           script: [*setup-pnpm, pnpm install, pnpm build]
+          artifacts:
+            - dist/**
 
       - step:
           name: Deploy Hostinger SSH
