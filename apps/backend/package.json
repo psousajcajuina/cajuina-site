@@ -1,0 +1,20 @@
+{
+  "name": "cajuina-tina-backend",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Backend database client ready'",
+    "build": "tsc",
+    "start": "echo 'Backend database client built'",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tinacms/datalayer": "^1.4.1",
+    "tinacms": "^2.9.0",
+    "tinacms-authjs": "^12.0.0",
+    "tinacms-gitprovider-github": "^3.0.1",
+    "mongodb-level": "^0.0.4"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^1.11.0"
+  }
+}

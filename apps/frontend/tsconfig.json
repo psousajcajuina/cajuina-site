@@ -1,0 +1,32 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*",
+    "../../env.ts",
+    "../../consts.ts"
+  ],
+  "exclude": [
+    "dist"
+  ],
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "composite": true,
+    "baseUrl": ".",
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "paths": {
+      "@env": [
+        "../../env.ts"
+      ],
+      "@consts": [
+        "../../consts.ts"
+      ],
+      "@tina": [
+        "../backend/database.ts"
+      ]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
+}

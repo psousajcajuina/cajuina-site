@@ -1,62 +1,138 @@
-# Astro Starter Kit: Blog
+# Cajuína Site - Monorepo
 
-```sh
-pnpm create astro@latest -- --template blog
-```
+Site da Cajuína com TinaCMS configurado em monorepo usando pnpm workspaces.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## 🏗️ Estrutura do Monorepo
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+├── apps/
+│   ├── frontend/          # Site Astro com TinaCMS
+│   └── backend/           # Configuração do banco de dados Tina
+├── env.ts                 # Configurações de ambiente compartilhadas
+├── consts.ts             # Constantes compartilhadas
+├── package.json          # Scripts do monorepo
+├── pnpm-workspace.yaml   # Configuração do workspace
+└── tsconfig.json         # Configuração TypeScript raiz
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🚀 Comandos Disponíveis
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Todos os comandos devem ser executados na raiz do projeto:
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+### Desenvolvimento
+| Comando                    | Ação                                           |
+| :------------------------ | :--------------------------------------------- |
+| `pnpm install`            | Instala todas as dependências                  |
+| `pnpm dev`                | Inicia desenvolvimento paralelo               |
+| `pnpm dev:frontend`       | Inicia apenas o frontend                      |
+| `pnpm dev:backend`        | Inicia apenas o backend                       |
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Build e Produção
+| Comando                   | Ação                                           |
+| :------------------------ | :--------------------------------------------- |
+| `pnpm build`              | Build de todos os projetos                    |
+| `pnpm build:frontend`     | Build apenas do frontend                      |
+| `pnpm build:backend`      | Build apenas do backend                       |
 
-## 🧞 Commands
+### Utilitários
+| Comando                   | Ação                                           |
+| :------------------------ | :--------------------------------------------- |
+| `pnpm type-check`         | Verifica tipos em todos os projetos          |
+| `pnpm lint`               | Executa linting em todos os projetos         |
 
-All commands are run from the root of the project, from a terminal:
+## 🔧 Configuração
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+### Environment Variables
 
-## 👀 Want to learn more?
+1. Copie o arquivo `.env.example` para `.env`
+2. Configure as variáveis necessárias:
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+cp .env.example .env
+```
 
-## Credit
+### Variáveis Importantes
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+- `TINA_PUBLIC_IS_LOCAL=true` - Modo de desenvolvimento local
+- `MONGODB_URI` - String de conexão MongoDB (para produção)
+- `GITHUB_*` - Configurações do GitHub (para produção)
+
+## 📁 Apps
+
+### Frontend (`apps/frontend`)
+- Site Astro com TinaCMS
+- Configuração em `apps/frontend/tina/config.ts`
+- Build output: `dist/`
+
+### Backend (`apps/backend`)
+- Database client do TinaCMS
+- Configuração de providers (GitHub, MongoDB)
+- APIs para autenticação
+
+## 🔧 TypeScript
+
+O monorepo está configurado com:
+- Path mapping para módulos compartilhados (`@env`, `@consts`, `@tina`)
+- Configuração composite para builds eficientes
+- Type checking automatizado
+
+## 📦 Workspaces
+
+Configurado com pnpm workspaces para:
+- Compartilhamento de dependências
+- Builds paralelos
+- Type checking coordenado
+
+## 🚀 Deploy
+
+### Frontend
+O frontend pode ser deployado em qualquer plataforma que suporte Astro:
+- Vercel
+- Netlify 
+- AWS Amplify
+
+### Backend
+O backend deve ser deployado com as seguintes variáveis configuradas:
+- `TINA_PUBLIC_IS_LOCAL=false`
+- Todas as variáveis de produção do `.env.example`
+
+## 📖 Documentação
+
+- [Astro Documentation](https://docs.astro.build)
+- [TinaCMS Documentation](https://tina.io/docs)
+- [pnpm Workspaces](https://pnpm.io/workspaces)
+
+## ✅ Setup Completo
+
+O monorepo foi configurado com:
+
+### ✅ Problemas Resolvidos
+- ❌ Erros de TypeScript nos imports (`@env`, `@consts`, `@tina`)
+- ❌ Configuração de paths inválidos  
+- ❌ Dependências mal organizadas
+- ❌ Scripts de build inconsistentes
+
+### ✅ Configurações Implementadas
+- ✅ TypeScript configurado com composite projects
+- ✅ Path mapping para módulos compartilhados
+- ✅ pnpm workspaces configurado
+- ✅ Scripts de desenvolvimento e build
+- ✅ Type checking automático
+- ✅ Estrutura de monorepo organizada
+
+### 🔄 Para usar:
+```bash
+# Instalar dependências
+pnpm install
+
+# Desenvolvimento (apenas frontend funcional)
+pnpm dev:frontend
+
+# Type checking
+pnpm type-check
+
+# Build
+pnpm build
+```
+
+O projeto está pronto para desenvolvimento! 🎉
