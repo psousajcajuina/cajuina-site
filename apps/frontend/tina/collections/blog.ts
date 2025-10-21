@@ -1,82 +1,49 @@
 import type { Collection } from "tinacms";
 
 export const BlogCollection: Collection = {
+
   name: "blog",
-  label: "Blog",
+  label: "Blogs",
   path: "src/content/blog",
+  format: "mdx",
   ui: {
     router({ document }) {
       return `/blog/${document._sys.filename}`;
     },
   },
-  templates: [
+  fields: [
     {
-      name: "blog",
-      label: "Publicação do Site",
-      ui: {
-        defaultItem: {
-          draft: false,
-        },
-      },
-      fields: [
-        {
-          type: "string",
-          name: "title",
-          label: "Título",
-          isTitle: true,
-          required: true,
-        },
-        {
-          type: "string",
-          name: "slug",
-          label: "Slug / URL",
-          description: "Url de acesso ao post. EX: /blog/<slug-de-exemplo>",
-          required: true,
-        },
-        {
-          type: "string",
-          name: "description",
-          label: "Descrição",
-          ui: {
-            component: "textarea",
-          },
-        },
-        {
-          type: "image",
-          name: "coverImage",
-          label: "Image de Capa",
-        },
-        {
-          type: "string",
-          name: "tags",
-          label: "Tags",
-          list: true,
-          addItemBehavior: "append",
-        },
-        {
-          type: "datetime",
-          name: "publishedAt",
-          label: "Hora da publicação",
-          required: true,
-          ui: { dateFormat: "DD/MM/YYYY", timeFormat: "HH:mm" },
-        },
-        {
-          name: "updatedDate",
-          label: "Updated Date",
-          type: "datetime",
-        },
-        {
-          type: "boolean",
-          name: "draft",
-          label: "Salvar como Rascunho",
-        },
-        {
-          type: "rich-text",
-          name: "body",
-          label: "Body",
-          isBody: true,
-        },
-      ],
+      type: "string",
+      name: "title",
+      label: "Title",
+      isTitle: true,
+      required: true,
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "string",
+    },
+    {
+      name: "pubDate",
+      label: "Publication Date",
+      type: "datetime",
+    },
+    {
+      name: "updatedDate",
+      label: "Updated Date",
+      type: "datetime",
+    },
+    {
+      name: "heroImage",
+      label: "Hero Image",
+      type: "image",
+    },
+    {
+      type: "rich-text",
+      name: "body",
+      label: "Body",
+      isBody: true,
     },
   ],
-};
+}

@@ -6,7 +6,7 @@ function FormattedDate({ date }: { date: string }) {
 	return (
 		<time dateTime={_date.toISOString()}>
 			{
-				_date.toLocaleDateString('pt-BR', {
+				_date.toLocaleDateString('en-us', {
 					year: 'numeric',
 					month: 'short',
 					day: 'numeric',
