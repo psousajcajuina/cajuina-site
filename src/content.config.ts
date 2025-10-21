@@ -2,6 +2,7 @@ import { defineCollection, z } from "astro:content";
 import client from "../tina/__generated__/client";
 
 const blog = defineCollection({
+  //@ts-ignore
   loader: async () => {
     const postsResponse = await client.queries.blogConnection();
 
@@ -33,7 +34,33 @@ const blog = defineCollection({
   }),
 });
 
+const products = defineCollection({
+  //@ts-ignore
+   loader: async () => {
+    const postsResponse = await client.queries.productsConnection();
+    return postsResponse.data.productsConnection.edges
+      ?.filter((product) => !!product?.node?._sys.relativePath)
+      .map((post) => {
+        const node = post!.node!;
+        return {
+          ...node,
+          id: node._sys.relativePath.replace(/\.md?$/, ""), // Generate clean URLs
+          tinaInfo: node._sys, 
+        };
+      }) || [];
+  },
+  schema: ({ image }) =>
+    z.object({
+      layout: z.literal("products").optional(),
+      name: z.string(),
+      slug: z.string(),
+      image: image(),
+      description: z.string().optional(),
+    }),
+});
+
 const page = defineCollection({
+  //@ts-ignore
   loader: async () => {
     const postsResponse = await client.queries.pageConnection();
 
@@ -61,4 +88,6 @@ const page = defineCollection({
     body: z.any(),
   }),
 })
-export const collections = { blog, page };
+
+//@ts-ignore
+export const collections = { blog, page, products }; 

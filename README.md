@@ -1,18 +1,29 @@
-# Cajuína Site - Monorepo
+# Cajuína Site
 
-Site da Cajuína com TinaCMS configurado em monorepo usando pnpm workspaces.
+Site da Cajuína construído com Astro SSG e TinaCMS para gerenciamento de conteúdo.
 
-## 🏗️ Estrutura do Monorepo
+## 🏗️ Estrutura do Projeto
 
 ```text
-├── apps/
-│   ├── frontend/          # Site Astro com TinaCMS
-│   └── backend/           # Configuração do banco de dados Tina
-├── env.ts                 # Configurações de ambiente compartilhadas
-├── consts.ts             # Constantes compartilhadas
-├── package.json          # Scripts do monorepo
-├── pnpm-workspace.yaml   # Configuração do workspace
-└── tsconfig.json         # Configuração TypeScript raiz
+├── api/                   # API do TinaCMS backend
+│   └── tina/             # Configurações do TinaCMS backend
+├── src/                   # Código fonte do Astro
+│   ├── components/       # Componentes Astro e React
+│   ├── content/          # Conteúdo gerenciado pelo TinaCMS
+│   ├── layouts/          # Layouts do Astro
+│   ├── pages/            # Páginas do site (rotas)
+│   └── styles/           # Estilos globais
+├── tina/                  # Configuração do TinaCMS
+│   ├── collections/      # Definições das coleções
+│   ├── components/       # Componentes customizados do admin
+│   └── config.ts         # Configuração principal do Tina
+├── public/               # Arquivos estáticos
+├── astro-tina-directive/ # Diretiva customizada do Astro para Tina
+├── env.ts                # Configurações de ambiente
+├── consts.ts             # Constantes do projeto
+├── astro.config.mjs      # Configuração do Astro
+├── package.json          # Dependências e scripts
+└── tsconfig.json         # Configuração TypeScript
 ```
 
 ## 🚀 Comandos Disponíveis
@@ -23,22 +34,19 @@ Todos os comandos devem ser executados na raiz do projeto:
 | Comando                    | Ação                                           |
 | :------------------------ | :--------------------------------------------- |
 | `pnpm install`            | Instala todas as dependências                  |
-| `pnpm dev`                | Inicia desenvolvimento paralelo               |
-| `pnpm dev:frontend`       | Inicia apenas o frontend                      |
-| `pnpm dev:backend`        | Inicia apenas o backend                       |
+| `pnpm dev`                | Inicia desenvolvimento com TinaCMS            |
 
 ### Build e Produção
 | Comando                   | Ação                                           |
 | :------------------------ | :--------------------------------------------- |
-| `pnpm build`              | Build de todos os projetos                    |
-| `pnpm build:frontend`     | Build apenas do frontend                      |
-| `pnpm build:backend`      | Build apenas do backend                       |
+| `pnpm build`              | Build do TinaCMS e do site Astro              |
+| `pnpm preview`            | Preview do build de produção                  |
 
 ### Utilitários
 | Comando                   | Ação                                           |
 | :------------------------ | :--------------------------------------------- |
-| `pnpm type-check`         | Verifica tipos em todos os projetos          |
-| `pnpm lint`               | Executa linting em todos os projetos         |
+| `pnpm type-check`         | Verifica tipos TypeScript                     |
+| `pnpm astro`              | Executa comandos do Astro CLI                 |
 
 ## 🔧 Configuração
 

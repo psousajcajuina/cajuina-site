@@ -1,4 +1,5 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -11,12 +12,15 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
       "@env": ["./env.ts"],
       "@consts": ["./consts.ts"],
-      "@tina": ["./apps/backend/database.ts"]
+      "@tina": ["./api/tina/database.ts"]
     }
   },
-  "references": [{ "path": "./apps/backend" }, { "path": "./apps/frontend" }]
+  "include": ["src/**/*", "api/**/*", "tina/**/*", "*.ts", "*.mjs"],
+  "exclude": ["node_modules", "dist"]
 }

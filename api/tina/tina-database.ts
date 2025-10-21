@@ -1,8 +1,8 @@
 import { createDatabase, createLocalDatabase } from "@tinacms/datalayer";
 import { GitHubProvider } from "tinacms-gitprovider-github";
 import { RedisLevel } from "upstash-redis-level";
-import { env } from "@env";
-import { BRANCH, IS_LOCAL } from "@consts";
+import { env } from "../../env";
+import { BRANCH, IS_LOCAL } from "../../consts";
 
 export default IS_LOCAL
   ? // If we are running locally, use a local database that stores data in memory and writes to the locac filesystem on save
