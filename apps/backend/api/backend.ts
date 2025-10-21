@@ -2,11 +2,11 @@ import { TinaNodeBackend, LocalBackendAuthProvider } from "@tinacms/datalayer";
 import { TinaAuthJSOptions, AuthJsBackendAuthProvider } from "tinacms-authjs";
 import databaseClient from '@tina'
 // import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id"
-import { isLocal } from "@consts";
+import { IS_LOCAL } from "@consts";
 import { env } from "@env";
 
 const handler = TinaNodeBackend({
-  authProvider: isLocal
+  authProvider: IS_LOCAL
     ? LocalBackendAuthProvider()
     : AuthJsBackendAuthProvider({
         authOptions: TinaAuthJSOptions({
