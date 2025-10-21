@@ -5,7 +5,7 @@ import { PageCollection } from "./collections/page";
 import { ProductsCollection } from "./collections/posts";
 import {
   TinaUserCollection,
-  UsernamePasswordAuthJSProvider
+  UsernamePasswordAuthJSProvider,
 } from "tinacms-authjs/dist/tinacms";
 import { BRANCH, IS_LOCAL } from "@consts";
 import { env } from "@env";
@@ -13,7 +13,9 @@ import { env } from "@env";
 //@ts-ignore
 export default defineConfig({
   branch: BRANCH,
-  contentApiUrlOverride: env.FRONTEND_TINA_GRAPHQL_URL,
+  contentApiUrlOverride: IS_LOCAL
+    ? "http://localhost:4001/graphql"
+    : env.FRONTEND_TINA_GRAPHQL_URL,
   authProvider: IS_LOCAL
     ? new LocalAuthProvider()
     : new UsernamePasswordAuthJSProvider(),

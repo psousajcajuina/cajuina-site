@@ -1,6 +1,5 @@
 import { createDatabase, createLocalDatabase } from "@tinacms/datalayer";
 import { GitHubProvider } from "tinacms-gitprovider-github";
-import { RedisLevel } from "upstash-redis-level";
 import { env } from "../env";
 import { BRANCH, IS_LOCAL } from "../consts";
 
@@ -15,7 +14,7 @@ const databaseClient = IS_LOCAL
         token: env.BACKEND_GITHUB_TOKEN,
         branch: BRANCH,
       }),
-      databaseAdapter: new RedisLevel<string, Record<string, any>>({
+      databaseAdapter: ({
         redis: {
           url: env.BACKEND_UPSTASH_REDIS_URL,
           token: env.BACKEND_UPSTASH_REDIS_TOKEN,

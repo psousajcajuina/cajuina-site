@@ -10,6 +10,7 @@ import { IS_LOCAL } from "../consts";
 import { env } from "../env";
 import databaseClient from "tina/__generated__/databaseClient";
 
+//@ts-ignore
 const app = express();
 
 // Configuração de CORS para permitir frontend separado
@@ -38,14 +39,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Middleware para extrair branch do header
-app.use((req, res, next) => {
-  const branchHeader = req.headers['x-branch'] as string;
-  if (branchHeader) {
-    req.headers['x-branch'] = branchHeader;
-  }
-  next();
-});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
