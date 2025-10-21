@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IS_DEV_MODE = exports.SITE_DESCRIPTION = exports.SITE_TITLE = exports.BRANCH = exports.IS_LOCAL = void 0;
+var env_js_1 = require("./env.js");
+var SITE_TITLE = env_js_1.env.FRONTEND_SITE_TITLE;
+exports.SITE_TITLE = SITE_TITLE;
+var SITE_DESCRIPTION = env_js_1.env.FRONTEND_SITE_DESCRIPTION;
+exports.SITE_DESCRIPTION = SITE_DESCRIPTION;
+var SITE_URL = env_js_1.env.FRONTEND_SITE_URL;
+var IS_LOCAL = env_js_1.env.FRONTEND_TINA_IS_LOCAL;
+exports.IS_LOCAL = IS_LOCAL;
+var BRANCH = env_js_1.env.BACKEND_GITHUB_BRANCH;
+exports.BRANCH = BRANCH;
+var IS_DEV_MODE = process.env.NODE_ENV !== "production";
+exports.IS_DEV_MODE = IS_DEV_MODE;

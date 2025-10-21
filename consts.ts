@@ -1,4 +1,4 @@
-import { env } from "@env";
+import { env } from "./env";
 
 const SITE_TITLE = env.FRONTEND_SITE_TITLE;
 const SITE_DESCRIPTION = env.FRONTEND_SITE_DESCRIPTION;
@@ -7,4 +7,4 @@ const IS_LOCAL = env.FRONTEND_TINA_IS_LOCAL;
 const BRANCH = env.BACKEND_GITHUB_BRANCH;
 const IS_DEV_MODE = process.env.NODE_ENV !== "production";
 
-export { IS_LOCAL, BRANCH, SITE_TITLE, SITE_DESCRIPTION, IS_DEV_MODE };
+export { IS_LOCAL, BRANCH, SITE_TITLE, SITE_DESCRIPTION, SITE_URL, IS_DEV_MODE };

@@ -1,13 +1,14 @@
+//@ts-nocheck
 import express from "express";
 import cookieParser from "cookie-parser";
 import ServerlessHttp from "serverless-http";
 import { TinaNodeBackend, LocalBackendAuthProvider } from "@tinacms/datalayer";
 import { AuthJsBackendAuthProvider, TinaAuthJSOptions } from "tinacms-authjs";
-import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import cors from "cors";
-import databaseClient from "tina/database";
-import { IS_LOCAL } from "@consts";
-import { env } from "@env";
+import { IS_LOCAL } from "../consts";
+import { env } from "../env";
+import databaseClient from "tina/__generated__/databaseClient";
 
 const app = express();
 
@@ -64,11 +65,10 @@ const tinaBackend = TinaNodeBackend({
           secret: env.BACKEND_NEXTAUTH_SECRET,
           debug: env.BACKEND_DEBUG,
           providers: [
-            //@ts-ignore
-            MicrosoftEntraID({
+            AzureADProvider({
               clientId: env.BACKEND_AUTH_MS_CLIENT_ID,
               clientSecret: env.BACKEND_AUTH_MS_CLIENT_SECRET,
-              issuer: env.BACKEND_AUTH_MS_TENANT_ID,
+              tenantId: env.BACKEND_AUTH_MS_TENANT_ID,
             }),
           ],
         }),
@@ -96,17 +96,5 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // Exportar handler para uso serverless (Netlify, Vercel, etc)
 export const handler = ServerlessHttp(app);
 
-// Iniciar servidor standalone se não for ambiente serverless
-if (require.main === module || process.env.RUN_STANDALONE === 'true') {
-  const PORT = env.BACKEND_PORT || 4001;
-  
-  app.listen(PORT, () => {
-    console.log(`🦙 TinaCMS Backend rodando em http://localhost:${PORT}`);
-    console.log(`   GraphQL: http://localhost:${PORT}/api/tina/graphql`);
-    console.log(`   Health: http://localhost:${PORT}/health`);
-    console.log(`   Origens permitidas: ${allowedOrigins.join(', ')}`);
-  });
-}
-
-// Exportar app para testes
+// Exportar app para testes e uso standalone
 export default app;
