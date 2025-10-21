@@ -18,7 +18,7 @@
     "paths": {
       "@env": ["./env.ts"],
       "@consts": ["./consts.ts"],
-      "@tina": ["./api/tina/database.ts"]
+      "@tina": ["api/tina/OLDdatabase.ts"]
     }
   },
   "include": ["src/**/*", "api/**/*", "tina/**/*", "*.ts", "*.mjs"],
