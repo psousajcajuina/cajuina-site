@@ -21,6 +21,6 @@
       "@tina": ["api/tina/OLDdatabase.ts"]
     }
   },
-  "include": ["src/**/*", "api/**/*", "tina/**/*", "*.ts", "*.mjs"],
+  "include": ["src/**/*", "api/**/*", "tina/**/*", "*.ts", "*.mjs", "astro-tina-directive"],
   "exclude": ["node_modules", "dist"]
 }
