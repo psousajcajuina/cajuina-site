@@ -10,10 +10,50 @@ import { IS_LOCAL } from "@consts";
 import { env } from "@env";
 
 const app = express();
+
+// Configuração de CORS para permitir frontend separado
+const allowedOrigins = IS_LOCAL 
+  ? ['http://localhost:4321', 'http://localhost:3000', 'http://localhost:4200']
+  : [env.FRONTEND_SITE_URL, ...(env.BACKEND_CORS_ORIGINS?.split(',') || [])];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Permitir requisições sem origin (mobile apps, Postman, etc)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      callback(null, true);
+    } else {
+      console.warn(`CORS bloqueou origem: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-branch'],
+}));
+
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
+// Middleware para extrair branch do header
+app.use((req, res, next) => {
+  const branchHeader = req.headers['x-branch'] as string;
+  if (branchHeader) {
+    req.headers['x-branch'] = branchHeader;
+  }
+  next();
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV 
+  });
+});
 
 const tinaBackend = TinaNodeBackend({
   authProvider: IS_LOCAL
@@ -21,14 +61,14 @@ const tinaBackend = TinaNodeBackend({
     : AuthJsBackendAuthProvider({
         authOptions: TinaAuthJSOptions({
           databaseClient,
-          secret: env.NEXTAUTH_SECRET,
-          debug: true,
+          secret: env.BACKEND_NEXTAUTH_SECRET,
+          debug: env.BACKEND_DEBUG,
           providers: [
             //@ts-ignore
             MicrosoftEntraID({
-              clientId: env.AUTH_MICROSOFT_ENTRA_ID_CLIENT_ID,
-              clientSecret: env.AUTH_MICROSOFT_ENTRA_ID_CLIENT_SECRET,
-              issuer: env.AUTH_MICROSOFT_ENTRA_ID_TENANT_ID,
+              clientId: env.BACKEND_AUTH_MS_CLIENT_ID,
+              clientSecret: env.BACKEND_AUTH_MS_CLIENT_SECRET,
+              issuer: env.BACKEND_AUTH_MS_TENANT_ID,
             }),
           ],
         }),
@@ -44,4 +84,29 @@ app.get("/api/tina/*", async (req, res) => {
   tinaBackend(req, res);
 });
 
+// Tratamento de erros
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Erro no servidor:', err);
+  res.status(500).json({ 
+    error: 'Internal Server Error',
+    message: IS_LOCAL ? err.message : 'Ocorreu um erro no servidor'
+  });
+});
+
+// Exportar handler para uso serverless (Netlify, Vercel, etc)
 export const handler = ServerlessHttp(app);
+
+// Iniciar servidor standalone se não for ambiente serverless
+if (require.main === module || process.env.RUN_STANDALONE === 'true') {
+  const PORT = env.BACKEND_PORT || 4001;
+  
+  app.listen(PORT, () => {
+    console.log(`🦙 TinaCMS Backend rodando em http://localhost:${PORT}`);
+    console.log(`   GraphQL: http://localhost:${PORT}/api/tina/graphql`);
+    console.log(`   Health: http://localhost:${PORT}/health`);
+    console.log(`   Origens permitidas: ${allowedOrigins.join(', ')}`);
+  });
+}
+
+// Exportar app para testes
+export default app;
