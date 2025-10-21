@@ -29,7 +29,7 @@ export default function AdminBlogPost(props: Props) {
 			<div className="prose">
 				<div className="title">
 					<div className="date" data-tina-field={tinaField(blog, "pubDate")} >
-						<FormattedDate date={blog.pubDate} />
+						<FormattedDate date={blog.pubDate!} />
 						{
 							blog.updatedDate && (
 								<div className="last-updated-on" data-tina-field={tinaField(blog, "updatedDate")} >

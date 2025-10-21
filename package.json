@@ -9,8 +9,8 @@
     "start:backend": "node dist/api/server.js",
     "build:tina": "tinacms build",
     "build:frontend": "astro build",
-    "build:backend": "tsup",
-    "build": "dotenv -e .env -- pnpm build:tina && pnpm build:frontend && pnpm build:backend",
+    "build:backend": "tsc -p tsconfig.json",
+    "build": "dotenv -e .env -- pnpm build:tina && pnpm build:backend && pnpm build:frontend",
     "preview": "astro preview",
     "astro": "astro",
     "debug:env": "dotenv -e .env -- node -e 'console.log(process.env)'"
