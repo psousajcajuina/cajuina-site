@@ -12,7 +12,7 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY . .
 
 # Compila o TypeScript
-RUN pnpm run build:server
+RUN pnpm build
 
 # Estágio de produção
 FROM node:20-alpine
