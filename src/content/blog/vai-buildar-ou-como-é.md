@@ -1,9 +1,9 @@
 ---
 layout: blog
 title: Vai Buildar ou como é?
-slug: /vai-buildar-sim
+slug: vai-buildar-sim
 description: Nada a declarar
-coverImage: /assets/images/blog/game-console-6603120_1280.jpg
+coverImage: ""
 publishedAt: 2025-10-22T08:26:00
 tags:
   - Legal

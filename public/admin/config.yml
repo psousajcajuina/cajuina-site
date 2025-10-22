@@ -1,13 +1,12 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 backend:
   name: github
   repo: "psousajcajuina/cajuina-site"
   branch: "cms/push"
-  base_url: "https://oauth.crudbox.tech" # URL para autenticação
-  publish_mode: editorial_workflow
-  squash_merges: true
+  base_url: "https://oauth.crudbox.tech"
 
 media_folder: "src/assets/images/blog"
-public_folder: "assets/images/blog"
+public_folder: "../../assets/images/blog"
 
 collections:
   - name: "blog"
@@ -22,7 +21,7 @@ collections:
           name: "slug",
           widget: "string",
           required: true,
-          hint: "Usado na URL. Exemplo: /blog/<link-de-acesso>",
+          hint: "Usado na URL. Exemplo: /blog/link-de-acesso",
         }
       - {
           label: "Descrição",
@@ -49,7 +48,6 @@ collections:
           name: "tags",
           widget: "list",
           allow_add: true,
-          allow_delete: true,
           collapsed: false,
           field: { label: "Tag", name: "tag", widget: "string" },
         }

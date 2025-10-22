@@ -119,7 +119,7 @@ const handle = async (
 
 // Rotas equivalentes às esperadas pelo handler Worker
 app.get(
-  ["/oauth/auth", "/oauth/authorize", "/callback", "/oauth/redirect"],
+  ["/oauth/auth", "/auth", "/oauth/authorize", "/callback", "/oauth/redirect"],
   handle
 );
 
