@@ -2,7 +2,7 @@
 backend:
   name: "github"
   repo: "psousajcajuina/cajuina-site"
-  branch: "template/wind"
+  branch: "cms/push"
   base_url: "https://oauth.crudbox.tech"
   commit_messages:
     create: "[cms] Create {{collection}} “{{slug}}”"
@@ -10,7 +10,6 @@ backend:
     delete: "[cms] Delete {{collection}} “{{slug}}”"
     uploadMedia: "[cms] Upload “{{path}}”"
     deleteMedia: "[cms] Delete “{{path}}”"
-    openAuthoring: "[cms] {{message}}"
 
 media_folder: "src/assets/images" # Location where files will be stored in the repo
 public_folder: "/src/assets/images" # The src attribute for uploaded media
@@ -19,8 +18,7 @@ collections:
   - name: "post"
     label: "Blog"
     folder: "src/data/post"
-    # slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Define o formato do slug
-    slug: "{{slug}}" # Define o formato do slug
+    slug: "{{slug}}"
     create: true
     fields:
       - { label: 'Título', name: 'title', widget: 'string' }
