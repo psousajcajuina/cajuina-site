@@ -5,7 +5,13 @@
     "module": "ESNext",
     "checkJs": true,
     "strict": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*.js"]
+  "include": [
+    "src/**/*.js",
+    "index.ts",
+    "server.js"
+  ]
 }
