@@ -120,7 +120,10 @@ const handle = async (
 };
 
 // Rotas equivalentes às esperadas pelo handler Worker
-app.get(["/auth", "/oauth/authorize", "/callback", "/oauth/redirect"], handle);
+app.get(
+  ["/oauth/auth", "/oauth/authorize", "/callback", "/oauth/redirect"],
+  handle
+);
 
 app.get("/health", (req: ExpressRequest, res: ExpressResponse) => {
   const health = {
