@@ -32,7 +32,7 @@ jobs:
       with:
         server: ${{ vars.FTP_SERVER }}
         username: ${{ vars.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        password: ${{ vars.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ vars.FTP_REMOTE_PATH }}
         dangerous-clean-slate: true
