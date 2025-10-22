@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GH_PAT_SECRET }}
 
     - name: Create Pull Request to main
       id: create-pr
@@ -25,16 +28,19 @@ jobs:
       with:
         source_branch: cms/push
         destination_branch: main
-        pr_title: '🚀 Auto-deploy from Sveltia CMS'
+        pr_title: '🚀 Auto-deploy from Sveltia CMS - Run #${{ github.run_number }}'
         pr_body: |
           Automated PR from CMS content update
           
+          **Changes:** ${{ github.event.head_commit.message }}
+          **Triggered by:** @${{ github.actor }}
+          
           ---
           _This PR was automatically created by the CMS workflow_
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GH_PAT_SECRET }}
 
-    - name: Enable auto-merge
+    - name: Merge PR with admin privileges
       if: steps.create-pr.outputs.pr_number != ''
-      run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --merge
+      run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --merge --admin
       env:
         GH_TOKEN: ${{ secrets.GH_PAT_SECRET }}
