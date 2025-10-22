@@ -46,6 +46,11 @@ const app = express();
 app.use(
   pinoHttp({
     logger,
+    // Desabilita a serialização automática de req/res
+    serializers: {
+      req: () => undefined,
+      res: () => undefined,
+    },
     customLogLevel: (_req, res, err) => {
       if (res.statusCode >= 500 || err) return "error";
       if (res.statusCode >= 400) return "warn";
@@ -119,7 +124,7 @@ const handle = async (
 
 // Rotas equivalentes às esperadas pelo handler Worker
 app.get(
-  ["/oauth/auth", "/oauth/authorize", "/callback", "/oauth/redirect"],
+  ["/oauth/auth", "/auth", "/oauth/authorize", "/callback", "/oauth/redirect"],
   handle
 );
 

@@ -1,21 +1,21 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 backend:
-  name: github
+  name: "github"
   repo: "psousajcajuina/cajuina-site"
-  branch: cms/push
-  base_url: "https://oauth.crudbox.tech" # URL para autenticação
+  branch: "cms/push"
+  base_url: "https://oauth.crudbox.tech"
+  commit_messages:
+    create: "[cms] Create {{collection}} “{{slug}}”"
+    update: "[cms] Update {{collection}} “{{slug}}”"
+    delete: "[cms] Delete {{collection}} “{{slug}}”"
+    uploadMedia: "[cms] Upload “{{path}}”"
+    deleteMedia: "[cms] Delete “{{path}}”"
+    openAuthoring: "[cms] {{message}}"
 
-media_folder: "src/assets/images/blog"
-public_folder: "assets/images/blog"
+media_folder: "src/assets/images/blog/" # Localização onde os arquivos serão armazenados no repositório
+public_folder: "/assets/images/blog" # Caminho público para os arquivos de mídia
 
 collections:
-  - name: "categories"
-    label: "Categorias"
-    folder: "src/content/categorie"
-    create: true
-    fields:
-      - { name: "title", label: "Nome da Categoria", widget: "string" }
-      - { name: "color", label: "Cor", widget: "color", required: false }
-
   - name: "blog"
     label: "Blog"
     folder: "src/content/blog"
@@ -28,12 +28,12 @@ collections:
           name: "slug",
           widget: "string",
           required: true,
-          hint: "Usado na URL. Exemplo: /blog/<link-de-acesso>",
+          hint: "Usado na URL. Exemplo: /blog/link-de-acesso",
         }
       - {
           label: "Descrição",
           name: "description",
-          widget: "string",
+          widget: "textarea",
           required: false,
         }
       - {
@@ -55,53 +55,13 @@ collections:
           name: "tags",
           widget: "list",
           allow_add: true,
-          allow_delete: true,
           collapsed: false,
           field: { label: "Tag", name: "tag", widget: "string" },
         }
       # --- É RASCUNHO? ---
       - { label: "Rascunho", name: "draft", widget: "boolean" }
-      # --- CATEGORIA ---
-      - name: "categoria"
-        label: "Categoria"
-        widget: "select"
-        options:
-          - { label: "Notícia", value: "notice" }
-          - { label: "Post", value: "post" }
-        default: "post"
-        required: true
       # --- CORPO DO POST ---
       - { label: "Conteúdo", name: "body", widget: "markdown" }
-      # --- PREV ---
-      - {
-          name: "prev_post_title",
-          label: "Título do Post Anterior",
-          widget: "hidden",
-          required: false,
-        }
-      - name: "prev_post_slug"
-        label: "Post Anterior"
-        widget: "relation"
-        collection: "posts"
-        search_fields: ["title"]
-        value_field: "slug"
-        display_fields: ["title"]
-        required: false
-      # --- NEXT ---
-      - {
-          name: "next_post_title",
-          label: "Título do Próximo Post",
-          widget: "hidden",
-          required: false,
-        }
-      - name: "next_post_slug"
-        label: "Próximo Post"
-        widget: "relation"
-        collection: "posts"
-        search_fields: ["title"]
-        value_field: "slug"
-        display_fields: ["title"]
-        required: false
 
   - name: "products"
     label: "Products"
