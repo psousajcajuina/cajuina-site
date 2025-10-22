@@ -13,7 +13,7 @@ backend:
     openAuthoring: "[cms] {{message}}"
 
 media_folder: "src/assets/images" # Location where files will be stored in the repo
-public_folder: "src/assets/images" # The src attribute for uploaded media
+public_folder: "/src/assets/images" # The src attribute for uploaded media
 
 collections:
   - name: "post"
