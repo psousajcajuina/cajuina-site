@@ -16,17 +16,15 @@ import { env } from "./env.js";
 // Configura logger
 const logger = pino({
   level: env.LOG_LEVEL,
-  transport:
-    env.NODE_ENV === "development"
-      ? {
-          target: "pino-pretty",
-          options: {
-            colorize: true,
-            translateTime: "SYS:standard",
-            ignore: "pid,hostname",
-          },
-        }
-      : undefined,
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: env.NODE_ENV === "development",
+      translateTime: "SYS:standard",
+      ignore: "pid,hostname",
+      singleLine: true,
+    },
+  },
 });
 
 // Use as implementações nativas se disponíveis, caso contrário, importe do undici
