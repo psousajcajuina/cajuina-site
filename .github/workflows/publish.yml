@@ -3,9 +3,7 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [ main ]
-  repository_dispatch:
-    types: [ cms-merged ]
-
+    
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -37,4 +35,3 @@ jobs:
         password: ${{ vars.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ vars.FTP_REMOTE_PATH }}
-        dangerous-clean-slate: true
