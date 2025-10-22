@@ -1,12 +1,12 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 backend:
-  name: github
+  name: "github"
   repo: "psousajcajuina/cajuina-site"
   branch: "cms/push"
   base_url: "https://oauth.crudbox.tech"
 
-media_folder: "src/assets/images/blog"
-public_folder: "../../assets/images/blog"
+media_folder: "src/assets/images/blog/" # Localização onde os arquivos serão armazenados no repositório
+public_folder: "/assets/images/blog" # Caminho público para os arquivos de mídia
 
 collections:
   - name: "blog"
