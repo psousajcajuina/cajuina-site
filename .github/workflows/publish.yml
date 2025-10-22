@@ -27,19 +27,12 @@ jobs:
     - name: Build
       run: pnpm build
 
-    - name: Install lftp
-      run: sudo apt-get update && sudo apt-get install -y lftp
-
-    - name: Deploy via FTP with clean slate
-      env:
-        FTP_SERVER: ${{ vars.FTP_SERVER }}
-        FTP_USER: ${{ vars.FTP_USER }}
-        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        FTP_REMOTE_PATH: ${{ vars.FTP_REMOTE_PATH }}
-      run: |
-        lftp -u $FTP_USER,$FTP_PASSWORD $FTP_SERVER <<EOF
-        set ftp:ssl-allow yes
-        cd $FTP_REMOTE_PATH
-        mirror --reverse --delete --only-newer --verbose ./dist/ ./
-        bye
-        EOF
+    - name: Deploy to Hostinger via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ vars.FTP_SERVER }}
+        username: ${{ vars.FTP_USER }}
+        password: ${{ vars.FTP_PASSWORD }}
+        local-dir: ./dist/
+        server-dir: ${{ vars.FTP_REMOTE_PATH }}
+        dangerous-clean-slate: true
