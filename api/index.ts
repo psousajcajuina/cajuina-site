@@ -430,7 +430,10 @@ export default {
     const { method, url } = request;
     const { pathname } = new URL(url);
 
-    if (method === "GET" && ["/auth", "/oauth/authorize"].includes(pathname)) {
+    if (
+      method === "GET" &&
+      ["/auth", "/oauth/authorize", "/oauth/auth"].includes(pathname)
+    ) {
       return handleAuth(request, env);
     }
 
