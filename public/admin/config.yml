@@ -4,6 +4,13 @@ backend:
   repo: "psousajcajuina/cajuina-site"
   branch: "cms/push"
   base_url: "https://oauth.crudbox.tech"
+  commit_messages:
+    create: "[cms] Create {{collection}} “{{slug}}”"
+    update: "[cms] Update {{collection}} “{{slug}}”"
+    delete: "[cms] Delete {{collection}} “{{slug}}”"
+    uploadMedia: "[cms] Upload “{{path}}”"
+    deleteMedia: "[cms] Delete “{{path}}”"
+    openAuthoring: "[cms] {{message}}"
 
 media_folder: "src/assets/images/blog/" # Localização onde os arquivos serão armazenados no repositório
 public_folder: "/assets/images/blog" # Caminho público para os arquivos de mídia

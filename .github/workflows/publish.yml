@@ -1,8 +1,8 @@
-name: Build & Deploy to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
-    branches: [ cms/push ]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -32,7 +32,7 @@ jobs:
       with:
         server: ${{ vars.FTP_SERVER }}
         username: ${{ vars.FTP_USER }}
-        password: ${{ vars.FTP_PASSWORD }}
+        password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ vars.FTP_REMOTE_PATH }}
         dangerous-clean-slate: true
