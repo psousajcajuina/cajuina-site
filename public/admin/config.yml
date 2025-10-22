@@ -3,6 +3,8 @@ backend:
   repo: "psousajcajuina/cajuina-site"
   branch: "cms/push"
   base_url: "https://oauth.crudbox.tech" # URL para autenticação
+  publish_mode: editorial_workflow
+  squash_merges: true
 
 media_folder: "src/assets/images/blog"
 public_folder: "assets/images/blog"
