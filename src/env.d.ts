@@ -3,3 +3,4 @@
 /// <reference types="astro/client" />
 /// <reference types="vite/client" />
 /// <reference types="../vendor/integration/types.d.ts" />
+/// <reference types="lodash.merge/index.d.ts" />
