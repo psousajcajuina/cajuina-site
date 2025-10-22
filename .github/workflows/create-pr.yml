@@ -35,20 +35,6 @@ jobs:
 
     - name: Enable auto-merge
       if: steps.create-pr.outputs.pr_number != ''
-      run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --auto --squash
+      run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --auto
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Wait for merge
-      if: steps.create-pr.outputs.pr_number != ''
-      run: |
-        echo "Waiting for auto-merge to complete..."
-        sleep 7
-
-    - name: Trigger deploy workflow
-      if: steps.create-pr.outputs.pr_number != ''
-      uses: peter-evans/repository-dispatch@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        event-type: cms-merged
-        client-payload: '{"ref": "main", "sha": "${{ github.sha }}"}'
+        GH_TOKEN: ${{ secrets.GH_PAT_SECRET }}
