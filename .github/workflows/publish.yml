@@ -3,6 +3,8 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [ main ]
+  repository_dispatch:
+    types: [ cms-merged ]
 
 jobs:
   build-and-deploy:
