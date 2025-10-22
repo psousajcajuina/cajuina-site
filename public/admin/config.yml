@@ -12,8 +12,8 @@ backend:
     deleteMedia: "[cms] Delete “{{path}}”"
     openAuthoring: "[cms] {{message}}"
 
-media_folder: "src/assets/images/blog/" # Localização onde os arquivos serão armazenados no repositório
-public_folder: "/assets/images/blog" # Caminho público para os arquivos de mídia
+media_folder: "src/assets/images" # Location where files will be stored in the repo
+public_folder: "/src/assets/images" # The src attribute for uploaded media
 
 collections:
   - name: "blog"
