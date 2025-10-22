@@ -1,21 +1,13 @@
 backend:
   name: github
   repo: "psousajcajuina/cajuina-site"
-  branch: cms/push
+  branch: "cms/push"
   base_url: "https://oauth.crudbox.tech" # URL para autenticação
 
 media_folder: "src/assets/images/blog"
 public_folder: "assets/images/blog"
 
 collections:
-  - name: "categories"
-    label: "Categorias"
-    folder: "src/content/categorie"
-    create: true
-    fields:
-      - { name: "title", label: "Nome da Categoria", widget: "string" }
-      - { name: "color", label: "Cor", widget: "color", required: false }
-
   - name: "blog"
     label: "Blog"
     folder: "src/content/blog"
@@ -33,7 +25,7 @@ collections:
       - {
           label: "Descrição",
           name: "description",
-          widget: "string",
+          widget: "textarea",
           required: false,
         }
       - {
@@ -61,47 +53,8 @@ collections:
         }
       # --- É RASCUNHO? ---
       - { label: "Rascunho", name: "draft", widget: "boolean" }
-      # --- CATEGORIA ---
-      - name: "categoria"
-        label: "Categoria"
-        widget: "select"
-        options:
-          - { label: "Notícia", value: "notice" }
-          - { label: "Post", value: "post" }
-        default: "post"
-        required: true
       # --- CORPO DO POST ---
       - { label: "Conteúdo", name: "body", widget: "markdown" }
-      # --- PREV ---
-      - {
-          name: "prev_post_title",
-          label: "Título do Post Anterior",
-          widget: "hidden",
-          required: false,
-        }
-      - name: "prev_post_slug"
-        label: "Post Anterior"
-        widget: "relation"
-        collection: "posts"
-        search_fields: ["title"]
-        value_field: "slug"
-        display_fields: ["title"]
-        required: false
-      # --- NEXT ---
-      - {
-          name: "next_post_title",
-          label: "Título do Próximo Post",
-          widget: "hidden",
-          required: false,
-        }
-      - name: "next_post_slug"
-        label: "Próximo Post"
-        widget: "relation"
-        collection: "posts"
-        search_fields: ["title"]
-        value_field: "slug"
-        display_fields: ["title"]
-        required: false
 
   - name: "products"
     label: "Products"

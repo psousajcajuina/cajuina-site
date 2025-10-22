@@ -3,7 +3,7 @@ layout: blog
 title: Second post
 slug: second-post
 description: Explorando as melhores práticas de desenvolvimento web moderno
-coverImage: ../../assets/images/landscape-9802950_1280.jpg
+coverImage: ''
 publishedAt: 2025-10-17T00:52:00
 updatedAt: 2025-10-16T15:18:00
 tags:
