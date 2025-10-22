@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  auth-api:
+    build:
+      context: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      # Variáveis de ambiente para OAuth
+      # - GITHUB_CLIENT_ID=...
+      # - GITHUB_CLIENT_SECRET=...
+      # - ALLOWED_DOMAINS=localhost
+    restart: unless-stopped
