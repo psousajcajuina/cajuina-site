@@ -2,7 +2,7 @@
 backend:
   name: "github"
   repo: "psousajcajuina/cajuina-site"
-  branch: "cms/push"
+  branch: "template/wind"
   base_url: "https://oauth.crudbox.tech"
   commit_messages:
     create: "[cms] Create {{collection}} “{{slug}}”"
@@ -16,64 +16,34 @@ media_folder: "src/assets/images" # Location where files will be stored in the r
 public_folder: "/src/assets/images" # The src attribute for uploaded media
 
 collections:
-  - name: "blog"
+  - name: "post"
     label: "Blog"
-    folder: "src/content/blog"
+    folder: "src/data/post"
+    # slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Define o formato do slug
+    slug: "{{slug}}" # Define o formato do slug
     create: true
     fields:
-      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
-      - { label: "Título", name: "title", widget: "string", required: true }
+      - { label: 'Título', name: 'title', widget: 'string' }
+      - { label: 'Descrição', name: 'excerpt', widget: 'string' }
       - {
-          label: "Link de Acesso",
-          name: "slug",
-          widget: "string",
-          required: true,
-          hint: "Usado na URL. Exemplo: /blog/link-de-acesso",
-        }
-      - {
-          label: "Descrição",
-          name: "description",
-          widget: "textarea",
+          label: 'Tags',
+          name: 'tags',
+          widget: 'list',
           required: false,
-        }
-      - {
-          label: "Imagem de Capa",
-          name: "coverImage",
-          widget: "image",
-          required: false,
-        }
-      - {
-          label: "Data de publicação",
-          name: "publishedAt",
-          widget: "datetime",
-          default: "{{now}}",
-          picker_utc: false,
-        }
-      # --- TAGS ---
-      - {
-          label: "Tags",
-          name: "tags",
-          widget: "list",
           allow_add: true,
           collapsed: false,
-          field: { label: "Tag", name: "tag", widget: "string" },
+          field: { label: 'Tag', name: 'tag', widget: 'string' },
         }
-      # --- É RASCUNHO? ---
-      - { label: "Rascunho", name: "draft", widget: "boolean" }
-      # --- CORPO DO POST ---
-      - { label: "Conteúdo", name: "body", widget: "markdown" }
-
+      - { label: 'Imagem', name: 'image', widget: 'image' }
+      - { label: 'Data de Publicação', name: 'publishDate', widget: 'datetime', required: false, default: '{{now}}' }
+      - { label: 'Autor', name: 'author', widget: 'string', default: 'Redação São Geraldo' }
+      - { label: 'Conteúdo', name: 'body', widget: 'markdown' }
+    
   - name: "products"
     label: "Products"
     folder: "src/content/products"
     create: true
     fields:
-      - {
-          label: "Layout",
-          name: "layout",
-          widget: "hidden",
-          default: "products",
-        }
       - { label: "Nome", name: "title", widget: "string" }
       - { label: "Slug", name: "slug", widget: "string" }
       - { label: "Imagem do produto", name: "image", widget: "image" }
