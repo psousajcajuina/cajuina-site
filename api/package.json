@@ -11,6 +11,7 @@
     "wrangler:start": "wrangler dev",
     "deploy": "wrangler deploy",
     "check": "pnpm run '/^check:.*/' && pnpm run build",
+    "check:env": "pnpm run build && node ./dist/validate-env.js",
     "check:types": "tsc --noEmit",
     "check:audit": "pnpm audit",
     "check:cspell": "cspell --no-progress",
