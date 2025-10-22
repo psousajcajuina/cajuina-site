@@ -16,7 +16,8 @@
         "outDir": "./dist",
         "rootDir": ".",
         "types": [
-            "@cloudflare/workers-types"
+            "@cloudflare/workers-types",
+            "node"
         ],
         "allowSyntheticDefaultImports": true,
         "noUnusedLocals": true,
@@ -27,12 +28,10 @@
         "checkJs": false
     },
     "include": [
-        "src/**/*",
-        "index.ts"
+        "*.ts"
     ],
     "exclude": [
         "node_modules",
-        "dist",
-        "server.js"
+        "dist"
     ]
 }

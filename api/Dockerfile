@@ -12,7 +12,7 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY . .
 
 # Compila o TypeScript
-RUN pnpm build
+RUN pnpm run build
 
 # Estágio de produção
 FROM node:20-alpine
@@ -31,4 +31,4 @@ COPY --from=builder /app/dist ./dist
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["node", "./dist/server.js"]
+CMD ["node", "./dist/standalone.js"]
