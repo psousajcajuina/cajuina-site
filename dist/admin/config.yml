@@ -1,9 +1,11 @@
 backend:
-  name: github
-  repo: psousajcajuina/cajuina-site
+  name: "github"
+  repo: "psousajcajuina/cajuina-site"
+  branch: "cms/push"
+  base_url: "https://oauth.crudbox.tech/oauth" # URL para autenticação
 
-media_folder: "src/assets/images/blog" 
-public_folder: "assets/images/blog" 
+media_folder: "src/assets/images/blog"
+public_folder: "assets/images/blog"
 
 collections:
   - name: "categories"
@@ -49,13 +51,13 @@ collections:
         }
       # --- TAGS ---
       - {
-          label: 'Tags',
-          name: 'tags',
-          widget: 'list',
+          label: "Tags",
+          name: "tags",
+          widget: "list",
           allow_add: true,
           allow_delete: true,
           collapsed: false,
-          field: { label: 'Tag', name: 'tag', widget: 'string' },
+          field: { label: "Tag", name: "tag", widget: "string" },
         }
       # --- É RASCUNHO? ---
       - { label: "Rascunho", name: "draft", widget: "boolean" }
