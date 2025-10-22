@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://cajuinasaogeraldo.com.br',
+  site: process.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
   output: 'static', // SSG completo por padrão
   integrations: [mdx(), sitemap()],
 
