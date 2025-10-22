@@ -1,7 +1,7 @@
 backend:
   name: "github"
   repo: "psousajcajuina/cajuina-site"
-  branch: "cms/push"
+  branch: "main"
   base_url: "https://oauth.crudbox.tech/oauth" # URL para autenticação
 
 media_folder: "src/assets/images/blog"
