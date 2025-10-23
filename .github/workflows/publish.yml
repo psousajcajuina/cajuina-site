@@ -35,3 +35,4 @@ jobs:
         password: ${{ vars.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ vars.FTP_REMOTE_PATH }}
+        continue-on-error: true
