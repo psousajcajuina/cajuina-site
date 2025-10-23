@@ -16,7 +16,7 @@
     "@astrolib/seo": "1.0.0-beta.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@sveltia/cms": "^0.112.3",
-    "@tailwindcss/vite": "^4.1.15",
+    "@tailwindcss/vite": "^4.1.16",
     "astro": "^5.15.0",
     "astro-embed": "^0.9.1",
     "astro-icon": "^1.1.5",
@@ -45,7 +45,7 @@
     "reading-time": "^1.5.0",
     "sharp": "^0.34.4",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "4.1.15",
+    "tailwindcss": "4.1.16",
     "unist-util-visit": "^5.0.0"
   }
 }
