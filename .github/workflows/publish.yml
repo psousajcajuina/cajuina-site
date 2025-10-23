@@ -35,6 +35,5 @@ jobs:
         password: ${{ vars.FTP_PASSWORD }}
         localDir: ./dist/
         remoteDir: ${{ vars.FTP_REMOTE_PATH }}
-        delete: true
         forceSsl: false
-        max_retries: "2"
+        options: '--only-newer --verbose --parallel=5'
