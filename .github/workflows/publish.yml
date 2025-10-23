@@ -27,6 +27,36 @@ jobs:
     - name: Build
       run: pnpm build
 
+    - name: Clean orphan post folders on FTP
+      env:
+        FTP_SERVER: ${{ vars.FTP_SERVER }}
+        FTP_USER: ${{ vars.FTP_USER }}
+        FTP_PASSWORD: ${{ vars.FTP_PASSWORD }}
+      run: |
+        # gera lista de slugs de posts atuais
+        ls src/data/post | sed 's/\.md$//' > local_posts.txt
+
+        # conecta ao FTP e lista pastas dentro de public_html
+        lftp -u "$FTP_USER","$FTP_PASSWORD" "$FTP_SERVER" -e "
+          set ssl:verify-certificate no
+          cd public_html
+          cls -1 > remote_folders.txt
+          bye
+        "
+
+        # remove pastas órfãs
+        while read folder; do
+          if ! grep -qx "$folder" local_posts.txt; then
+            echo "Removing orphan folder: $folder"
+            lftp -u "$FTP_USER","$FTP_PASSWORD" "$FTP_SERVER" -e "
+              set ssl:verify-certificate no
+              cd public_html
+              rm -r $folder || true
+              bye
+            "
+          fi
+        done < remote_folders.txt
+
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
@@ -35,3 +65,4 @@ jobs:
         password: ${{ vars.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ${{ vars.FTP_REMOTE_PATH }}
+        continue-on-error: true
