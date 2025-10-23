@@ -15,51 +15,54 @@ media_folder: "src/assets/images" # Location where files will be stored in the r
 public_folder: "/src/assets/images" # The src attribute for uploaded media
 
 collections:
-  - name: tags
-    label: Tags
-    label_singular: Tag
-    folder: src/data/tag
+  - name: banners
+    label: Banners do Slide
+    folder: src/data/banner
     create: true
-    fields:
-      - { name: title, widget: string, label: Nome }
-      - { name: description, label: Descrição, widget: text, required: false }
-      - { name: image, label: Image, widget: image, required: false }
-
-  - name: "post"
-    label: "Blog"
-    folder: "src/data/post"
     slug: "{{slug}}"
-    create: true
+    editor:
+      preview: false
     fields:
-      - { label: 'Título', name: 'title', widget: 'string' }
-      - { label: 'Descrição', name: 'excerpt', widget: 'string' }
-      - { label: 'Rascunho', name: 'draft', widget: 'boolean', default: false }
-      - {
-          name: tags,
-          label: Tags,
-          widget: relation,
-          multiple: true,
-          collection: tags,
-          search_fields: [title],
-          display_fields: [title],
-          value_field: '{{slug}}',
-          required: false
-        }
-      - { label: 'Imagem', name: 'image', widget: 'image' }
-      - { label: 'Data de Publicação', name: 'publishDate', widget: 'datetime', required: false, default: '{{now}}' }
-      - { label: 'Autor', name: 'author', widget: 'string', default: 'Redação São Geraldo' }
-      - { label: 'Conteúdo', name: 'body', widget: 'markdown' }
-    
-  - name: "products"
-    label: "Products"
-    folder: "src/content/products"
-    create: true
-    fields:
-      - { label: "Nome", name: "title", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Imagem do produto", name: "image", widget: "image" }
-      - { label: "Descrição", name: "description", widget: "text", default: "" }
-    
+      - { name: title, label: Título, widget: string }
+      - { name: subtitle, label: Subtítulo, widget: string, required: false }
+      - { name: description, label: Descrição, widget: text, required: false }
+      
+      - { name: image, label: "Imagem de Fundo", widget: image, required: true }
+      - { name: imageMobile, label: "Imagem Mobile (opcional)", widget: image, required: false, hint: "Imagem otimizada para dispositivos móveis" }
+      
+      - name: cta
+        label: Call to Action
+        widget: object
+        required: false
+        fields:
+          - { name: text, label: "Texto do Botão", widget: string }
+          - { name: url, label: Link, widget: string }
+          - { name: variant, label: Estilo, widget: select, options: ["primary", "secondary", "outline"], default: "primary" }
+      
+      - name: textPosition
+        label: "Posição do Texto"
+        widget: select
+        options:
+          - { label: Esquerda, value: left }
+          - { label: Centro, value: center }
+          - { label: Direita, value: right }
+        default: center
+      
+      - name: textAlign
+        label: "Alinhamento Vertical"
+        widget: select
+        options:
+          - { label: Topo, value: top }
+          - { label: Centro, value: middle }
+          - { label: Rodapé, value: bottom }
+        default: middle
+      
+      - { name: overlay, label: "Overlay Escuro", widget: boolean, default: true, hint: "Adiciona uma camada escura sobre a imagem para melhor legibilidade" }
+      - { name: order, label: Ordem, widget: number, default: 0, value_type: int, hint: "Ordem de exibição (menor número = primeiro)" }
+      - { name: active, label: Ativo, widget: boolean, default: true, hint: "Desmarque para ocultar este banner do site" }
+      - { name: publishDate, label: "Data de Publicação", widget: datetime, required: false, hint: "Banner só será exibido a partir desta data" }
+      - { name: expireDate, label: "Data de Expiração", widget: datetime, required: false, hint: "Banner será ocultado após esta data" }
+
   - name: config
     label: Site Configuration
     editor:
@@ -69,27 +72,16 @@ collections:
         label: Headers
         file: public/_headers
         fields:
-          - name: body
-            label: Headers
-            widget: code
-            output_code_only: true
-            allow_language_selection: false
+          - { name: body, label: Headers, widget: code, output_code_only: true, allow_language_selection: false }
+      
       - name: redirects
         label: Redirects
-        file: public/_redirects 
+        file: public/_redirects
         fields:
-          - name: body
-            label: Redirects
-            widget: code 
-            output_code_only: true
-            allow_language_selection: false
+          - { name: body, label: Redirects, widget: code, output_code_only: true, allow_language_selection: false }
+      
       - name: robots
         label: Robots
         file: public/robots.txt
         fields:
-          - name: body
-            label: Robots
-            widget: code
-            output_code_only: true
-            allow_language_selection: false
-
+          - { name: body, label: Robots, widget: code, output_code_only: true, allow_language_selection: false }
