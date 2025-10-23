@@ -1,15 +1,15 @@
 ---
 title: Perfil
-subtitle: Meu Perfil do Github
+subtitle: ''
 description: ''
 image: /src/assets/images/perfil.png
 imageMobile: ''
 cta:
   text: Veja meu Github
   url: https://github.com/psousaj
-  variant: primary
-textPosition: center
-textAlign: middle
+  variant: outline
+textPosition: left
+textAlign: bottom
 overlay: true
 order: 0
 active: true
