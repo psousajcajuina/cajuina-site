@@ -1,0 +1,11 @@
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "src/content/products"
+    create: true
+    fields:
+      - { label: "Nome", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Imagem do produto", name: "image", widget: "image" }
+      - { label: "Descrição", name: "description", widget: "text", default: "" }
+    

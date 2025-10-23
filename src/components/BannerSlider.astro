@@ -1,0 +1,295 @@
+---
+import { getCollection } from 'astro:content';
+
+interface CTAButton {
+  text: string;
+  url: string;
+  variant: 'primary' | 'secondary' | 'outline';
+}
+
+interface BannerData {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  image: string;
+  imageMobile?: string;
+  cta?: CTAButton;
+  textPosition: 'left' | 'center' | 'right';
+  textAlign: 'top' | 'middle' | 'bottom';
+  overlay: boolean;
+  order: number;
+  active: boolean;
+  publishDate?: Date;
+  expireDate?: Date;
+}
+
+interface Banner {
+  data: BannerData;
+  id: string;
+}
+
+const now = new Date();
+const allBanners = await getCollection('banner') as Banner[];
+
+const banners = allBanners
+  .filter((banner): banner is Banner => {
+    if (!banner.data.active) return false;
+    if (banner.data.publishDate && banner.data.publishDate > now) return false;
+    if (banner.data.expireDate && banner.data.expireDate < now) return false;
+    return true;
+  })
+  .sort((a, b) => a.data.order - b.data.order);
+
+const hasBanners = banners.length > 0;
+const hasMultipleBanners = banners.length > 1;
+
+const positionClasses: Record<BannerData['textPosition'], string> = {
+  left: 'text-left items-start',
+  center: 'text-center items-center',
+  right: 'text-right items-end'
+};
+
+const alignClasses: Record<BannerData['textAlign'], string> = {
+  top: 'justify-start pt-20',
+  middle: 'justify-center',
+  bottom: 'justify-end pb-20'
+};
+
+const ctaClasses: Record<CTAButton['variant'], string> = {
+  primary: 'bg-white text-gray-900 hover:bg-gray-100',
+  secondary: 'bg-blue-600 text-white hover:bg-blue-700',
+  outline: 'border-2 border-white text-white hover:bg-white hover:text-gray-900'
+};
+---
+
+{hasBanners && (
+  <div class="relative w-full h-[600px] md:h-[700px] overflow-hidden" data-slider>
+    <!-- Slides Container -->
+    <div class="relative w-full h-full">
+      {banners.map((banner, index) => {
+        const { title, subtitle, description, image, imageMobile, cta, textPosition, textAlign, overlay } = banner.data;
+        
+        return (
+          <div 
+            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out"
+            data-slide
+            data-active={index === 0 ? 'true' : 'false'}
+          >
+            <!-- Background Image -->
+            <picture>
+              {imageMobile && (
+                <source media="(max-width: 768px)" srcset={imageMobile} />
+              )}
+              <img 
+                src={image}
+                alt={title}
+                class="absolute inset-0 w-full h-full object-cover"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            </picture>
+            
+            <!-- Overlay -->
+            {overlay && (
+              <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+            )}
+            
+            <!-- Content -->
+            <div class={`relative h-full flex flex-col px-6 md:px-12 ${alignClasses[textAlign]}`}>
+              <div class={`max-w-7xl mx-auto w-full flex flex-col ${positionClasses[textPosition]}`}>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 animate-slide-up">
+                  {title}
+                </h1>
+                
+                {subtitle && (
+                  <p class="text-xl md:text-3xl text-white/90 mb-4 animate-slide-up animation-delay-200">
+                    {subtitle}
+                  </p>
+                )}
+                
+                {description && (
+                  <p class="text-base md:text-lg text-white/80 max-w-2xl mb-8 animate-slide-up animation-delay-400">
+                    {description}
+                  </p>
+                )}
+                
+                {cta && (
+                  <a 
+                    href={cta.url}
+                    class={`inline-block px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg animate-slide-up animation-delay-600 ${ctaClasses[cta.variant]}`}
+                  >
+                    {cta.text}
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    
+    {hasMultipleBanners && (
+      <>
+        <!-- Navigation Buttons -->
+        <button 
+          class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 transition-all duration-300 hover:scale-110 z-10"
+          data-prev
+          aria-label="Anterior"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <button 
+          class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 transition-all duration-300 hover:scale-110 z-10"
+          data-next
+          aria-label="Próximo"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <!-- Dots -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {banners.map((_, index) => (
+            <button 
+              class="w-3 h-3 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 data-[active=true]:w-8 data-[active=true]:bg-white"
+              data-dot
+              data-index={index}
+              data-active={index === 0 ? 'true' : 'false'}
+              aria-label={`Ir para slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+)}
+
+<style>
+  [data-slide][data-active="true"] {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+  
+  .animation-delay-600 {
+    animation-delay: 0.6s;
+  }
+</style>
+
+<script>
+  interface SliderElements {
+    slider: HTMLElement;
+    slides: NodeListOf<HTMLElement>;
+    dots: NodeListOf<HTMLElement>;
+    prevBtn: HTMLElement | null;
+    nextBtn: HTMLElement | null;
+  }
+
+  function initSlider(): void {
+    const slider = document.querySelector<HTMLElement>('[data-slider]');
+    if (!slider) return;
+    
+    const slides = slider.querySelectorAll<HTMLElement>('[data-slide]');
+    const dots = slider.querySelectorAll<HTMLElement>('[data-dot]');
+    const prevBtn = slider.querySelector<HTMLElement>('[data-prev]');
+    const nextBtn = slider.querySelector<HTMLElement>('[data-next]');
+    
+    if (slides.length <= 1) return;
+    
+    let currentIndex = 0;
+    let autoplayInterval: ReturnType<typeof setInterval> | null = null;
+    
+    function showSlide(index: number): void {
+      slides.forEach((slide, i) => {
+        slide.setAttribute('data-active', String(i === index));
+      });
+      
+      dots.forEach((dot, i) => {
+        dot.setAttribute('data-active', String(i === index));
+      });
+      
+      currentIndex = index;
+    }
+    
+    function nextSlide(): void {
+      showSlide((currentIndex + 1) % slides.length);
+    }
+    
+    function prevSlide(): void {
+      showSlide((currentIndex - 1 + slides.length) % slides.length);
+    }
+    
+    function startAutoplay(): void {
+      stopAutoplay();
+      autoplayInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function stopAutoplay(): void {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+    
+    prevBtn?.addEventListener('click', () => {
+      prevSlide();
+      stopAutoplay();
+      startAutoplay();
+    });
+    
+    nextBtn?.addEventListener('click', () => {
+      nextSlide();
+      stopAutoplay();
+      startAutoplay();
+    });
+    
+    dots.forEach((dot) => {
+      dot.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const index = parseInt(target.dataset.index || '0', 10);
+        showSlide(index);
+        stopAutoplay();
+        startAutoplay();
+      });
+    });
+    
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight') nextSlide();
+    });
+    
+    startAutoplay();
+  }
+  
+  document.addEventListener('astro:page-load', initSlider);
+</script>
