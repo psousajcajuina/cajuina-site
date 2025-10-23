@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const metadataDefinition = () => {
@@ -47,6 +47,16 @@ const metadataDefinition = () => {
     .optional();
 };
 
+
+// --- TAGS ---
+const tag = defineCollection({
+  loader: glob({ base: "./src/data/tags", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+});
+
 // --- BLOG ---
 const post = defineCollection({
   loader: glob({ base: "./src/data/post", pattern: "**/*.{md,mdx}" }),
@@ -62,7 +72,7 @@ const post = defineCollection({
       image: image().optional(),
       
       category: z.string().optional(),
-      tags: z.array(z.string()).optional(),
+      tags: z.array(z.any()).optional(), // ← CORRIGIDO
       author: z.string().optional(),
 
       metadata: metadataDefinition(),
