@@ -29,6 +29,8 @@ collections:
     label_singular: Tag
     folder: src/data/tag
     create: true
+    editor:
+      preview: false
     fields:
       - { name: title, widget: string, label: Nome }
       - { name: description, label: Descrição, widget: text, required: false }
