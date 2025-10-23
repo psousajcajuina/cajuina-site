@@ -36,4 +36,4 @@ jobs:
         localDir: ./dist/
         remoteDir: ${{ vars.FTP_REMOTE_PATH }}
         forceSsl: false
-        options: '--only-newer --verbose --parallel=5'
+        options: "--delete --only-newer --parallel=5 --verbose"
