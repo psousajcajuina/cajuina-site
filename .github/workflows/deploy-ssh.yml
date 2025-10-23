@@ -32,7 +32,7 @@ jobs:
         with:
           switches: -avzr --delete --exclude='.git*' --exclude='node_modules/' --exclude='.github/'
           path: ./dist/
-          remote_path: ${{ vars.FTP_REMOTE_PATH }}
+          remote_path: ${{ vars.SSH_REMOTE_PATH }}
           remote_host: ${{ vars.SSH_HOST }}
           remote_user: ${{ vars.SSH_USER }}
           remote_key: ${{ vars.SSH_PRIVATE_KEY }}
