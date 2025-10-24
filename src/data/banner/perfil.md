@@ -2,7 +2,7 @@
 title: Perfil
 subtitle: ''
 description: ''
-image: /src/assets/images/perfil.png
+image: /src/assets/images/fluffy-dog-9846034_1280.jpg
 imageMobile: ''
 cta:
   text: Veja meu Github
