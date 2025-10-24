@@ -3,6 +3,8 @@ name: Create PR from CMS
 on:
   push:
     branches: [ cms/push ]
+  repository_dispatch:
+    types: [sveltia-cms-publish]
 
 permissions:
   contents: write
