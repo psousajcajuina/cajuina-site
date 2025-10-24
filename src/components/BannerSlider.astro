@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Image from './common/Image.astro';
 
 interface CTAButton {
   text: string;
@@ -80,7 +81,7 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
               {imageMobile && (
                 <source media="(max-width: 768px)" srcset={imageMobile} />
               )}
-              <img 
+              <Image 
                 src={image}
                 alt={title}
                 class="absolute inset-0 w-full h-full object-cover"
