@@ -6,11 +6,11 @@ backend:
   base_url: "https://oauth.crudbox.tech"
   skip_ci: true
   commit_messages:
-    create: "[cms] Create {{collection}} “{{slug}}”"
-    update: "[cms] Update {{collection}} “{{slug}}”"
-    delete: "[cms] Delete {{collection}} “{{slug}}”"
-    uploadMedia: "[cms] Upload “{{path}}”"
-    deleteMedia: "[cms] Delete “{{path}}”"
+    create: "[cms] Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
+    update: "[cms] Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
+    delete: "[cms] Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
+    uploadMedia: "[cms] Upload “{{path}}” - {{author-name}} <{{author-login}}>"
+    deleteMedia: "[cms] Delete “{{path}}” - {{author-name}} <{{author-login}}>"
 
 media_folder: "src/assets/images" # Location where files will be stored in the repo
 public_folder: "/src/assets/images" # The src attribute for uploaded media

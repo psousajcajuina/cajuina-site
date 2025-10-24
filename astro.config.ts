@@ -12,7 +12,12 @@ import type { AstroIntegration } from "astro";
 
 import astrowind from './vendor/integration';
 
-import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
+import {
+  readingTimeRemarkPlugin,
+  responsiveTablesRehypePlugin,
+  lazyImagesRehypePlugin,
+  resolveImagePathsRemarkPlugin,
+} from './src/utils/frontmatter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,8 +28,8 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || "https://cajuinasaogeraldo.com.br",
-  output: "static", // SSG completo por padrão
+  site: process.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
+  output: 'static', // SSG completo por padrão
   integrations: [
     sitemap(),
     mdx(),
@@ -74,14 +79,22 @@ export default defineConfig({
   },
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin],
+    remarkPlugins: [readingTimeRemarkPlugin, resolveImagePathsRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    shikiConfig: {
+      // Reutiliza a instância do Shiki para evitar criar múltiplas
+      wrap: true,
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
   },
   vite: {
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        "~": path.resolve(__dirname, "./src"),
+        '~': path.resolve(__dirname, './src'),
       },
     },
   },
