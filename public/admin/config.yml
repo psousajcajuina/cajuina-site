@@ -4,6 +4,7 @@ backend:
   repo: "psousajcajuina/cajuina-site"
   branch: "cms/push"
   base_url: "https://oauth.crudbox.tech"
+  skip_ci: true
   commit_messages:
     create: "[cms] Create {{collection}} “{{slug}}”"
     update: "[cms] Update {{collection}} “{{slug}}”"
@@ -16,6 +17,7 @@ public_folder: "/src/assets/images" # The src attribute for uploaded media
 
 collections:
   - name: banners
+    icon: panorama # https://fonts.google.com/icons?icon.set=Material+Symbols&icon.platform=web
     label: Banners do Slide
     folder: src/data/banner
     create: true
@@ -62,9 +64,12 @@ collections:
       - { name: active, label: Ativo, widget: boolean, default: true, hint: "Desmarque para ocultar este banner do site" }
       - { name: publishDate, label: "Data de Publicação", widget: datetime, required: false, hint: "Banner só será exibido a partir desta data" }
       - { name: expireDate, label: "Data de Expiração", widget: datetime, required: false, hint: "Banner será ocultado após esta data" }
+  
+  - divider: true
 
   - name: config
     label: Site Configuration
+    icon: settings
     editor:
       preview: false
     files:
