@@ -1,5 +1,5 @@
 ---
-title: To so testando o publish changes
+title: To so testando o publish changes com dispatch
 excerpt: Start your web journey with AstroWind – harness Astro and Tailwind CSS for a stunning site. Explore our guide now.
 tags:
   - astro
