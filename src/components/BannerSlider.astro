@@ -74,7 +74,7 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
 
         return (
           <div 
-            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out"
+            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out bg-gray-900"
             data-slide
             data-active={index === 0 ? 'true' : 'false'}
           >
@@ -86,7 +86,7 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
               <Image 
                 src={image}
                 alt={title}
-                class="absolute inset-0 w-full h-full object-cover"
+                class="absolute inset-0 w-full h-full object-cover object-center"
                 loading={index === 0 ? 'eager' : 'lazy'}
               />
             </picture>
