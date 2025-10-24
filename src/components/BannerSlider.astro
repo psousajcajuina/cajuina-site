@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import Image from './common/Image.astro';
 
 interface CTAButton {
@@ -12,8 +13,8 @@ interface BannerData {
   title: string;
   subtitle?: string;
   description?: string;
-  image: string;
-  imageMobile?: string;
+  image: ImageMetadata;
+  imageMobile?: ImageMetadata;
   cta?: CTAButton;
   textPosition: 'left' | 'center' | 'right';
   textAlign: 'top' | 'middle' | 'bottom';
@@ -61,6 +62,7 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
   secondary: 'bg-blue-600 text-white hover:bg-blue-700',
   outline: 'border-2 border-white text-white hover:bg-white hover:text-gray-900'
 };
+
 ---
 
 {hasBanners && (
@@ -69,22 +71,22 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
     <div class="relative w-full h-full">
       {banners.map((banner, index) => {
         const { title, subtitle, description, image, imageMobile, cta, textPosition, textAlign, overlay } = banner.data;
-        
+
         return (
           <div 
-            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out"
+            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out bg-gray-900"
             data-slide
             data-active={index === 0 ? 'true' : 'false'}
           >
             <!-- Background Image -->
             <picture>
               {imageMobile && (
-                <source media="(max-width: 768px)" srcset={imageMobile} />
+                <source media="(max-width: 768px)" srcset={imageMobile.src} />
               )}
               <Image 
                 src={image}
                 alt={title}
-                class="absolute inset-0 w-full h-full object-cover"
+                class="absolute inset-0 w-full h-full object-cover object-center"
                 loading={index === 0 ? 'eager' : 'lazy'}
               />
             </picture>
