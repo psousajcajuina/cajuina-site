@@ -1,6 +1,7 @@
 collections:
   - name: "post"
     label: "Blog"
+    icon: news
     folder: "src/data/post"
     slug: "{{slug}}"
     create: true
@@ -26,6 +27,7 @@ collections:
   
   - name: tags
     label: Tags
+    icon: sell
     label_singular: Tag
     folder: src/data/tag
     create: true
@@ -35,4 +37,6 @@ collections:
       - { name: title, widget: string, label: Nome }
       - { name: description, label: Descrição, widget: text, required: false }
       - { name: image, label: Image, widget: image, required: false }
+
+  - divider: true
     
