@@ -81,6 +81,14 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin, resolveImagePathsRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    shikiConfig: {
+      // Reutiliza a instância do Shiki para evitar criar múltiplas
+      wrap: true,
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
   },
   vite: {
     plugins: [tailwindcss()],
