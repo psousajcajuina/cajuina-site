@@ -1,5 +1,5 @@
 ---
-title: Novo Novamente
+title: Novo Novamente 2
 excerpt: Teste
 tags:
   - Novidade
