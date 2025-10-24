@@ -93,36 +93,39 @@ const product = defineCollection({
 
 const banner = defineCollection({
   loader: glob({ base: './src/data/banner', pattern: '**/*.{md,mdx}' }),
-  schema: z.object({
-    title: z.string(),
-    subtitle: z.string().optional(),
-    description: z.string().optional(),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      subtitle: z.string().optional(),
+      description: z.string().optional(),
 
-    image: z.string(),
-    imageMobile: z.string().optional(),
+      image: image(),
+      imageMobile: image().optional(),
 
-    cta: z
-      .object({
-        text: z.string(),
-        url: z.string(),
-        variant: z.enum(['primary', 'secondary', 'outline']).default('primary'),
-      })
-      .nullish()
-      .optional(),
+      cta: z
+        .object({
+          text: z.string(),
+          url: z.string(),
+          variant: z
+            .enum(['primary', 'secondary', 'outline'])
+            .default('primary'),
+        })
+        .nullish()
+        .optional(),
 
-    textPosition: z.enum(['left', 'center', 'right']).default('center'),
-    textAlign: z.enum(['top', 'middle', 'bottom']).default('middle'),
-    overlay: z.boolean().default(true),
+      textPosition: z.enum(['left', 'center', 'right']).default('center'),
+      textAlign: z.enum(['top', 'middle', 'bottom']).default('middle'),
+      overlay: z.boolean().default(true),
 
-    order: z.number().default(0),
-    active: z.boolean().default(true),
-    publishDate: z.coerce.date().optional(),
-    expireDate: z
-      .string()
-      .nullable()
-      .transform((val) => (val ? new Date(val) : null))
-      .optional(),
-  }),
+      order: z.number().default(0),
+      active: z.boolean().default(true),
+      publishDate: z.coerce.date().optional(),
+      expireDate: z
+        .string()
+        .nullable()
+        .transform((val) => (val ? new Date(val) : null))
+        .optional(),
+    }),
 });
 
 // --- EXPORT COLLECTIONS ---

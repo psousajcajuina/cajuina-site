@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import Image from './common/Image.astro';
-import { findImage } from '@/utils/images';
 
 interface CTAButton {
   text: string;
@@ -13,8 +13,8 @@ interface BannerData {
   title: string;
   subtitle?: string;
   description?: string;
-  image: string;
-  imageMobile?: string;
+  image: ImageMetadata;
+  imageMobile?: ImageMetadata;
   cta?: CTAButton;
   textPosition: 'left' | 'center' | 'right';
   textAlign: 'top' | 'middle' | 'bottom';
@@ -69,9 +69,8 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
   <div class="relative w-full h-[600px] md:h-[700px] overflow-hidden" data-slider>
     <!-- Slides Container -->
     <div class="relative w-full h-full">
-      {banners.map(async (banner, index) => {
-        const { title, subtitle, description, image: postImage, imageMobile, cta, textPosition, textAlign, overlay } = banner.data;
-        const image = (await findImage(postImage)) as ImageMetadata | string;
+      {banners.map((banner, index) => {
+        const { title, subtitle, description, image, imageMobile, cta, textPosition, textAlign, overlay } = banner.data;
 
         return (
           <div 
@@ -82,7 +81,7 @@ const ctaClasses: Record<CTAButton['variant'], string> = {
             <!-- Background Image -->
             <picture>
               {imageMobile && (
-                <source media="(max-width: 768px)" srcset={imageMobile} />
+                <source media="(max-width: 768px)" srcset={imageMobile.src} />
               )}
               <Image 
                 src={image}
