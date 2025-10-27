@@ -63,9 +63,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
   const category = rawCategory
     ? {
-        slug: cleanSlug(rawCategory),
-        title: rawCategory,
-      }
+      slug: cleanSlug(rawCategory),
+      title: rawCategory,
+    }
     : undefined;
 
   const tags = rawTags.map((tag: string) => ({

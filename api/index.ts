@@ -1,3 +1,5 @@
+import { Env } from "./env";
+
 type Provider = "github" | "gitlab" | "bitbucket" | "unknown";
 
 interface OutputHTMLContentSuccess {
@@ -20,19 +22,7 @@ interface OutputHTMLOptions {
   errorCode?: string;
 }
 
-interface CloudflareEnv {
-  ALLOWED_DOMAINS?: string;
-  GITHUB_CLIENT_ID?: string;
-  GITHUB_CLIENT_SECRET?: string;
-  GITHUB_HOSTNAME?: string;
-  GITLAB_CLIENT_ID?: string;
-  GITLAB_CLIENT_SECRET?: string;
-  GITLAB_HOSTNAME?: string;
-  BITBUCKET_CLIENT_ID?: string;
-  BITBUCKET_CLIENT_SECRET?: string;
-  BITBUCKET_HOSTNAME?: string;
-  INSECURE_COOKIES?: string;
-}
+type CloudflareEnv = Env
 
 /**
  * List of supported OAuth providers.
@@ -130,12 +120,12 @@ const handleAuth = async (
     GITLAB_CLIENT_ID,
     GITLAB_CLIENT_SECRET,
     GITLAB_HOSTNAME = "gitlab.com",
-    //@ts-ignore
-    BITBUCKET_CLIENT_ID,
-    //@ts-ignore
-    BITBUCKET_CLIENT_SECRET,
-    //@ts-ignore
-    BITBUCKET_HOSTNAME = "bitbucket.com",
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_CLIENT_ID,
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_CLIENT_SECRET,
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_HOSTNAME = "bitbucket.com",
   } = env;
 
   // Check if the domain is whitelisted
@@ -302,12 +292,12 @@ const handleCallback = async (
     GITLAB_CLIENT_ID,
     GITLAB_CLIENT_SECRET,
     GITLAB_HOSTNAME = "gitlab.com",
-    //@ts-ignore
-    BITBUCKET_CLIENT_ID,
-    //@ts-ignore
-    BITBUCKET_CLIENT_SECRET,
-    //@ts-ignore
-    BITBUCKET_HOSTNAME = "bitbucket.com",
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_CLIENT_ID,
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_CLIENT_SECRET,
+    //@ts-expect-error because it's a TODO feature
+    _BITBUCKET_HOSTNAME = "bitbucket.com",
   } = env;
 
   let tokenURL = "";
