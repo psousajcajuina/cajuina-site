@@ -2,7 +2,7 @@
 title: capa
 subtitle: ''
 description: ''
-image: /src/assets/images/home/slider/Prancheta 1.png
+image: /src/assets/images/home/slider/capa.png
 imageMobile: ''
 cta: null
 textPosition: center

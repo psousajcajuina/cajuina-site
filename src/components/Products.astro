@@ -1,0 +1,126 @@
+---
+import Image from './common/Image.astro';
+import 'swiper/css';
+
+import ref200ml from '@/assets/images/home/produtos/200ml.png';
+import ref600ml from '@/assets/images/home/produtos/600ml.png';
+import ref200mlPet from '@/assets/images/home/produtos/200ml-pet.png';
+import ref350ml from '@/assets/images/home/produtos/350ml.png';
+import ref1L from '@/assets/images/home/produtos/1L.png';
+import ref2L from '@/assets/images/home/produtos/2L.png';
+import ref350mlZero from '@/assets/images/home/produtos/350ml-zero.png';
+import ref200mlPetLaranja from '@/assets/images/home/produtos/200ml-pet-LARANJA.png';
+import ref350Laranja from '@/assets/images/home/produtos/350ml-laranja.png';
+import ref1Laranja from '@/assets/images/home/produtos/1L-LARANJA.png';
+
+import ref200mlHover from '@/assets/images/home/produtos/200ml-hover.png';
+import ref600mlHover from '@/assets/images/home/produtos/600ml-hover.png';
+import ref200mlPetHover from '@/assets/images/home/produtos/200ml-pet-hover.png';
+import ref350mlHover from '@/assets/images/home/produtos/350ml-hover.png';
+import ref1LHover from '@/assets/images/home/produtos/1L-hover.png';
+import ref2LHover from '@/assets/images/home/produtos/2L-hover.png';
+import ref350mlZeroHover from '@/assets/images/home/produtos/350ml-zero-hover.png';
+import ref200mlPetLaranjaHover from '@/assets/images/home/produtos/200ml-pet-LARANJA-hover.png';
+import ref350LaranjaHover from '@/assets/images/home/produtos/350ml-laranja-hover.png';
+import ref1LaranjaHover from '@/assets/images/home/produtos/1L-LARANJA-hover.png';
+
+const itemsRaw = [
+  { normal: ref200ml, hover: ref200mlHover, sizes: { width: 78, height: 91 } },
+  { normal: ref600ml, hover: ref600mlHover, sizes: { width: 78, height: 112 } },
+  {
+    normal: ref200mlPet,
+    hover: ref200mlPetHover,
+    sizes: { width: 78, height: 87 },
+  },
+  { normal: ref350ml, hover: ref350mlHover, sizes: { width: 78, height: 82 } },
+  { normal: ref1L, hover: ref1LHover, sizes: { width: 78, height: 105 } },
+  { normal: ref2L, hover: ref2LHover, sizes: { width: 78, height: 128 } },
+  {
+    normal: ref350mlZero,
+    hover: ref350mlZeroHover,
+    sizes: { width: 78, height: 81 },
+  },
+  {
+    normal: ref200mlPetLaranja,
+    hover: ref200mlPetLaranjaHover,
+    sizes: { width: 78, height: 91 },
+  },
+  {
+    normal: ref350Laranja,
+    hover: ref350LaranjaHover,
+    sizes: { width: 78, height: 93 },
+  },
+  {
+    normal: ref1Laranja,
+    hover: ref1LaranjaHover,
+    sizes: { width: 78, height: 108 },
+  },
+];
+---
+
+<div
+  class="flex h-52 w-full flex-col items-center justify-evenly overflow-hidden"
+>
+  <h4 class="text-caju-heading-primary">NOSSOS PRODUTOS</h4>
+
+  <div class="relative w-full overflow-hidden">
+    <div id="carousel" class="flex items-end gap-3">
+      {
+        itemsRaw.concat(itemsRaw).map(({ normal, hover, sizes }) => (
+          <div
+            class="product-item relative shrink-0"
+            style={`width: ${sizes.width}px; height: ${sizes.height}px;`}
+          >
+            <Image
+              src={normal}
+              width={sizes.width}
+              height={sizes.height}
+              alt="produto"
+              class="absolute inset-0 h-full w-full object-contain transition-opacity duration-500"
+            />
+            <Image
+              src={hover}
+              width={sizes.width}
+              height={sizes.height}
+              alt="produto hover"
+              class="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-500"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  let offset = 0;
+  const speed = 0.5; // px por frame
+  const carousel = document.getElementById('carousel');
+
+  function animate() {
+    offset -= speed;
+    if (carousel) {
+      if (Math.abs(offset) >= carousel?.scrollWidth! / 2) offset = 0;
+      carousel.style.transform = `translate3d(${offset}px, 0, 0)`;
+    }
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+<style>
+  .product-item:hover :global(img:first-child) {
+    opacity: 0;
+  }
+  .product-item:hover :global(img:last-child) {
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  #carousel {
+    will-change: transform;
+    transition: transform 0.1s linear;
+    user-select: none;
+  }
+</style>
