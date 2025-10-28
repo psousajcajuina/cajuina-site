@@ -1,6 +1,8 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import type { HTMLAttributes, ImageMetadata } from 'astro/types';
 
+declare module '@tailwindcss/typography';
+
 export interface Post {
   /** A unique ID number that identifies a post. */
   id: string;

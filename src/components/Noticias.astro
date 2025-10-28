@@ -1,0 +1,90 @@
+---
+import type { Post } from '@/types';
+import { fetchPosts } from '@/utils/blog';
+import Image from './common/Image.astro';
+
+const posts = await fetchPosts();
+---
+
+<div class="my-6 flex h-[340px] w-full flex-col text-center">
+  <h4 class="text-caju-heading-primary">Notícias</h4>
+
+  <div class="swiper newSwiper mt-6">
+    <div class="swiper-wrapper">
+      {
+        posts.map((post: Post) => (
+          <div class="swiper-slide font-inter w-auto max-w-[320px] text-left font-normal">
+            {post.image && (
+              <Image
+                src={post.image}
+                alt={post.title}
+                width={137}
+                height={116}
+                class="mb-3 rounded-lg object-cover"
+              />
+            )}
+            {/* Details */}
+            <h5 class="text-caju-heading-primary h-[42px] text-lg">
+              {post.title}
+            </h5>
+            {/* Detalhes */}
+            <p class="mt-1 line-clamp-2 h-[60px] text-sm">
+              {post.excerpt || post.content}
+            </p>
+            {/* Button */}
+            <a href={post.permalink} class="transition-all duration-300">
+              <button class="btn-green">LEIA MAIS</button>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+    <!-- <div class="swiper-button-next z-999"></div>
+    <div class="swiper-button-prev z-999"></div> -->
+    <div class="swiper-pagination"></div>
+    <!-- <div class="autoplay-progress">
+      <svg viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="20"></circle>
+      </svg>
+      <span></span>
+    </div> -->
+  </div>
+</div>
+
+<script>
+  import Swiper from 'swiper';
+  import { Autoplay } from 'swiper/modules';
+
+  const progressCircle = document.querySelector(
+    '.autoplay-progress svg'
+  ) as SVGElement | null;
+  const progressContent = document.querySelector(
+    '.autoplay-progress span'
+  ) as HTMLElement | null;
+
+  var _swiper = new Swiper('.newSwiper', {
+    modules: [Autoplay],
+    slidesPerView: 2,
+    spaceBetween: 16,
+    autoplay: {
+      delay: 3500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      enabled: true,
+    },
+  });
+</script>
+
+<style>
+  @import url('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
+
+  .swiper {
+    width: 350px;
+    height: 300px;
+  }
+</style>

@@ -194,23 +194,31 @@ export const getStaticPathsBlogPost = async () => {
 };
 
 /** */
-export const getStaticPathsBlogCategory = async ({ paginate }: { paginate: PaginateFunction }) => {
+export const getStaticPathsBlogCategory = async ({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) => {
   if (!isBlogEnabled || !isBlogCategoryRouteEnabled) return [];
 
   const posts = await fetchPosts();
   const categories = {};
   posts.map((post) => {
     if (post.category?.slug) {
+      //@ts-expect-error any
       categories[post.category?.slug] = post.category;
     }
   });
 
   return Array.from(Object.keys(categories)).flatMap((categorySlug) =>
     paginate(
-      posts.filter((post) => post.category?.slug && categorySlug === post.category?.slug),
+      posts.filter(
+        (post) => post.category?.slug && categorySlug === post.category?.slug
+      ),
       {
         params: { category: categorySlug, blog: CATEGORY_BASE || undefined },
         pageSize: blogPostsPerPage,
+        //@ts-expect-error any
         props: { category: categories[categorySlug] },
       }
     )
@@ -218,7 +226,11 @@ export const getStaticPathsBlogCategory = async ({ paginate }: { paginate: Pagin
 };
 
 /** */
-export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFunction }) => {
+export const getStaticPathsBlogTag = async ({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) => {
   if (!isBlogEnabled || !isBlogTagRouteEnabled) return [];
 
   const posts = await fetchPosts();
@@ -226,6 +238,7 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
   posts.map((post) => {
     if (Array.isArray(post.tags)) {
       post.tags.map((tag) => {
+        //@ts-expect-error any
         tags[tag?.slug] = tag;
       });
     }
@@ -233,10 +246,15 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
 
   return Array.from(Object.keys(tags)).flatMap((tagSlug) =>
     paginate(
-      posts.filter((post) => Array.isArray(post.tags) && post.tags.find((elem) => elem.slug === tagSlug)),
+      posts.filter(
+        (post) =>
+          Array.isArray(post.tags) &&
+          post.tags.find((elem) => elem.slug === tagSlug)
+      ),
       {
         params: { tag: tagSlug, blog: TAG_BASE || undefined },
         pageSize: blogPostsPerPage,
+        //@ts-expect-error any
         props: { tag: tags[tagSlug] },
       }
     )

@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
-
 import Hero from '@/components/widgets/Hero.astro';
 import Note from '@/components/widgets/Note.astro';
 import Features from '@/components/widgets/Features.astro';
@@ -12,6 +11,10 @@ import FAQs from '@/components/widgets/FAQs.astro';
 import Stats from '@/components/widgets/Stats.astro';
 import CallToAction from '@/components/widgets/CallToAction.astro';
 import BannerSlider from '@/components/BannerSlider.astro';
+import Products from '@/components/Products.astro';
+import About from '@/components/About.astro';
+import Banner from '@/components/Banner.astro';
+import Noticias from '@/components/Noticias.astro';
 
 const metadata = {
   title: 'Cajuína São Geraldo - O tradicional refrigerante de Caju do Nordeste',
@@ -20,16 +23,19 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
   <BannerSlider />
-
-  <!-- Note Widget ******************* -->
-
-  <Note
+  <About />
+  <Products />
+  <Banner />
+  <Noticias />
+  <!--
+    Note
+    Widget
+    *******************
+    <Note
     title="Philosophy:"
     description="Simplicity, Best Practices and High Performance"
-  />
+  /> -->
 
   <!-- Features Widget *************** -->
 
