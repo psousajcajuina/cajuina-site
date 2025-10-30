@@ -224,10 +224,32 @@ export interface Form {
 }
 
 // WIDGETS
-export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' | 'classes'> {
+export interface Hero
+  extends Omit<Headline, 'classes'>,
+    Omit<Widget, 'isDark' | 'classes'> {
   content?: string;
   actions?: string | CallToAction[];
+  image?:
+    | string
+    | ImageMetadata
+    | (ImageMetadata & { fullSize?: boolean })
+    | unknown;
+}
+
+export interface TimelineItem {
+  title?: string;
+  dateLabel?: string;
+  content?: string;
   image?: string | unknown;
+}
+
+export interface BackgroundOverlayProps {
+  image?: ImageMetadata | string;
+  color?: string;
+  opacity?: number;
+  blendMode?: 'multiply' | 'overlay' | 'screen' | 'darken' | 'lighten' | 'none';
+  class?: string;
+  contentClass?: string;
 }
 
 export interface Team extends Omit<Headline, 'classes'>, Widget {
