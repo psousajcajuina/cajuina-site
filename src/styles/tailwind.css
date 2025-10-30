@@ -21,7 +21,7 @@
 }
 
 @utility font-inter {
-  @apply font-['Inter']
+  @apply font-['Inter'] font-normal;
 }
 
 @utility button {
@@ -122,11 +122,5 @@
 }
 
 [data-aw-toggle-menu].expanded g > path:last-child {
-  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
-}
-
-/* To deprecated */
-
-.dd *:first-child {
-  margin-top: 0;
+  @apply rotate-45 -translate-y-2 translate-x-3.5;
 }
