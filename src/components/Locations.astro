@@ -1,0 +1,49 @@
+---
+import MapaDistribuidores from '@/components/react/MapaDistribuidores';
+import type { Distribuidor } from '@/types';
+
+const distribuidores: Distribuidor[] = [
+  {
+    id: 1,
+    nome: 'Nome do distribuidor',
+    endereco: 'Endereço do distribuidor',
+    telefone: '(00) 00000-0000',
+    lat: -7.2139,
+    lng: -39.3158,
+  },
+  {
+    id: 2,
+    nome: 'Nome do distribuidor',
+    endereco: 'Endereço do distribuidor',
+    telefone: '(00) 00000-0000',
+    lat: -7.205,
+    lng: -39.31,
+  },
+  {
+    id: 3,
+    nome: 'Nome do distribuidor',
+    endereco: 'Endereço do distribuidor',
+    telefone: '(00) 00000-0000',
+    lat: -7.22,
+    lng: -39.32,
+  },
+  {
+    id: 4,
+    nome: 'Nome do distribuidor',
+    endereco: 'Endereço do distribuidor',
+    telefone: '(00) 00000-0000',
+    lat: -7.22,
+    lng: -39.32,
+  },
+  {
+    id: 5,
+    nome: 'Nome do distribuidor',
+    endereco: 'Endereço do distribuidor',
+    telefone: '(00) 00000-0000',
+    lat: -7.22,
+    lng: -39.32,
+  },
+];
+---
+
+<MapaDistribuidores client:only="react" distribuidores={distribuidores} />

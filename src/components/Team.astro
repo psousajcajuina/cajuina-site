@@ -1,0 +1,22 @@
+---
+import teamImage from '@/assets/images/mobile/IMG_9774.png';
+import Image from './common/Image.astro';
+import Button from './ui/Button.astro';
+---
+
+<div class="bg-caju-heading-primary my-12 h-fit min-h-[290px]">
+  <Image src={teamImage} class="h-[147px] w-full" alt="Faça parte do time" />
+  <div class="bg-caju-heading-yellow h-2 w-full"></div>
+  <div class="my-3 text-center text-white *:mx-auto">
+    <h4 class="text-caju-heading-yellow scale-85 uppercase">
+      Faça Parte Dessa Tradição!
+    </h4>
+    <p class="text-xxs font-inter max-w-[345px] h-fit">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+    <Button href="/" variant="yellow" class="h-5 w-[140px]"
+      >Página de Carreiras</Button
+    >
+  </div>
+</div>

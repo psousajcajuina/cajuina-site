@@ -8,8 +8,6 @@
 }
 
 :root {
-  --accent: #2337ff;
-  --accent-dark: #000d8a;
   --black: 15, 18, 25;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
@@ -45,16 +43,6 @@ body {
   background: linear-gradient(to bottom, #fff, #f1f1f1) no-repeat;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  /* color: rgb(var(--gray-dark)); */
-  /* font-size: 20px; */
-  /* line-height: 1.7; */
-}
-
-a > button button {
-  font-family: 'Roboto';
-  font-weight: 700;
-  font-size: 10px;
-  color: #fff;
 }
 
 h1,
@@ -83,10 +71,9 @@ h5 {
   font-size: 1.25em;
 }
 a {
-  color: var(--accent);
-}
-a:hover {
-  color: var(--accent);
+  @apply font-inter;
+  @apply text-white;
+  text-decoration: none;
 }
 @media (max-width: 720px) {
   body {
