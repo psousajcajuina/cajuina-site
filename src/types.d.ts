@@ -46,6 +46,15 @@ export interface Post {
   readingTime?: number;
 }
 
+export interface Distribuidor {
+  id: number;
+  nome: string;
+  endereco: string;
+  telefone: string;
+  lat: number;
+  lng: number;
+}
+
 export interface Taxonomy {
   slug: string;
   title: string;
@@ -184,7 +193,7 @@ export interface Disclaimer {
 
 // COMPONENTS
 export interface CallToAction extends Omit<HTMLAttributes<'a'>, 'slot'> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
+  variant?: 'green' | 'yellow' | 'link';
   text?: string;
   icon?: string;
   classes?: Record<string, string>;

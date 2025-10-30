@@ -25,9 +25,11 @@
 }
 
 @utility button {
-  @apply rounded-md px-4 py-1 font-['Roboto'] text-[10px] font-bold transition-colors duration-200;
+  @apply rounded-md px-4 py-1 font-['Roboto'] text-xxs transition-colors duration-200;
   @apply shadow-sm hover:shadow-md;
-  @apply min-w-[82px] h-[29px] mt-3
+  @apply min-w-[82px] min-h-[29px] mt-3;
+  @apply uppercase;
+  @apply text-white! font-medium! font-inter!;
 }
 
 /* Botão verde */

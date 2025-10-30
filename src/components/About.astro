@@ -1,8 +1,15 @@
 ---
-import aboutBg from '@/assets/images/mobile/about-bg.png'
+import aboutBg from '@/assets/images/mobile/about-bg.png';
 import { findImage } from '@/utils/images';
-import { astroAssetsOptimizer, getImagesOptimized, isUnpicCompatible, unpicOptimizer, type ImageProps } from '@/utils/images-optimization';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+  isUnpicCompatible,
+  unpicOptimizer,
+  type ImageProps,
+} from '@/utils/images-optimization';
 import type { ImageType } from './common/Image.astro';
+import Button from './ui/Button.astro';
 
 type Props = ImageProps;
 
@@ -10,8 +17,8 @@ const _image = await findImage(aboutBg);
 let image: ImageType | undefined = undefined;
 
 if (
-  typeof _image === "string" &&
-  (_image.startsWith("http://") || _image.startsWith("https://")) &&
+  typeof _image === 'string' &&
+  (_image.startsWith('http://') || _image.startsWith('https://')) &&
   isUnpicCompatible(_image)
 ) {
   image = await getImagesOptimized(_image, {}, unpicOptimizer);
@@ -21,10 +28,15 @@ if (
 ---
 
 <div
-  class="w-full h-[149px] bg-cover bg-center bg-no-repeat border border-black flex flex-col items-center justify-evenly text-white text-center font-normal tracking-[-2%]"
+  class="flex h-[149px] w-full flex-col items-center justify-evenly bg-cover bg-center bg-no-repeat text-center font-normal tracking-[-2%] text-white"
   style={`background-image: url(${image?.src});`}
 >
-    <p class="font-medium text-sm leading-6 max-w-48">NOSSO COMPROMISSO É O QUE NOS MOVE!</p>
-    <p class="w-full text-xxs font-inter max-w-[350px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    <button class="btn-yellow">SAIBA MAIS</button>
+  <p class="max-w-48 text-sm leading-6 font-medium">
+    NOSSO COMPROMISSO É O QUE NOS MOVE!
+  </p>
+  <p class="text-xxs font-inter w-full max-w-[350px]">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua.
+  </p>
+  <Button variant="yellow" href="/sobre">Saiba Mais</Button>
 </div>

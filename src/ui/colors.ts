@@ -14,6 +14,7 @@ export const colors = {
     heading: {
       primary: '#09863C',
       secondary: '#00422a',
+      yellow: '#F4B013',
     },
 
     header: {

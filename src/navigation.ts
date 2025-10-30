@@ -38,18 +38,18 @@ export const footerData = {
       title: 'Institucional',
       links: [
         { text: 'Sobre', href: '#' },
-        { text: 'Notícias', href: '#' },
-        { text: 'Trabalhe Conosco', href: '#' },
         { text: 'Produtos', href: '#' },
+        { text: 'Notícias', href: '#' },
         { text: 'Nos encontre', href: '#' },
+        { text: 'Trabalhe Conosco', href: '#' },
       ],
     },
     {
       title: 'Contato',
       links: [
         { text: 'Solicite', href: '#' },
-        { text: 'Seja distribuidor', href: '#' },
         { text: 'Portal de boletos', href: '#' },
+        { text: 'Seja distribuidor', href: '#' },
         { text: 'Canal de denúncia', href: '#' },
       ],
     },
@@ -68,6 +68,11 @@ export const footerData = {
   ],
   socialLinks: [
     {
+      ariaLabel: 'Instagram',
+      icon: 'mdi:instagram',
+      href: 'https://www.instagram.com/cajuinasaogeraldo/#',
+    },
+    {
       ariaLabel: 'Facebook',
       icon: 'mdi:facebook',
       href: 'https://www.facebook.com/cajuinasaogeraldo',
@@ -78,14 +83,9 @@ export const footerData = {
       href: 'https://x.com/saogeraldocaju',
     },
     {
-      ariaLabel: 'Instagram',
-      icon: 'mdi:instagram',
-      href: 'https://www.instagram.com/cajuinasaogeraldo/#',
-    },
-    {
-      ariaLabel: 'Youtube',
-      icon: 'mdi:youtube',
-      href: 'https://www.youtube.com/c/cajuinasaogeraldo',
+      ariaLabel: 'Tiktok',
+      icon: 'tabler:brand-tiktok',
+      href: 'https://www.tiktok.com/@saogeraldocaju',
     },
     {
       ariaLabel: 'Linkedin',
@@ -93,15 +93,15 @@ export const footerData = {
       href: 'https://www.linkedin.com/company/cajuinasaogeraldo',
     },
     {
-      ariaLabel: 'Tiktok',
-      icon: 'tabler:brand-tiktok',
-      href: 'https://www.tiktok.com/@saogeraldocaju',
+      ariaLabel: 'Youtube',
+      icon: 'mdi:youtube',
+      href: 'https://www.youtube.com/c/cajuinasaogeraldo',
     },
-    { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
+    // { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
   footNote: `
-    <span>&copy; 2025 Todos os direitos reservados à Cajuína São Geraldo</span>
-    <span class="hidden md:inline">•</span>
-    <span>Av. Padre Cícero, Km 02 — Juazeiro do Norte, CE — CEP: 63022-115</span>
+    &copy; 2025 Todos os direitos reservados à Cajuína São Geraldo
+    <br/>
+    Av. Padre Cícero, Km 02 - Juazeiro do Norte, CE - CEP: 63022-115
   `,
 };

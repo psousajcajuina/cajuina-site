@@ -11,8 +11,9 @@ export default {
       gridTemplateColumns: {
         13: 'repeat(13, minmax(0, 1fr))',
       },
-      fontSize:{
-        'xxs': '10px'
+      fontSize: {
+        xxs: '10px',
+        xsm: '12px',
       },
       fontFamily: {
         din: ['var(--font-din)', 'sans-serif'],
