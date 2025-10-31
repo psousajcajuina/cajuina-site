@@ -5,11 +5,15 @@
 // import Steps2 from '@/components/widgets/Steps2.astro';
 import Layout from '@/layouts/PageLayout.astro';
 
-import fabricaPng from '@/assets/images/about/fabrica.png';
 import Timeline from '@/components/widgets/Timeline.astro';
 import AboutPhotoGallery from '@/components/react/AboutPhotoGallery';
 import Presentation from '@/components/widgets/Presentation.astro';
 import SwiperLayout from '@/components/ui/SwiperLayout.astro';
+
+import fabricaPng from '@/assets/images/about/fabrica.png';
+import businessPng from '@/assets/images/about/business.png';
+import mapaCeara from '@/assets/images/about/mapaCeara.png';
+import Image from '@/components/common/Image.astro';
 
 const metadata = {
   title: 'Sobre nós',
@@ -50,6 +54,102 @@ const metadata = {
   <SwiperLayout>
     <AboutPhotoGallery client:load />
   </SwiperLayout>
+
+  <Presentation
+    wrapperClass="py-0!"
+    image={{
+      src: businessPng,
+      alt: 'Business image',
+      fullSize: true,
+      class: 'object-contain! w-[391px] h-[110px]',
+    }}
+  >
+    <!-- Business -->
+    <!-- class="relative grid min-h-[540px] w-full grid-cols-[1.5fr_repeat(2,1fr)] grid-rows-5 text-left" -->
+    <Fragment slot="content">
+      <section
+        class="relative grid min-h-[540px] w-full grid-cols-3 grid-rows-5 text-left"
+      >
+        <!-- Mapa -->
+        <div class="col-span-2 col-start-2 row-span-2">
+          <div class="relative h-full w-full">
+            <Image
+              alt="Mapa Ceará"
+              src={mapaCeara}
+              class="absolute inset-0 z-50 h-full w-full"
+            />
+          </div>
+        </div>
+        <!-- Missão/Visão -->
+        <div class="col-start-1 row-span-2 row-start-1 space-y-5">
+          <!-- Missão -->
+          <div class="space-y-2">
+            <h5 class="text-caju-heading-primary uppercase">Missão</h5>
+            <p class="font-inter text-xxs text-black/90">
+              Oferecer ao consumidor uma experiência de sabor, qualidade e
+              tradição do Nordeste.
+            </p>
+          </div>
+          <!-- Visão -->
+          <div class="space-y-2">
+            <h5 class="text-caju-heading-primary uppercase">Visão</h5>
+            <p class="font-inter text-xxs text-black/90">
+              Oferecer ao consumidor uma experiência de sabor, qualidade e
+              tradição do Nordeste.
+            </p>
+          </div>
+        </div>
+        <!-- Valores -->
+        <div class="col-span-3 row-span-3 row-start-3 flex flex-col">
+          <h5 class="text-caju-heading-primary uppercase">Valores</h5>
+          <div class="font-inter text-xxs flex-1 [:not(dt)]:text-black/90">
+            <dl class="flex h-full flex-col justify-evenly gap-2">
+              <div>
+                <dt class="font-semibold">Ética Empresarial</dt>
+                <dd>
+                  Atitudes e práticas reconhecidas por lei e a sociedade como
+                  justas e corretas.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Qualidade</dt>
+                <dd>
+                  Produtos, serviços, processos e práticas com padrões de
+                  excelência.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Cultura de Resultado</dt>
+                <dd>
+                  Busca contínua de ações conscientes com foco na agregação de
+                  valor.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Pessoas</dt>
+                <dd>
+                  Valorizaremos sobremaneira pessoas éticas, competentes, com
+                  iniciativas, empreendedoras, determinadas e comprometidas com
+                  a nossa filosofia.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Produtividade</dt>
+                <dd>
+                  Garantir que todas as atividades sejam planejadas, executadas
+                  e avaliadas, visando o menor gasto de energia e recursos.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+  </Presentation>
 
   <!-- Stats Widget ****************** -->
   <!-- <Stats
