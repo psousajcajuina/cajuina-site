@@ -1,0 +1,25 @@
+---
+// src/components/SwiperLayout.astro
+---
+
+<Fragment>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@12.0.3/swiper-bundle.min.css"
+  />
+  <slot />
+</Fragment>
+
+<style is:global>
+  /* Reset de conflitos conhecidos do Swiper com Tailwind */
+  .swiper-button-next,
+  .swiper-button-prev {
+    /* Se você não usa navegação, esconda */
+    display: none !important;
+  }
+
+  .swiper-pagination {
+    /* Se você não usa paginação, esconda */
+    display: none !important;
+  }
+</style>
