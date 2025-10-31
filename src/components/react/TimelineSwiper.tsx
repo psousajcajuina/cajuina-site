@@ -18,18 +18,18 @@ export default function TimelineSwiper({ steps, className }: Props) {
       <Swiper
         modules={[Navigation, Autoplay, FreeMode]}
         slidesPerView={'auto'}
-        autoplay={{ 
-          delay: 5000, 
-          disableOnInteraction: true 
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: true,
         }}
         grabCursor
-        className={twMerge(
-          'z-150 h-full w-full overflow-hidden',
-          className
-        )}
+        className={twMerge('z-150 h-full w-full overflow-hidden', className)}
       >
         {steps.map((item, index) => (
-          <SwiperSlide className="h-full! min-w-[161px]! max-w-[180px]" key={index}>
+          <SwiperSlide
+            className="h-full! max-w-[180px] min-w-[161px]!"
+            key={item.title + index}
+          >
             <div className="flex flex-col items-start">
               {/* bolinha e linha pontilhada */}
               <div className="relative mb-4 flex w-full items-center">
@@ -44,11 +44,11 @@ export default function TimelineSwiper({ steps, className }: Props) {
               </div>
 
               {/* conteúdo */}
-              <div className='mr-2'>
+              <div className="mr-2">
                 <h3 className="mb-2 text-sm font-extrabold text-yellow-400 uppercase">
                   {item.title}
                 </h3>
-                <p className="text-[9px] font-inter text-left text-white/90">
+                <p className="font-inter text-left text-[9px] text-white/90">
                   {item.content}
                 </p>
               </div>

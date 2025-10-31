@@ -1,12 +1,11 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+// import 'swiper/css';
+// import 'swiper/css/effect-coverflow';
+// import 'swiper/css/pagination';
 
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { Autoplay, FreeMode, Navigation } from 'swiper/modules';
 
 const items = Array.from({ length: 10 }).map((_, i) => ({
   url: `https://swiperjs.com/demos/images/nature-${i + 1}.jpg`,
@@ -14,15 +13,18 @@ const items = Array.from({ length: 10 }).map((_, i) => ({
 
 export default function AboutPhotoGallery() {
   return (
-    <div className="mt-5 mb-5 px-2">
+    <div className="mx-auto mt-5 mb-5 w-full max-w-6xl px-2">
       <Swiper
-        modules={[Pagination]}
-        spaceBetween={10}
-        grabCursor={true}
-        slidesPerView={3}
+        modules={[Navigation, Autoplay, FreeMode]}
+        slidesPerView={'auto'}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: true,
+        }}
+        grabCursor
       >
         {items.map((item, index) => (
-          <SwiperSlide className='size-[135px]!' key={index}>
+          <SwiperSlide className="size-[135px]!" key={item.url + index}>
             <img src={item.url} />
           </SwiperSlide>
         ))}
@@ -30,3 +32,20 @@ export default function AboutPhotoGallery() {
     </div>
   );
 }
+// export default function AboutPhotoGallery() {
+//   console.log('AboutPhotoGallery CHAMADO!');
+
+//   return (
+//     <div
+//       style={{
+//         background: 'green',
+//         color: 'white',
+//         padding: '100px',
+//         fontSize: '40px',
+//         border: '5px solid red',
+//       }}
+//     >
+//       🎉 COMPONENTE REACT FUNCIONANDO! 🎉
+//     </div>
+//   );
+// }

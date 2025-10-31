@@ -94,7 +94,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
               type="text"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              onKeyPress={handleSearch}
+              onKeyDown={handleSearch}
               placeholder="Digite sua localização"
               className="text-md focus:caret-caju-success-hover w-full rounded-full bg-[#ECE6F0] px-12 py-4 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none"
             />
@@ -124,10 +124,10 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
         virtual
         className="h-[107px]"
       >
-        {distribuidores.map((dist) => (
+        {distribuidores.map((dist, index) => (
           <SwiperSlide
             className="font-inter w-[225px] rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium [&_p]:text-[#454545]"
-            key={dist.id}
+            key={dist.id + index}
           >
             <h6 className="text-caju-heading-primary mb-1 text-base font-bold">
               {dist.nome}

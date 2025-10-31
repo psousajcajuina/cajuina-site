@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { SITE } from 'astrowind:config';
-import { getHomePermalink } from '@/utils/permalinks';
+// import { SITE } from 'astrowind:config';
+// import { getHomePermalink } from '@/utils/permalinks';
 import { findImage } from '@/utils/images';
 import type { ImageType } from '../common/Image.astro';
 import {
@@ -48,12 +48,7 @@ if (
   image = await getImagesOptimized(_image, {}, astroAssetsOptimizer);
 }
 
-const {
-  socialLinks = [],
-  secondaryLinks = [],
-  links = [],
-  footNote = '',
-} = Astro.props;
+const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 ---
 
 <footer

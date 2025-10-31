@@ -237,7 +237,7 @@ export interface Hero
 }
 
 export interface TimelineItem {
-  title?: string;
+  title: string;
   dateLabel?: string;
   content?: string;
   image?: string | unknown;

@@ -1,0 +1,24 @@
+---
+import AboutPhotoGallery from "@/components/react/AboutPhotoGallery";
+---
+
+<!doctype html>
+<html>
+  <head>
+    <title>Test</title>
+    <script>
+      console.log('HTML carregado');
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM ready');
+        console.log('Body innerHTML length:', document.body.innerHTML.length);
+      });
+    </script>
+  </head>
+  <body>
+    <h1 style="color: red; font-size: 50px;">TESTE ANTES DO COMPONENTE</h1>
+
+    <AboutPhotoGallery client:only="react" />
+
+    <h1 style="color: blue; font-size: 50px;">TESTE DEPOIS DO COMPONENTE</h1>
+  </body>
+</html>

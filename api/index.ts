@@ -1,6 +1,6 @@
-import { Env } from "./env";
+import { type Env } from './env';
 
-type Provider = "github" | "gitlab" | "bitbucket" | "unknown";
+type Provider = 'github' | 'gitlab' | 'bitbucket' | 'unknown';
 
 interface OutputHTMLContentSuccess {
   provider: Provider;
@@ -22,12 +22,12 @@ interface OutputHTMLOptions {
   errorCode?: string;
 }
 
-type CloudflareEnv = Env
+type CloudflareEnv = Env;
 
 /**
  * List of supported OAuth providers.
  */
-const supportedProviders: readonly string[] = ["github", "gitlab", "bitbucket"];
+const supportedProviders: readonly string[] = ['github', 'gitlab', 'bitbucket'];
 
 /**
  * Escape the given string for safe use in a regular expression.
@@ -36,7 +36,7 @@ const supportedProviders: readonly string[] = ["github", "gitlab", "bitbucket"];
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping
  */
 const escapeRegExp = (str: string): string =>
-  str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /**
  * Output HTML response that communicates with the window opener.
@@ -45,17 +45,17 @@ const escapeRegExp = (str: string): string =>
  * @returns Response with HTML.
  */
 const outputHTML = (
-  { provider = "unknown", token, error, errorCode }: OutputHTMLOptions,
+  { provider = 'unknown', token, error, errorCode }: OutputHTMLOptions,
   env?: CloudflareEnv
 ): Response => {
-  const state = error ? "error" : "success";
+  const state = error ? 'error' : 'success';
   const content: OutputHTMLContent = error
     ? { provider, error, errorCode }
     : { provider, token: token! };
 
   // Allow disabling Secure cookie for local testing by setting INSECURE_COOKIES=1
-  const insecureCookies = env?.INSECURE_COOKIES === "1";
-  const secureAttr = insecureCookies ? "" : "; Secure";
+  const insecureCookies = env?.INSECURE_COOKIES === '1';
+  const secureAttr = insecureCookies ? '' : '; Secure';
 
   return new Response(
     `
@@ -75,9 +75,9 @@ const outputHTML = (
     `,
     {
       headers: {
-        "Content-Type": "text/html;charset=UTF-8",
+        'Content-Type': 'text/html;charset=UTF-8',
         // Delete CSRF token
-        "Set-Cookie": `csrf-token=deleted; HttpOnly; Max-Age=0; Path=/; SameSite=Lax${secureAttr}`,
+        'Set-Cookie': `csrf-token=deleted; HttpOnly; Max-Age=0; Path=/; SameSite=Lax${secureAttr}`,
       },
     }
   );
@@ -95,18 +95,18 @@ const handleAuth = async (
 ): Promise<Response> => {
   const { url } = request;
   const { origin, searchParams } = new URL(url);
-  const provider = searchParams.get("provider");
-  const domain = searchParams.get("site_id");
+  const provider = searchParams.get('provider');
+  const domain = searchParams.get('site_id');
 
-  const reqProvider: Provider = supportedProviders.includes(provider ?? "")
+  const reqProvider: Provider = supportedProviders.includes(provider ?? '')
     ? (provider as Provider)
-    : "unknown";
+    : 'unknown';
 
   if (!provider || !supportedProviders.includes(provider)) {
     return outputHTML(
       {
-        error: "Your Git backend is not supported by the authenticator.",
-        errorCode: "UNSUPPORTED_BACKEND",
+        error: 'Your Git backend is not supported by the authenticator.',
+        errorCode: 'UNSUPPORTED_BACKEND',
       },
       env
     );
@@ -116,16 +116,16 @@ const handleAuth = async (
     ALLOWED_DOMAINS,
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
-    GITHUB_HOSTNAME = "github.com",
+    GITHUB_HOSTNAME = 'github.com',
     GITLAB_CLIENT_ID,
     GITLAB_CLIENT_SECRET,
-    GITLAB_HOSTNAME = "gitlab.com",
+    GITLAB_HOSTNAME = 'gitlab.com',
     //@ts-expect-error because it's a TODO feature
     _BITBUCKET_CLIENT_ID,
     //@ts-expect-error because it's a TODO feature
     _BITBUCKET_CLIENT_SECRET,
     //@ts-expect-error because it's a TODO feature
-    _BITBUCKET_HOSTNAME = "bitbucket.com",
+    _BITBUCKET_HOSTNAME = 'bitbucket.com',
   } = env;
 
   // Check if the domain is whitelisted
@@ -133,36 +133,36 @@ const handleAuth = async (
     ALLOWED_DOMAINS &&
     !ALLOWED_DOMAINS.split(/,/).some((str) =>
       // Escape the input, then replace a wildcard for regex
-      (domain ?? "").match(
-        new RegExp(`^${escapeRegExp(str.trim()).replace("\\*", ".+")}$`)
+      (domain ?? '').match(
+        new RegExp(`^${escapeRegExp(str.trim()).replace('\\*', '.+')}$`)
       )
     )
   ) {
     return outputHTML(
       {
         provider: reqProvider,
-        error: "Your domain is not allowed to use the authenticator.",
-        errorCode: "UNSUPPORTED_DOMAIN",
+        error: 'Your domain is not allowed to use the authenticator.',
+        errorCode: 'UNSUPPORTED_DOMAIN',
       },
       env
     );
   }
 
   // Generate a random string for CSRF protection
-  const csrfToken = crypto.randomUUID().replaceAll("-", "");
+  const csrfToken = crypto.randomUUID().replaceAll('-', '');
   const cookieProvider = supportedProviders.includes(provider)
     ? provider
-    : "unknown";
-  let authURL = "";
+    : 'unknown';
+  let authURL = '';
 
   // GitHub
-  if (provider === "github") {
+  if (provider === 'github') {
     if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
       return outputHTML(
         {
           provider: reqProvider,
-          error: "OAuth app client ID or secret is not configured.",
-          errorCode: "MISCONFIGURED_CLIENT",
+          error: 'OAuth app client ID or secret is not configured.',
+          errorCode: 'MISCONFIGURED_CLIENT',
         },
         env
       );
@@ -170,7 +170,7 @@ const handleAuth = async (
 
     const params = new URLSearchParams({
       client_id: GITHUB_CLIENT_ID,
-      scope: "repo,user",
+      scope: 'repo,user',
       state: csrfToken,
     });
 
@@ -178,13 +178,13 @@ const handleAuth = async (
   }
 
   // GitLab
-  if (provider === "gitlab") {
+  if (provider === 'gitlab') {
     if (!GITLAB_CLIENT_ID || !GITLAB_CLIENT_SECRET) {
       return outputHTML(
         {
           provider: reqProvider,
-          error: "OAuth app client ID or secret is not configured.",
-          errorCode: "MISCONFIGURED_CLIENT",
+          error: 'OAuth app client ID or secret is not configured.',
+          errorCode: 'MISCONFIGURED_CLIENT',
         },
         env
       );
@@ -193,8 +193,8 @@ const handleAuth = async (
     const params = new URLSearchParams({
       client_id: GITLAB_CLIENT_ID,
       redirect_uri: `${origin}/callback`,
-      response_type: "code",
-      scope: "api",
+      response_type: 'code',
+      scope: 'api',
       state: csrfToken,
     });
 
@@ -202,25 +202,25 @@ const handleAuth = async (
   }
 
   // bitbucket
-  if (provider === "bitbucket") {
+  if (provider === 'bitbucket') {
     return outputHTML(
       {
         provider: reqProvider,
-        error: "Bitbucket OAuth is not yet supported.",
-        errorCode: "UNSUPPORTED_BACKEND",
+        error: 'Bitbucket OAuth is not yet supported.',
+        errorCode: 'UNSUPPORTED_BACKEND',
       },
       env
     );
   }
 
   // Redirect to the authorization server
-  return new Response("", {
+  return new Response('', {
     status: 302,
     headers: {
       Location: authURL,
       // Cookie expires in 10 minutes; Use `SameSite=Lax` to make sure the cookie is sent by the
       // browser after redirect
-      "Set-Cookie":
+      'Set-Cookie':
         `csrf-token=${cookieProvider}_${csrfToken}; ` +
         `HttpOnly; Path=/; Max-Age=600; SameSite=Lax; Secure`,
     },
@@ -239,24 +239,24 @@ const handleCallback = async (
 ): Promise<Response> => {
   const { url, headers } = request;
   const { origin, searchParams } = new URL(url);
-  const code = searchParams.get("code");
-  const state = searchParams.get("state");
+  const code = searchParams.get('code');
+  const state = searchParams.get('state');
 
   const cookieMatch = headers
-    .get("Cookie")
+    .get('Cookie')
     ?.match(/\bcsrf-token=([a-z-]+?)_([0-9a-f]{32})\b/);
   const provider = cookieMatch?.[1];
   const csrfToken = cookieMatch?.[2];
 
-  const cookieProvider: Provider = supportedProviders.includes(provider ?? "")
+  const cookieProvider: Provider = supportedProviders.includes(provider ?? '')
     ? (provider as Provider)
-    : "unknown";
+    : 'unknown';
 
   if (!provider || !supportedProviders.includes(provider)) {
     return outputHTML(
       {
-        error: "Your Git backend is not supported by the authenticator.",
-        errorCode: "UNSUPPORTED_BACKEND",
+        error: 'Your Git backend is not supported by the authenticator.',
+        errorCode: 'UNSUPPORTED_BACKEND',
       },
       env
     );
@@ -267,8 +267,8 @@ const handleCallback = async (
       {
         provider: cookieProvider,
         error:
-          "Failed to receive an authorization code. Please try again later.",
-        errorCode: "AUTH_CODE_REQUEST_FAILED",
+          'Failed to receive an authorization code. Please try again later.',
+        errorCode: 'AUTH_CODE_REQUEST_FAILED',
       },
       env
     );
@@ -278,8 +278,8 @@ const handleCallback = async (
     return outputHTML(
       {
         provider: cookieProvider,
-        error: "Potential CSRF attack detected. Authentication flow aborted.",
-        errorCode: "CSRF_DETECTED",
+        error: 'Potential CSRF attack detected. Authentication flow aborted.',
+        errorCode: 'CSRF_DETECTED',
       },
       env
     );
@@ -288,29 +288,29 @@ const handleCallback = async (
   const {
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
-    GITHUB_HOSTNAME = "github.com",
+    GITHUB_HOSTNAME = 'github.com',
     GITLAB_CLIENT_ID,
     GITLAB_CLIENT_SECRET,
-    GITLAB_HOSTNAME = "gitlab.com",
+    GITLAB_HOSTNAME = 'gitlab.com',
     //@ts-expect-error because it's a TODO feature
     _BITBUCKET_CLIENT_ID,
     //@ts-expect-error because it's a TODO feature
     _BITBUCKET_CLIENT_SECRET,
     //@ts-expect-error because it's a TODO feature
-    _BITBUCKET_HOSTNAME = "bitbucket.com",
+    _BITBUCKET_HOSTNAME = 'bitbucket.com',
   } = env;
 
-  let tokenURL = "";
+  let tokenURL = '';
   let requestBody: Record<string, string> = {};
 
   // GitHub
-  if (provider === "github") {
+  if (provider === 'github') {
     if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
       return outputHTML(
         {
           provider: cookieProvider,
-          error: "OAuth app client ID or secret is not configured.",
-          errorCode: "MISCONFIGURED_CLIENT",
+          error: 'OAuth app client ID or secret is not configured.',
+          errorCode: 'MISCONFIGURED_CLIENT',
         },
         env
       );
@@ -324,13 +324,13 @@ const handleCallback = async (
     };
   }
 
-  if (provider === "gitlab") {
+  if (provider === 'gitlab') {
     if (!GITLAB_CLIENT_ID || !GITLAB_CLIENT_SECRET) {
       return outputHTML(
         {
           provider: cookieProvider,
-          error: "OAuth app client ID or secret is not configured.",
-          errorCode: "MISCONFIGURED_CLIENT",
+          error: 'OAuth app client ID or secret is not configured.',
+          errorCode: 'MISCONFIGURED_CLIENT',
         },
         env
       );
@@ -341,32 +341,32 @@ const handleCallback = async (
       code,
       client_id: GITLAB_CLIENT_ID,
       client_secret: GITLAB_CLIENT_SECRET,
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
       redirect_uri: `${origin}/callback`,
     };
   }
 
-  if (provider === "bitbucket") {
+  if (provider === 'bitbucket') {
     return outputHTML(
       {
         provider: cookieProvider,
-        error: "Bitbucket OAuth is not yet supported.",
-        errorCode: "UNSUPPORTED_BACKEND",
+        error: 'Bitbucket OAuth is not yet supported.',
+        errorCode: 'UNSUPPORTED_BACKEND',
       },
       env
     );
   }
 
   let response: Response | undefined;
-  let token = "";
-  let error = "";
+  let token = '';
+  let error = '';
 
   try {
     response = await fetch(tokenURL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     });
@@ -378,8 +378,8 @@ const handleCallback = async (
     return outputHTML(
       {
         provider: cookieProvider,
-        error: "Failed to request an access token. Please try again later.",
-        errorCode: "TOKEN_REQUEST_FAILED",
+        error: 'Failed to request an access token. Please try again later.',
+        errorCode: 'TOKEN_REQUEST_FAILED',
       },
       env
     );
@@ -390,14 +390,14 @@ const handleCallback = async (
       access_token?: string;
       error?: string;
     };
-    token = data.access_token ?? "";
-    error = data.error ?? "";
+    token = data.access_token ?? '';
+    error = data.error ?? '';
   } catch {
     return outputHTML(
       {
         provider: cookieProvider,
-        error: "Server responded with malformed data. Please try again later.",
-        errorCode: "MALFORMED_RESPONSE",
+        error: 'Server responded with malformed data. Please try again later.',
+        errorCode: 'MALFORMED_RESPONSE',
       },
       env
     );
@@ -421,19 +421,19 @@ export default {
     const { pathname } = new URL(url);
 
     if (
-      method === "GET" &&
-      ["/auth", "/oauth/authorize", "/oauth/auth"].includes(pathname)
+      method === 'GET' &&
+      ['/auth', '/oauth/authorize', '/oauth/auth'].includes(pathname)
     ) {
       return handleAuth(request, env);
     }
 
     if (
-      method === "GET" &&
-      ["/callback", "/oauth/redirect"].includes(pathname)
+      method === 'GET' &&
+      ['/callback', '/oauth/redirect'].includes(pathname)
     ) {
       return handleCallback(request, env);
     }
 
-    return new Response("", { status: 404 });
+    return new Response('', { status: 404 });
   },
 };
