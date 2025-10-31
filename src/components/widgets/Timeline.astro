@@ -39,7 +39,7 @@ const items: TimelineItem[] = [
 <BackgroundOverlay image={fabricaPng} opacity={90} class="min-h-[250px]">
   <div class="h-full w-full">
     <h3 class="text-center text-white uppercase">Linha do Tempo</h3>
-    <section class="max-h-[260px]as flex min-h-[168px] w-full py-6">
+    <section class="flex max-h-[260px] min-h-[168px] w-full py-6">
       <ChronoTimelapse client:only="react" steps={items} />
     </section>
   </div>

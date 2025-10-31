@@ -40,24 +40,24 @@ const overlayStyle = color
 const overlayBgClass = !color ? 'bg-caju-heading-primary' : '';
 ---
 
-<div class={twMerge('relative overflow-hidden', className)}>
+<div class={twMerge('relative overflow-hidden w-full h-full', className)}>
   <!-- Imagem de fundo -->
   {
     image && (
-      <div class="absolute inset-0">
+      <div class="absolute inset-0 -z-10 h-full w-full">
         {typeof image === 'string' ? (
           <img
             src={image}
             alt="Background"
-            class="h-full w-full object-cover"
+            class="h-full min-h-full w-full object-cover"
+            style="display: block;"
           />
         ) : (
           <Image
             src={image}
             alt="Background"
-            class="h-full w-full object-cover"
-            widths={[400, 768, 1024]}
-            sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, 1024px"
+            class="h-full min-h-full w-full object-cover"
+            style="display: block;"
           />
         )}
       </div>
@@ -66,13 +66,22 @@ const overlayBgClass = !color ? 'bg-caju-heading-primary' : '';
 
   <!-- Overlay de cor -->
   <div
-    class={twMerge('absolute inset-0', overlayBgClass, blendModeClass)}
+    class={twMerge(
+      'absolute inset-0 w-full h-full',
+      overlayBgClass,
+      blendModeClass
+    )}
     style={overlayStyle}
   >
   </div>
 
   <!-- Conteúdo -->
-  <div class={twMerge('relative z-100 w-full h-full flex justify-center items-center py-4', contentClass)}>
+  <div
+    class={twMerge(
+      'relative z-10 w-full h-full flex justify-center items-center py-4',
+      contentClass
+    )}
+  >
     <slot />
   </div>
 </div>

@@ -14,6 +14,7 @@ import fabricaPng from '@/assets/images/about/fabrica.png';
 import businessPng from '@/assets/images/about/business.png';
 import mapaCeara from '@/assets/images/about/mapaCeara.png';
 import Image from '@/components/common/Image.astro';
+import SocialReponsability from '@/components/widgets/SocialReponsability.astro';
 
 const metadata = {
   title: 'Sobre nós',
@@ -27,6 +28,7 @@ const metadata = {
       src: fabricaPng,
       alt: 'Fábrica São Geraldo',
       fullSize: true,
+      class: 'w-[391px] h-[110px]',
     }}
   >
     <Fragment slot="subtitle">
@@ -52,7 +54,7 @@ const metadata = {
   </iframe>
 
   <SwiperLayout>
-    <AboutPhotoGallery client:load />
+    <AboutPhotoGallery client:only="react" />
   </SwiperLayout>
 
   <Presentation
@@ -76,7 +78,7 @@ const metadata = {
             <Image
               alt="Mapa Ceará"
               src={mapaCeara}
-              class="absolute inset-0 z-50 h-full w-full"
+              class="absolute inset-0 h-full w-full"
             />
           </div>
         </div>
@@ -150,6 +152,8 @@ const metadata = {
       </section>
     </Fragment>
   </Presentation>
+
+  <SocialReponsability />
 
   <!-- Stats Widget ****************** -->
   <!-- <Stats
