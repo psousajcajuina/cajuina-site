@@ -4,13 +4,23 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "astro": "astro",
+    "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
+    "check:astro": "astro check",
+    "check:eslint": "eslint .",
+    "check:prettier": "prettier --check .",
+    "fix": "npm run fix:eslint && npm run fix:prettier",
+    "fix:eslint": "eslint --fix .",
+    "fix:prettier": "prettier -w .",
     "lint": "eslint \"{src,api,}/**/*.ts\" --fix",
-    "astro": "astro"
+    "knip": "knip --cache --no-exit-code --fix --fix-types dependencies"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.8",
+    "@astrojs/node": "^9.5.0",
     "@astrojs/react": "^4.4.1",
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
@@ -34,7 +44,6 @@
     "react-dom": "^19.2.0",
     "svelte": "^5.43.0",
     "swiper": "^12.0.3",
-    "typescript": "^5.9.3",
     "unpic": "^4.1.3"
   },
   "devDependencies": {
@@ -51,17 +60,21 @@
     "@types/leaflet": "^1.9.21",
     "@types/lodash.merge": "^4.6.9",
     "@types/mdx": "^2.0.13",
+    "@types/node": "^24.9.2",
     "astro-compress": "^2.3.8",
     "astro-eslint-parser": "^1.2.2",
     "eslint": "^9.38.0",
     "eslint-plugin-astro": "^1.4.0",
     "js-yaml": "^4.1.0",
+    "knip": "^5.66.4",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "^3.6.2",
     "reading-time": "^1.5.0",
     "sharp": "^0.34.4",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "4.1.16",
+    "typescript": "^5.9.3",
+    "typography:^0.5.19": "link:@tailwindcss/typography:^0.5.19",
     "unist-util-visit": "^5.0.0"
   }
 }
