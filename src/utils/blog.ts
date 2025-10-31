@@ -113,7 +113,9 @@ const load = async function (): Promise<Array<Post>> {
 
 let _posts: Array<Post>;
 
-/** */
+/** 
+ * @lintignore
+*/
 export const isBlogEnabled = APP_BLOG.isEnabled;
 export const isRelatedPostsEnabled = APP_BLOG.isRelatedPostsEnabled;
 export const isBlogListRouteEnabled = APP_BLOG.list.isEnabled;

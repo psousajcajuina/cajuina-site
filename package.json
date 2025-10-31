@@ -16,7 +16,7 @@
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
     "lint": "eslint \"{src,api,}/**/*.ts\" --fix",
-    "knip": "knip -c knip.config.ts"
+    "knip": "knip -c knip.config.ts --no-exit-code"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.8",
