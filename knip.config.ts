@@ -5,6 +5,7 @@ const config: KnipConfig = {
   tags: ['-@lintignore', '-@internal'],
   rules: {
     dependencies: 'off',
+    unlisted: 'warn',
   },
   paths: {
     '@': ['./src/*'],

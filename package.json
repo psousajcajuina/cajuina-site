@@ -16,7 +16,8 @@
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
     "lint": "eslint \"{src,api,}/**/*.ts\" --fix",
-    "knip": "knip -c knip.config.ts --no-exit-code"
+    "knip": "knip -c knip.config.ts --no-exit-code",
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.8",
@@ -65,6 +66,7 @@
     "astro-eslint-parser": "^1.2.2",
     "eslint": "^9.38.0",
     "eslint-plugin-astro": "^1.4.0",
+    "husky": "^9.1.7",
     "js-yaml": "^4.1.0",
     "knip": "^5.66.4",
     "mdast-util-to-string": "^4.0.0",
