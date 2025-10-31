@@ -2,7 +2,8 @@
 import Image from '@/components/common/Image.astro';
 import Button from '@/components/ui/Button.astro';
 
-import type { Hero as Props } from '@/types';
+import type { Hero } from '@/types';
+import { twMerge } from 'tailwind-merge';
 
 const {
   title = await Astro.slots.render('title'),
@@ -13,8 +14,9 @@ const {
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
 
+  wrapperClass,
   id,
-} = Astro.props;
+} = Astro.props as Hero;
 ---
 
 <section class="not-prose relative md:-mt-[76px]" {...id ? { id } : {}}>
@@ -22,7 +24,7 @@ const {
     <!-- Separador -->
     <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
     <!-- Conteúdo Wrapper -->
-    <div class="pt-12 md:pt-20">
+    <div class={twMerge('pt-12 md:pt-20', wrapperClass)}>
       <!-- Imagem -->
       <div
         class="intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0"
@@ -39,13 +41,16 @@ const {
                 <Fragment set:html={image} />
               ) : (
                 <Image
-                  class="mx-auto w-full rounded-md"
                   widths={[400, 768, 1024, 2040]}
                   sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
                   loading="eager"
                   width={1024}
                   height={576}
                   {...image}
+                  class={twMerge(
+                    'mx-auto w-full rounded-md',
+                    image.class ?? ''
+                  )}
                 />
               )}
             </div>
