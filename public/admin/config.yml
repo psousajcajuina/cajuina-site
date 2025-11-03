@@ -65,6 +65,20 @@ collections:
       - { name: publishDate, label: "Data de Publicação", widget: datetime, required: false, hint: "Banner só será exibido a partir desta data" }
       - { name: expireDate, label: "Data de Expiração", widget: datetime, required: false, hint: "Banner será ocultado após esta data" }
   
+  - name: middle-banner
+    icon: image
+    label: Banner do Meio
+    folder: src/data/middle-banner
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { name: title, label: Título, widget: string }
+      - { name: image, label: "Imagem Desktop", widget: image, required: true }
+      - { name: imageMobile, label: "Imagem Mobile", widget: image, required: false }
+      - { name: active, label: Ativo, widget: boolean, default: true }
+
   - divider: true
 
   - name: config

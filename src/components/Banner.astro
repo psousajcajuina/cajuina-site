@@ -1,12 +1,32 @@
 ---
-import { findImage } from '@/utils/images';
+import { getCollection } from 'astro:content';
 import Image from './common/Image.astro';
 
-import bannerMobile from '@/assets/images/mobile/banner.png';
-import banner from '@/assets/images/home/banner02.png';
+// Busca o banner ativo da coleção middleBanner
+const middleBanners = await getCollection('middleBanner', ({ data }) => data.active);
+const bannerData = middleBanners[0]?.data;
 
-const { image } = Astro.props;
-const imageBanner = await findImage(bannerMobile);
+// Define qual imagem usar baseado no viewport
+const isMobile = false; // Você pode ajustar isso conforme necessário
+const bannerImage = bannerData?.imageMobile || bannerData?.image;
 ---
 
-<Image src={imageBanner} alt="Banner" />
+{bannerImage && (
+  <>
+    <!-- Mobile -->
+    <div class="md:hidden">
+      <Image 
+        src={bannerData.imageMobile || bannerData.image} 
+        alt={bannerData.title} 
+      />
+    </div>
+    
+    <!-- Desktop -->
+    <div class="hidden md:block">
+      <Image 
+        src={bannerData.image} 
+        alt={bannerData.title} 
+      />
+    </div>
+  </>
+)}
