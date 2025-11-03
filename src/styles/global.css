@@ -59,6 +59,11 @@ a {
   @apply text-white;
   text-decoration: none;
 }
+
+h4{
+  @apply md:text-2xl;
+}
+
 @media (max-width: 720px) {
   body {
     font-size: 14px;

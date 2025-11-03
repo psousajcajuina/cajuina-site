@@ -20,6 +20,26 @@
   }
 }
 
+
+@utility b-black {
+  @apply border border-black;
+}
+@utility b-yellow {
+  @apply border border-yellow-400;
+}
+@utility b-red {
+  @apply border border-red-400;
+}
+@utility b-blue {
+  @apply border border-blue-400;
+}
+@utility b-orange {
+  @apply border border-orange-400;
+}
+@utility b-green {
+  @apply border border-green-400;
+}
+
 @utility font-inter {
   @apply font-['Inter'] font-normal;
 }
@@ -28,7 +48,7 @@
   @apply rounded-md px-4 py-1 font-['Roboto'] text-xxs transition-colors duration-200;
   @apply shadow-sm hover:shadow-md;
   @apply min-w-[82px] min-h-[29px] mt-3;
-  @apply uppercase;
+  @apply uppercase cursor-pointer;
   @apply text-white! font-medium! font-inter!;
 }
 
@@ -40,6 +60,10 @@
 /* Botão amarelo */
 @utility btn-yellow {
   @apply button bg-caju-warning-primary text-white hover:bg-caju-warning-hover;
+}
+
+@utility btn-outlined {
+  @apply button bg-transparent border border-caju-heading-yellow
 }
 
 @utility bg-page {
