@@ -141,5 +141,17 @@ const banner = defineCollection({
     }),
 });
 
+// --- MIDDLE BANNER ---
+const middleBanner = defineCollection({
+  loader: glob({ base: './src/data/middle-banner', pattern: '**/*.{md,mdx}' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      image: image(),
+      imageMobile: image().optional(),
+      active: z.boolean().default(true),
+    }),
+});
+
 // --- EXPORT COLLECTIONS ---
-export const collections = { post, product, tag, banner };
+export const collections = { post, product, tag, banner, middleBanner };
