@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import type { ProductItem } from '@/types';
 
@@ -16,100 +16,162 @@ export default function ProductCarousel({ products }: Props) {
 
   const handleProductClick = (product: ProductItem) => {
     setSelectedProduct(product);
-    // Pause autoplay when a product is selected
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.stop();
     }
   };
 
-  const handleProductHover = (product: ProductItem) => {
-    setSelectedProduct(product);
-  };
-
-  const handleMouseLeave = () => {
-    // Resume autoplay when mouse leaves
+  const handleCloseDetails = () => {
+    setSelectedProduct(null);
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.start();
     }
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-evenly overflow-hidden">
-      <h4 className="text-caju-heading-primary mb-6 uppercase">Nossos Produtos</h4>
+    <div className="flex w-full flex-col items-center gap-8 overflow-hidden py-8">
+      <h4 className="text-caju-heading-primary uppercase">Nossos Produtos</h4>
 
-      <div className="w-full">
+      <div className="relative w-full">
         <Swiper
-          modules={[Autoplay, FreeMode]}
-          spaceBetween={12}
-          slidesPerView="auto"
+          modules={[Autoplay]}
+          spaceBetween={30}
+          slidesPerView={3}
           loop={true}
-          speed={3000}
+          speed={800}
           autoplay={{
-            delay: 0,
+            delay: 3000,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
           }}
-          freeMode={{
-            enabled: true,
-            momentum: false,
+          breakpoints={{
+            320: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 35,
+            },
+            1280: {
+              slidesPerView: 6,
+              spaceBetween: 40,
+            },
           }}
           onSwiper={setSwiperInstance}
-          className="product-carousel"
-          onMouseLeave={handleMouseLeave}
+          className="w-full [&_.swiper-wrapper]:items-end"
         >
-          {products.map((product, index) => (
+          {products.map((product) => (
             <SwiperSlide
-              key={`${product.id}-${index}`}
-              style={{ width: 'auto' }}
-              className="flex items-end"
+              key={product.id}
+              className="flex! items-end! justify-center!"
             >
               <div
-                className="product-item relative cursor-pointer transition-transform hover:scale-110"
-                style={{
-                  width: `${product.sizes.width}px`,
-                  height: `${product.sizes.height}px`,
-                }}
+                className="group relative cursor-pointer transition-transform duration-300 hover:scale-105"
                 onClick={() => handleProductClick(product)}
-                onMouseEnter={() => handleProductHover(product)}
               >
+                {/* Mobile - usa sizes padrão com tamanho exato */}
                 <img
                   src={product.normal.src}
+                  alt={product.details?.name || 'produto'}
                   width={product.sizes.width}
                   height={product.sizes.height}
-                  alt={product.alt || 'produto'}
-                  className="absolute inset-0 h-full w-full object-contain transition-opacity duration-500"
+                  style={{
+                    width: `${product.sizes.width}px`,
+                    height: `${product.sizes.height}px`,
+                  }}
+                  className="object-contain transition-opacity duration-300 group-hover:opacity-0 md:hidden"
                 />
                 <img
                   src={product.hover.src}
+                  alt={product.details?.name || 'produto hover'}
                   width={product.sizes.width}
                   height={product.sizes.height}
-                  alt={product.alt || "produto"}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-500"
+                  style={{
+                    width: `${product.sizes.width}px`,
+                    height: `${product.sizes.height}px`,
+                  }}
+                  className="absolute inset-0 object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:hidden"
+                />
+
+                {/* Desktop (md+) - usa sizesMd se disponível */}
+                <img
+                  src={product.normal.src}
+                  alt={product.details?.name || 'produto'}
+                  width={product.sizesMd?.width || product.sizes.width}
+                  height={product.sizesMd?.height || product.sizes.height}
+                  style={{
+                    width: `${product.sizesMd?.width || product.sizes.width}px`,
+                    height: `${product.sizesMd?.height || product.sizes.height}px`,
+                  }}
+                  className="hidden object-contain transition-opacity duration-300 group-hover:opacity-0 md:block"
+                />
+                <img
+                  src={product.hover.src}
+                  alt={product.details?.name || 'produto hover'}
+                  width={product.sizesMd?.width || product.sizes.width}
+                  height={product.sizesMd?.height || product.sizes.height}
+                  style={{
+                    width: `${product.sizesMd?.width || product.sizes.width}px`,
+                    height: `${product.sizesMd?.height || product.sizes.height}px`,
+                  }}
+                  className="absolute inset-0 hidden object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block"
                 />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
 
-        {/* Product Details - Hidden on mobile, visible on md and above */}
+        {/* Botão de fechar discreto */}
         {selectedProduct && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 mt-8 hidden px-4 duration-500 md:block">
-            <div className="mx-auto max-w-6xl rounded-lg bg-white p-6 shadow-lg">
-              <div className="grid items-start gap-8 md:grid-cols-2">
-                {/* Product Image */}
-                <div className="flex items-center justify-center">
-                  <img
-                    src={selectedProduct.hover || '/placeholder.svg'}
-                    alt={selectedProduct.alt || 'Produto '}
-                    className="max-h-96 object-contain"
-                  />
-                </div>
+          <button
+            onClick={handleCloseDetails}
+            className="absolute top-2 right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/70 text-white shadow-lg transition-all duration-300 hover:scale-110 hover:bg-gray-900"
+            aria-label="Fechar detalhes"
+          >
+            <span className="text-lg leading-none font-bold">×</span>
+          </button>
+        )}
+      </div>
 
+      {selectedProduct?.details && (
+        <div className="animate-in fade-in slide-in-from-bottom-2 w-full px-4 duration-500">
+          <div className="relative mx-auto max-w-6xl rounded-lg bg-white p-8 shadow-xl">
+            {/* Botão fechar no painel */}
+            <button
+              onClick={handleCloseDetails}
+              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-all duration-200 hover:bg-gray-300 hover:text-gray-800"
+              aria-label="Fechar detalhes"
+            >
+              <span className="text-xl leading-none font-bold">×</span>
+            </button>
+
+            <h5 className="mb-6 text-center text-3xl font-bold text-gray-800">
+              {selectedProduct.details.name}
+            </h5>
+
+            <div className="grid gap-10 md:grid-cols-2">
+              <div className="flex items-center justify-center">
+                <img
+                  src={selectedProduct.details.image.src}
+                  alt={selectedProduct.details.name}
+                  className="h-auto max-h-[500px] w-full object-contain"
+                />
+              </div>
+
+              <div className="flex flex-col items-center justify-center">
+                <h6 className="mb-6 text-xl font-semibold text-gray-700">
+                  Informações Nutricionais
+                </h6>
+                <img
+                  src={selectedProduct.details.nutritionalInfo.src}
+                  alt="Informações Nutricionais"
+                  className="h-auto w-full max-w-lg rounded-lg object-contain shadow-md"
+                />
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
