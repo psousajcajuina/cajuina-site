@@ -1,17 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
-import type { CallToAction as Props } from '@/types';
-
-export interface CallToAction {
-  variant?: 'green' | 'yellow' | 'link';
-  target?: string;
-  text?: string;
-  icon?: string;
-  class?: string;
-  type?: 'button' | 'submit' | 'reset';
-  [key: string]: any;
-}
+import type { CallToAction, CallToAction as Props } from '@/types';
 
 const {
   variant = 'green',
@@ -26,7 +16,7 @@ const {
 const variants = {
   green: 'btn-green',
   yellow: 'btn-yellow',
-  link: 'cursor-pointer hover:text-primary',
+  outlined: 'btn-outlined',
 };
 ---
 

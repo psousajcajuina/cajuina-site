@@ -22,37 +22,82 @@ import ref350mlZeroHover from '@/assets/images/home/produtos/350ml-zero-hover.pn
 import ref200mlPetLaranjaHover from '@/assets/images/home/produtos/200ml-pet-LARANJA-hover.png';
 import ref350LaranjaHover from '@/assets/images/home/produtos/350ml-laranja-hover.png';
 import ref1LaranjaHover from '@/assets/images/home/produtos/1L-LARANJA-hover.png';
+import ProductCarousel from './react/ProductsCarrousel';
 
-const itemsRaw = [
-  { normal: ref200ml, hover: ref200mlHover, sizes: { width: 78, height: 91 } },
-  { normal: ref600ml, hover: ref600mlHover, sizes: { width: 78, height: 112 } },
+import details200ml from '@/assets/images/home/produtos/nutricional-details/nutricional200ml.png';
+import type { ProductItem } from '@/types';
+import SwiperLayout from './ui/SwiperLayout.astro';
+
+const itemsRaw: ProductItem[] = [
   {
+    id: 1,
+    normal: ref200ml,
+    hover: ref200mlHover,
+    sizes: { width: 78, height: 91 },
+    details: details200ml,
+  },
+  {
+    id: 2,
+    normal: ref600ml,
+    hover: ref600mlHover,
+    sizes: { width: 78, height: 112 },
+    details: details200ml,
+  },
+  {
+    id: 3,
     normal: ref200mlPet,
     hover: ref200mlPetHover,
     sizes: { width: 78, height: 87 },
+    details: details200ml,
   },
-  { normal: ref350ml, hover: ref350mlHover, sizes: { width: 78, height: 82 } },
-  { normal: ref1L, hover: ref1LHover, sizes: { width: 78, height: 105 } },
-  { normal: ref2L, hover: ref2LHover, sizes: { width: 78, height: 128 } },
   {
+    id: 4,
+    normal: ref350ml,
+    hover: ref350mlHover,
+    sizes: { width: 78, height: 82 },
+    details: details200ml,
+  },
+  {
+    id: 5,
+    normal: ref1L,
+    hover: ref1LHover,
+    sizes: { width: 78, height: 105 },
+    details: details200ml,
+  },
+  {
+    id: 6,
+    normal: ref2L,
+    hover: ref2LHover,
+    sizes: { width: 78, height: 128 },
+    details: details200ml,
+  },
+  {
+    id: 7,
     normal: ref350mlZero,
     hover: ref350mlZeroHover,
     sizes: { width: 78, height: 81 },
+    details: details200ml,
   },
   {
+    id: 8,
     normal: ref200mlPetLaranja,
     hover: ref200mlPetLaranjaHover,
     sizes: { width: 78, height: 91 },
+    details: details200ml,
   },
   {
+    id: 9,
     normal: ref350Laranja,
     hover: ref350LaranjaHover,
     sizes: { width: 78, height: 93 },
+    details: details200ml,
   },
   {
+    id: 10,
     normal: ref1Laranja,
     hover: ref1LaranjaHover,
     sizes: { width: 78, height: 108 },
+    details: details200ml,
   },
 ];
 ---
@@ -60,10 +105,16 @@ const itemsRaw = [
 <div
   class="flex h-52 w-full flex-col items-center justify-evenly overflow-hidden"
 >
-  <h4 class="text-caju-heading-primary">NOSSOS PRODUTOS</h4>
+  <!-- <SwiperLayout>
+    <ProductCarousel client:only="react" products={itemsRaw} />
+  </SwiperLayout> -->
 
+  <h4 class="text-caju-heading-primary">NOSSOS PRODUTOS</h4>
   <div class="relative w-full overflow-hidden">
-    <div id="carousel" class="flex items-end gap-3 select-none">
+    <div
+      id="carousel"
+      class="flex items-end gap-3 transition-transform duration-100 will-change-transform select-none"
+    >
       {
         itemsRaw.concat(itemsRaw).map(({ normal, hover, sizes }) => (
           <div
@@ -109,17 +160,12 @@ const itemsRaw = [
 </script>
 
 <style>
+  /* Efeito hover nas imagens - não é possível fazer isso apenas com Tailwind */
   .product-item:hover :global(img:first-child) {
     opacity: 0;
   }
   .product-item:hover :global(img:last-child) {
     opacity: 1;
     pointer-events: none;
-  }
-
-  #carousel {
-    will-change: transform;
-    transition: transform 0.1s linear;
-    user-select: none;
   }
 </style>

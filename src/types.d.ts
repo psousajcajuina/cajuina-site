@@ -55,6 +55,15 @@ export interface Distribuidor {
   lng: number;
 }
 
+export interface ProductItem {
+  id: string | number;
+  normal: string | ImageMetadata;
+  hover: string | ImageMetadata;
+  alt?: string;
+  sizes: { width: number; height: number };
+  details: string | ImageMetadata;
+}
+
 export interface Taxonomy {
   slug: string;
   title: string;
@@ -193,11 +202,14 @@ export interface Disclaimer {
 
 // COMPONENTS
 export interface CallToAction extends Omit<HTMLAttributes<'a'>, 'slot'> {
-  variant?: 'green' | 'yellow' | 'link';
+  variant?: 'green' | 'yellow' | 'outlined';
+  target?: string;
   text?: string;
   icon?: string;
+  class?: string;
   classes?: Record<string, string>;
   type?: 'button' | 'submit' | 'reset';
+  [key: string]: any;
 }
 
 export interface ItemGrid {

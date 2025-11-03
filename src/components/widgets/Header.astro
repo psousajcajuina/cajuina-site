@@ -26,11 +26,6 @@ export interface Props {
   actions?: Array<CallToAction>;
   isSticky?: boolean;
   isFixed?: boolean;
-  isDark?: boolean;
-  isFullWidth?: boolean;
-  showToggleTheme?: boolean;
-  showRssFeed?: boolean;
-  position?: string;
 }
 
 const {
@@ -39,74 +34,65 @@ const {
   actions = [],
   isSticky = false,
   isFixed = true,
-  isDark = false,
-  isFullWidth = false,
-  showToggleTheme = false,
-  showRssFeed = false,
-  position = 'center',
 } = Astro.props;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 ---
 
+<!-- HEADER PRINCIPAL - Container do topo da página -->
 <header
   class:list={[
     {
       sticky: isSticky && !isFixed,
       fixed: isFixed && !isSticky,
       relative: !isSticky && !isFixed,
-      dark: isDark,
     },
     'top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 bg-none transition-opacity ease-in-out',
+    'lg:px-5',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
 >
+  <!-- Gradiente de fundo verde -->
   <div
     class="from-brand-green via-brand-green/98 pointer-events-none absolute inset-0 h-full bg-linear-to-b from-0% via-70% to-transparent"
   >
   </div>
+
+  <!-- CONTAINER PRINCIPAL - Organiza todo o conteúdo do header -->
   <div
     class:list={[
       'text-default relative mx-auto w-full px-3 py-3 md:px-6',
-      {
-        'md:flex md:justify-between': position !== 'center',
-      },
-      {
-        'md:grid md:grid-cols-3 md:items-center': position === 'center',
-      },
-      {
-        'max-w-7xl': !isFullWidth,
-      },
+      'md:flex md:justify-between',
     ]}
   >
-    <!-- Logo e Menu -->
-    <div
-      class:list={[
-        { 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' },
-        'flex justify-between',
-      ]}
-    >
-      <a class="flex items-center" href={getHomePermalink()}>
+    <!-- SEÇÃO 1 MOBILE: Logo + Botão Menu Mobile (esquerda) -->
+    <!--  -->
+    <div class:list={['flex justify-between']}>
+      <!-- Logo clicável que leva pra home -->
+      <a class="flex w-fit items-center" href={getHomePermalink()}>
         <Logo />
       </a>
+
+      <!-- Botão hamburguer (só aparece no mobile) -->
       <div class="flex items-center md:hidden">
         <ToggleMenu />
       </div>
     </div>
-    <!-- Menu Principal (Acho que Desktop) -->
-    <nav
-      class="text-default hidden w-full items-center overflow-x-hidden overflow-y-auto md:mx-5 md:flex md:w-auto md:justify-self-center md:overflow-x-auto md:overflow-y-visible"
-      aria-label="Main navigation"
-    >
+
+    <!-- SEÇÃO 2: Menu de Navegação (centro) - Escondido no mobile -->
+    <nav class="w-auto gap-3 md:flex" aria-label="Navegação Principal">
+      <!-- Lista de itens do menu -->
       <ul
         class="flex w-full flex-col text-xl font-medium tracking-[0.01rem] md:w-auto md:flex-row md:justify-center md:self-center md:text-[0.9375rem]"
       >
         {
           links.map(({ text, href, links }) => (
             <li class={links?.length ? 'dropdown' : ''}>
+              {/* Se o link tem sub-links, cria um dropdown */}
               {links?.length ? (
                 <>
+                  {/* Botão do dropdown */}
                   <button
                     type="button"
                     class="hover:text-link flex items-center px-4 py-3 whitespace-nowrap dark:hover:text-white"
@@ -117,6 +103,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                       class="ml-0.5 hidden h-3.5 w-3.5 md:inline rtl:mr-0.5 rtl:ml-0"
                     />
                   </button>
+
+                  {/* Submenu que aparece ao clicar/hover */}
                   <ul class="dropdown-menu dark:md:bg-dark rounded pl-4 font-medium drop-shadow-xl md:absolute md:hidden md:min-w-[200px] md:bg-white/90 md:pl-0 md:backdrop-blur-md">
                     {links.map(({ text: text2, href: href2 }) => (
                       <li>
@@ -134,6 +122,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                   </ul>
                 </>
               ) : (
+                /* Se não tem sub-links, cria um link simples */
                 <a
                   class:list={[
                     'hover:text-link flex items-center px-4 py-3 whitespace-nowrap dark:hover:text-white',
@@ -148,48 +137,23 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           ))
         }
       </ul>
-    </nav>
-    <!-- Toggle theme -->
-    <div
-      class:list={[
-        { 'ml-auto rtl:mr-auto rtl:ml-0': position === 'left' },
-        'fixed bottom-0 left-0 hidden w-full items-center justify-end p-3 md:static md:mb-0 md:flex md:w-auto md:self-center md:justify-self-end md:p-0 rtl:right-0 rtl:left-auto',
-      ]}
-    >
-      <div class="flex w-full items-center justify-between md:w-auto">
-        <div class="flex">
-          {
-            showToggleTheme && (
-              <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />
-            )
-          }
-          {
-            showRssFeed && (
-              <a
-                class="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                aria-label="RSS Feed"
-                href={getAsset('/rss.xml')}
-              >
-                <Icon name="tabler:rss" class="h-5 w-5" />
-              </a>
-            )
-          }
-        </div>
+      <!-- Ações -->
+      <div class="flex items-center">
         {
           actions?.length ? (
-            <span class="ml-4 rtl:mr-4 rtl:ml-0">
+            <div class="flex items-center justify-between gap-5">
               {actions.map((btnProps) => (
                 <Button
                   {...btnProps}
-                  class="ml-2 w-auto px-5.5 py-2.5 text-sm font-semibold shadow-none md:px-6"
+                  class="mt-0! max-h-[52px] max-w-[206px] py-2 text-sm font-semibold normal-case md:px-2 lg:px-3"
                 />
               ))}
-            </span>
+            </div>
           ) : (
             ''
           )
         }
       </div>
-    </div>
+    </nav>
   </div>
 </header>

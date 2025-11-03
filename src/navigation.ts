@@ -1,3 +1,4 @@
+import type { CallToAction } from './types';
 import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
@@ -26,10 +27,17 @@ export const headerData = {
   actions: [
     {
       text: 'Trabalhe Conosco',
+      variant: 'outlined',
       href: '#',
       target: '_blank',
     },
-  ],
+    {
+      text: 'Seja um distribuidor',
+      variant: 'yellow',
+      href: '#',
+      target: '_blank',
+    },
+  ] as CallToAction[],
 };
 
 export const footerData = {
