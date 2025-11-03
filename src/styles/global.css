@@ -61,7 +61,7 @@ a {
 }
 
 h4{
-  @apply md:text-2xl;
+  @apply text-xl md:text-2xl;
 }
 
 @media (max-width: 720px) {

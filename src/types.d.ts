@@ -61,7 +61,12 @@ export interface ProductItem {
   hover: string | ImageMetadata;
   alt?: string;
   sizes: { width: number; height: number };
-  details: string | ImageMetadata;
+  sizesMd?: { width: number; height: number }; // Tamanhos para tela md (768px+)
+  details?: {
+    name: string;
+    image: string | ImageMetadata;
+    nutritionalInfo: string | ImageMetadata;
+  };
 }
 
 export interface Taxonomy {
