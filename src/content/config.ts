@@ -83,11 +83,24 @@ const product = defineCollection({
   loader: glob({ base: './src/data/product', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) =>
     z.object({
-      layout: z.literal('products').optional(),
+      id: z.number(),
       title: z.string(),
       slug: z.string(),
-      image: image(),
-      description: z.string().optional(),
+      normalImage: image(),
+      hoverImage: image(),
+      sizes: z.object({
+        width: z.number(),
+        height: z.number(),
+      }),
+      sizesMd: z.object({
+        width: z.number(),
+        height: z.number(),
+      }),
+      details: z.object({
+        name: z.string(),
+        image: image(),
+        nutritionalInfo: image(),
+      }),
     }),
 });
 
