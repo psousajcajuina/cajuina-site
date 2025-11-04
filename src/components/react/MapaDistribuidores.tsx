@@ -73,22 +73,30 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
 
   return (
     <section className="min-h-[521px] w-full px-4 lg:px-12">
-      <div className="mt-8 mb-4">
+      <div className="mt-8 mb-4 lg:hidden">
         <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
           NOS ENCONTRE PERTO DE VOCÊ
         </h4>
       </div>
 
-      <div className="flex flex-col gap-6 lg:flex-row-reverse lg:gap-8">
+      <div className="flex flex-col items-center gap-6 lg:flex-row-reverse lg:gap-8">
         {/* Mapa */}
         <div
           ref={mapRef}
-          className="z-0 h-[237px] w-full rounded-lg md:min-h-[500px] lg:min-h-[600px] lg:flex-2"
+          className="z-0 h-[237px] w-full rounded-xl md:min-h-[500px] lg:ml-32 lg:min-h-[600px] lg:flex-2"
         />
 
         {/* Conteúdo */}
-        <div className="max-w-[540px] lg:flex-1">
-          <div className="flex flex-col gap-4">
+        <div className="w-full lg:flex lg:flex-2 lg:items-center lg:justify-center">
+          <div className="flex w-full max-w-[500px] flex-col gap-4">
+            <div className="mt-8 hidden lg:block">
+              <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
+                NOS ENCONTRE
+                <br />
+                PERTO DE VOCÊ
+              </h4>
+            </div>
+            {/*  */}
             <div className="flex justify-start p-0">
               <div className="w-full">
                 <div className="relative">
@@ -98,7 +106,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="Digite sua localização"
-                    className="text-md focus:caret-caju-success-hover w-full rounded-full bg-[#ECE6F0] px-12 py-4 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none"
+                    className="text-md focus:caret-caju-success-hover h-[45px] w-full rounded-full bg-[#ECE6F0] px-12 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none lg:h-[60px]"
                   />
                   <svg
                     className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
