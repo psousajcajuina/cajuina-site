@@ -1,21 +1,40 @@
 ---
-import teamImage from '@/assets/images/mobile/IMG_9774.png';
 import Image from './common/Image.astro';
 import Button from './ui/Button.astro';
+import teamImageDesktop from '@/assets/images/home/team.png';
+import teamImage from '@/assets/images/mobile/IMG_9774.png';
 ---
 
-<div class="bg-caju-heading-primary my-12 h-fit min-h-[290px]">
-  <Image src={teamImage} class="h-[147px] w-full" alt="Faça parte do time" />
-  <div class="bg-caju-heading-yellow h-2 w-full"></div>
-  <div class="my-3 text-center text-white *:mx-auto">
-    <h4 class="text-caju-heading-yellow scale-85 uppercase">
+<div
+  class="bg-caju-heading-primary relative my-12 h-fit max-h-[720px] min-h-[290px]"
+>
+  <Image
+    src={teamImageDesktop}
+    class="absolute inset-0 hidden h-full w-full lg:block"
+    alt="Faça parte do time"
+  />
+  <Image
+    src={teamImage}
+    class="h-[147px] w-full lg:hidden"
+    alt="Faça parte do time"
+  />
+  <!-- <div class="bg-caju-heading-yellow h-2 w-full"></div> -->
+  <div
+    class="relative z-10 my-3 flex flex-col items-center gap-4 text-center text-white lg:max-w-1/2 lg:items-start lg:gap-6 lg:p-12 lg:text-left"
+  >
+    <h4
+      class="text-caju-heading-yellow scale-85 uppercase lg:scale-100 lg:text-4xl!"
+    >
       Faça Parte Dessa Tradição!
     </h4>
-    <p class="text-xxs font-inter max-w-[345px] h-fit">
+    <p class="text-xxs font-inter h-fit max-w-[345px] lg:text-3xl">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua.
     </p>
-    <Button href="/" variant="yellow" class="h-5 w-[140px]"
+    <Button
+      href="/"
+      variant="yellow"
+      class="h-5 w-[140px] lg:h-16 lg:w-[405px] lg:text-2xl"
       >Página de Carreiras</Button
     >
   </div>
