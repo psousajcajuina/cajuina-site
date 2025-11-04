@@ -153,5 +153,25 @@ const middleBanner = defineCollection({
     }),
 });
 
+// --- DISTRIBUIDORES ---
+const distribuidor = defineCollection({
+  loader: glob({ base: './src/data/distribuidor', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    nome: z.string(),
+    endereco: z.string(),
+    telefone: z.string(),
+    lat: z.number(),
+    lng: z.number(),
+    active: z.boolean().default(true),
+  }),
+});
+
 // --- EXPORT COLLECTIONS ---
-export const collections = { post, product, tag, banner, middleBanner };
+export const collections = {
+  post,
+  product,
+  tag,
+  banner,
+  middleBanner,
+  distribuidor,
+};
