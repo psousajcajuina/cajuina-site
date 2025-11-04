@@ -15,7 +15,15 @@ interface Props {
 export default function MapaDistribuidores({ distribuidores = [] }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
+  const markersRef = useRef<Map<number, L.Marker>>(new Map());
   const [searchValue, setSearchValue] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [sortedDistribuidores, setSortedDistribuidores] =
+    useState(distribuidores);
+
+  useEffect(() => {
+    setSortedDistribuidores(distribuidores);
+  }, [distribuidores]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -38,11 +46,13 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
     }).addTo(map.current);
 
     distribuidores.forEach((dist) => {
-      L.marker([dist.lat, dist.lng]).addTo(map.current!).bindPopup(`
+      const marker = L.marker([dist.lat, dist.lng]).addTo(map.current!)
+        .bindPopup(`
         <strong>${dist.nome}</strong><br>
         ${dist.endereco}<br>
         ${dist.telefone}
       `);
+      markersRef.current.set(dist.id, marker);
     });
 
     L.marker([-7.225938, -39.329313], {
@@ -53,23 +63,101 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
       .bindPopup(`São Geraldo`)
       .openPopup();
 
-    if (distribuidores.length > 0) {
-      const group = L.featureGroup(
-        distribuidores.map((dist) => L.marker([dist.lat, dist.lng]))
-      );
-
-      if (map.current && searchValue) {
-        map.current.fitBounds(group.getBounds());
-      }
-    }
-
     return () => {
       map.current?.remove();
+      markersRef.current.clear();
     };
   }, [distribuidores]);
 
-  const handleSearch = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') console.log('Buscar:', searchValue);
+  const handleSearch = async (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && searchValue.trim()) {
+      setIsSearching(true);
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchValue + ', Juazeiro do Norte, CE, Brasil')}`
+        );
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+          const { lat, lon } = data[0];
+          const searchLat = parseFloat(lat);
+          const searchLng = parseFloat(lon);
+
+          if (map.current) {
+            map.current.setView([searchLat, searchLng], 14);
+
+            // Encontrar distribuidores próximos e ordenar
+            const nearby = distribuidores
+              .map((dist) => ({
+                ...dist,
+                distance: Math.sqrt(
+                  Math.pow(dist.lat - searchLat, 2) +
+                    Math.pow(dist.lng - searchLng, 2)
+                ),
+              }))
+              .sort((a, b) => a.distance - b.distance);
+
+            // Atualizar a lista ordenada
+            setSortedDistribuidores(nearby);
+
+            if (nearby.length > 0) {
+              const bounds = L.latLngBounds([
+                [searchLat, searchLng],
+                ...nearby
+                  .slice(0, 3)
+                  .map((d) => [d.lat, d.lng] as [number, number]),
+              ]);
+              map.current.fitBounds(bounds, { padding: [50, 50] });
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar localização:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue('');
+    setSortedDistribuidores(distribuidores);
+    if (map.current) {
+      // Voltar para a localização da Cajuina (São Geraldo)
+      map.current.setView([-7.225938, -39.329313], 16);
+
+      // Reabrir o popup da Cajuina
+      const marker = L.marker([-7.225938, -39.329313]);
+      if (marker) {
+        setTimeout(() => {
+          map.current?.eachLayer((layer) => {
+            if (layer instanceof L.Marker) {
+              const popup = layer.getPopup();
+              if (
+                popup &&
+                popup.getContent()?.toString().includes('São Geraldo')
+              ) {
+                layer.openPopup();
+              }
+            }
+          });
+        }, 100);
+      }
+    }
+  };
+
+  const handleCardClick = (dist: Distribuidor) => {
+    if (map.current) {
+      map.current.setView([dist.lat, dist.lng], 18, {
+        animate: true,
+        duration: 1,
+      });
+
+      const marker = markersRef.current.get(dist.id);
+      if (marker) {
+        marker.openPopup();
+      }
+    }
   };
 
   return (
@@ -107,7 +195,8 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
                     onChange={(e) => setSearchValue(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="Digite sua localização"
-                    className="text-md focus:caret-caju-success-hover h-[45px] w-full rounded-full bg-[#ECE6F0] px-12 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none lg:h-[60px]"
+                    disabled={isSearching}
+                    className="text-md focus:caret-caju-success-hover h-[45px] w-full rounded-full bg-[#ECE6F0] px-12 pr-12 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none disabled:opacity-50 lg:h-[60px]"
                   />
                   <svg
                     className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
@@ -122,15 +211,37 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
+                  {searchValue && (
+                    <button
+                      onClick={handleClearSearch}
+                      className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-700"
+                      aria-label="Limpar busca"
+                    >
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
             <div className="hide-scrollbar flex cursor-grab gap-3 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
-              {distribuidores.map((dist, index) => (
+              {sortedDistribuidores.map((dist, index) => (
                 <div
-                  className="font-inter min-w-[225px] rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium lg:max-w-[654px] [&_p]:text-[#454545]"
+                  className="font-inter min-w-[225px] cursor-pointer rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium transition-all hover:border-gray-400 hover:shadow-md lg:max-w-[654px] [&_p]:text-[#454545]"
                   key={dist.id + index}
+                  onClick={() => handleCardClick(dist)}
                 >
                   <h6 className="text-caju-heading-primary mb-1 text-base font-bold">
                     {dist.nome}
