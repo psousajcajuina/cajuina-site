@@ -1,6 +1,7 @@
 ---
 import MapaDistribuidores from '@/components/react/MapaDistribuidores';
 import type { Distribuidor } from '@/types';
+import SwiperLayout from './ui/SwiperLayout.astro';
 
 const distribuidores: Distribuidor[] = [
   {
@@ -46,4 +47,6 @@ const distribuidores: Distribuidor[] = [
 ];
 ---
 
-<MapaDistribuidores client:only="react" distribuidores={distribuidores} />
+<SwiperLayout>
+  <MapaDistribuidores client:only="react" distribuidores={distribuidores} />
+</SwiperLayout>
