@@ -48,9 +48,10 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
     L.marker([-7.225938, -39.329313], {
       autoPan: true,
       alt: 'São Geraldo',
-    }).addTo(map.current!).bindPopup(`
-      <strong>São Geraldo</strong>
-    `);
+    })
+      .addTo(map.current!)
+      .bindPopup(`São Geraldo`)
+      .openPopup();
 
     if (distribuidores.length > 0) {
       const group = L.featureGroup(
