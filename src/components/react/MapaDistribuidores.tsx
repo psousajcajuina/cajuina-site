@@ -3,16 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination, Virtual } from 'swiper/modules';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
 import type { Distribuidor } from '@/types';
-
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 interface Props {
   distribuidores?: Distribuidor[];
@@ -78,69 +72,74 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
   };
 
   return (
-    <section className="h-[521px] w-full">
+    <section className="min-h-[521px] w-full px-4 lg:px-12">
       <div className="mt-8 mb-4">
         <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
           NOS ENCONTRE PERTO DE VOCÊ
         </h4>
       </div>
 
-      <div ref={mapRef} className="z-0 h-[237px] w-full md:h-[500px]" />
+      <div className="flex flex-col gap-6 lg:flex-row-reverse lg:gap-8">
+        {/* Mapa */}
+        <div
+          ref={mapRef}
+          className="z-0 h-[237px] w-full rounded-lg md:min-h-[500px] lg:min-h-[600px] lg:flex-2"
+        />
 
-      <div className="my-2 flex justify-center p-2">
-        <div className="w-full max-w-md">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={handleSearch}
-              placeholder="Digite sua localização"
-              className="text-md focus:caret-caju-success-hover w-full rounded-full bg-[#ECE6F0] px-12 py-4 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none"
-            />
-            <svg
-              className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+        {/* Conteúdo */}
+        <div className="max-w-[540px] lg:flex-1">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-start p-0">
+              <div className="w-full">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    onKeyDown={handleSearch}
+                    placeholder="Digite sua localização"
+                    className="text-md focus:caret-caju-success-hover w-full rounded-full bg-[#ECE6F0] px-12 py-4 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none"
+                  />
+                  <svg
+                    className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="hide-scrollbar flex cursor-grab gap-3 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
+              {distribuidores.map((dist, index) => (
+                <div
+                  className="font-inter min-w-[225px] rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium lg:max-w-[654px] [&_p]:text-[#454545]"
+                  key={dist.id + index}
+                >
+                  <h6 className="text-caju-heading-primary mb-1 text-base font-bold">
+                    {dist.nome}
+                  </h6>
+                  <p>{dist.endereco}</p>
+                  <p>{dist.telefone}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="[&_button]:font-inter! mt-auto flex gap-3 [&_button]:h-[45px] [&_button]:text-[12px] [&_button]:font-medium!">
+              <button className="btn-green px-6">VER MAIS</button>
+              <button className="btn-yellow flex-1">
+                SEJA UM DISTRIBUIDOR
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-
-      <Swiper
-        modules={[Virtual, Navigation, Pagination, Autoplay]}
-        slidesPerView={2}
-        // centeredSlides={true}
-        spaceBetween={2}
-        autoplay
-        virtual
-        className="h-[107px]"
-      >
-        {distribuidores.map((dist, index) => (
-          <SwiperSlide
-            className="font-inter w-[225px] rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium [&_p]:text-[#454545]"
-            key={dist.id + index}
-          >
-            <h6 className="text-caju-heading-primary mb-1 text-base font-bold">
-              {dist.nome}
-            </h6>
-            <p>{dist.endereco}</p>
-            <p>{dist.telefone}</p>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      <div className="[&_button]:font-inter! relative mx-auto flex max-w-7xl justify-center gap-3 [&_button]:h-[45px] [&_button]:text-[12px] [&_button]:font-medium!">
-        <button className="btn-green w-[117px]">Ver Mais</button>
-        <button className="btn-yellow w-[239px]">Seja um Distribuidor</button>
       </div>
     </section>
   );

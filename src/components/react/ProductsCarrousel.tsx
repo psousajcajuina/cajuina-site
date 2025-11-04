@@ -37,6 +37,7 @@ export default function ProductCarousel({ products }: Props) {
           modules={[Autoplay]}
           spaceBetween={30}
           slidesPerView={3}
+          rewind={true}
           loop={true}
           speed={800}
           autoplay={{
