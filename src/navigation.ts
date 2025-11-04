@@ -29,13 +29,11 @@ export const headerData = {
       text: 'Trabalhe Conosco',
       variant: 'outlined',
       href: '#',
-      target: '_blank',
     },
     {
       text: 'Seja um distribuidor',
       variant: 'yellow',
       href: '#',
-      target: '_blank',
     },
   ] as CallToAction[],
 };
@@ -108,8 +106,8 @@ export const footerData = {
     // { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
   footNote: `
-    &copy; 2025 Todos os direitos reservados à Cajuína São Geraldo
-    <br/>
-    Av. Padre Cícero, Km 02 - Juazeiro do Norte, CE - CEP: 63022-115
+    <span class="block">
+      &copy; 2025 Todos os direitos reservados à Cajuína São Geraldo / Av. Padre Cícero, Km 02 - Juazeiro do Norte, CE - CEP: 63022-115
+    </span>
   `,
 };

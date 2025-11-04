@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Logo from '@/components/Logo.astro';
-import ToggleTheme from '@/components/common/ToggleTheme.astro';
 import ToggleMenu from '@/components/common/ToggleMenu.astro';
 import Button from '@/components/ui/Button.astro';
 
@@ -55,7 +54,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 >
   <!-- Gradiente de fundo verde -->
   <div
-    class="from-caju-heading-secondary via-brand-green/98 pointer-events-none absolute inset-0 h-full bg-linear-to-b from-0% via-70% to-transparent"
+    class="from-caju-header-primary via-caju-header-primary/90 pointer-events-none absolute inset-0 h-full bg-linear-to-b from-0% via-70% to-transparent"
   >
   </div>
 

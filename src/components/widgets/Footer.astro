@@ -54,79 +54,90 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 <footer
   style={`background-image: url(${image?.src});`}
   class:list={[
-    'relative max-h-[546px] w-full bg-contain bg-center',
-    'space-y-3 py-8',
+    'relative min-h-[546px] w-full bg-contain bg-center bg-repeat-x',
+    'px-4 py-6 lg:px-8',
+    'flex flex-col justify-evenly gap-2 lg:gap-6',
   ]}
 >
-  <!-- Grid -->
-  <div
-    class="grid grid-cols-3 grid-rows-4 items-center justify-start gap-5 md:grid-cols-3 md:grid-rows-4 lg:grid-cols-3 lg:grid-rows-4"
-  >
-    <!-- Social -->
-    <div class="col-span-1 row-span-4 items-center justify-between">
-      <div class="social-wrapper relative flex flex-col items-center gap-1">
-        {
-          socialLinks.map(({ ariaLabel, href, text, icon }) => (
-            <a
-              class="text-muted bg-caju-heading-yellow inline-flex h-fit w-fit items-center rounded-full p-1 text-sm"
-              aria-label={ariaLabel}
-              href={href}
-            >
-              {icon && <Icon name={icon} class="h-5 w-5 text-white" />}
-              <Fragment set:html={text} />
-            </a>
-          ))
-        }
+  <!-- Links, Sociais e Logo -->
+  <div class="flex flex-col items-center justify-center gap-4 lg:flex-row">
+    <!-- Links e Sociais -->
+    <div
+      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start"
+    >
+      <!-- Social -->
+      <div
+        class="relative flex h-full w-[30%] max-w-[180px] items-center justify-center lg:max-w-[250px] lg:justify-start"
+      >
+        <div
+          class="social-wrapper flex flex-col items-center gap-2.5 lg:flex-row"
+        >
+          {
+            socialLinks.map(({ ariaLabel, href, text, icon }) => (
+              <a
+                class="text-muted bg-caju-heading-yellow inline-flex h-fit w-fit items-center rounded-full p-1 text-sm"
+                aria-label={ariaLabel}
+                href={href}
+              >
+                {icon && (
+                  <Icon name={icon} class="sizer-5 text-white lg:size-12" />
+                )}
+                <Fragment set:html={text} />
+              </a>
+            ))
+          }
+        </div>
         <!-- Separador amarelo -->
         <div
-          class="bg-caju-heading-yellow absolute top-1/2 right-2 h-[80%] w-1 -translate-y-1/2"
+          class="bg-caju-heading-yellow justify-self absolute top-1/2 right-0 h-[235px] w-1 -translate-y-1/2 lg:hidden"
         >
         </div>
       </div>
-    </div>
-    <!-- Links -->
-    <div class="col-span-2 row-span-4 grid gap-5">
-      {
-        links.map(({ title, links }, index) => (
-          <div class="flex flex-col">
-            <h5 class="text-caju-heading-yellow text-sm uppercase">{title}</h5>
-            <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2">
-              {links.map(({ href, text, ariaLabel }) => (
-                <li
-                  class:list={[
-                    { 'col-span-2': links.length <= 3 },
-                    { 'row-span-3': index === 1 },
-                  ]}
-                >
-                  <a
-                    class="hover:text-caju-secondary-orange text-white"
-                    href={href}
-                    aria-label={ariaLabel}
+      <!-- Links -->
+      <div class="grid flex-1 gap-5 pl-4">
+        {
+          links.map(({ title, links }, index) => (
+            <div class="flex flex-col pb-3 last:border-b-0">
+              <h5 class="text-caju-heading-yellow mb-0 text-sm uppercase lg:text-3xl">
+                {title}
+              </h5>
+              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-2xl">
+                {links.map(({ href, text, ariaLabel }) => (
+                  <li
+                    class:list={[
+                      { 'col-span-2': links.length <= 3 },
+                      { 'row-span-3': index === 1 },
+                    ]}
                   >
-                    {text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+                    <a
+                      class="hover:text-caju-secondary-orange text-white"
+                      href={href}
+                      aria-label={ariaLabel}
+                    >
+                      {text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Footnote -->
-  <div class="flex flex-col items-center gap-2">
-    <!-- <div class="relative h-full w-full"> -->
+    <!-- Logo -->
     <Image
-      class="h-[94px] w-[157px]! object-cover"
-      aspectRatio="157:94"
-      width={157}
-      height={94}
+      class="h-[94px]! w-[157px]! place-self-center object-contain lg:order-first lg:h-80! lg:w-[530px]!"
       src={logoColorida}
       alt="São geraldo"
     />
-    <!-- </div> -->
-    <div class="text-xxs font-inter text-center leading-[140%] text-white">
+  </div>
+
+  <!-- Footnote -->
+  <div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
+    <div
+      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-xl!"
+    >
       <Fragment set:html={footNote} />
     </div>
   </div>
