@@ -34,14 +34,23 @@ const items: TimelineItem[] = [
 ];
 ---
 
-<!-- image={fabricaPng} -->
-<BackgroundOverlay image={fabricaPng} opacity={90} class="min-h-[250px]">
-  <div class="h-full w-full">
-    <h3 class="lg:text-caju-heading-primary text-center text-white uppercase">
-      Linha do Tempo
-    </h3>
-    <section class="flex max-h-[260px] min-h-[168px] w-full py-6">
-      <ChronoTimelapse client:only="react" steps={items} />
-    </section>
-  </div>
-</BackgroundOverlay>
+<div class:list={['relative']}>
+  <BackgroundOverlay
+    image={fabricaPng}
+    opacity={90}
+    overlayClass="lg:hidden"
+    imageClass="lg:hidden"
+    class:list={['min-h-[250px]']}
+  >
+    <div class="h-full w-full">
+      <h3
+        class="lg:text-caju-heading-primary text-center text-white uppercase lg:text-[48px]"
+      >
+        Linha do Tempo
+      </h3>
+      <section class="flex max-h-[260px] min-h-[168px] w-full py-6">
+        <ChronoTimelapse client:only="react" steps={items} />
+      </section>
+    </div>
+  </BackgroundOverlay>
+</div>

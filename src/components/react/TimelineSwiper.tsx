@@ -36,19 +36,19 @@ export default function TimelineSwiper({ steps, className }: Props) {
                 <div
                   className={`h-4 w-4 rounded-full border-2 ${
                     index % 2 === 0
-                      ? 'border-yellow-400 bg-transparent'
-                      : 'border-yellow-400 bg-yellow-400'
+                      ? 'lg:border-caju-heading-primary border-yellow-400 bg-transparent'
+                      : 'lg:bg-caju-heading-primary lg:border-caju-heading-primary border-yellow-400 bg-yellow-400'
                   }`}
                 ></div>
-                <div className="flex-1 border-t-[3px] border-dotted border-yellow-400"></div>
+                <div className="flex-1 border-t-[3px] border-dotted border-yellow-400 lg:border-black"></div>
               </div>
 
               {/* conteúdo */}
               <div className="mr-2">
-                <h3 className="mb-2 text-sm font-extrabold text-yellow-400 uppercase">
+                <h3 className="lg:text-caju-heading-primary mb-2 text-sm font-extrabold text-yellow-400 uppercase">
                   {item.title}
                 </h3>
-                <p className="font-inter text-left text-[9px] text-white/90">
+                <p className="font-inter text-caju-font text-left text-[9px]">
                   {item.content}
                 </p>
               </div>

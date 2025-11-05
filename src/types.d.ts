@@ -271,6 +271,8 @@ export interface BackgroundOverlayProps {
   blendMode?: 'multiply' | 'overlay' | 'screen' | 'darken' | 'lighten' | 'none';
   class?: string;
   contentClass?: string;
+  overlayClass?: string;
+  imageClass?: string;
 }
 
 export interface Team extends Omit<Headline, 'classes'>, Widget {

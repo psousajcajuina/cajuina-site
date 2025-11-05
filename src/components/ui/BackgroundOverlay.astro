@@ -6,6 +6,8 @@
  * @prop {'multiply' | 'overlay' | 'screen' | 'darken' | 'lighten' | 'none'} [blendMode='none'] - Modo de mistura CSS
  * @prop {string} [class] - Classes Tailwind adicionais para o container
  * @prop {string} [contentClass] - Classes Tailwind adicionais para o conteúdo
+ * @prop {string} [overlayClass] - Classes Tailwind adicionais para o overlay de cor
+ * @prop {string} [imageClass] - Classes Tailwind adicionais para o container da imagem
  */
 
 import Image from '@/components/common/Image.astro';
@@ -21,6 +23,8 @@ const {
   blendMode = 'none',
   class: className = '',
   contentClass = '',
+  overlayClass = '',
+  imageClass = '',
 } = Astro.props;
 
 const blendModeClass = {
@@ -44,7 +48,7 @@ const overlayBgClass = !color ? 'bg-caju-heading-primary' : '';
   <!-- Imagem de fundo -->
   {
     image && (
-      <div class="absolute inset-0 -z-10 h-full w-full">
+      <div class={twMerge('absolute inset-0 -z-10 h-full w-full', imageClass)}>
         {typeof image === 'string' ? (
           <img
             src={image}
@@ -69,7 +73,8 @@ const overlayBgClass = !color ? 'bg-caju-heading-primary' : '';
     class={twMerge(
       'absolute inset-0 w-full h-full',
       overlayBgClass,
-      blendModeClass
+      blendModeClass,
+      overlayClass
     )}
     style={overlayStyle}
   >
