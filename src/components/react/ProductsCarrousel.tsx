@@ -146,7 +146,7 @@ export default function ProductCarousel({ products }: Props) {
               <span className="text-xl leading-none font-bold">×</span>
             </button>
 
-            <div className="grid gap-10 md:grid-cols-2 md:grid-rows-4">
+            <div className="grid gap-10 md:grid-cols-2">
               {/* Imagem */}
               <div className="flex items-center justify-center">
                 <img
