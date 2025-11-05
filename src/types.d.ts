@@ -67,6 +67,7 @@ export interface ProductItem {
     image: string | ImageMetadata;
     nutritionalInfo: string | ImageMetadata;
   };
+  ingredients?: string;
 }
 
 export interface Taxonomy {

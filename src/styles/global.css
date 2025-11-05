@@ -40,9 +40,10 @@ body {
   margin: 0;
   padding: 0;
   text-align: left;
-  background: linear-gradient(to bottom, #fff, #f1f1f1) no-repeat;
+  /* background: linear-gradient(to bottom, #fff, #f1f1f1) no-repeat; */
   word-wrap: break-word;
   overflow-wrap: break-word;
+  @apply text-caju-font!;
 }
 
 .hide-scrollbar {
@@ -62,7 +63,7 @@ h4,
 h5,
 h6 {
   margin: 0 0 0.5rem 0;
-  line-height: 1.2;
+  /* line-height: 1.2; */
 }
 a {
   @apply font-inter;
@@ -70,8 +71,9 @@ a {
   text-decoration: none;
 }
 
+
 h4{
-  @apply text-xl md:text-2xl;
+  @apply text-xl lg:text-4xl;
 }
 
 @media (max-width: 720px) {

@@ -1,7 +1,7 @@
 ---
 id: 4
-title: Cajuína São Geraldo 350ml
-slug: cajuina-350ml
+title: São Geraldo Lata
+slug: saogeraldo-350ml
 normalImage: ../../assets/images/home/produtos/350ml.png
 hoverImage: ../../assets/images/home/produtos/350ml-hover.png
 sizes:
@@ -11,7 +11,8 @@ sizesMd:
   width: 200
   height: 215
 details:
-  name: Cajuína São Geraldo 350ml
-  image: ../../assets/images/home/produtos/details/laranja1L.png
-  nutritionalInfo: ../../assets/images/home/produtos/nutricional-details/nutricional200ml.png
+  name: São Geraldo Lata
+  image: /src/assets/images/home/produtos/details/350ml.png
+  nutritionalInfo: /src/assets/images/home/produtos/nutricional-details/nutricional350ml.png
 ---
+

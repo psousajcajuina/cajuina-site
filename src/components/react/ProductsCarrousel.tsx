@@ -123,7 +123,7 @@ export default function ProductCarousel({ products }: Props) {
         </Swiper>
 
         {/* Botão de fechar discreto */}
-        {selectedProduct && (
+        {/* {selectedProduct && (
           <button
             onClick={handleCloseDetails}
             className="absolute top-2 right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/70 text-white shadow-lg transition-all duration-300 hover:scale-110 hover:bg-gray-900"
@@ -131,12 +131,12 @@ export default function ProductCarousel({ products }: Props) {
           >
             <span className="text-lg leading-none font-bold">×</span>
           </button>
-        )}
+        )} */}
       </div>
 
       {selectedProduct?.details && (
-        <div className="animate-in fade-in slide-in-from-bottom-2 w-full px-4 duration-500">
-          <div className="relative mx-auto max-w-6xl rounded-lg bg-white p-8 shadow-xl">
+        <div className="animate-in fade-in slide-in-from-bottom-2 w-full duration-500">
+          <div className="relative mx-auto max-w-6xl p-4">
             {/* Botão fechar no painel */}
             <button
               onClick={handleCloseDetails}
@@ -146,28 +146,29 @@ export default function ProductCarousel({ products }: Props) {
               <span className="text-xl leading-none font-bold">×</span>
             </button>
 
-            <h5 className="mb-6 text-center text-3xl font-bold text-gray-800">
-              {selectedProduct.details.name}
-            </h5>
-
-            <div className="grid gap-10 md:grid-cols-2">
+            <div className="grid gap-10 md:grid-cols-2 md:grid-rows-4">
+              {/* Imagem */}
               <div className="flex items-center justify-center">
                 <img
                   src={selectedProduct.details.image.src}
                   alt={selectedProduct.details.name}
-                  className="h-auto max-h-[500px] w-full object-contain"
+                  className="h-auto max-h-[850px] w-full bg-[#F7F7F7] object-contain object-center"
                 />
               </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <h6 className="mb-6 text-xl font-semibold text-gray-700">
-                  Informações Nutricionais
+              {/* Detalhes */}
+              <div className="flex h-auto flex-col items-center justify-start gap-6">
+                <h6 className="text-caju-heading-primary text-xl font-normal uppercase lg:self-start lg:text-3xl">
+                  {selectedProduct.details.name}
                 </h6>
                 <img
                   src={selectedProduct.details.nutritionalInfo.src}
                   alt="Informações Nutricionais"
-                  className="h-auto w-full max-w-lg rounded-lg object-contain shadow-md"
+                  className="h-auto max-h-[400px] w-full max-w-lg rounded-lg bg-[#F7F7F7] object-contain"
                 />
+                <p className="font-inter text-justify font-normal lg:text-2xl">
+                  {selectedProduct.ingredients ||
+                    'Sem informação de ingredientes.'}
+                </p>
               </div>
             </div>
           </div>

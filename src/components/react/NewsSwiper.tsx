@@ -43,7 +43,7 @@ export default function NewsSwiper({
             spaceBetween: 30,
           },
         }}
-        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:h-[520px] md:max-w-6xl"
+        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:h-[520px] md:max-w-[1350px]"
       >
         {posts.map((post) => (
           <SwiperSlide key={post.id}>
@@ -78,23 +78,23 @@ export default function NewsSwiper({
 
       {/* Navigation Buttons */}
       <button
-        className="news-prev-btn absolute top-1/2 left-0 -translate-y-1/2"
+        className="news-prev-btn absolute top-1/2 left-0 -translate-y-1/2 md:left-2"
         aria-label="Anterior"
       >
         <img
           src={arrowPrev}
-          alt=""
-          className="h-10 w-10 transition-transform duration-300 hover:scale-110 md:h-14 md:w-14"
+          alt="Notícia Anterior"
+          className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>
       <button
-        className="news-next-btn absolute top-1/2 right-0 -translate-y-1/2"
+        className="news-next-btn absolute top-1/2 right-0 -translate-y-1/2 md:right-2"
         aria-label="Próximo"
       >
         <img
           src={arrowNext}
-          alt=""
-          className="h-10 w-10 transition-transform duration-300 hover:scale-110 md:h-14 md:w-14"
+          alt="Próxima Notícia"
+          className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>
     </div>

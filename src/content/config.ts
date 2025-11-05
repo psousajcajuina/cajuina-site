@@ -101,6 +101,7 @@ const product = defineCollection({
         image: image(),
         nutritionalInfo: image(),
       }),
+      ingredients: z.string().optional(),
     }),
 });
 

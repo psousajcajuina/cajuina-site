@@ -63,7 +63,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
   <div class="flex flex-col items-center justify-center gap-4 lg:flex-row">
     <!-- Links e Sociais -->
     <div
-      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start"
+      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start lg:gap-6"
     >
       <!-- Social -->
       <div
@@ -80,7 +80,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
                 href={href}
               >
                 {icon && (
-                  <Icon name={icon} class="sizer-5 text-white lg:size-12" />
+                  <Icon name={icon} class="size-8 text-white lg:size-10" />
                 )}
                 <Fragment set:html={text} />
               </a>
@@ -94,14 +94,14 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
         </div>
       </div>
       <!-- Links -->
-      <div class="grid flex-1 gap-5 pl-4">
+      <div class="grid flex-1 gap-5 pl-6">
         {
           links.map(({ title, links }, index) => (
-            <div class="flex flex-col pb-3 last:border-b-0">
-              <h5 class="text-caju-heading-yellow mb-0 text-sm uppercase lg:text-3xl">
+            <div class="flex flex-col gap-1 pb-3 last:border-b-0">
+              <h5 class="text-caju-heading-yellow mb-0! text-sm uppercase lg:text-[32px]">
                 {title}
               </h5>
-              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-2xl">
+              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-[24px]">
                 {links.map(({ href, text, ariaLabel }) => (
                   <li
                     class:list={[
@@ -126,17 +126,22 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
     </div>
 
     <!-- Logo -->
-    <Image
-      class="h-[94px]! w-[157px]! place-self-center object-contain lg:order-first lg:h-80! lg:w-[530px]!"
-      src={logoColorida}
-      alt="São geraldo"
-    />
+    <div
+      class="flex h-[94px]! w-[157px]! items-center justify-center lg:order-first lg:h-[322px]! lg:w-[540px]!"
+    >
+      <Image
+        class="h-full w-full object-cover"
+        sizes="(max-width: 900px) 157px, 540px"
+        src={logoColorida}
+        alt="São geraldo"
+      />
+    </div>
   </div>
 
   <!-- Footnote -->
   <div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
     <div
-      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-xl!"
+      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-[20px]!"
     >
       <Fragment set:html={footNote} />
     </div>
