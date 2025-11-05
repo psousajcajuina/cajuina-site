@@ -4,7 +4,7 @@ excerpt: dsahbsahkbdsahbsahkb
 draft: false
 tags:
   - verão
-image: /src/assets/images/home/produtos/200ml-pet-LARANJA-hover.png
+image: /src/assets/images/halloween-9900545_1280.jpg
 publishDate: 2025-11-04T14:13:00
 author: Redação São Geraldo
 ---
