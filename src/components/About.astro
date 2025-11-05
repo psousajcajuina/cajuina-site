@@ -51,15 +51,15 @@ if (
 <!-- Container do About com background responsivo -->
 <div
   class:list={[
-    'about-bg min-h-[149px] w-full bg-cover bg-center bg-no-repeat md:h-[550px]',
+    'about-bg min-h-[149px] w-full bg-cover bg-no-repeat py-2 md:py-6 lg:h-[550px] lg:bg-center',
     'grid grid-cols-2 items-center',
   ]}
 >
   <div
-    class="col-span-2 flex flex-col items-center justify-evenly gap-2 text-center font-normal tracking-[-2%] text-white md:col-span-1 md:col-start-2 md:items-start md:gap-4 md:text-left"
+    class="col-span-2 flex flex-col items-center justify-evenly gap-2 text-center font-normal tracking-[-2%] text-white md:text-left lg:col-span-1 lg:col-start-2 lg:items-start lg:gap-4 lg:text-left"
   >
     <h4
-      class="max-w-48 text-sm leading-6 font-normal md:max-w-fit md:text-4xl md:leading-[auto] md:-tracking-[2%]"
+      class="max-w-48 text-sm! leading-6 font-normal md:max-w-fit md:text-4xl md:leading-[auto] md:-tracking-[2%]"
     >
       NOSSO COMPROMISSO
       <br />
@@ -89,7 +89,7 @@ if (
     background-image: var(--bgMobile);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .about-bg {
       background-image: var(--bgDesktop);
     }
