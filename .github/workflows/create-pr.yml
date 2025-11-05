@@ -2,9 +2,10 @@ name: Create PR from CMS
 
 on:
   push:
-    branches: [ cms/push ]
+    branches: [cms/push, development]
   repository_dispatch:
     types: [sveltia-cms-publish]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,30 +20,30 @@ jobs:
     if: ${{ github.event_name == 'repository_dispatch' || contains(github.event.head_commit.message, '[cms]') }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_PAT_SECRET }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT_SECRET }}
 
-    - name: Create Pull Request to main
-      id: create-pr
-      uses: repo-sync/pull-request@v2
-      with:
-        source_branch: cms/push
-        destination_branch: main
-        pr_title: '🚀 Auto-deploy from Sveltia CMS - Run #${{ github.run_number }}'
-        pr_body: |
-          Automated PR from CMS content update
-          
-          **Changes:** ${{ github.event.head_commit.message }}
-          **Triggered by:** @${{ github.actor }}
-          
-          ---
-          _This PR was automatically created by the CMS workflow_
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Pull Request to main
+        id: create-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: cms/push
+          destination_branch: main
+          pr_title: "🚀 Auto-deploy from Sveltia CMS - Run #${{ github.run_number }}"
+          pr_body: |
+            Automated PR from CMS content update
 
-    - name: Merge PR with admin privileges
-      if: steps.create-pr.outputs.pr_number != ''
-      run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --merge --admin
-      env:
-        GH_TOKEN: ${{ secrets.GH_PAT_SECRET }}
+            **Changes:** ${{ github.event.head_commit.message }}
+            **Triggered by:** @${{ github.actor }}
+
+            ---
+            _This PR was automatically created by the CMS workflow_
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge PR with admin privileges
+        if: steps.create-pr.outputs.pr_number != ''
+        run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --merge --admin
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT_SECRET }}
