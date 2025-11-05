@@ -15,6 +15,8 @@ const {
   image = await Astro.slots.render('image'),
 
   wrapperClass,
+  imageWrapperClass,
+  contentWrapperClass,
   id,
 } = Astro.props as Hero;
 ---
@@ -24,10 +26,19 @@ const {
     <!-- Separador -->
     <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
     <!-- Conteúdo Wrapper -->
-    <div class={twMerge('pt-12 md:pt-20', wrapperClass)}>
+    <div
+      class={twMerge(
+        'pt-12 md:pt-20 lg:flex lg:justify-center lg:gap-10',
+        wrapperClass
+      )}
+    >
       <!-- Imagem -->
       <div
-        class="intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0"
+        class:list={[
+          'intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0',
+          'lg:order-last',
+          imageWrapperClass,
+        ]}
       >
         {
           image && (
@@ -58,20 +69,32 @@ const {
         }
       </div>
       <!-- Conteúdo -->
-      <div class="mx-auto max-w-5xl pt-5 text-center md:pb-16">
+      <div
+        class:list={[
+          'mx-0 max-w-5xl pt-5 text-center lg:max-w-[700px] lg:text-left',
+          contentWrapperClass,
+        ]}
+      >
         {
-          tagline && (
+          (tagline || title) && (
             <h3
-              class="motion-safe:md:intersect:animate-fade text-caju-heading-primary text-base font-bold tracking-wide uppercase motion-safe:md:opacity-0"
-              set:html={tagline}
+              class:list={[
+                'motion-safe:md:intersect:animate-fade text-caju-heading-primary text-base font-bold tracking-wide uppercase motion-safe:md:opacity-0',
+                'lg:hidden',
+              ]}
+              set:html={tagline || title}
             />
           )
         }
         {
-          title && (
+          (title || tagline) && (
             <h1
-              class="leading-tighter font-heading intersect-once intersect-quarter motion-safe:md:intersect:animate-fade mb-4 text-5xl font-bold tracking-tighter md:text-6xl motion-safe:md:opacity-0 dark:text-gray-200"
-              set:html={title}
+              class:list={[
+                'leading-tighter font-heading intersect-once intersect-quarter motion-safe:md:intersect:animate-fade mb-4 text-5xl font-bold tracking-tighter md:text-6xl motion-safe:md:opacity-0',
+                'hidden lg:block',
+                'text-caju-heading-primary',
+              ]}
+              set:html={title || tagline}
             />
           )
         }
@@ -79,7 +102,7 @@ const {
           {
             subtitle && (
               <p
-                class="text=[11px] font-inter mb-6 text-justify"
+                class="font-inter mb-6 text-justify lg:text-[30px]"
                 set:html={subtitle}
               />
             )

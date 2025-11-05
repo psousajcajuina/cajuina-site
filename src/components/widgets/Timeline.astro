@@ -13,7 +13,6 @@ const items: TimelineItem[] = [
   {
     title: 'Década de 70',
     content:
-      'Chegada da energia elétrica na região adquirido equipamentos semiautomáticos, dando um novo impulso a produção.' +
       'Chegada da energia elétrica na região adquirido equipamentos semiautomáticos, dando um novo impulso a produção.',
   },
   {
@@ -38,7 +37,9 @@ const items: TimelineItem[] = [
 <!-- image={fabricaPng} -->
 <BackgroundOverlay image={fabricaPng} opacity={90} class="min-h-[250px]">
   <div class="h-full w-full">
-    <h3 class="text-center text-white uppercase">Linha do Tempo</h3>
+    <h3 class="lg:text-caju-heading-primary text-center text-white uppercase">
+      Linha do Tempo
+    </h3>
     <section class="flex max-h-[260px] min-h-[168px] w-full py-6">
       <ChronoTimelapse client:only="react" steps={items} />
     </section>

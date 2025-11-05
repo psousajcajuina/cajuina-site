@@ -248,6 +248,8 @@ export interface Hero
   content?: string;
   actions?: string | CallToAction[];
   wrapperClass?: string;
+  imageWrapperClass?: string;
+  contentWrapperClass?: string;
   image?:
     | string
     | ImageMetadata
