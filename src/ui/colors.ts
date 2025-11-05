@@ -1,5 +1,7 @@
 export const colors = {
   caju: {
+    font: '#828282',
+
     primary: {
       light: '#005b3c',
       dark: '#00422a',

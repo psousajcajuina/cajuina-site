@@ -28,4 +28,5 @@ collections:
           - { label: "Nome Completo", name: "name", widget: "string" }
           - { label: "Imagem de Detalhes", name: "image", widget: "image" }
           - { label: "Informações Nutricionais", name: "nutritionalInfo", widget: "image" }
+      - { label: "Ingredientes", name: "ingredients", widget: "text", required: false }
     

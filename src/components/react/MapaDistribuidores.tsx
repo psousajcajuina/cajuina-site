@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -164,7 +162,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
     <section className="min-h-[521px] w-full px-4 lg:px-12">
       <div className="mt-8 mb-4 lg:hidden">
         <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
-          NOS ENCONTRE PERTO DE VOCÊ
+          Nos encontre perto de você
         </h4>
       </div>
 
@@ -180,70 +178,68 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
           <div className="flex w-full max-w-[500px] flex-col gap-4">
             <div className="mt-8 hidden lg:block">
               <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
-                NOS ENCONTRE
+                Nos encontre
                 <br />
-                PERTO DE VOCÊ
+                perto de você
               </h4>
             </div>
-            {/*  */}
+            {/* Search */}
             <div className="flex justify-start p-0">
-              <div className="w-full">
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    onKeyDown={handleSearch}
-                    placeholder="Digite sua localização"
-                    disabled={isSearching}
-                    className="text-md focus:caret-caju-success-hover h-[45px] w-full rounded-full bg-[#ECE6F0] px-12 pr-12 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none disabled:opacity-50 lg:h-[60px]"
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={handleSearch}
+                  placeholder="Digite sua localização"
+                  disabled={isSearching}
+                  className="text-md focus:caret-caju-success-hover h-[45px] w-full rounded-full bg-[#ECE6F0] px-12 pr-12 text-gray-800 placeholder-gray-500 focus:ring-2 focus:outline-none disabled:opacity-50 lg:h-[60px]"
+                />
+                <svg
+                  className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
-                  <svg
-                    className="absolute top-1/2 left-4 h-6 w-6 -translate-y-1/2 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                </svg>
+                {searchValue && (
+                  <button
+                    onClick={handleClearSearch}
+                    className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-700"
+                    aria-label="Limpar busca"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                  {searchValue && (
-                    <button
-                      onClick={handleClearSearch}
-                      className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-700"
-                      aria-label="Limpar busca"
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  )}
-                </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
 
-            <div className="hide-scrollbar flex cursor-grab gap-3 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
+            <div className="hide-scrollbar flex cursor-grab gap-2 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
               {sortedDistribuidores.map((dist, index) => (
                 <div
-                  className="font-inter min-w-[225px] cursor-pointer rounded-lg border-2 border-gray-200 bg-[#D9D9D9] px-4 py-3 font-medium transition-all hover:border-gray-400 hover:shadow-md lg:max-w-[654px] [&_p]:text-[#454545]"
+                  className="font-inter min-w-[225px] cursor-pointer border-2 border-gray-200 bg-[#FEF7FF] px-4 py-1 font-medium hover:border-gray-300 hover:shadow-md lg:max-h-20 lg:max-w-[650px]"
                   key={dist.id + index}
                   onClick={() => handleCardClick(dist)}
                 >
-                  <h6 className="text-caju-heading-primary mb-1 text-base font-bold">
+                  <h6 className="text-caju-heading-primary mb-0! text-base font-bold">
                     {dist.nome}
                   </h6>
                   <p>{dist.endereco}</p>
@@ -252,7 +248,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
               ))}
             </div>
 
-            <div className="[&_button]:font-inter! mt-auto flex gap-3 [&_button]:h-[45px] [&_button]:text-[12px] [&_button]:font-medium!">
+            <div className="[&_button]:font-inter! mt-auto flex gap-3 [&_button]:h-[45px] [&_button]:text-xs [&_button]:font-medium [&_button]:lg:h-[65px] [&_button]:lg:text-xl">
               <button className="btn-green px-6">VER MAIS</button>
               <button className="btn-yellow flex-1">
                 SEJA UM DISTRIBUIDOR

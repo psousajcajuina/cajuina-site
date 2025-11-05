@@ -1,7 +1,7 @@
 ---
 id: 1
-title: Cajuína São Geraldo 200ml
-slug: cajuina-200ml
+title: São Geraldo Retornavel 200ml
+slug: saogeraldo-retornavel-200ml
 normalImage: ../../assets/images/home/produtos/200ml.png
 hoverImage: ../../assets/images/home/produtos/200ml-hover.png
 sizes:
@@ -11,7 +11,8 @@ sizesMd:
   width: 204
   height: 240
 details:
-  name: Cajuína São Geraldo 200ml
-  image: ../../assets/images/home/produtos/details/laranja1L.png
+  name: São Geraldo Retornavel 200ml
+  image: /src/assets/images/home/produtos/details/vidro200ml.png
   nutritionalInfo: ../../assets/images/home/produtos/nutricional-details/nutricional200ml.png
 ---
+
