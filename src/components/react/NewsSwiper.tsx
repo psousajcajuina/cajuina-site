@@ -38,12 +38,20 @@ export default function NewsSwiper({
           prevEl: '.news-prev-btn',
         }}
         breakpoints={{
+          320: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
           768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1024: {
             slidesPerView: 4,
-            spaceBetween: 30,
+            spaceBetween: 35,
           },
         }}
-        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:h-[520px] md:max-w-[1350px]"
+        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
       >
         {posts.map((post) => (
           <SwiperSlide key={post.id}>

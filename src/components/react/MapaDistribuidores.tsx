@@ -166,7 +166,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
         </h4>
       </div>
 
-      <div className="flex flex-col items-center gap-6 lg:flex-row-reverse lg:gap-8">
+      <div className="flex flex-col items-center justify-center gap-6 lg:flex-row-reverse lg:gap-8">
         {/* Mapa */}
         <div
           ref={mapRef}
@@ -175,7 +175,7 @@ export default function MapaDistribuidores({ distribuidores = [] }: Props) {
 
         {/* Conteúdo */}
         <div className="w-full lg:flex lg:flex-2 lg:items-center lg:justify-center">
-          <div className="flex w-full max-w-[500px] flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <div className="mt-8 hidden lg:block">
               <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
                 Nos encontre
