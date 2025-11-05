@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
@@ -13,6 +13,8 @@ export default function ProductCarousel({ products }: Props) {
     null
   );
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const handleProductClick = (product: ProductItem) => {
     setSelectedProduct(product);
@@ -21,15 +23,42 @@ export default function ProductCarousel({ products }: Props) {
     }
   };
 
+  // Scroll para o #productDetails quando selectedProduct mudar
+  useEffect(() => {
+    if (selectedProduct && detailsRef.current) {
+      const elementPosition = detailsRef.current!.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 140;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  }, [selectedProduct]);
+
   const handleCloseDetails = () => {
     setSelectedProduct(null);
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.start();
     }
+    // Volta scroll para o #products-section com offset de 12px
+    if (sectionRef.current) {
+      const elementPosition = sectionRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 70;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-8 overflow-hidden py-8">
+    <div
+      id="products-section"
+      ref={sectionRef}
+      className="flex w-full flex-col items-center gap-8 overflow-hidden py-8"
+    >
       <h4 className="text-caju-heading-primary uppercase">Nossos Produtos</h4>
 
       <div className="relative w-full">
@@ -80,7 +109,11 @@ export default function ProductCarousel({ products }: Props) {
                     width: `${product.sizes.width}px`,
                     height: `${product.sizes.height}px`,
                   }}
-                  className="object-contain transition-opacity duration-300 group-hover:opacity-0 md:hidden"
+                  className={`object-contain transition-opacity duration-300 md:hidden ${
+                    selectedProduct?.id === product.id
+                      ? 'opacity-0'
+                      : 'group-hover:opacity-0'
+                  }`}
                 />
                 <img
                   src={product.hover.src}
@@ -91,7 +124,11 @@ export default function ProductCarousel({ products }: Props) {
                     width: `${product.sizes.width}px`,
                     height: `${product.sizes.height}px`,
                   }}
-                  className="absolute inset-0 object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:hidden"
+                  className={`absolute inset-0 object-contain transition-opacity duration-300 md:hidden ${
+                    selectedProduct?.id === product.id
+                      ? 'opacity-100'
+                      : 'opacity-0 group-hover:opacity-100'
+                  }`}
                 />
 
                 {/* Desktop (md+) - usa sizesMd se disponível */}
@@ -104,7 +141,11 @@ export default function ProductCarousel({ products }: Props) {
                     width: `${product.sizesMd?.width || product.sizes.width}px`,
                     height: `${product.sizesMd?.height || product.sizes.height}px`,
                   }}
-                  className="hidden object-contain transition-opacity duration-300 group-hover:opacity-0 md:block"
+                  className={`hidden object-contain transition-opacity duration-300 md:block ${
+                    selectedProduct?.id === product.id
+                      ? 'opacity-0'
+                      : 'group-hover:opacity-0'
+                  }`}
                 />
                 <img
                   src={product.hover.src}
@@ -115,7 +156,11 @@ export default function ProductCarousel({ products }: Props) {
                     width: `${product.sizesMd?.width || product.sizes.width}px`,
                     height: `${product.sizesMd?.height || product.sizes.height}px`,
                   }}
-                  className="absolute inset-0 hidden object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block"
+                  className={`absolute inset-0 hidden object-contain transition-opacity duration-300 md:block ${
+                    selectedProduct?.id === product.id
+                      ? 'opacity-100'
+                      : 'opacity-0 group-hover:opacity-100'
+                  }`}
                 />
               </div>
             </SwiperSlide>
@@ -135,12 +180,16 @@ export default function ProductCarousel({ products }: Props) {
       </div>
 
       {selectedProduct?.details && (
-        <div className="animate-in fade-in slide-in-from-bottom-2 w-full duration-500">
+        <div
+          id="productDetails"
+          ref={detailsRef}
+          className="animate-in fade-in slide-in-from-bottom-2 w-full duration-500"
+        >
           <div className="relative mx-auto max-w-6xl p-4">
             {/* Botão fechar no painel */}
             <button
               onClick={handleCloseDetails}
-              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-all duration-200 hover:bg-gray-300 hover:text-gray-800"
+              className="absolute top-1 right-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-all duration-200 hover:bg-gray-300 hover:text-gray-800"
               aria-label="Fechar detalhes"
             >
               <span className="text-xl leading-none font-bold">×</span>
