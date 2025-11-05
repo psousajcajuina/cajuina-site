@@ -1,7 +1,8 @@
 import type { KnipConfig } from 'knip';
 
 const config: KnipConfig = {
-  project: ['src/**/*.ts', 'api/**/*.ts', 'api/*.ts'],
+  project: ['*.ts', 'api/**/*.ts', 'api/*.ts'],
+  ignore: ['**/node_modules/**', '**/dist/**', '*.config.ts'],
   tags: ['-@lintignore', '-@internal'],
   rules: {
     dependencies: 'off',

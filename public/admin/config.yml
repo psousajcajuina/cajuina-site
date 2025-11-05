@@ -2,7 +2,7 @@
 backend:
   name: "github"
   repo: "psousajcajuina/cajuina-site"
-  branch: "cms/push"
+  branch: "development"
   base_url: "https://oauth.crudbox.tech"
   skip_ci: true
   commit_messages:
