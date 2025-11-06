@@ -23,6 +23,7 @@ export default function TimelineSwiper({ steps, className }: Props) {
           disableOnInteraction: true,
         }}
         grabCursor
+        rewind
         className={twMerge('z-150 h-full w-full overflow-hidden', className)}
       >
         {steps.map((item, index) => (

@@ -41,7 +41,7 @@ export default function ProductCarousel({ products }: Props) {
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.start();
     }
-    // Volta scroll para o #products-section com offset de 12px
+    // Volta scroll para o #products-section com offset de 70px
     if (sectionRef.current) {
       const elementPosition = sectionRef.current.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - 70;
@@ -195,7 +195,7 @@ export default function ProductCarousel({ products }: Props) {
               <span className="text-xl leading-none font-bold">×</span>
             </button>
 
-            <div className="grid gap-10 md:grid-cols-2">
+            <div className="grid gap-10 rounded-lg shadow-lg md:grid-cols-2 md:p-6">
               {/* Imagem */}
               <div className="flex items-center justify-center">
                 <img

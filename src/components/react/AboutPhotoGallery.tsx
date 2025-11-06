@@ -28,6 +28,7 @@ export default function AboutPhotoGallery() {
             },
           }}
           grabCursor
+          rewind
         >
           {items.map((item, index) => (
             <SwiperSlide key={item.url + index}>

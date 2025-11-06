@@ -76,15 +76,16 @@ const metadata = {
       >
         <!-- Mapa -->
         <div
-          class="col-span-2 col-start-2 row-span-2 lg:col-span-1 lg:col-start-1 lg:row-span-4 lg:row-start-2"
+          class:list={[
+            'relative h-full w-full',
+            'col-span-2 col-start-2 row-span-2 lg:col-span-1 lg:col-start-1 lg:row-span-4 lg:row-start-2',
+          ]}
         >
-          <div class="relative h-full w-full">
-            <Image
-              alt="Mapa Ceará"
-              src={mapaCeara}
-              class="absolute inset-0 h-full w-full lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
-            />
-          </div>
+          <Image
+            alt="Mapa Ceará"
+            src={mapaCeara}
+            class="absolute inset-0 h-full w-full scale-110 lg:top-1/2 lg:left-1/2 lg:-translate-x-2/3 lg:-translate-y-2/3 lg:scale-130"
+          />
         </div>
         <!-- Missão/Visão -->
         <div
