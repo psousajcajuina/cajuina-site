@@ -17,6 +17,7 @@ export interface ImageProps extends Omit<HTMLAttributes<'img'>, 'src'> {
   srcset?: string | null;
   sizes?: string | null;
   fetchpriority?: 'high' | 'low' | 'auto' | null;
+  inferSize?: boolean;
 
   layout?: Layout;
   widths?: number[] | null;
