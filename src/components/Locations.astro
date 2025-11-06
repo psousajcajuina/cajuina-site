@@ -3,6 +3,7 @@ import MapaDistribuidores from '@/components/react/MapaDistribuidores';
 import type { Distribuidor } from '@/types';
 import SwiperLayout from './ui/SwiperLayout.astro';
 import { getCollection } from 'astro:content';
+import DistribuidoresGmaps from './react/Gmaps';
 
 // Buscar distribuidores da coleção
 const distribuidoresCollection = await getCollection('distribuidor');
@@ -21,5 +22,6 @@ const distribuidores: Distribuidor[] = distribuidoresCollection
 ---
 
 <SwiperLayout>
-  <MapaDistribuidores client:only="react" distribuidores={distribuidores} />
+  <!-- <MapaDistribuidores client:only="react" distribuidores={distribuidores} /> -->
+  <DistribuidoresGmaps client:only="react" distribuidores={distribuidores} />
 </SwiperLayout>
