@@ -69,7 +69,7 @@ collections:
     icon: image
     label: Banner do Meio
     folder: src/data/middle-banner
-    create: true
+    create: false
     slug: "{{slug}}"
     editor:
       preview: false

@@ -26,52 +26,36 @@ const {
     <!-- Separador -->
     <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
     <!-- Conteúdo Wrapper -->
-    <div
-      class={twMerge(
-        'pt-12 md:pt-20 lg:flex lg:justify-center lg:gap-10',
-        wrapperClass
-      )}
-    >
+    <div class={twMerge('pt-12 md:pt-20', wrapperClass)}>
       <!-- Imagem -->
-      <div
-        class:list={[
-          'intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0',
-          'lg:order-last',
-          imageWrapperClass,
-        ]}
-      >
-        {
-          image && (
-            <div
-              class:list={[
-                'relative m-auto max-w-5xl',
-                { '-mx-4 sm:-mx-6 lg:mx-0': image.fullSize },
-              ]}
-            >
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
-              ) : (
-                <Image
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  width={1024}
-                  height={576}
-                  {...image}
-                  class={twMerge(
-                    'mx-auto w-full rounded-md',
-                    image.class ?? ''
-                  )}
-                />
-              )}
-            </div>
-          )
-        }
-      </div>
+      {
+        image && (
+          <div
+            class:list={[
+              'intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0',
+              'relative m-auto',
+              { '-mx-4 sm:-mx-6': image.fullSize },
+              imageWrapperClass,
+            ]}
+          >
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                widths={[400, 768, 1024, 2040]}
+                sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                loading="eager"
+                {...image}
+                class={twMerge('mx-auto w-full rounded-md', image.class ?? '')}
+              />
+            )}
+          </div>
+        )
+      }
       <!-- Conteúdo -->
       <div
         class:list={[
-          'mx-0 max-w-5xl pt-5 text-center lg:max-w-[700px] lg:text-left',
+          'mx-auto max-w-[1200px] pt-5 text-center lg:text-left',
           contentWrapperClass,
         ]}
       >

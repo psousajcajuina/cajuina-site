@@ -19,12 +19,20 @@ export default function AboutPhotoGallery() {
             delay: 1500,
             disableOnInteraction: true,
           }}
+          breakpoints={{
+            320: {
+              slidesPerView: 3,
+            },
+            768: {
+              slidesPerView: 6,
+            },
+          }}
           grabCursor
         >
           {items.map((item, index) => (
             <SwiperSlide key={item.url + index}>
               <img
-                className="size-[135px] rounded-[28px] object-cover"
+                className="size-[135px] rounded-[28px] object-cover lg:size-[210px] 2xl:size-[300px]"
                 src={item.url}
               />
             </SwiperSlide>

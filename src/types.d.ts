@@ -253,7 +253,7 @@ export interface Hero
   image?:
     | string
     | ImageMetadata
-    | (ImageMetadata & { fullSize?: boolean })
+    | (ImageMetadata & { fullSize?: boolean; infiniteBorder?: boolean })
     | unknown;
 }
 

@@ -42,13 +42,15 @@ const items: TimelineItem[] = [
     imageClass="lg:hidden"
     class:list={['min-h-[250px]']}
   >
-    <div class="h-full w-full">
+    <div class="flex h-full w-full flex-col gap-4 lg:gap-6">
       <h3
         class="lg:text-caju-heading-primary text-center text-white uppercase lg:text-[48px]"
       >
         Linha do Tempo
       </h3>
-      <section class="flex max-h-[260px] min-h-[168px] w-full py-6">
+      <section
+        class="flex max-h-[260px] min-h-[168px] w-full py-6 lg:max-h-fit"
+      >
         <ChronoTimelapse client:only="react" steps={items} />
       </section>
     </div>
