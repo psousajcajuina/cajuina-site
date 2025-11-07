@@ -99,7 +99,7 @@ const handle = async (
     // chama o handler escrito para Cloudflare Workers
     const response = await worker.fetch(
       request,
-      process.env as Record<string, string>
+      env
     );
 
     // propaga headers e status

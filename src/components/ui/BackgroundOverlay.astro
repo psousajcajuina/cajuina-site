@@ -1,0 +1,92 @@
+---
+/**
+ * @prop {ImageMetadata | string} [image] - Imagem de fundo (ImageMetadata ou URL)
+ * @prop {string} [color] - Cor do overlay em hex (ex: #0D8B3D)
+ * @prop {number} [opacity=60] - Opacidade do overlay (0-100)
+ * @prop {'multiply' | 'overlay' | 'screen' | 'darken' | 'lighten' | 'none'} [blendMode='none'] - Modo de mistura CSS
+ * @prop {string} [class] - Classes Tailwind adicionais para o container
+ * @prop {string} [contentClass] - Classes Tailwind adicionais para o conteúdo
+ * @prop {string} [overlayClass] - Classes Tailwind adicionais para o overlay de cor
+ * @prop {string} [imageClass] - Classes Tailwind adicionais para o container da imagem
+ */
+
+import Image from '@/components/common/Image.astro';
+import type { BackgroundOverlayProps } from '@/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = BackgroundOverlayProps;
+
+const {
+  image,
+  color = null,
+  opacity = 60,
+  blendMode = 'none',
+  class: className = '',
+  contentClass = '',
+  overlayClass = '',
+  imageClass = '',
+} = Astro.props;
+
+const blendModeClass = {
+  multiply: 'mix-blend-multiply',
+  overlay: 'mix-blend-overlay',
+  screen: 'mix-blend-screen',
+  darken: 'mix-blend-darken',
+  lighten: 'mix-blend-lighten',
+  none: '',
+}[blendMode];
+
+// Usar style inline para cores hex dinâmicas (solução do problema do Tailwind)
+const overlayStyle = color
+  ? { backgroundColor: color, opacity: opacity / 100 }
+  : { opacity: opacity / 100 };
+
+const overlayBgClass = !color ? 'bg-caju-heading-primary' : '';
+---
+
+<div class={twMerge('relative overflow-hidden w-full h-full', className)}>
+  <!-- Imagem de fundo -->
+  {
+    image && (
+      <div class={twMerge('absolute inset-0 -z-10 h-full w-full', imageClass)}>
+        {typeof image === 'string' ? (
+          <img
+            src={image}
+            alt="Background"
+            class="h-full min-h-full w-full object-cover"
+            style="display: block;"
+          />
+        ) : (
+          <Image
+            src={image}
+            alt="Background"
+            class="h-full min-h-full w-full object-cover"
+            style="display: block;"
+          />
+        )}
+      </div>
+    )
+  }
+
+  <!-- Overlay de cor -->
+  <div
+    class={twMerge(
+      'absolute inset-0 w-full h-full',
+      overlayBgClass,
+      blendModeClass,
+      overlayClass
+    )}
+    style={overlayStyle}
+  >
+  </div>
+
+  <!-- Conteúdo -->
+  <div
+    class={twMerge(
+      'relative z-10 w-full h-full flex justify-center items-center py-4',
+      contentClass
+    )}
+  >
+    <slot />
+  </div>
+</div>

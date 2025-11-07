@@ -1,9 +1,10 @@
 collections:
-  - name: "post"
-    label: "Blog"
+  - name: 'post'
+    label: 'Blog'
     icon: news
-    folder: "src/data/post"
-    slug: "{{slug}}"
+    folder: 'src/data/post'
+    identifier_field: title
+    slug: '{{slug}}'
     create: true
     fields:
       - { label: 'Título', name: 'title', widget: 'string' }
@@ -18,13 +19,24 @@ collections:
           search_fields: [title],
           display_fields: [title],
           value_field: '{{slug}}',
-          required: false
+          required: false,
         }
       - { label: 'Imagem', name: 'image', widget: 'image' }
-      - { label: 'Data de Publicação', name: 'publishDate', widget: 'datetime', required: false, default: '{{now}}' }
-      - { label: 'Autor', name: 'author', widget: 'string', default: 'Redação São Geraldo' }
+      - {
+          label: 'Data de Publicação',
+          name: 'publishDate',
+          widget: 'datetime',
+          required: false,
+          default: '{{now}}',
+        }
+      - {
+          label: 'Autor',
+          name: 'author',
+          widget: 'string',
+          default: 'Redação São Geraldo',
+        }
       - { label: 'Conteúdo', name: 'body', widget: 'markdown' }
-  
+
   - name: tags
     label: Tags
     icon: sell
@@ -39,4 +51,3 @@ collections:
       - { name: image, label: Image, widget: image, required: false }
 
   - divider: true
-    

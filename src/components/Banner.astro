@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Image from './common/Image.astro';
+
+// Busca o banner ativo da coleção middleBanner
+const middleBanners = await getCollection('middleBanner', ({ data }) => data.active);
+const bannerData = middleBanners[0]?.data;
+
+// Define qual imagem usar baseado no viewport
+const isMobile = false; // Você pode ajustar isso conforme necessário
+const bannerImage = bannerData?.imageMobile || bannerData?.image;
+---
+
+{bannerImage && (
+  <>
+    <!-- Mobile -->
+    <div class="md:hidden">
+      <Image 
+        src={bannerData.imageMobile || bannerData.image} 
+        alt={bannerData.title} 
+      />
+    </div>
+    
+    <!-- Desktop -->
+    <div class="hidden md:block">
+      <Image 
+        src={bannerData.image} 
+        alt={bannerData.title} 
+      />
+    </div>
+  </>
+)}

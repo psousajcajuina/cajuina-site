@@ -1,0 +1,58 @@
+---
+import ChronoTimelapse from '../react/TimelineSwiper';
+import BackgroundOverlay from '../ui/BackgroundOverlay.astro';
+import fabricaPng from '@/assets/images/about/fabrica.png';
+import { type TimelineItem } from '@/types';
+
+const items: TimelineItem[] = [
+  {
+    title: 'Década 60',
+    content:
+      'Aquisição dos primeiros maquinários (todos manuais). Ingresso de seus irmãos Francisco de Souza e Tarcila Sousa como colaboradores da empresa José Amâncio de Souza.',
+  },
+  {
+    title: 'Década de 70',
+    content:
+      'Chegada da energia elétrica na região adquirido equipamentos semiautomáticos, dando um novo impulso a produção.',
+  },
+  {
+    title: '1976',
+    content:
+      'Os irmãos Francisco de Souza e Tarcila Sousa se tornam sócios da empresa, sendo criada a razão social Cajuína São Geraldo Ltda.',
+  },
+  {
+    title: '2025',
+    content:
+      'Atualmente, a Cajuína São Geraldo, possui um parque industrial com extensão de mais de 33 mil metros quadrados e emprega em torno de 600 pessoas diretamente e milhares indiretamente.' +
+      'Além de uma indústria, a empresa tornou-se uma referência cultural da região do Cariri, sendo um local turístico que recebe visitantes de todo o país, desejosos por vivenciar a experiência de conhecer a fabricação dos produtos e degustá-los.',
+  },
+  {
+    title: 'Atualmente',
+    content:
+      'Pautando-se por valores como ética empresarial, excelência na qualidade de produtos e serviços, bem como focados na valorização das pessoas e suas potencialidades, a empresa Cajuína São Geraldo alcança, cada vez mais, em todo o país, fieis apreciadores dos seus sabores inigualáveis.',
+  },
+];
+---
+
+<div class:list={['relative']}>
+  <BackgroundOverlay
+    image={fabricaPng}
+    opacity={90}
+    overlayClass="lg:hidden"
+    imageClass="lg:hidden"
+    class:list={['min-h-[250px]']}
+  >
+    <div class="flex h-full w-full flex-col gap-4 lg:gap-6">
+      <h3
+        class="lg:text-caju-heading-primary text-center text-white uppercase lg:text-[48px]"
+      >
+        Linha do Tempo
+      </h3>
+      <section
+        class="flex max-h-[260px] min-h-[168px] w-full py-6 lg:max-h-fit"
+      >
+        <ChronoTimelapse client:only="react" steps={items} />
+      </section>
+    </div>
+  </BackgroundOverlay>
+</div>

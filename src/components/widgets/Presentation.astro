@@ -1,0 +1,114 @@
+---
+import Image from '@/components/common/Image.astro';
+import Button from '@/components/ui/Button.astro';
+
+import type { Hero } from '@/types';
+import { twMerge } from 'tailwind-merge';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+
+  content = await Astro.slots.render('content'),
+  actions = await Astro.slots.render('actions'),
+  image = await Astro.slots.render('image'),
+
+  wrapperClass,
+  imageWrapperClass,
+  contentWrapperClass,
+  id,
+} = Astro.props as Hero;
+---
+
+<section class="not-prose relative md:-mt-[76px]" {...id ? { id } : {}}>
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
+    <!-- Separador -->
+    <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
+    <!-- Conteúdo Wrapper -->
+    <div class={twMerge('pt-12 md:pt-20', wrapperClass)}>
+      <!-- Imagem -->
+      {
+        image && (
+          <div
+            class:list={[
+              'intersect-once intersect-no-queue intersect-quarter motion-safe:md:intersect:animate-fade motion-safe:md:opacity-0',
+              'relative m-auto',
+              { '-mx-4 sm:-mx-6': image.fullSize },
+              imageWrapperClass,
+            ]}
+          >
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                widths={[400, 768, 1024, 2040]}
+                sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                loading="eager"
+                {...image}
+                class={twMerge('mx-auto w-full rounded-md', image.class ?? '')}
+              />
+            )}
+          </div>
+        )
+      }
+      <!-- Conteúdo -->
+      <div
+        class:list={[
+          'mx-auto max-w-[1200px] pt-5 text-center lg:text-left',
+          contentWrapperClass,
+        ]}
+      >
+        {
+          (tagline || title) && (
+            <h3
+              class:list={[
+                'motion-safe:md:intersect:animate-fade text-caju-heading-primary text-base font-bold tracking-wide uppercase motion-safe:md:opacity-0',
+                'lg:hidden',
+              ]}
+              set:html={tagline || title}
+            />
+          )
+        }
+        {
+          (title || tagline) && (
+            <h1
+              class:list={[
+                'leading-tighter font-heading intersect-once intersect-quarter motion-safe:md:intersect:animate-fade mb-4 text-5xl font-bold tracking-tighter md:text-6xl motion-safe:md:opacity-0',
+                'hidden lg:block',
+                'text-caju-heading-primary',
+              ]}
+              set:html={title || tagline}
+            />
+          )
+        }
+        <div class="mx-auto max-w-3xl">
+          {
+            subtitle && (
+              <p
+                class="font-inter mb-6 text-justify lg:text-[30px]"
+                set:html={subtitle}
+              />
+            )
+          }
+          {
+            actions && (
+              <div class="intersect-once intersect-quarter motion-safe:md:intersect:animate-fade m-auto flex max-w-xs flex-col flex-nowrap gap-4 sm:max-w-md sm:flex-row sm:justify-center motion-safe:md:opacity-0">
+                {Array.isArray(actions) ? (
+                  actions.map((action) => (
+                    <div class="flex w-full sm:w-auto">
+                      <Button {...(action || {})} class="w-full sm:mb-0" />
+                    </div>
+                  ))
+                ) : (
+                  <Fragment set:html={actions} />
+                )}
+              </div>
+            )
+          }
+        </div>
+        {content && <Fragment set:html={content} />}
+      </div>
+    </div>
+  </div>
+</section>

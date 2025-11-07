@@ -1,4 +1,4 @@
-import { defineCollection, reference, z } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const metadataDefinition = () => {
@@ -83,11 +83,25 @@ const product = defineCollection({
   loader: glob({ base: './src/data/product', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) =>
     z.object({
-      layout: z.literal('products').optional(),
+      id: z.number(),
       title: z.string(),
       slug: z.string(),
-      image: image(),
-      description: z.string().optional(),
+      normalImage: image(),
+      hoverImage: image(),
+      sizes: z.object({
+        width: z.number(),
+        height: z.number(),
+      }),
+      sizesMd: z.object({
+        width: z.number(),
+        height: z.number(),
+      }),
+      details: z.object({
+        name: z.string(),
+        image: image(),
+        nutritionalInfo: image(),
+      }),
+      ingredients: z.string().optional(),
     }),
 });
 
@@ -128,5 +142,37 @@ const banner = defineCollection({
     }),
 });
 
+// --- MIDDLE BANNER ---
+const middleBanner = defineCollection({
+  loader: glob({ base: './src/data/middle-banner', pattern: '**/*.{md,mdx}' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      image: image(),
+      imageMobile: image().optional(),
+      active: z.boolean().default(true),
+    }),
+});
+
+// --- DISTRIBUIDORES ---
+const distribuidor = defineCollection({
+  loader: glob({ base: './src/data/distribuidor', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    nome: z.string(),
+    endereco: z.string(),
+    telefone: z.string(),
+    lat: z.number(),
+    lng: z.number(),
+    active: z.boolean().default(true),
+  }),
+});
+
 // --- EXPORT COLLECTIONS ---
-export const collections = { post, product, tag, banner };
+export const collections = {
+  post,
+  product,
+  tag,
+  banner,
+  middleBanner,
+  distribuidor,
+};

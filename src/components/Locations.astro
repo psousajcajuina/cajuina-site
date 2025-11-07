@@ -1,0 +1,34 @@
+---
+import type { Distribuidor } from '@/types';
+import SwiperLayout from './ui/SwiperLayout.astro';
+import { getCollection } from 'astro:content';
+import DistribuidoresGmaps from './react/DistribuidoresMap';
+
+// Buscar distribuidores da coleção
+const distribuidoresCollection = await getCollection('distribuidor');
+
+// Filtrar apenas os ativos e mapear para o formato esperado
+const distribuidores: Distribuidor[] = distribuidoresCollection
+  .filter((dist) => dist.data.active)
+  .map((dist, index) => ({
+    id: index + 1,
+    nome: dist.data.nome,
+    endereco: dist.data.endereco,
+    telefone: dist.data.telefone,
+    lat: dist.data.lat,
+    lng: dist.data.lng,
+  }));
+
+const apiKey =
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.PUBLIC_GOOGLE_MAPS_KEY_PROD
+    : import.meta.env.PUBLIC_GOOGLE_MAPS_KEY_DEV;
+---
+
+<SwiperLayout>
+  <DistribuidoresGmaps
+    client:only="react"
+    distribuidores={distribuidores}
+    apiKey={apiKey}
+  />
+</SwiperLayout>

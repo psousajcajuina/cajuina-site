@@ -1,0 +1,76 @@
+---
+import Image from '../common/Image.astro';
+
+import casaGrande from '@/assets/images/about/casaGrande.png';
+import dancaCariri from '@/assets/images/about/dancaCariri.png';
+import evandroFerreira from '@/assets/images/about/evandroFerreira.png';
+import Button from '../ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+
+const items = [
+  {
+    image: casaGrande,
+    link: 'https://blogfundacaocasagrande.wordpress.com/',
+    instagram: 'https://www.instagram.com/fundacaocasagrande/',
+    description:
+      'Somos mantenedores da Fundação Casa Grande – Memorial do Homem Kariri que fica localizada na cidade de Nova Olinda-CE.',
+  },
+  {
+    image: dancaCariri,
+    link: 'https://www.instagram.com/adcdancacariri/',
+    instagram: 'https://www.instagram.com/adcdancacariri/',
+    description:
+      'Em 2022 mais uma Instituição se juntou ao time, a Associação Dança Cariri- ADC foi fundada em 2007 e legalmente oficializada em 17 de março de 2008.',
+  },
+  {
+    image: evandroFerreira,
+    description:
+      'Cajuína São Geraldo é a patrocinadora oficial do corredor esportivo Evandro Ferreira, um dos maiores da região do Cariri.',
+  },
+];
+---
+
+<section
+  class="flex min-h-[270px] w-full flex-col gap-5 px-2 pt-5 pb-10 sm:px-5"
+>
+  <h4 class="text-caju-heading-primary text-center uppercase">
+    Responsabilidade Social
+  </h4>
+  <!-- Lugares -->
+  <div class="grid w-full grid-cols-3 items-start gap-2 *:col-span-1">
+    {
+      items.map(({ image, link, description, instagram }) => (
+        <div class="mx-auto flex flex-col gap-3 md:gap-6">
+          <Image
+            alt="Responsabilidade Social"
+            src={image}
+            layout="responsive"
+            widths={[117, 350]}
+            sizes="(max-width: 768px) 117px, 350px"
+            class="rounded-lg object-cover lg:h-[400px]!"
+          />
+          <p class="font-inter text-xxs text-justify md:text-left md:text-xl lg:text-3xl">
+            {description}
+          </p>
+          <div class="font-inter flex h-fit min-w-[75px] items-center justify-start gap-1 font-normal **:md:text-base">
+            <Button
+              variant="green"
+              href={link || '#'}
+              target="_blank"
+              class="m-0! min-h-3! w-[55px] p-1! md:w-[141px]"
+            >
+              Ver mais
+            </Button>
+            <Button
+              href={instagram || link || '#'}
+              variant="yellow"
+              class="m-0! min-h-[5px]! min-w-[5px]! p-1!"
+            >
+              <Icon name="mdi:instagram" class="size-5 md:size-6" />
+            </Button>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

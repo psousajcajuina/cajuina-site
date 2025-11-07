@@ -1,0 +1,97 @@
+---
+import { findImage } from '@/utils/images';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+  isUnpicCompatible,
+  unpicOptimizer,
+  type ImageProps,
+} from '@/utils/images-optimization';
+import type { ImageType } from './common/Image.astro';
+import Button from './ui/Button.astro';
+
+import aboutBgMobile from '@/assets/images/mobile/about-bg.png';
+import aboutBg from '@/assets/images/home/about.png'; // Trocar depois para imagem desktop
+
+type Props = ImageProps;
+
+const _imageMobile = await findImage(aboutBgMobile);
+const _image = await findImage(aboutBg);
+
+let imageMobile: ImageType | undefined = undefined;
+let imageDesktop: ImageType | undefined = undefined;
+
+// Processa imagem mobile
+if (
+  typeof _imageMobile === 'string' &&
+  (_imageMobile.startsWith('http://') || _imageMobile.startsWith('https://')) &&
+  isUnpicCompatible(_imageMobile)
+) {
+  imageMobile = await getImagesOptimized(_imageMobile, {}, unpicOptimizer);
+} else if (_imageMobile) {
+  imageMobile = await getImagesOptimized(
+    _imageMobile,
+    {},
+    astroAssetsOptimizer
+  );
+}
+
+// Processa imagem desktop
+if (
+  typeof _image === 'string' &&
+  (_image.startsWith('http://') || _image.startsWith('https://')) &&
+  isUnpicCompatible(_image)
+) {
+  imageDesktop = await getImagesOptimized(_image, {}, unpicOptimizer);
+} else if (_image) {
+  imageDesktop = await getImagesOptimized(_image, {}, astroAssetsOptimizer);
+}
+---
+
+<!-- Container do About com background responsivo -->
+<div
+  class:list={[
+    'about-bg min-h-[149px] w-full bg-cover bg-no-repeat py-2 md:py-6 lg:h-[550px] lg:bg-center',
+    'grid grid-cols-2 items-center',
+  ]}
+>
+  <div
+    class="col-span-2 flex flex-col items-center justify-evenly gap-2 text-center font-normal tracking-[-2%] text-white md:text-left lg:col-span-1 lg:col-start-2 lg:items-start lg:gap-4 lg:text-left"
+  >
+    <h4
+      class="max-w-48 text-sm! leading-6 font-normal md:max-w-fit md:text-4xl md:leading-[auto] md:-tracking-[2%]"
+    >
+      NOSSO COMPROMISSO
+      <br />
+      É O QUE NOS MOVE!
+    </h4>
+    <p
+      class="text-xxs font-inter w-full max-w-[350px] md:max-w-[580px] md:text-2xl"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+    <Button
+      variant="yellow"
+      class="md:max-h-16 md:max-w-44 md:px-6 md:py-3 md:text-xs"
+      href="/sobre">Saiba Mais</Button
+    >
+  </div>
+</div>
+
+<style
+  define:vars={{
+    bgMobile: `url(${imageMobile?.src})`,
+    bgDesktop: `url(${imageDesktop?.src})`,
+  }}
+>
+  .about-bg {
+    background-image: var(--bgMobile);
+  }
+
+  @media (min-width: 1024px) {
+    .about-bg {
+      background-image: var(--bgDesktop);
+    }
+  }
+</style>

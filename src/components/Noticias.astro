@@ -1,0 +1,35 @@
+---
+import type { Post } from '@/types';
+import { fetchPosts } from '@/utils/blog';
+import NewsSwiper from './react/NewsSwiper';
+
+import arrowNext from '@/assets/images/arrowNext.png';
+import arrowPrev from '@/assets/images/arrowPrev.png';
+import SwiperLayout from './ui/SwiperLayout.astro';
+import type { only } from 'node:test';
+
+const posts = await fetchPosts();
+
+// Transformar dados para o componente React
+const postsForReact = posts.map((post: Post) => ({
+  id: post.id || post.slug || post.permalink,
+  title: post.title,
+  excerpt: post.excerpt,
+  content: post.content,
+  image: typeof post.image === 'string' ? post.image : post.image?.src,
+  permalink: post.permalink,
+}));
+---
+
+<div class="my-6 flex min-h-[340px] w-full flex-col text-center">
+  <h4 class="text-caju-heading-primary uppercase">Notícias</h4>
+
+  <SwiperLayout>
+    <NewsSwiper
+      posts={postsForReact}
+      arrowNext={arrowNext.src}
+      arrowPrev={arrowPrev.src}
+      client:only="react"
+    />
+  </SwiperLayout>
+</div>

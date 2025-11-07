@@ -1,14 +1,14 @@
-import path from "path";
-import { fileURLToPath } from "url";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
-import sitemap from "@astrojs/sitemap";
-import mdx from "@astrojs/mdx";
-import partytown from "@astrojs/partytown";
-import icon from "astro-icon";
-import compress from "astro-compress";
-import type { AstroIntegration } from "astro";
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
+import partytown from '@astrojs/partytown';
+import icon from 'astro-icon';
+import compress from 'astro-compress';
+import type { AstroIntegration } from 'astro';
 
 import astrowind from './vendor/integration';
 
@@ -18,18 +18,28 @@ import {
   lazyImagesRehypePlugin,
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
+import svelte from '@astrojs/svelte';
+import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
-const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
-  hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
-
+const whenExternalScripts = (
+  items: (() => AstroIntegration) | (() => AstroIntegration)[] = []
+) =>
+  hasExternalScripts
+    ? Array.isArray(items)
+      ? items.map((item) => item())
+      : [items()]
+    : [];
 
 // https://astro.build/config
 export default defineConfig({
   site: process.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
-  output: 'static', // SSG completo por padrão
+
+  // SSG completo por padrão
+  output: 'static',
+
   integrations: [
     sitemap(),
     mdx(),
@@ -49,13 +59,11 @@ export default defineConfig({
         ],
       },
     }),
-
     ...whenExternalScripts(() =>
       partytown({
         config: { forward: ['dataLayer.push'] },
       })
     ),
-
     compress({
       CSS: true,
       HTML: {
@@ -68,21 +76,25 @@ export default defineConfig({
       SVG: false,
       Logger: 1,
     }),
-
     astrowind({
       config: './src/config.yaml',
     }),
+    svelte(),
+    react(),
   ],
 
   image: {
-    domains: ['cdn.pixabay.com'],
+    domains: [
+      'cdn.pixabay.com',
+      'images.unsplash.com',
+      'cajuinasaogeraldo.com.br',
+    ],
   },
 
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin, resolveImagePathsRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
     shikiConfig: {
-      // Reutiliza a instância do Shiki para evitar criar múltiplas
       wrap: true,
       themes: {
         light: 'github-light',
@@ -90,11 +102,12 @@ export default defineConfig({
       },
     },
   },
+
   vite: {
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, './src'),
+        '@': path.resolve(__dirname, './src'),
       },
     },
   },

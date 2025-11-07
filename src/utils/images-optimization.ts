@@ -17,6 +17,7 @@ export interface ImageProps extends Omit<HTMLAttributes<'img'>, 'src'> {
   srcset?: string | null;
   sizes?: string | null;
   fetchpriority?: 'high' | 'low' | 'auto' | null;
+  inferSize?: boolean;
 
   layout?: Layout;
   widths?: number[] | null;
@@ -90,21 +91,21 @@ export const getSizes = (width?: number, layout?: Layout): string | undefined =>
     return undefined;
   }
   switch (layout) {
-    // If screen is wider than the max size, image width is the max size,
-    // otherwise it's the width of the screen
-    case `constrained`:
-      return `(min-width: ${width}px) ${width}px, 100vw`;
+  // If screen is wider than the max size, image width is the max size,
+  // otherwise it's the width of the screen
+  case `constrained`:
+    return `(min-width: ${width}px) ${width}px, 100vw`;
 
     // Image is always the same width, whatever the size of the screen
-    case `fixed`:
-      return `${width}px`;
+  case `fixed`:
+    return `${width}px`;
 
     // Image is always the width of the screen
-    case `fullWidth`:
-      return `100vw`;
+  case `fullWidth`:
+    return `100vw`;
 
-    default:
-      return undefined;
+  default:
+    return undefined;
   }
 };
 

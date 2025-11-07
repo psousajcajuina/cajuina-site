@@ -1,0 +1,361 @@
+---
+// import Features2 from '@/components/widgets/Features2.astro';
+// import Features3 from '@/components/widgets/Features3.astro';
+// import Stats from '@/components/widgets/Stats.astro';
+// import Steps2 from '@/components/widgets/Steps2.astro';
+import Layout from '@/layouts/PageLayout.astro';
+
+import Timeline from '@/components/widgets/Timeline.astro';
+import AboutPhotoGallery from '@/components/react/AboutPhotoGallery';
+import Presentation from '@/components/widgets/Presentation.astro';
+import SwiperLayout from '@/components/ui/SwiperLayout.astro';
+
+import fabricaPng from '@/assets/images/about/fabrica.png';
+import businessPng from '@/assets/images/about/business.png';
+import mapaCeara from '@/assets/images/about/mapaCeara.png';
+import Image from '@/components/common/Image.astro';
+import SocialReponsability from '@/components/widgets/SocialReponsability.astro';
+
+const metadata = {
+  title: 'Conheça mais sobre a Cajuína São Geraldo, a tradição do Nordeste',
+};
+---
+
+<Layout metadata={metadata}>
+  <Presentation
+    tagline="Somos uma marca caririense"
+    wrapperClass="lg:flex lg:justify-center lg:gap-10"
+    imageWrapperClass="lg:order-last lg:mx-0"
+    image={{
+      src: fabricaPng,
+      alt: 'Fábrica São Geraldo',
+      fullSize: true,
+      class: 'w-[391px] h-[110px] lg:w-[900px] lg:h-[500px] object-fill',
+    }}
+  >
+    <Fragment slot="subtitle">
+      que oferece à sociedade refrigerantes com alto padrão de qualidade. Esse é
+      nosso principal objetivo e o que nos faz ser uma das maiores indústrias de
+      bebidas do Ceará. Com mais de 45 anos, atuamos em todos os estados do
+      Nordeste, possuímos um parque industrial com extensão de mais de 33 mil
+      metros quadrados e empregamos em torno de 700 pessoas diretamente e
+      milhares indiretamente.
+    </Fragment>
+  </Presentation>
+
+  <Timeline />
+
+  <iframe
+    class="mx-auto mt-5 h-[315px] w-full max-w-[1200px] px-2 lg:h-[600px]"
+    src="https://www.youtube-nocookie.com/embed/DfuYfwmVYiE?si=tIq-3r-PHFE_wfot&controls=0"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  >
+  </iframe>
+
+  <SwiperLayout>
+    <AboutPhotoGallery client:only="react" />
+  </SwiperLayout>
+
+  <Presentation
+    wrapperClass="py-0!"
+    imageWrapperClass=""
+    image={{
+      src: businessPng,
+      alt: 'Business image',
+      fullSize: true,
+      class: 'w-full! h-[110px] md:h-auto',
+    }}
+  >
+    <!-- Business -->
+    <Fragment slot="content">
+      <section
+        class="relative grid min-h-[540px] w-full grid-cols-3 grid-rows-5 gap-4 text-left lg:grid-cols-2"
+      >
+        <!-- Mapa -->
+        <div
+          class:list={[
+            'relative h-full w-full overflow-visible',
+            'col-span-2 col-start-2 row-span-2 md:z-10 lg:col-span-1 lg:col-start-1 lg:row-span-4 lg:row-start-2',
+          ]}
+        >
+          <Image
+            alt="Mapa Ceará"
+            src={mapaCeara}
+            layout="responsive"
+            class="absolute h-full w-full -translate-y-6 scale-120 md:-translate-y-20 md:scale-95 lg:left-1/2 lg:-translate-x-2/3 lg:-translate-y-8 lg:scale-120"
+          />
+          <!-- class:list={['size-full']}  -->
+        </div>
+        <!-- Missão/Visão -->
+        <div
+          class="col-start-1 row-span-2 row-start-1 grid gap-4 lg:col-span-2 lg:row-span-1 lg:row-start-1 lg:grid-cols-2 lg:gap-0 [&>div>h5]:md:text-2xl [&>div>h5]:lg:text-5xl [&>div>p]:md:text-xl [&>div>p]:lg:text-3xl"
+        >
+          <!-- Missão -->
+          <div class="space-y-2">
+            <h5 class="text-caju-heading-primary uppercase">Missão</h5>
+            <p class="font-inter text-xxs">
+              Oferecer ao consumidor uma experiência de sabor, qualidade e
+              tradição do Nordeste.
+            </p>
+          </div>
+          <!-- Visão -->
+          <div class="space-y-2">
+            <h5 class="text-caju-heading-primary uppercase">Visão</h5>
+            <p class="font-inter text-xxs">
+              Oferecer ao consumidor uma experiência de sabor, qualidade e
+              tradição do Nordeste.
+            </p>
+          </div>
+        </div>
+        <!-- Valores -->
+        <div
+          class="col-span-3 row-span-3 row-start-3 flex flex-col lg:row-span-4 lg:row-start-2 [&_h5]:md:text-2xl [&_h5]:lg:text-5xl [&>div>dl>div]:md:text-xl [&>div>dl>div]:lg:text-3xl"
+        >
+          <h5 class="text-caju-heading-primary uppercase">Valores</h5>
+          <div class="font-inter text-xxs flex-1 [&_div>dt]:font-bold">
+            <dl class="flex h-full flex-col justify-evenly gap-2 lg:gap-5">
+              <div>
+                <dt class="font-semibold">Ética Empresarial</dt>
+                <dd>
+                  Atitudes e práticas reconhecidas por lei e a sociedade como
+                  justas e corretas.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Qualidade</dt>
+                <dd>
+                  Produtos, serviços, processos e práticas com padrões de
+                  excelência.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Cultura de Resultado</dt>
+                <dd>
+                  Busca contínua de ações conscientes com foco na agregação de
+                  valor.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Pessoas</dt>
+                <dd>
+                  Valorizaremos sobremaneira pessoas éticas, competentes, com
+                  iniciativas, empreendedoras, determinadas e comprometidas com
+                  a nossa filosofia.
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-semibold">Produtividade</dt>
+                <dd>
+                  Garantir que todas as atividades sejam planejadas, executadas
+                  e avaliadas, visando o menor gasto de energia e recursos.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+  </Presentation>
+
+  <SocialReponsability />
+
+  <!-- Stats Widget ****************** -->
+  <!-- <Stats
+    title="Statistics about us"
+    stats={[
+      { title: 'Offices', amount: '4' },
+      { title: 'Employees', amount: '248' },
+      { title: 'Templates', amount: '12' },
+      { title: 'Awards', amount: '24' },
+    ]}
+  /> -->
+
+  <!-- Features3 Widget ************** -->
+  <!-- 
+  <Features3
+    title="Our templates"
+    subtitle="Etiam scelerisque, enim eget vestibulum luctus, nibh mauris blandit nulla, nec vestibulum risus justo ut enim. Praesent lacinia diam et ante imperdiet euismod."
+    columns={3}
+    isBeforeContent={true}
+    items={[
+      {
+        title: 'Educational',
+        description:
+          'Morbi faucibus luctus quam, sit amet aliquet felis tempor id. Cras augue massa, ornare quis dignissim a, molestie vel nulla.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Interior Design',
+        description:
+          'Vivamus porttitor, tortor convallis aliquam pretium, turpis enim consectetur elit, vitae egestas purus erat ac nunc nulla.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Photography',
+        description:
+          'Duis sed lectus in nisl vehicula porttitor eget quis odio. Aliquam erat volutpat. Nulla eleifend nulla id sem fermentum.',
+        icon: 'tabler:template',
+      },
+    ]}
+  /> -->
+
+  <!-- Features3 Widget ************** -->
+
+  <!-- <Features3
+    columns={3}
+    isAfterContent={true}
+    items={[
+      {
+        title: 'E-commerce',
+        description:
+          'Rutrum non odio at vehicula. Proin ipsum justo, dignissim in vehicula sit amet, dignissim id quam. Sed ac tincidunt sapien.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Blog',
+        description:
+          'Nullam efficitur volutpat sem sed fringilla. Suspendisse et enim eu orci volutpat laoreet ac vitae libero.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Business',
+        description:
+          'Morbi et elit finibus, facilisis justo ut, pharetra ipsum. Donec efficitur, ipsum quis congue luctus, mauris magna.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Branding',
+        description:
+          'Suspendisse vitae nisi eget tortor luctus maximus sed non lectus. Cras malesuada pretium placerat. Nullam venenatis dolor a ante rhoncus.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Medical',
+        description:
+          'Vestibulum malesuada lacus id nibh posuere feugiat. Nam volutpat nulla a felis ultrices, id suscipit mauris congue. In hac habitasse platea dictumst.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'Fashion Design',
+        description:
+          'Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus.',
+        icon: 'tabler:template',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+      alt: 'Colorful Image',
+    }}
+  /> -->
+
+  <!-- Steps2 Widget ****************** -->
+
+  <!-- <Steps2
+    title="Our values"
+    subtitle="Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. Nulla facilisi. Vestibulum malesuada lacus."
+    items={[
+      {
+        title: 'Customer-centric approach',
+        description:
+          'Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum.',
+      },
+      {
+        title: 'Constant Improvement',
+        description:
+          'Phasellus laoreet fermentum venenatis. Vivamus dapibus pulvinar arcu eget mattis. Fusce eget mauris leo.',
+      },
+      {
+        title: 'Ethical Practices',
+        description:
+          'Vestibulum imperdiet libero et lectus molestie, et maximus augue porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+      },
+    ]}
+  /> -->
+
+  <!-- Steps2 Widget ****************** -->
+
+  <!-- <Steps2
+    title="Achievements"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla."
+    isReversed={true}
+    callToAction={{
+      text: 'See more',
+      href: '/',
+    }}
+    items={[
+      {
+        title: 'Global reach',
+        description:
+          'Nam malesuada urna in enim imperdiet tincidunt. Phasellus non tincidunt nisi, at elementum mi.',
+        icon: 'tabler:globe',
+      },
+      {
+        title: 'Positive customer feedback and reviews',
+        description:
+          'Cras semper nulla leo, eget laoreet erat cursus sed. Praesent faucibus massa in purus iaculis dictum.',
+        icon: 'tabler:message-star',
+      },
+      {
+        title: 'Awards and recognition as industry experts',
+        description:
+          'Phasellus lacinia cursus velit, eu malesuada magna pretium eu. Etiam aliquet tellus purus, blandit lobortis ex rhoncus vitae.',
+        icon: 'tabler:award',
+      },
+    ]}
+  /> -->
+
+  <!-- Features2 Widget ************** -->
+
+  <!-- <Features2
+    title="Our locations"
+    tagline="Find us"
+    columns={4}
+    items={[
+      {
+        title: 'EE.UU',
+        description: '1234 Lorem Ipsum St, 12345, Miami',
+      },
+      {
+        title: 'Spain',
+        description: '5678 Lorem Ipsum St, 56789, Madrid',
+      },
+      {
+        title: 'Australia',
+        description: '9012 Lorem Ipsum St, 90123, Sydney',
+      },
+      {
+        title: 'Brazil',
+        description: '3456 Lorem Ipsum St, 34567, São Paulo',
+      },
+    ]}
+  /> -->
+
+  <!-- Features2 Widget ************** -->
+
+  <!-- <Features2
+    title="Technical Support"
+    tagline="Contact us"
+    columns={2}
+    items={[
+      {
+        title: 'Chat with us',
+        description:
+          'Integer luctus laoreet libero, auctor varius purus rutrum sit amet. Ut nec molestie nisi, quis eleifend mi.',
+        icon: 'tabler:messages',
+      },
+      {
+        title: 'Call us',
+        description:
+          'Mauris faucibus finibus orci, in posuere elit viverra non. In hac habitasse platea dictumst. Cras lobortis metus a hendrerit congue.',
+        icon: 'tabler:headset',
+      },
+    ]}
+  /> -->
+</Layout>

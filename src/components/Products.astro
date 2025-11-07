@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import type { ProductItem } from '@/types';
+import ProductCarousel from './react/ProductsCarrousel';
+import SwiperLayout from './ui/SwiperLayout.astro';
+
+// Busca todos os produtos da coleção
+const productsCollection = await getCollection('product');
+
+// Ordena por ID e mapeia para o formato esperado
+const products: ProductItem[] = productsCollection
+  .sort((a, b) => a.data.id - b.data.id)
+  .map((product) => ({
+    id: product.data.id,
+    normal: product.data.normalImage,
+    hover: product.data.hoverImage,
+    sizes: product.data.sizes,
+    sizesMd: product.data.sizesMd,
+    details: product.data.details,
+    ingredients: product.data.ingredients,
+  }));
+---
+
+<SwiperLayout>
+  <ProductCarousel client:only="react" products={products} />
+</SwiperLayout>

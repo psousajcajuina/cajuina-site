@@ -1,7 +1,19 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { SITE } from 'astrowind:config';
-import { getHomePermalink } from '@/utils/permalinks';
+// import { SITE } from 'astrowind:config';
+// import { getHomePermalink } from '@/utils/permalinks';
+import { findImage } from '@/utils/images';
+import type { ImageType } from '../common/Image.astro';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+  isUnpicCompatible,
+  unpicOptimizer,
+} from '@/utils/images-optimization';
+import Image from '../common/Image.astro';
+
+import footerBg from '@/assets/images/mobile/footer.png';
+import logoColorida from '@/assets/images/logo-colorida.png';
 
 interface Link {
   text?: string;
@@ -23,82 +35,115 @@ export interface Props {
   theme?: string;
 }
 
-const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+const _image = await findImage(footerBg);
+let image: ImageType | undefined = undefined;
+
+if (
+  typeof _image === 'string' &&
+  (_image.startsWith('http://') || _image.startsWith('https://')) &&
+  isUnpicCompatible(_image)
+) {
+  image = await getImagesOptimized(_image, {}, unpicOptimizer);
+} else if (_image) {
+  image = await getImagesOptimized(_image, {}, astroAssetsOptimizer);
+}
+
+const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 ---
 
-<footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
-  <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div
-    class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300 intersect-once intersect-quarter intersect-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-  >
-    <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
-      <div class="col-span-12 lg:col-span-4">
-        <div class="mb-2">
-          <a class="inline-block font-bold text-xl" href={getHomePermalink()}>{SITE?.name}</a>
-        </div>
-        <div class="text-sm text-muted flex gap-1">
+<footer
+  style={`background-image: url(${image?.src});`}
+  class:list={[
+    'relative min-h-[546px] w-full bg-contain bg-center bg-repeat-x',
+    'px-4 py-6 lg:px-8',
+    'flex flex-col justify-evenly gap-2 lg:gap-6',
+  ]}
+>
+  <!-- Links, Sociais e Logo -->
+  <div class="flex flex-col items-center justify-center gap-4 lg:flex-row">
+    <!-- Links e Sociais -->
+    <div
+      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start lg:gap-6"
+    >
+      <!-- Social -->
+      <div
+        class="relative flex h-full w-[30%] max-w-[180px] items-center justify-center lg:max-w-[250px] lg:justify-start"
+      >
+        <div
+          class="social-wrapper flex flex-col items-center gap-2.5 lg:flex-row"
+        >
           {
-            secondaryLinks.map(({ text, href }, index) => (
-              <>
-                {index !== 0 ? ' · ' : ''}
-                <a
-                  class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                  href={href}
-                  set:html={text}
-                />
-              </>
+            socialLinks.map(({ ariaLabel, href, text, icon }) => (
+              <a
+                class="text-muted bg-caju-heading-yellow inline-flex h-fit w-fit items-center rounded-full p-1 text-sm"
+                aria-label={ariaLabel}
+                href={href}
+              >
+                {icon && (
+                  <Icon name={icon} class="size-8 text-white lg:size-10" />
+                )}
+                <Fragment set:html={text} />
+              </a>
             ))
           }
         </div>
+        <!-- Separador amarelo -->
+        <div
+          class="bg-caju-heading-yellow justify-self absolute top-1/2 right-0 h-[235px] w-1 -translate-y-1/2 lg:hidden"
+        >
+        </div>
       </div>
-      {
-        links.map(({ title, links }) => (
-          <div class="col-span-6 md:col-span-3 lg:col-span-2">
-            <div class="dark:text-gray-300 font-medium mb-2">{title}</div>
-            {links && Array.isArray(links) && links.length > 0 && (
-              <ul class="text-sm">
-                {links.map(({ text, href, ariaLabel }) => (
-                  <li class="mb-2">
+      <!-- Links -->
+      <div class="grid flex-1 gap-5 pl-6">
+        {
+          links.map(({ title, links }, index) => (
+            <div class="flex flex-col gap-1 pb-3 last:border-b-0">
+              <h5 class="text-caju-heading-yellow mb-0! text-sm uppercase lg:text-[32px]">
+                {title}
+              </h5>
+              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-[24px]">
+                {links.map(({ href, text, ariaLabel }) => (
+                  <li
+                    class:list={[
+                      { 'col-span-2': links.length <= 3 },
+                      { 'row-span-3': index === 1 },
+                    ]}
+                  >
                     <a
-                      class="text-muted hover:text-gray-700 hover:underline dark:text-gray-400 transition duration-150 ease-in-out"
+                      class="hover:text-caju-secondary-orange text-white"
                       href={href}
                       aria-label={ariaLabel}
                     >
-                      <Fragment set:html={text} />
+                      {text}
                     </a>
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-        ))
-      }
-    </div>
-    <div class="md:flex md:items-center md:justify-between py-6 md:py-8">
-      {
-        socialLinks?.length ? (
-          <ul class="flex mb-4 md:order-1 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 md:rtl:ml-0 md:rtl:mr-4">
-            {socialLinks.map(({ ariaLabel, href, text, icon }) => (
-              <li>
-                <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-hidden focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-                  aria-label={ariaLabel}
-                  href={href}
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                  <Fragment set:html={text} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          ''
-        )
-      }
-
-      <div class="text-sm mr-4 dark:text-muted">
-        <Fragment set:html={footNote} />
+            </div>
+          ))
+        }
       </div>
+    </div>
+
+    <!-- Logo -->
+    <div
+      class="flex h-[94px]! w-[157px]! items-center justify-center lg:order-first lg:h-[322px]! lg:w-[540px]!"
+    >
+      <Image
+        class="h-full w-full object-cover"
+        sizes="(max-width: 900px) 157px, 540px"
+        src={logoColorida}
+        alt="São geraldo"
+      />
+    </div>
+  </div>
+
+  <!-- Footnote -->
+  <div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
+    <div
+      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-[20px]!"
+    >
+      <Fragment set:html={footNote} />
     </div>
   </div>
 </footer>

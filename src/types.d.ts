@@ -1,6 +1,8 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import type { HTMLAttributes, ImageMetadata } from 'astro/types';
 
+declare module '@tailwindcss/typography';
+
 export interface Post {
   /** A unique ID number that identifies a post. */
   id: string;
@@ -42,6 +44,30 @@ export interface Post {
 
   /**  */
   readingTime?: number;
+}
+
+export interface Distribuidor {
+  id: number;
+  nome: string;
+  endereco: string;
+  telefone: string;
+  lat: number;
+  lng: number;
+}
+
+export interface ProductItem {
+  id: string | number;
+  normal: string | ImageMetadata;
+  hover: string | ImageMetadata;
+  alt?: string;
+  sizes: { width: number; height: number };
+  sizesMd?: { width: number; height: number }; // Tamanhos para tela md (768px+)
+  details?: {
+    name: string;
+    image: string | ImageMetadata;
+    nutritionalInfo: string | ImageMetadata;
+  };
+  ingredients?: string;
 }
 
 export interface Taxonomy {
@@ -182,11 +208,14 @@ export interface Disclaimer {
 
 // COMPONENTS
 export interface CallToAction extends Omit<HTMLAttributes<'a'>, 'slot'> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
+  variant?: 'green' | 'yellow' | 'outlined';
+  target?: string;
   text?: string;
   icon?: string;
+  class?: string;
   classes?: Record<string, string>;
   type?: 'button' | 'submit' | 'reset';
+  [key: string]: any;
 }
 
 export interface ItemGrid {
@@ -213,10 +242,37 @@ export interface Form {
 }
 
 // WIDGETS
-export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' | 'classes'> {
+export interface Hero
+  extends Omit<Headline, 'classes'>,
+    Omit<Widget, 'isDark' | 'classes'> {
   content?: string;
   actions?: string | CallToAction[];
+  wrapperClass?: string;
+  imageWrapperClass?: string;
+  contentWrapperClass?: string;
+  image?:
+    | string
+    | ImageMetadata
+    | (ImageMetadata & { fullSize?: boolean; infiniteBorder?: boolean })
+    | unknown;
+}
+
+export interface TimelineItem {
+  title: string;
+  dateLabel?: string;
+  content?: string;
   image?: string | unknown;
+}
+
+export interface BackgroundOverlayProps {
+  image?: ImageMetadata | string;
+  color?: string;
+  opacity?: number;
+  blendMode?: 'multiply' | 'overlay' | 'screen' | 'darken' | 'lighten' | 'none';
+  class?: string;
+  contentClass?: string;
+  overlayClass?: string;
+  imageClass?: string;
 }
 
 export interface Team extends Omit<Headline, 'classes'>, Widget {
