@@ -9,6 +9,8 @@ COPY . .
 RUN pnpm run build
 
 ARG SITE_URL
+ARG PUBLIC_GMAPS_API_KEY
+ENV PUBLIC_GMAPS_API_KEY=${PUBLIC_GMAPS_API_KEY}
 ENV SITE_URL=${SITE_URL}
 
 # --- Final stage (serve static files) -------------------------------------
