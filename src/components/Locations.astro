@@ -3,7 +3,7 @@ import MapaDistribuidores from '@/components/react/MapaDistribuidores';
 import type { Distribuidor } from '@/types';
 import SwiperLayout from './ui/SwiperLayout.astro';
 import { getCollection } from 'astro:content';
-import DistribuidoresGmaps from './react/Gmaps';
+import DistribuidoresGmaps from './react/DistribuidoresMap';
 
 // Buscar distribuidores da coleção
 const distribuidoresCollection = await getCollection('distribuidor');
@@ -19,6 +19,8 @@ const distribuidores: Distribuidor[] = distribuidoresCollection
     lat: dist.data.lat,
     lng: dist.data.lng,
   }));
+
+distribuidores.forEach((dist) => console.log(dist.lat, dist.lng));
 ---
 
 <SwiperLayout>
