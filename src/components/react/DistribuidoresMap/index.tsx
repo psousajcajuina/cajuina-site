@@ -47,7 +47,7 @@ export function getData() {
 
     data.push({
       id: String(index),
-      position: { lat: rnd(53.52, 53.63), lng: rnd(9.88, 10.12) },
+      position: { lat: rnd(-7.2, -8.1), lng: rnd(-39, -39.4) },
       zIndex: index,
       type,
     });
@@ -318,12 +318,6 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
               </InfoWindow>
             )}
           </Map>
-          {/* <ControlPanel
-            anchorPointName={anchorPoint}
-            onAnchorPointChange={(newAnchorPoint: AnchorPointName) =>
-              setAnchorPoint(newAnchorPoint)
-            }
-          /> */}
         </div>
 
         <div className="w-full lg:flex lg:flex-2 lg:items-center lg:justify-center">
