@@ -9,7 +9,7 @@ interface Props {
   onReset?: () => void;
 }
 
-export const AutocompleteWebComponent = ({ onPlaceSelect, onReset }: Props) => {
+export const AutoCompleteSearchBox = ({ onPlaceSelect, onReset }: Props) => {
   useMapsLibrary('places');
   const ref = useRef<google.maps.places.PlaceAutocompleteElement>(null);
 
@@ -48,7 +48,7 @@ export const AutocompleteWebComponent = ({ onPlaceSelect, onReset }: Props) => {
       <gmp-place-autocomplete
         ref={ref}
         includedRegionCodes={['br']}
-        className="w-full rounded-lg border border-black bg-white text-black scheme-light shadow-sm focus:ring-2 focus:ring-blue-400"
+        className="w-full rounded-lg border border-black bg-white text-black scheme-light shadow-sm focus:ring-2 focus:ring-blue-400/90"
         ongmp-select={(ev: any) => {
           void handlePlaceSelect(ev.placePrediction.toPlace());
         }}

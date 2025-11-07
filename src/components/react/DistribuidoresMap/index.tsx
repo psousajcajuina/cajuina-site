@@ -9,27 +9,27 @@ import {
   Map,
   useMap,
 } from '@vis.gl/react-google-maps';
-import { AutocompleteWebComponent } from './WebComponent';
+import { AutoCompleteSearchBox } from './AutoCompleteSearchBox';
 import useGmapsActions from '../hooks/useGmapsActions';
 
 interface Props {
   distribuidores: Distribuidor[];
+  apiKey: string;
   defaultPosition: google.maps.LatLngLiteral;
 }
 export type MapAnchorPointName = keyof typeof AdvancedMarkerAnchorPoint;
+
+interface MapControllerProps {
+  defaultPosition: google.maps.LatLngLiteral;
+  handleRadiusFilterAndSort: (lat: number, lng: number) => void;
+  resetFilters: () => void;
+}
 
 function MapController({
   defaultPosition,
   handleRadiusFilterAndSort,
   resetFilters,
-}: {
-  defaultPosition: google.maps.LatLngLiteral;
-  distribuidores: Distribuidor[];
-  setSortedDistribuidores: (dists: Distribuidor[]) => void;
-  setSelectedMarker: (id: number | null) => void;
-  handleRadiusFilterAndSort: (lat: number, lng: number) => void;
-  resetFilters: () => void;
-}) {
+}: MapControllerProps) {
   const map = useMap();
 
   const handlePlaceSelect = async (place: google.maps.places.Place | null) => {
@@ -50,21 +50,28 @@ function MapController({
   };
 
   return (
-    <AutocompleteWebComponent
+    <AutoCompleteSearchBox
       onPlaceSelect={handlePlaceSelect}
       onReset={handleReset}
     />
   );
 }
 
-function Gmaps({ distribuidores, defaultPosition }: Props) {
+function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
   const map = useMap();
   const [sortedDistribuidores, setSortedDistribuidores] = useState<
     Distribuidor[]
   >([]);
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
-  const {handleCardClick, handleUseCurrentLocation, handleRadiusFilterAndSort, resetFilters, searchLocation, isLoading} = useGmapsActions({
-    distribuidores, 
+  const {
+    handleCardClick,
+    handleUseCurrentLocation,
+    handleRadiusFilterAndSort,
+    resetFilters,
+    searchLocation,
+    isLoading,
+  } = useGmapsActions({
+    distribuidores,
     map,
     setSortedDistribuidores,
     setSelectedMarker,
@@ -138,12 +145,9 @@ function Gmaps({ distribuidores, defaultPosition }: Props) {
             </div>
 
             {/* Search */}
-            <div className="justify-start p-0 flex">
+            <div className="flex justify-start p-0">
               <MapController
                 defaultPosition={defaultPosition}
-                distribuidores={distribuidores}
-                setSortedDistribuidores={setSortedDistribuidores}
-                setSelectedMarker={setSelectedMarker}
                 handleRadiusFilterAndSort={handleRadiusFilterAndSort}
                 resetFilters={resetFilters}
               />
@@ -206,14 +210,12 @@ function Gmaps({ distribuidores, defaultPosition }: Props) {
 
 export default function DistribuidoresGmaps({
   distribuidores = [],
-}: Pick<Props, 'distribuidores'>) {
+  apiKey,
+}: Omit<Props, 'defaultPosition'>) {
   const saoGeraldoPosition = { lat: -7.225938, lng: -39.329313 };
 
   return (
-    <APIProvider
-      language="pt-BR"
-      apiKey={'NADA_POR_AQUI'}
-    >
+    <APIProvider language="pt-BR" apiKey={apiKey}>
       <Gmaps
         distribuidores={distribuidores}
         defaultPosition={saoGeraldoPosition}
