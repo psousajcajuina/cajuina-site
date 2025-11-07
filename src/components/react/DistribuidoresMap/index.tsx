@@ -1,5 +1,5 @@
 import '@googlemaps/extended-component-library/react';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import type { Distribuidor } from '@/types';
 import {
   AdvancedMarker,
@@ -10,7 +10,7 @@ import {
   useMap,
 } from '@vis.gl/react-google-maps';
 import { AutoCompleteSearchBox } from './AutoCompleteSearchBox';
-import useGmapsActions from '../hooks/useGmapsActions';
+import useGmapsActions from './hooks/useGmapsActions';
 
 interface Props {
   distribuidores: Distribuidor[];
@@ -22,63 +22,32 @@ export type MapAnchorPointName = keyof typeof AdvancedMarkerAnchorPoint;
 interface MapControllerProps {
   defaultPosition: google.maps.LatLngLiteral;
   handleRadiusFilterAndSort: (lat: number, lng: number) => void;
-  resetFilters: () => void;
-}
-
-function MapController({
-  defaultPosition,
-  handleRadiusFilterAndSort,
-  resetFilters,
-}: MapControllerProps) {
-  const map = useMap();
-
-  const handlePlaceSelect = async (place: google.maps.places.Place | null) => {
-    if (!place?.location || !map) return;
-
-    const searchLat = place.location.lat();
-    const searchLng = place.location.lng();
-
-    resetFilters();
-
-    handleRadiusFilterAndSort(searchLat, searchLng);
-  };
-
-  const handleReset = () => {
-    resetFilters();
-    map?.panTo(defaultPosition);
-    map?.setZoom(16);
-  };
-
-  return (
-    <AutoCompleteSearchBox
-      onPlaceSelect={handlePlaceSelect}
-      onReset={handleReset}
-    />
-  );
+  resetSearchFilters: () => void;
 }
 
 function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
-  const map = useMap();
   const [sortedDistribuidores, setSortedDistribuidores] = useState<
     Distribuidor[]
   >([]);
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
-  const {
-    handleCardClick,
-    handleUseCurrentLocation,
-    handleRadiusFilterAndSort,
-    resetFilters,
-    searchLocation,
-    isLoading,
-  } = useGmapsActions({
-    distribuidores,
-    map,
-    setSortedDistribuidores,
-    setSelectedMarker,
-  });
   const [anchorPoint, setAnchorPoint] = useState(
     'LEFT_CENTER' as MapAnchorPointName
   );
+  //
+  const map = useMap();
+  const {
+    handleCardClick,
+    handleUseCurrentLocation,
+    handlePlaceSelect,
+    handleReset,
+    isSearchLoading,
+  } = useGmapsActions({
+    map,
+    defaultPosition,
+    distribuidores,
+    setSortedDistribuidores,
+    setSelectedMarker,
+  });
 
   // A common pattern for applying z-indexes is to sort the markers
   // by latitude and apply a default z-index according to the index position
@@ -114,7 +83,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
 
             {distribuidores.map((dist) => (
               <AdvancedMarker
-                key={dist.id}
+                key={dist.id + dist.lng + dist.nome}
                 position={{ lat: dist.lat, lng: dist.lng }}
                 onClick={() => setSelectedMarker(dist.id)}
               >
@@ -146,14 +115,13 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
 
             {/* Search */}
             <div className="flex justify-start p-0">
-              <MapController
-                defaultPosition={defaultPosition}
-                handleRadiusFilterAndSort={handleRadiusFilterAndSort}
-                resetFilters={resetFilters}
+              <AutoCompleteSearchBox
+                onPlaceSelect={handlePlaceSelect}
+                onReset={handleReset}
               />
             </div>
 
-            {isLoading && (
+            {isSearchLoading && (
               <div className="flex items-center justify-center gap-2 py-4">
                 <div className="border-caju-heading-primary h-5 w-5 animate-spin rounded-full border-2 border-t-transparent"></div>
                 <span className="text-sm text-gray-600">
@@ -162,14 +130,14 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
               </div>
             )}
 
-            {!isLoading && sortedDistribuidores.length === 0 && (
+            {!isSearchLoading && sortedDistribuidores.length === 0 && (
               <div className="flex flex-col items-center justify-center gap-4 py-8">
                 <p className="text-center">
                   Use sua localização para encontrar distribuidores próximos
                 </p>
                 <button
                   onClick={handleUseCurrentLocation}
-                  className="btn-green px-6 py-3 whitespace-nowrap"
+                  className="btn-green px-6 py-3 whitespace-nowrap lg:text-base"
                   title="Usar minha localização"
                 >
                   📍 Usar Minha Localização
@@ -177,12 +145,12 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
               </div>
             )}
 
-            {!isLoading && sortedDistribuidores.length > 0 && (
+            {!isSearchLoading && sortedDistribuidores.length > 0 && (
               <div className="hide-scrollbar flex cursor-grab gap-2 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
                 {sortedDistribuidores.map((dist, index) => (
                   <div
                     className="font-inter min-w-[225px] cursor-pointer border-2 border-gray-200 bg-[#FEF7FF] px-4 py-1 font-medium hover:border-gray-300 hover:shadow-md lg:max-h-20 lg:max-w-[650px]"
-                    key={dist.id + index}
+                    key={dist.id + dist.lat + dist.nome}
                     onClick={() => handleCardClick(dist)}
                   >
                     <h6 className="text-caju-heading-primary mb-0! text-base font-bold">

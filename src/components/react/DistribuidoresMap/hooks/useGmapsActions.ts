@@ -5,22 +5,25 @@ import { useState, useRef } from 'react';
 const SEARCH_RADIUS = 0.5; // ~55km
 
 interface hookProps {
-  distribuidores: Distribuidor[];
   map: google.maps.Map | null;
+  defaultPosition: google.maps.LatLngLiteral;
+  distribuidores: Distribuidor[];
   setSortedDistribuidores: (dists: Distribuidor[]) => void;
   setSelectedMarker: (id: number | null) => void;
 }
 
 export default function useGmapsActions({
   map,
+  defaultPosition,
   distribuidores,
   setSortedDistribuidores,
   setSelectedMarker,
 }: hookProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchLocation, setSearchLocation] = useState<google.maps.LatLngLiteral | null>(null);
+  const [isSearchLoading, setIsLoading] = useState(false);
   // Rastreia a referência atual (localização ou busca)
-  const currentReferencePoint = useRef<{ lat: number; lng: number } | null>(null);
+  const currentReferencePoint = useRef<{ lat: number; lng: number } | null>(
+    null
+  );
 
   const handleCardClick = (dist: Distribuidor) => {
     if (map) {
@@ -31,8 +34,7 @@ export default function useGmapsActions({
   };
 
   const handleRadiusFilterAndSort = (searchLat: number, searchLng: number) => {
-  currentReferencePoint.current = { lat: searchLat, lng: searchLng };
-  setSearchLocation({ lat: searchLat, lng: searchLng });
+    currentReferencePoint.current = { lat: searchLat, lng: searchLng };
 
     const nearby = distribuidores
       .map((dist) => ({
@@ -45,15 +47,12 @@ export default function useGmapsActions({
       .sort((a, b) => a.distance - b.distance);
 
     setSortedDistribuidores(nearby);
-
-    if (!map) {
-      return;
-    }
+    if (!map) return;
 
     if (nearby.length > 1) {
       const bounds = new google.maps.LatLngBounds();
       nearby.forEach((d) => bounds.extend({ lat: d.lat, lng: d.lng }));
-      map.fitBounds(bounds, { top: 60, bottom: 60, left: 60, right: 60 });
+      map.fitBounds(bounds, 90);
 
       google.maps.event.addListenerOnce(map, 'bounds_changed', () => {
         const currentZoom = map.getZoom();
@@ -75,11 +74,10 @@ export default function useGmapsActions({
     map.setZoom(12);
   };
 
-  const resetFilters = () => {
-  currentReferencePoint.current = null;
-  setSearchLocation(null);
-  setSortedDistribuidores([]);
-  setSelectedMarker(null);
+  const resetSearchFilters = () => {
+    currentReferencePoint.current = null;
+    setSortedDistribuidores([]);
+    setSelectedMarker(null);
   };
 
   const handleUseCurrentLocation = async () => {
@@ -89,22 +87,22 @@ export default function useGmapsActions({
     }
 
     // Verifica permissão primeiro
-      try {
-        const permission = await navigator.permissions.query({
-          name: 'geolocation',
-        });
+    try {
+      const permission = await navigator.permissions.query({
+        name: 'geolocation',
+      });
 
-        if (permission.state === 'denied') {
-          alert(
-            'Você negou o acesso à localização. Por favor, habilite nas configurações do navegador.'
-          );
-          return;
-        }
-      } catch (error) {
-        console.log(
-          'Permissions API não disponível, tentando obter localização diretamente'
+      if (permission.state === 'denied') {
+        alert(
+          'Você negou o acesso à localização. Por favor, habilite nas configurações do navegador.'
         );
+        return;
       }
+    } catch (error) {
+      console.log(
+        'Permissions API não disponível, tentando obter localização diretamente'
+      );
+    }
 
     setIsLoading(true);
 
@@ -146,13 +144,27 @@ export default function useGmapsActions({
     );
   };
 
+  const handlePlaceSelect = async (place: google.maps.places.Place | null) => {
+    if (!place?.location || !map) return;
+    const searchLat = place.location.lat();
+    const searchLng = place.location.lng();
+
+    resetSearchFilters();
+
+    handleRadiusFilterAndSort(searchLat, searchLng);
+  };
+
+  const handleReset = () => {
+    resetSearchFilters();
+    map?.panTo(defaultPosition);
+    map?.setZoom(16);
+  };
 
   return {
     handleCardClick,
     handleUseCurrentLocation,
-    handleRadiusFilterAndSort,
-    resetFilters,
-    searchLocation,
-    isLoading,
+    handlePlaceSelect,
+    handleReset,
+    isSearchLoading,
   };
 }
