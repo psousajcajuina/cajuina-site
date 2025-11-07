@@ -19,7 +19,10 @@ const distribuidores: Distribuidor[] = distribuidoresCollection
     lng: dist.data.lng,
   }));
 
-const apiKey = import.meta.env.PUBLIC_GMAPS_API_KEY ?? '';
+const apiKey =
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.PUBLIC_GOOGLE_MAPS_KEY_PROD
+    : import.meta.env.PUBLIC_GOOGLE_MAPS_KEY_DEV;
 ---
 
 <SwiperLayout>
