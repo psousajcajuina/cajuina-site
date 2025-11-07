@@ -25,6 +25,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          NODE_ENV: production
+          PUBLIC_GOOGLE_MAPS_KEY_PROD: ${{ secrets.PUBLIC_GOOGLE_MAPS_KEY_PROD }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
         run: pnpm build
 
       - name: Deploy via SSH/rsync
