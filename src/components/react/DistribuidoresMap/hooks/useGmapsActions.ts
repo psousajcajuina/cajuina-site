@@ -20,10 +20,9 @@ export default function useGmapsActions({
   setSelectedMarker,
 }: hookProps) {
   const [isSearchLoading, setIsLoading] = useState(false);
-  // Rastreia a referência atual (localização ou busca)
   const currentReferencePoint = useRef<{ lat: number; lng: number } | null>(
     null
-  );
+  ); // Rastreia a referência atual (localização ou busca)
 
   const handleCardClick = (dist: Distribuidor) => {
     if (map) {
