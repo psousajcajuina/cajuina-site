@@ -5,7 +5,7 @@ interface Props {
   place: google.maps.places.Place | null;
 }
 
-const AutocompleteResult = ({ place }: Props) => {
+const AutocompleteSearchResult = ({ place }: Props) => {
   const map = useMap();
 
   // adjust the viewport of the map when the place is changed
@@ -27,4 +27,4 @@ const AutocompleteResult = ({ place }: Props) => {
   );
 };
 
-export default React.memo(AutocompleteResult);
+export default React.memo(AutocompleteSearchResult);
