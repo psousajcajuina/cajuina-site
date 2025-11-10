@@ -1,4 +1,5 @@
 import type { UseFormRegister, FieldErrors, Path } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 interface Option {
   value: string;
@@ -9,7 +10,7 @@ interface FormFieldProps<TFormData extends Record<string, any>> {
   register: UseFormRegister<TFormData>;
   errors: FieldErrors<TFormData>;
   name: Path<TFormData>;
-  label?: string;
+  label?: string | null;
   type?: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'file' | 'checkbox';
   placeholder?: string;
   options?: Option[];
@@ -18,13 +19,14 @@ interface FormFieldProps<TFormData extends Record<string, any>> {
   accept?: string;
   multiple?: boolean;
   rows?: number;
+  className?: string;
 }
 
 export function FormField<TFormData extends Record<string, any>>({
   register,
   errors,
   name,
-  label,
+  label = null,
   type = 'text',
   placeholder,
   options,
@@ -33,20 +35,30 @@ export function FormField<TFormData extends Record<string, any>>({
   accept,
   multiple,
   rows = 6,
+  className,
 }: FormFieldProps<TFormData>) {
   const error = errors[name];
   const errorMessage = error?.message as string | undefined;
 
+  // Adiciona asterisco vermelho no placeholder se obrigatório e sem label
+  // Usamos um caractere especial para indicar obrigatoriedade
+  const finalPlaceholder =
+    !label && required && placeholder ? `${placeholder} *` : placeholder;
+
+  const requiredClass = !label && required ? 'required-field' : '';
+
   if (type === 'checkbox') {
     return (
-      <div className="w-full">
+      <div className={twMerge('w-full', className)}>
         <label className="flex items-start gap-3">
           <input
             type="checkbox"
             {...register(name)}
             className="text-caju-heading-primary focus:ring-caju-heading-primary/20 mt-1 h-5 w-5 rounded border-gray-300 focus:ring-2"
           />
-          {label && <span className="text-sm text-gray-700">{label}</span>}
+          {label && (
+            <span className="text-caju-heading-primary text-sm">{label}</span>
+          )}
         </label>
         {errorMessage && (
           <p className="mt-1 text-sm text-red-500">{errorMessage}</p>
@@ -56,9 +68,9 @@ export function FormField<TFormData extends Record<string, any>>({
   }
 
   return (
-    <div className="w-full">
+    <div className={twMerge('w-full', className)}>
       {!hideLabel && label && (
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="text-caju-heading-primary mb-2 block text-sm font-medium">
           {label}
           {required && <span className="text-red-500"> *</span>}
         </label>
@@ -69,13 +81,13 @@ export function FormField<TFormData extends Record<string, any>>({
           {...register(name)}
           rows={rows}
           maxLength={2000}
-          placeholder={placeholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:outline-none"
+          placeholder={finalPlaceholder}
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
         />
       ) : type === 'select' ? (
         <select
           {...register(name)}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:ring-2 focus:outline-none"
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
         >
           {options?.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -89,15 +101,15 @@ export function FormField<TFormData extends Record<string, any>>({
           {...register(name)}
           multiple={multiple}
           accept={accept}
-          className="file:bg-caju-heading-primary hover:file:bg-caju-primary-dark focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 file:mr-4 file:rounded-md file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:ring-2 focus:outline-none"
+          className="text-caju-heading-primary focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold file:mr-4 file:rounded-md file:border-0 file:bg-[#828282] file:px-4 file:py-2 file:text-sm file:text-white hover:file:bg-[#828282] focus:ring-2 focus:outline-none"
         />
       ) : (
         <input
           type={type}
           {...register(name)}
           maxLength={400}
-          placeholder={placeholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:outline-none"
+          placeholder={finalPlaceholder}
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
         />
       )}
 

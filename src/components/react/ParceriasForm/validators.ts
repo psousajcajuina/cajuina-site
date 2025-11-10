@@ -6,6 +6,8 @@ export const parceriasSchema = z.object({
   whatsapp: z.string().min(1, 'Telefone é obrigatório'),
   tipo_solicitacao: z.string().min(1, 'Tipo de solicitação é obrigatório'),
   nome_instituicao: z.string().min(1, 'Nome da instituição é obrigatório'),
+  email_instituicao: z.string().min(1, 'Nome da instituição é obrigatório'),
+  telefone_instituicao: z.string().min(1, 'Nome da instituição é obrigatório'),
   evento_nome: z.string().min(1, 'Nome do evento é obrigatório'),
   evento_estado: z.string().min(1, 'Estado é obrigatório'),
   evento_cidade: z.string().min(1, 'Cidade é obrigatória'),

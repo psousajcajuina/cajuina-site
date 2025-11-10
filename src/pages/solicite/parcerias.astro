@@ -2,6 +2,7 @@
 import Layout from '@/layouts/PageLayout.astro';
 import type { MetaData } from '@/types';
 import Form from '@/components/react/ParceriasForm';
+import Banner from '@/components/Banner.astro';
 
 const metadata: MetaData = {
   title: 'Parcerias',
@@ -12,5 +13,44 @@ console.log('siteKey', siteKey);
 ---
 
 <Layout metadata={metadata}>
-  <Form client:load recaptchaSiteKey={siteKey} />
+  <section class="first:mt-12 last:mb-12">
+    <Banner />
+    <div
+      class="flex h-fit w-full flex-col items-center justify-center gap-4 p-8"
+    >
+      <h4 class="text-caju-heading-primary self-start uppercase">
+        Sobre as solicitações
+      </h4>
+      <ul
+        class="font-inter flex list-disc flex-col gap-8 px-4 [&_li]:text-[24px]"
+      >
+        <li>
+          <h5 class="text-[32px] font-black">Tipos de solicitações</h5>
+          <dd>
+            <span class="font-semibold">Doação: </span>Não há expectativa de
+            contrapartidas;
+          </dd>
+          <dd>
+            <span class="font-semibold">Patrocínio: </span>Há pagamento em
+            produto e existe contrapartida;
+          </dd>
+          <dd>
+            <span class="font-semibold">Parceria: </span>Há pagamento em
+            dinheiro e existe contrapartida
+          </dd>
+        </li>
+        <li>
+          Pedimos para enviar propostas com mais de 10 DIAS de antecedência da
+          data inicial do evento, pois o mesmo será avaliado e respondido dentro
+          do prazo de 10 DIAS.
+        </li>
+        <li>
+          Lembre-se de incluir na descrição do projeto o tipo de parceria que
+          você espera (divulgação, apoio financeiro, etc.)
+        </li>
+      </ul>
+      <Form client:load recaptchaSiteKey={siteKey} />
+    </div>
+    <Banner />
+  </section>
 </Layout>
