@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import type { MetaData } from '@/types';
+import ParceriasForm from '@/components/react/ParceriasForm';
+
+const metadata: MetaData = {
+  title: 'Parcerias',
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <ParceriasForm client:load />
+</Layout>

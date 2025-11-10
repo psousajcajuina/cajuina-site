@@ -33,6 +33,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@sveltia/cms": "^0.112.3",
     "@tailwindcss/vite": "^4.1.16",
+    "@tanstack/react-form": "^1.23.8",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vis.gl/react-google-maps": "^1.7.1",
