@@ -1,17 +1,16 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import type { MetaData } from '@/types';
-import ParceriasForm from '@/components/react/ParceriasForm';
+import Form from '@/components/react/ParceriasForm';
 
 const metadata: MetaData = {
   title: 'Parcerias',
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
+
+const siteKey = import.meta.env.PUBLIC_GOOGLE_CAPTCHA_SITEKEY;
+console.log('siteKey', siteKey);
 ---
 
 <Layout metadata={metadata}>
-  <ParceriasForm client:load />
+  <Form client:load recaptchaSiteKey={siteKey} />
 </Layout>

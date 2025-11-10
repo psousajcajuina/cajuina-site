@@ -1,117 +1,109 @@
-import type { ValidationError } from '@tanstack/react-form';
+import type { UseFormRegister, FieldErrors, Path } from 'react-hook-form';
 
 interface Option {
   value: string;
   label: string;
 }
 
-type FieldValidator<TValue> = {
-  onChange?: (props: {
-    value: TValue;
-  }) => ValidationError | Promise<ValidationError>;
-  onBlur?: (props: {
-    value: TValue;
-  }) => ValidationError | Promise<ValidationError>;
-};
-
-interface FormFieldProps<TFormData extends Record<string, any>, TName extends keyof TFormData> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any;
-  name: TName;
+interface FormFieldProps<TFormData extends Record<string, any>> {
+  register: UseFormRegister<TFormData>;
+  errors: FieldErrors<TFormData>;
+  name: Path<TFormData>;
   label?: string;
-  type?: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'file';
+  type?: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'file' | 'checkbox';
   placeholder?: string;
-  validators?: FieldValidator<TFormData[TName]>;
   options?: Option[];
   required?: boolean;
   hideLabel?: boolean;
   accept?: string;
   multiple?: boolean;
+  rows?: number;
 }
 
-export function FormField<
-  TFormData extends Record<string, any>,
-  TName extends keyof TFormData,
->({
-  form,
+export function FormField<TFormData extends Record<string, any>>({
+  register,
+  errors,
   name,
   label,
   type = 'text',
   placeholder,
-  validators,
   options,
   required = false,
   hideLabel = false,
   accept,
   multiple,
-}: FormFieldProps<TFormData, TName>) {
+  rows = 6,
+}: FormFieldProps<TFormData>) {
+  const error = errors[name];
+  const errorMessage = error?.message as string | undefined;
+
+  if (type === 'checkbox') {
+    return (
+      <div className="w-full">
+        <label className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            {...register(name)}
+            className="text-caju-heading-primary focus:ring-caju-heading-primary/20 mt-1 h-5 w-5 rounded border-gray-300 focus:ring-2"
+          />
+          {label && <span className="text-sm text-gray-700">{label}</span>}
+        </label>
+        {errorMessage && (
+          <p className="mt-1 text-sm text-red-500">{errorMessage}</p>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <form.Field name={name as any} validators={validators}>
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {(field: any) => (
-        <div className="w-full">
-          {!hideLabel && label && (
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              {label}
-              {required && <span className="text-red-500"> *</span>}
-            </label>
-          )}
-
-          {type === 'textarea' ? (
-            <textarea
-              name={field.name}
-              value={field.state.value}
-              onBlur={field.handleBlur}
-              onChange={(e) => field.handleChange(e.target.value)}
-              rows={6}
-              maxLength={2000}
-              placeholder={placeholder}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-caju-heading-primary focus:outline-none focus:ring-2 focus:ring-caju-heading-primary/20"
-            />
-          ) : type === 'select' ? (
-            <select
-              name={field.name}
-              value={field.state.value}
-              onBlur={field.handleBlur}
-              onChange={(e) => field.handleChange(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:border-caju-heading-primary focus:outline-none focus:ring-2 focus:ring-caju-heading-primary/20"
-            >
-              {options?.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          ) : type === 'file' ? (
-            <input
-              type="file"
-              name={field.name}
-              onBlur={field.handleBlur}
-              onChange={(e) => field.handleChange(e.target.files)}
-              multiple={multiple}
-              accept={accept}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-caju-heading-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-caju-primary-dark focus:outline-none focus:ring-2 focus:ring-caju-heading-primary/20"
-            />
-          ) : (
-            <input
-              type={type}
-              name={field.name}
-              value={field.state.value}
-              onBlur={field.handleBlur}
-              onChange={(e) => field.handleChange(e.target.value)}
-              maxLength={400}
-              placeholder={placeholder}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-caju-heading-primary focus:outline-none focus:ring-2 focus:ring-caju-heading-primary/20"
-            />
-          )}
-
-          {field.state.meta.errors && (
-            <p className="mt-1 text-sm text-red-500">
-              {field.state.meta.errors.join(', ')}
-            </p>
-          )}
-        </div>
+    <div className="w-full">
+      {!hideLabel && label && (
+        <label className="mb-2 block text-sm font-medium text-gray-700">
+          {label}
+          {required && <span className="text-red-500"> *</span>}
+        </label>
       )}
-    </form.Field>
+
+      {type === 'textarea' ? (
+        <textarea
+          {...register(name)}
+          rows={rows}
+          maxLength={2000}
+          placeholder={placeholder}
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:outline-none"
+        />
+      ) : type === 'select' ? (
+        <select
+          {...register(name)}
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:ring-2 focus:outline-none"
+        >
+          {options?.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      ) : type === 'file' ? (
+        <input
+          type="file"
+          {...register(name)}
+          multiple={multiple}
+          accept={accept}
+          className="file:bg-caju-heading-primary hover:file:bg-caju-primary-dark focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 file:mr-4 file:rounded-md file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:ring-2 focus:outline-none"
+        />
+      ) : (
+        <input
+          type={type}
+          {...register(name)}
+          maxLength={400}
+          placeholder={placeholder}
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:outline-none"
+        />
+      )}
+
+      {errorMessage && (
+        <p className="mt-1 text-sm text-red-500">{errorMessage}</p>
+      )}
+    </div>
   );
 }

@@ -35,9 +35,15 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
+      '@google-recaptcha/react':
+        specifier: ^2.3.2
+        version: 2.3.2(@types/react@19.2.2)(react@19.2.0)
       '@googlemaps/extended-component-library':
         specifier: ^0.6.14
         version: 0.6.14(@types/react@19.2.2)
+      '@hookform/resolvers':
+        specifier: ^3.3.4
+        version: 3.3.4(react-hook-form@7.66.0(react@19.2.0))
       '@iconify-json/mdi':
         specifier: ^1.2.3
         version: 1.2.3
@@ -86,6 +92,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: ^7.66.0
+        version: 7.66.0(react@19.2.0)
       svelte:
         specifier: ^5.43.0
         version: 5.43.0
@@ -95,6 +104,9 @@ importers:
       unpic:
         specifier: ^4.1.3
         version: 4.1.3
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.5
@@ -771,8 +783,25 @@ packages:
   '@fontsource-variable/inter@5.2.8':
     resolution: {integrity: sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ==}
 
+  '@google-recaptcha/core@1.1.2':
+    resolution: {integrity: sha512-WHIVXntnc7b0FXkgNOO1Y7kYj+wnWVNkwluHz4ISmGfnGeUw5U/OezBPmZBOD9J+LK+hA11zvFGs0vElnc7UMw==}
+
+  '@google-recaptcha/react@2.3.2':
+    resolution: {integrity: sha512-mT8cH3IYcvK5tulARx7vbtimb4YG3Zkfi2oXqnWmX9NOhNK2LxzCFjPMff71YIJ7geL1XSrOnKAoCIVj2ZfIFA==}
+    peerDependencies:
+      '@types/react': ^17 || ^18|| ^19
+      react: ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
   '@googlemaps/extended-component-library@0.6.14':
     resolution: {integrity: sha512-oq8WkYIEOpi1K5+wxM1SOeko/PgX9pHx7RJTsC00Vxf6vN/UqfmXMM04F0TXB3a9kINYzMHspAD4L2Lq8P+kMQ==}
+
+  '@hookform/resolvers@3.3.4':
+    resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -4544,6 +4573,12 @@ packages:
       react: '>= 16.3'
       react-dom: '>= 16.3'
 
+  react-hook-form@7.66.0:
+    resolution: {integrity: sha512-xXBqsWGKrY46ZqaHDo+ZUYiMUgi8suYu5kdrS20EG8KiL7VRQitEbNjm+UcrDYrNi1YLyfpmAeGjCZYXLT9YBw==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-immutable-proptypes@2.2.0:
     resolution: {integrity: sha512-Vf4gBsePlwdGvSZoLSBfd4HAP93HDauMY4fDjXhreg/vg6F3Fj/MXDNyTbltPC/xZKmZc+cjLu3598DdYK6sgQ==}
     peerDependencies:
@@ -5921,6 +5956,9 @@ packages:
       typescript: ^4.9.4 || ^5.0.2
       zod: ^3
 
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
@@ -6181,14 +6219,14 @@ snapshots:
       await-lock: 2.2.2
       multiformats: 9.9.0
       tlds: 1.261.0
-      zod: 3.25.76
+      zod: 3.23.8
 
   '@atproto/common-web@0.4.3':
     dependencies:
       graphemer: 1.4.0
       multiformats: 9.9.0
       uint8arrays: 3.0.0
-      zod: 3.25.76
+      zod: 3.23.8
 
   '@atproto/lexicon@0.4.14':
     dependencies:
@@ -6196,7 +6234,7 @@ snapshots:
       '@atproto/syntax': 0.4.1
       iso-datestring-validator: 2.2.2
       multiformats: 9.9.0
-      zod: 3.25.76
+      zod: 3.23.8
 
   '@atproto/syntax@0.3.4': {}
 
@@ -6205,7 +6243,7 @@ snapshots:
   '@atproto/xrpc@0.6.12':
     dependencies:
       '@atproto/lexicon': 0.4.14
-      zod: 3.25.76
+      zod: 3.23.8
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -6686,6 +6724,15 @@ snapshots:
 
   '@fontsource-variable/inter@5.2.8': {}
 
+  '@google-recaptcha/core@1.1.2': {}
+
+  '@google-recaptcha/react@2.3.2(@types/react@19.2.2)(react@19.2.0)':
+    dependencies:
+      '@google-recaptcha/core': 1.1.2
+      react: 19.2.0
+    optionalDependencies:
+      '@types/react': 19.2.2
+
   '@googlemaps/extended-component-library@0.6.14(@types/react@19.2.2)':
     dependencies:
       '@lit/context': 1.1.6
@@ -6694,6 +6741,10 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@types/react'
+
+  '@hookform/resolvers@3.3.4(react-hook-form@7.66.0(react@19.2.0))':
+    dependencies:
+      react-hook-form: 7.66.0(react@19.2.0)
 
   '@humanfs/core@0.19.1': {}
 
@@ -11335,6 +11386,10 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
+  react-hook-form@7.66.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+
   react-immutable-proptypes@2.2.0(immutable@3.8.2):
     dependencies:
       immutable: 3.8.2
@@ -12914,6 +12969,8 @@ snapshots:
     dependencies:
       typescript: 5.9.3
       zod: 3.25.76
+
+  zod@3.23.8: {}
 
   zod@3.25.76: {}
 
