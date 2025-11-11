@@ -102,12 +102,12 @@ export function FormField<TFormData extends Record<string, any>>({
           rows={rows}
           maxLength={2000}
           placeholder={finalPlaceholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
         />
       ) : type === 'select' ? (
         <select
           {...register(name)}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
         >
           {options?.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -121,7 +121,7 @@ export function FormField<TFormData extends Record<string, any>>({
           {...register(name)}
           multiple={multiple}
           accept={accept}
-          className="text-caju-heading-primary focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold file:mr-4 file:rounded-md file:border-0 file:bg-[#828282] file:px-4 file:py-2 file:text-sm file:text-white hover:file:bg-[#828282] focus:ring-2 focus:outline-none"
+          className="text-caju-heading-primary focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-sm font-bold file:mr-2 file:rounded-md file:border-0 file:bg-[#828282] file:px-3 file:py-1.5 file:text-xs file:text-white hover:file:bg-[#828282] focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px] md:file:mr-4 md:file:px-4 md:file:py-2 md:file:text-sm"
         />
       ) : type === 'date' ? (
         control ? (
@@ -141,11 +141,11 @@ export function FormField<TFormData extends Record<string, any>>({
                     helperText: errorMessage,
                     InputProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
                     },
                     InputLabelProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
                     },
                   },
                 }}
@@ -156,7 +156,7 @@ export function FormField<TFormData extends Record<string, any>>({
           <input
             type="date"
             {...register(name)}
-            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
+            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
           />
         )
       ) : type === 'time' ? (
@@ -178,11 +178,11 @@ export function FormField<TFormData extends Record<string, any>>({
                     helperText: errorMessage,
                     InputProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
                     },
                     InputLabelProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
                     },
                   },
                 }}
@@ -193,7 +193,7 @@ export function FormField<TFormData extends Record<string, any>>({
           <input
             type="time"
             {...register(name)}
-            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
+            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
           />
         )
       ) : (
@@ -202,7 +202,7 @@ export function FormField<TFormData extends Record<string, any>>({
           {...register(name)}
           maxLength={400}
           placeholder={finalPlaceholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full truncate rounded-lg border border-gray-300 px-4 py-3 text-[24px] font-bold focus:ring-2 focus:outline-none"
+          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
         />
       )}
 
