@@ -28,8 +28,10 @@ jobs:
         env:
           NODE_ENV: production
           PUBLIC_GOOGLE_MAPS_KEY_PROD: ${{ secrets.PUBLIC_GOOGLE_MAPS_KEY_PROD }}
+          PUBLIC_GOOGLE_CAPTCHA_SITEKEY: ${{ vars.PUBLIC_GOOGLE_CAPTCHA_SITEKEY }}
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
+          SITE_URL: ${{ vars.SITE_URL }}
         run: pnpm build
 
       - name: Deploy via SSH/rsync
