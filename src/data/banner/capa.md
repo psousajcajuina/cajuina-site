@@ -2,7 +2,7 @@
 title: capa
 subtitle: ''
 description: ''
-image: /src/assets/images/home/slider/capa.png
+image: /src/assets/images/capa.webp
 imageMobile: ''
 cta: null
 textPosition: center

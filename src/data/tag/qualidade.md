@@ -1,6 +1,0 @@
----
-title: Qualidade
-description: ''
-image: ''
----
-

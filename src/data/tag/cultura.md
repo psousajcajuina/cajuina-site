@@ -1,6 +1,0 @@
----
-title: Cultura
-description: ''
-image: ''
----
-

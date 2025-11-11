@@ -1,6 +1,0 @@
----
-title: Indústria
-description: ''
-image: ''
----
-
