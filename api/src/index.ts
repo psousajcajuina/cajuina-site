@@ -3,6 +3,7 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import worker from './handler';
 import { env } from './env';
+import pkg from '../package.json';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get('/health', (_req: Request, res: Response) => {
 	const health = {
 		status: 'ok',
 		timestamp: new Date().toISOString(),
+		version: pkg.version,
 		environment: env.NODE_ENV || 'production',
 		runtime: 'cloudflare-workers',
 	};
@@ -75,7 +77,7 @@ app.get('/oauth/redirect', handleOAuth);
 app.get('/', (_req: Request, res: Response) => {
 	res.json({
 		message: 'Cajuína CMS OAuth Server',
-		version: '0.1.0',
+		version: pkg.version,
 		runtime: 'cloudflare-workers',
 		endpoints: {
 			health: '/health',

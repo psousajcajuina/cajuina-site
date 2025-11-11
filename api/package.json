@@ -1,6 +1,6 @@
 {
-	"name": "api",
-	"version": "0.0.0",
+	"name": "cajuina-cms-auth",
+	"version": "1.0.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
