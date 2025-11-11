@@ -10,8 +10,8 @@ import type {
 import type { IncomingHttpHeaders } from "http";
 import pino from "pino";
 import pinoHttp from "pino-http";
-import worker from "./index.js";
-import { env } from "./env.js";
+import worker from './handler.js';
+import { env } from './env.js';
 
 // Configura logger
 const logger = pino({

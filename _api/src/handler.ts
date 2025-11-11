@@ -1,4 +1,4 @@
-import { type Env } from './env';
+import { type EnvType } from './env';
 
 type Provider = 'github' | 'gitlab' | 'bitbucket' | 'unknown';
 
@@ -22,7 +22,7 @@ interface OutputHTMLOptions {
   errorCode?: string;
 }
 
-type CloudflareEnv = Env;
+type CloudflareEnv = EnvType;
 
 /**
  * List of supported OAuth providers.
