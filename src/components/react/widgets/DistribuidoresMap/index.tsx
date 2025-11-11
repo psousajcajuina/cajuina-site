@@ -2,10 +2,10 @@ import { useState } from 'react';
 import type { Distribuidor } from '@/types';
 import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
 import { AutoCompleteSearchBox } from './AutoCompleteSearchBox';
-import useGmapsActions from '../hooks/useGmapsActions';
-import { useDistribuidorMarkers } from '../hooks/useDistribuidorMarkers';
 import DistribuidorMarker from './DistribuidorMarker';
 import DefaultLocationMarker from './DefaultLocationMarker';
+import { useDistribuidorMarkers } from '../../hooks/useDistribuidorMarkers';
+import useGmapsActions from '../../hooks/useGmapsActions';
 
 interface Props {
   distribuidores: Distribuidor[];

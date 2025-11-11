@@ -18,6 +18,16 @@ interface ImageOptimizedProps extends Omit<HTMLAttributes<HTMLImageElement>, 'sr
   aspectRatio?: string | number;
 }
 
+/**
+ * Encodes spaces and special characters in URLs for srcset
+ * srcset format requires URLs with spaces to be encoded
+ */
+const encodeSrcSetUrl = (url: string): string => {
+  // Only encode spaces to prevent srcset parsing issues
+  // Other characters are typically already encoded or safe
+  return url.replace(/ /g, '%20');
+};
+
 export default function ImageOptimized({
   src,
   alt,
@@ -74,10 +84,10 @@ export default function ImageOptimized({
             width,
             height
           );
-          
+
           if (optimized.length > 0) {
             const generatedSrcSet = optimized
-              .map(({ src, width }) => `${src} ${width}w`)
+              .map(({ src, width }) => `${encodeSrcSetUrl(src)} ${width}w`)
               .join(', ');
             setSrcSet(generatedSrcSet);
             return;
@@ -86,11 +96,11 @@ export default function ImageOptimized({
           console.warn('Failed to optimize image with unpic:', error);
         }
       }
-      
+
       // Fallback: generate basic srcSet without CDN optimization
       if (baseConfig.breakpoints.length > 0) {
         const fallbackSrcSet = baseConfig.breakpoints
-          .map((w: number) => `${src} ${w}w`)
+          .map((w: number) => `${encodeSrcSetUrl(src)} ${w}w`)
           .join(', ');
         setSrcSet(fallbackSrcSet);
       }
@@ -103,7 +113,7 @@ export default function ImageOptimized({
 
   return (
     <img
-      src={baseConfig.src}
+      src={encodeSrcSetUrl(baseConfig.src)}
       alt={alt}
       width={baseConfig.width}
       height={baseConfig.height}

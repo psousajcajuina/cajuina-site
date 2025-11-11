@@ -2,7 +2,7 @@
 import type { Distribuidor } from '@/types';
 import SwiperLayout from './ui/SwiperLayout.astro';
 import { getCollection } from 'astro:content';
-import DistribuidoresGmaps from './react/DistribuidoresMap';
+import DistribuidoresGmaps from './react/widgets/DistribuidoresMap';
 
 // Buscar distribuidores da coleção
 const distribuidoresCollection = await getCollection('distribuidor');
