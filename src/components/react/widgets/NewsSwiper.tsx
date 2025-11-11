@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
+import ImageOptimized from '@/components/react/common/ImageOptimized';
 
 interface Post {
   id: string;
@@ -57,11 +58,16 @@ export default function NewsSwiper({
           <SwiperSlide key={post.id}>
             <div className="flex h-full flex-col text-left">
               {post.image && (
-                <img
+                <ImageOptimized
                   src={post.image}
                   alt={post.title}
-                  className="mb-3 h-[116px] w-full rounded-lg object-cover md:h-[280px]"
+                  width={350}
+                  height={280}
+                  layout="responsive"
+                  aspectRatio="16/9"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   loading="lazy"
+                  className="mb-3 h-[116px] w-full rounded-lg object-cover md:h-[280px]"
                 />
               )}
 
@@ -89,9 +95,13 @@ export default function NewsSwiper({
         className="news-prev-btn absolute top-1/2 left-0 -translate-y-1/2 md:left-2"
         aria-label="Anterior"
       >
-        <img
+        <ImageOptimized
           src={arrowPrev}
           alt="Notícia Anterior"
+          width={40}
+          height={40}
+          layout="fixed"
+          loading="lazy"
           className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>
@@ -99,9 +109,13 @@ export default function NewsSwiper({
         className="news-next-btn absolute top-1/2 right-0 -translate-y-1/2 md:right-2"
         aria-label="Próximo"
       >
-        <img
+        <ImageOptimized
           src={arrowNext}
           alt="Próxima Notícia"
+          width={40}
+          height={40}
+          layout="fixed"
+          loading="lazy"
           className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>

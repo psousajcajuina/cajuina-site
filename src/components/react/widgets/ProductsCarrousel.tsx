@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import type { ProductItem } from '@/types';
+import ImageOptimized from '@/components/react/common/ImageOptimized';
 
 interface Props {
   products: ProductItem[];
@@ -100,30 +101,26 @@ export default function ProductCarousel({ products }: Props) {
                 onClick={() => handleProductClick(product)}
               >
                 {/* Mobile - usa sizes padrão com tamanho exato */}
-                <img
+                <ImageOptimized
                   src={product.normal.src}
                   alt={product.details?.name || 'produto'}
                   width={product.sizes.width}
                   height={product.sizes.height}
-                  style={{
-                    width: `${product.sizes.width}px`,
-                    height: `${product.sizes.height}px`,
-                  }}
+                  layout="fixed"
+                  loading="lazy"
                   className={`object-contain transition-opacity duration-300 md:hidden ${
                     selectedProduct?.id === product.id
                       ? 'opacity-0'
                       : 'group-hover:opacity-0'
                   }`}
                 />
-                <img
+                <ImageOptimized
                   src={product.hover.src}
                   alt={product.details?.name || 'produto hover'}
                   width={product.sizes.width}
                   height={product.sizes.height}
-                  style={{
-                    width: `${product.sizes.width}px`,
-                    height: `${product.sizes.height}px`,
-                  }}
+                  layout="fixed"
+                  loading="lazy"
                   className={`absolute inset-0 object-contain transition-opacity duration-300 md:hidden ${
                     selectedProduct?.id === product.id
                       ? 'opacity-100'
@@ -132,30 +129,26 @@ export default function ProductCarousel({ products }: Props) {
                 />
 
                 {/* Desktop (md+) - usa sizesMd se disponível */}
-                <img
+                <ImageOptimized
                   src={product.normal.src}
                   alt={product.details?.name || 'produto'}
                   width={product.sizesMd?.width || product.sizes.width}
                   height={product.sizesMd?.height || product.sizes.height}
-                  style={{
-                    width: `${product.sizesMd?.width || product.sizes.width}px`,
-                    height: `${product.sizesMd?.height || product.sizes.height}px`,
-                  }}
+                  layout="fixed"
+                  loading="lazy"
                   className={`hidden object-contain transition-opacity duration-300 md:block ${
                     selectedProduct?.id === product.id
                       ? 'opacity-0'
                       : 'group-hover:opacity-0'
                   }`}
                 />
-                <img
+                <ImageOptimized
                   src={product.hover.src}
                   alt={product.details?.name || 'produto hover'}
                   width={product.sizesMd?.width || product.sizes.width}
                   height={product.sizesMd?.height || product.sizes.height}
-                  style={{
-                    width: `${product.sizesMd?.width || product.sizes.width}px`,
-                    height: `${product.sizesMd?.height || product.sizes.height}px`,
-                  }}
+                  layout="fixed"
+                  loading="lazy"
                   className={`absolute inset-0 hidden object-contain transition-opacity duration-300 md:block ${
                     selectedProduct?.id === product.id
                       ? 'opacity-100'
@@ -198,9 +191,14 @@ export default function ProductCarousel({ products }: Props) {
             <div className="grid gap-10 rounded-lg shadow-lg md:grid-cols-2 md:p-6">
               {/* Imagem */}
               <div className="flex items-center justify-center">
-                <img
+                <ImageOptimized
                   src={selectedProduct.details.image.src}
                   alt={selectedProduct.details.name}
+                  width={selectedProduct.details.image.width}
+                  height={selectedProduct.details.image.height}
+                  layout="responsive"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="eager"
                   className="h-auto max-h-[850px] w-full bg-[#F7F7F7] object-contain object-center"
                 />
               </div>
@@ -209,9 +207,14 @@ export default function ProductCarousel({ products }: Props) {
                 <h6 className="text-caju-heading-primary text-xl font-normal uppercase lg:self-start lg:text-3xl">
                   {selectedProduct.details.name}
                 </h6>
-                <img
+                <ImageOptimized
                   src={selectedProduct.details.nutritionalInfo.src}
                   alt="Informações Nutricionais"
+                  width={selectedProduct.details.nutritionalInfo.width}
+                  height={selectedProduct.details.nutritionalInfo.height}
+                  layout="constrained"
+                  sizes="(max-width: 1024px) 100vw, 512px"
+                  loading="eager"
                   className="h-auto max-h-[400px] w-full max-w-lg rounded-lg bg-[#F7F7F7] object-contain"
                 />
                 <p className="font-inter text-justify font-normal lg:text-2xl">
