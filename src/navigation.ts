@@ -9,11 +9,11 @@ export const headerData = {
     },
     {
       text: 'Sobre',
-      href: '/sobre',
+      href: 'sobre',
     },
     {
       text: 'Produtos',
-      href: '/produtos',
+      href: 'produtos',
     },
     {
       text: 'Notícias',
@@ -21,19 +21,19 @@ export const headerData = {
     },
     {
       text: 'Nos Encontre',
-      href: '#',
+      href: 'nos-encontre',
     },
   ],
   actions: [
     {
       text: 'Trabalhe Conosco',
       variant: 'outlined',
-      href: '#',
+      href: 'trabalhe-conosco',
     },
     {
       text: 'Seja um distribuidor',
       variant: 'yellow',
-      href: '#',
+      href: 'seja-distribuidor',
     },
   ] as CallToAction[],
 };
@@ -43,28 +43,31 @@ export const footerData = {
     {
       title: 'Institucional',
       links: [
-        { text: 'Sobre', href: '#' },
-        { text: 'Produtos', href: '#' },
-        { text: 'Notícias', href: '#' },
-        { text: 'Nos encontre', href: '#' },
-        { text: 'Trabalhe Conosco', href: '#' },
+        { text: 'Sobre', href: 'sobre' },
+        { text: 'Produtos', href: 'produtos' },
+        { text: 'Notícias', href: 'noticias' },
+        { text: 'Nos encontre', href: 'nos-encontre' },
+        { text: 'Trabalhe Conosco', href: 'trabalhe-conosco' },
       ],
     },
     {
       title: 'Contato',
       links: [
-        { text: 'Solicite', href: '#' },
-        { text: 'Portal de boletos', href: '#' },
-        { text: 'Seja distribuidor', href: '#' },
-        { text: 'Canal de denúncia', href: '#' },
+        { text: 'Solicite Parceria', href: 'solicite/parcerias' },
+        { text: 'Portal de boletos', href: 'portal-de-boletos' },
+        { text: 'Seja distribuidor', href: 'seja-distribuidor' },
+        { text: 'Canal de denúncia', href: 'canal-de-denuncia' },
       ],
     },
     {
       title: 'Informações',
       links: [
-        { text: 'Política Anticorrupção', href: '#' },
-        { text: 'Política recebimento de brinde', href: '#' },
-        { text: 'Código de Conduta', href: '#' },
+        { text: 'Política Anticorrupção', href: 'politica-anticorrupcao' },
+        {
+          text: 'Política recebimento de brinde',
+          href: 'politica-recebimento-de-brinde',
+        },
+        { text: 'Código de Conduta', href: 'codigo-de-conduta' },
       ],
     },
   ],

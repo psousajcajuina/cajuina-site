@@ -12,7 +12,7 @@ const bannerImage = bannerData?.imageMobile || bannerData?.image;
 ---
 
 {bannerImage && (
-  <>
+  <div>
     <!-- Mobile -->
     <div class="md:hidden">
       <Image 
@@ -28,5 +28,5 @@ const bannerImage = bannerData?.imageMobile || bannerData?.image;
         alt={bannerData.title} 
       />
     </div>
-  </>
+  </div>
 )}

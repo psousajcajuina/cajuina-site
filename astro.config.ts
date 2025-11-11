@@ -18,7 +18,6 @@ import {
   lazyImagesRehypePlugin,
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
-import svelte from '@astrojs/svelte';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -35,7 +34,7 @@ const whenExternalScripts = (
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
+  site: import.meta.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
 
   // SSG completo por padrão
   output: 'static',
@@ -79,7 +78,6 @@ export default defineConfig({
     astrowind({
       config: './src/config.yaml',
     }),
-    svelte(),
     react(),
   ],
 
