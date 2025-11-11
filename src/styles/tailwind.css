@@ -20,6 +20,9 @@
   }
 }
 
+@theme {
+  --font-sans: 'Inter', 'sans-serif';
+}
 
 @utility b-black {
   @apply border border-black;
