@@ -1,12 +1,11 @@
 ---
 import type { Post } from '@/types';
 import { fetchPosts } from '@/utils/blog';
-import NewsSwiper from './react/NewsSwiper';
+import NewsSwiper from './react/widgets/NewsSwiper';
 
 import arrowNext from '@/assets/images/arrowNext.png';
 import arrowPrev from '@/assets/images/arrowPrev.png';
 import SwiperLayout from './ui/SwiperLayout.astro';
-import type { only } from 'node:test';
 
 const posts = await fetchPosts();
 

@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import ImageOptimized from '@/components/react/common/ImageOptimized';
 
 interface CTAButton {
   text: string;
@@ -144,11 +145,15 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
                     {imageMobile && (
                       <source media="(max-width: 768px)" srcSet={imageMobile} />
                     )}
-                    <img
+                    <ImageOptimized
                       src={image}
                       alt={title}
-                      className="absolute inset-0 size-full object-cover object-center"
+                      width={1920}
+                      height={700}
+                      layout="fullWidth"
                       loading={index === 0 ? 'eager' : 'lazy'}
+                      fetchPriority={index === 0 ? 'high' : 'auto'}
+                      className="absolute inset-0 size-full object-cover object-center"
                     />
                   </picture>
 
