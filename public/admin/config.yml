@@ -3,7 +3,7 @@ backend:
   name: "github"
   repo: "psousajcajuina/cajuina-site"
   branch: "development"
-  base_url: "https://oauth.crudbox.tech"
+  base_url: "https://cajuina-cms-auth.cadastro-cajuina.workers.dev/"
   skip_ci: true
   commit_messages:
     create: "[cms] Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
