@@ -111,6 +111,16 @@ export const getSizes = (width?: number, layout?: Layout): string | undefined =>
 
 const pixelate = (value?: number) => (value || value === 0 ? `${value}px` : undefined);
 
+/**
+ * Encodes spaces and special characters in URLs for srcset
+ * srcset format requires URLs with spaces to be encoded
+ */
+const encodeSrcSetUrl = (url: string): string => {
+  // Only encode spaces to prevent srcset parsing issues
+  // Other characters are typically already encoded or safe
+  return url.replace(/ /g, '%20');
+};
+
 export const getImageStyles = ({
   width,
   height,
@@ -419,7 +429,7 @@ export async function getImagesOptimized(
   breakpoints = [...new Set(breakpoints)].sort((a, b) => a - b);
 
   const srcset = (await transform(image, breakpoints, Number(width) || undefined, Number(height) || undefined, format))
-    .map(({ src, width }) => `${src} ${width}w`)
+    .map(({ src, width }) => `${encodeSrcSetUrl(src)} ${width}w`)
     .join(', ');
 
   return {

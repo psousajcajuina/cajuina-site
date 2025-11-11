@@ -7,7 +7,7 @@ import {
   useAdvancedMarkerRef,
 } from '@vis.gl/react-google-maps';
 import { PlaceOverview } from '@googlemaps/extended-component-library/react';
-import { useIsMobile } from '../hooks/useIsMobile';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 // Cores do projeto Cajuína
 const PIN_COLORS = {
