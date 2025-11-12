@@ -7,6 +7,10 @@
   --color-brand-green: #056b45;
 }
 
+#dropZone.drag-over {
+  @apply border-indigo-500 bg-indigo-500/10;
+}
+
 :root {
   --black: 15, 18, 25;
   --gray: 96, 115, 159;
@@ -121,7 +125,9 @@ h4 {
   overflow: hidden;
   margin: 1.5rem 0;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .youtube-embed iframe {
@@ -169,11 +175,11 @@ h4 {
 }
 
 .layout-image-left {
-  grid-template-areas: "image text";
+  grid-template-areas: 'image text';
 }
 
 .layout-image-right {
-  grid-template-areas: "text image";
+  grid-template-areas: 'text image';
 }
 
 .layout-image-left .layout-image-container {
@@ -199,9 +205,9 @@ h4 {
   .layout-image-left,
   .layout-image-right {
     grid-template-columns: 1fr;
-    grid-template-areas: 
-      "image"
-      "text";
+    grid-template-areas:
+      'image'
+      'text';
   }
 }
 

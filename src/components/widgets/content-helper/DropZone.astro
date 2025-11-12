@@ -1,0 +1,29 @@
+---
+// Drop zone para arrastar e soltar blocos
+---
+
+<div
+  id="dropZone"
+  class="flex flex-1 flex-col overflow-hidden rounded-lg border-2 border-dashed border-neutral-700 bg-neutral-950 p-4 transition-all duration-200"
+>
+  {/* Empty State */}
+  <div
+    id="emptyState"
+    class="flex flex-1 flex-col items-center justify-center gap-3 rounded-md border border-dashed border-neutral-800 bg-neutral-900/40 px-5 py-8 text-center text-neutral-500"
+  >
+    <div class="text-4xl">👈</div>
+    <div class="text-xs tracking-wide text-neutral-500 uppercase">
+      Comece por aqui
+    </div>
+    <div class="text-sm text-neutral-400">
+      Arraste ou clique nos blocos para começar seu post
+    </div>
+  </div>
+
+  {/* Blocks Container */}
+  <div
+    id="blocksContainer"
+    class="hidden flex-1 flex-col gap-3 overflow-y-auto"
+  >
+  </div>
+</div>
