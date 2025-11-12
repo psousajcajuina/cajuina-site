@@ -1,11 +1,9 @@
 ---
-title: 'Guia para Editores - Cajuína São Geraldo'
+title: 'Guia para Editores'
 layout: '@/layouts/MarkdownLayout.astro'
 robots: 'noindex, nofollow'
 ---
-# Guia para Editores - Cajuína São Geraldo
-
-## � Ferramenta Rápida: Bookmarklet YouTube
+## Ferramenta Rápida: Bookmarklet YouTube
 
 **A maneira mais fácil de adicionar vídeos do YouTube!**
 

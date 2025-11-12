@@ -1,300 +1,97 @@
 ---
-// YouTube Helper - Ferramenta para converter URLs do YouTube em shortcodes
-// Esta página não deve ser indexada por motores de busca
+import Layout from '@/layouts/Layout.astro';
+
+const metadata = {
+  title: 'Ferramenta YouTube → Shortcode',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 ---
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Ferramenta YouTube → Shortcode - Cajuína São Geraldo</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-          'Helvetica Neue', Arial, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        color: #333;
-      }
-
-      .container {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        max-width: 700px;
-        width: 100%;
-        padding: 40px;
-      }
-
-      h1 {
-        color: #667eea;
-        margin-bottom: 10px;
-        font-size: 28px;
-      }
-
-      .subtitle {
-        color: #666;
-        margin-bottom: 30px;
-        font-size: 16px;
-      }
-
-      .bookmarklet-section {
-        background: #f8f9fa;
-        border: 2px dashed #667eea;
-        border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        margin: 30px 0;
-      }
-
-      .bookmarklet-button {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 16px 32px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 18px;
-        cursor: move;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-      }
-
-      .bookmarklet-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-      }
-
-      .drag-instruction {
-        margin-top: 15px;
-        color: #666;
-        font-size: 14px;
-      }
-
-      .drag-instruction strong {
-        color: #667eea;
-      }
-
-      .steps {
-        margin: 30px 0;
-      }
-
-      .step {
-        display: flex;
-        align-items: start;
-        margin-bottom: 20px;
-        padding: 15px;
-        background: #f8f9fa;
-        border-radius: 8px;
-      }
-
-      .step-number {
-        background: #667eea;
-        color: white;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        flex-shrink: 0;
-        margin-right: 15px;
-      }
-
-      .step-content h3 {
-        color: #333;
-        font-size: 16px;
-        margin-bottom: 5px;
-      }
-
-      .step-content p {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .code-block {
-        background: #2d2d2d;
-        color: #f8f8f2;
-        padding: 15px;
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        margin: 15px 0;
-        overflow-x: auto;
-      }
-
-      .example {
-        background: #e3f2fd;
-        border-left: 4px solid #2196f3;
-        padding: 15px;
-        border-radius: 4px;
-        margin: 20px 0;
-      }
-
-      .example-title {
-        font-weight: bold;
-        color: #1976d2;
-        margin-bottom: 10px;
-      }
-
-      .test-section {
-        background: #fff3cd;
-        border: 2px solid #ffc107;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 30px 0;
-      }
-
-      .test-section h3 {
-        color: #856404;
-        margin-bottom: 15px;
-      }
-
-      .test-input {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-        margin-bottom: 10px;
-      }
-
-      .test-button {
-        background: #ffc107;
-        color: #333;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-
-      .test-button:hover {
-        background: #ffb300;
-      }
-
-      .result {
-        margin-top: 15px;
-        padding: 15px;
-        background: white;
-        border-radius: 6px;
-        font-family: monospace;
-        display: none;
-      }
-
-      .result.show {
-        display: block;
-      }
-
-      .success {
-        color: #28a745;
-      }
-
-      .error {
-        color: #dc3545;
-      }
-
-      .alert {
-        background: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 20px 0;
-      }
-
-      @media (max-width: 600px) {
-        .container {
-          padding: 20px;
-        }
-
-        h1 {
-          font-size: 24px;
-        }
-
-        .bookmarklet-button {
-          font-size: 16px;
-          padding: 12px 24px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>🎬 Ferramenta YouTube → Shortcode</h1>
-      <p class="subtitle">
+<Layout metadata={metadata}>
+  <div
+    class="flex min-h-screen items-center justify-center bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] p-5 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',Roboto,'Helvetica_Neue',Arial,sans-serif] text-[#333]"
+  >
+    <div
+      class="w-full max-w-[700px] rounded-2xl bg-white p-10 shadow-[0_20px_60px_rgba(0,0,0,0.3)] max-[600px]:p-5"
+    >
+      <h1 class="mb-2.5 text-[28px] text-[#667eea] max-[600px]:text-2xl">
+        🎬 Ferramenta YouTube → Shortcode
+      </h1>
+      <p class="mb-[30px] text-base text-[#666]">
         Converta URLs do YouTube em shortcodes automaticamente para usar no CMS
       </p>
 
-      <div class="bookmarklet-section">
+      <div
+        class="my-[30px] rounded-xl border-2 border-dashed border-[#667eea] bg-[#f8f9fa] p-[30px] text-center"
+      >
         <a
           href="javascript:(function(){const url=prompt('Cole a URL do YouTube:');if(!url)return;const id=url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/)?.[1];if(!id){alert('❌ URL inválida do YouTube');return;}const code='[[youtube:'+id+']]';navigator.clipboard.writeText(code).then(()=>{alert('✅ Copiado para área de transferência!\n\n'+code+'\n\nCole no editor com Ctrl+V');}).catch(()=>{prompt('Copie o código abaixo:',code);});})();"
-          class="bookmarklet-button"
+          class="inline-block cursor-move rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] px-8 py-4 text-lg font-bold text-white shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)] max-[600px]:px-6 max-[600px]:py-3 max-[600px]:text-base"
           onclick="alert('⚠️ Não clique! Arraste este botão para a barra de favoritos do seu navegador.'); return false;"
         >
           📌 YouTube → Shortcode
         </a>
-        <p class="drag-instruction">
-          <strong>👆 Arraste este botão</strong> para a barra de favoritos do
-          seu navegador
+        <p class="mt-[15px] text-sm text-[#666]">
+          <strong class="text-[#667eea]">👆 Arraste este botão</strong> para a barra
+          de favoritos do seu navegador
         </p>
       </div>
 
-      <div class="alert">
-        <strong>💡 Como funciona:</strong> Depois de instalar, clique no
-        favorito sempre que quiser adicionar um vídeo. Cole a URL do YouTube e
-        o shortcode será copiado automaticamente!
+      <div
+        class="my-5 rounded-md border border-[#c3e6cb] bg-[#d4edda] p-[15px] text-[#155724]"
+      >
+        <strong>💡 Como funciona:</strong> Depois de instalar, clique no favorito
+        sempre que quiser adicionar um vídeo. Cole a URL do YouTube e o shortcode
+        será copiado automaticamente!
       </div>
 
-      <div class="steps">
-        <h2 style="margin-bottom: 20px; color: #667eea">
-          📋 Passo a Passo para Instalar
-        </h2>
+      <div class="my-[30px]">
+        <h2 class="mb-5 text-[#667eea]">📋 Passo a Passo para Instalar</h2>
 
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Mostre a barra de favoritos</h3>
-            <p>
+        <div class="mb-5 flex items-start rounded-lg bg-[#f8f9fa] p-[15px]">
+          <div
+            class="mr-[15px] flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#667eea] font-bold text-white"
+          >
+            1
+          </div>
+          <div>
+            <h3 class="mb-[5px] text-base text-[#333]">
+              Mostre a barra de favoritos
+            </h3>
+            <p class="text-sm leading-normal text-[#666]">
               No navegador, pressione <strong>Ctrl+Shift+B</strong> (Windows) ou
-              <strong>Cmd+Shift+B</strong> (Mac) para exibir a barra de
-              favoritos.
+              <strong>Cmd+Shift+B</strong> (Mac) para exibir a barra de favoritos.
             </p>
           </div>
         </div>
 
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Arraste o botão roxo</h3>
-            <p>
+        <div class="mb-5 flex items-start rounded-lg bg-[#f8f9fa] p-[15px]">
+          <div
+            class="mr-[15px] flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#667eea] font-bold text-white"
+          >
+            2
+          </div>
+          <div>
+            <h3 class="mb-[5px] text-base text-[#333]">Arraste o botão roxo</h3>
+            <p class="text-sm leading-normal text-[#666]">
               Clique e arraste o botão "YouTube → Shortcode" acima para a barra
               de favoritos do seu navegador.
             </p>
           </div>
         </div>
 
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Pronto! Agora use</h3>
-            <p>
+        <div class="mb-5 flex items-start rounded-lg bg-[#f8f9fa] p-[15px]">
+          <div
+            class="mr-[15px] flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#667eea] font-bold text-white"
+          >
+            3
+          </div>
+          <div>
+            <h3 class="mb-[5px] text-base text-[#333]">Pronto! Agora use</h3>
+            <p class="text-sm leading-normal text-[#666]">
               Sempre que precisar converter uma URL do YouTube, clique no
               favorito que você acabou de criar.
             </p>
@@ -302,49 +99,63 @@
         </div>
       </div>
 
-      <div class="example">
-        <div class="example-title">📝 Exemplo de Uso no CMS</div>
-        <p>
+      <div
+        class="my-5 rounded border-l-4 border-[#2196f3] bg-[#e3f2fd] p-[15px]"
+      >
+        <div class="mb-2.5 font-bold text-[#1976d2]">
+          📝 Exemplo de Uso no CMS
+        </div>
+        <p class="text-sm">
           <strong>1.</strong> Abra o YouTube e copie a URL:
-          <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>
+          <code class="text-sm"
+            >https://www.youtube.com/watch?v=dQw4w9WgXcQ</code
+          >
         </p>
-        <p>
-          <strong>2.</strong> No editor do CMS, clique no bookmarklet nos
-          favoritos
+        <p class="text-sm">
+          <strong>2.</strong> No editor do CMS, clique no bookmarklet nos favoritos
         </p>
-        <p><strong>3.</strong> Cole a URL quando solicitado</p>
-        <p>
+        <p class="text-sm"><strong>3.</strong> Cole a URL quando solicitado</p>
+        <p class="text-sm">
           <strong>4.</strong> O shortcode
-          <code>[[youtube:dQw4w9WgXcQ]]</code> é copiado automaticamente
+          <code class="text-sm">[[youtube:dQw4w9WgXcQ]]</code> é copiado automaticamente
         </p>
-        <p>
+        <p class="text-sm">
           <strong>5.</strong> Cole no editor markdown com
           <strong>Ctrl+V</strong>
         </p>
       </div>
 
-      <div class="test-section">
-        <h3>🧪 Testar Conversão</h3>
-        <p style="color: #856404; margin-bottom: 15px">
+      <div
+        class="my-[30px] rounded-lg border-2 border-[#ffc107] bg-[#fff3cd] p-5"
+      >
+        <h3 class="mb-[15px] text-[#856404]">🧪 Testar Conversão</h3>
+        <p class="mb-[15px] text-sm text-[#856404]">
           Teste a conversão de URL para shortcode aqui:
         </p>
         <input
           type="text"
           id="testUrl"
-          class="test-input"
+          class="mb-2.5 w-full rounded-md border-2 border-[#ddd] p-3 text-sm"
           placeholder="Cole uma URL do YouTube (ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
         />
-        <button class="test-button" onclick="convertUrl()">
+        <button
+          class="cursor-pointer rounded-md border-none bg-[#ffc107] px-6 py-3 font-bold text-[#333] transition-colors duration-200 hover:bg-[#ffb300]"
+          onclick="convertUrl()"
+        >
           Converter para Shortcode
         </button>
-        <div id="result" class="result"></div>
+        <div
+          id="result"
+          class="mt-[15px] hidden rounded-md bg-white p-[15px] font-[monospace]"
+        >
+        </div>
       </div>
 
-      <div style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #eee">
-        <h3 style="color: #667eea; margin-bottom: 15px">
-          📚 Formatos de URL Suportados
-        </h3>
-        <div class="code-block">
+      <div class="mt-[30px] border-t-2 border-[#eee] pt-[30px]">
+        <h3 class="mb-[15px] text-[#667eea]">📚 Formatos de URL Suportados</h3>
+        <div
+          class="my-[15px] overflow-x-auto rounded-lg bg-[#2d2d2d] p-[15px] font-['Courier_New',monospace] text-sm text-[#f8f8f2]"
+        >
           ✅ https://www.youtube.com/watch?v=dQw4w9WgXcQ<br />
           ✅ https://youtu.be/dQw4w9WgXcQ<br />
           ✅ https://www.youtube.com/embed/dQw4w9WgXcQ<br />
@@ -352,69 +163,72 @@
         </div>
       </div>
 
-      <div style="margin-top: 30px; text-align: center; color: #999">
+      <div class="mt-[30px] text-center text-[#999]">
         <p>
           Precisa de ajuda? Consulte o
-          <a
-            href="/EDITOR_GUIDE.md"
-            style="color: #667eea; text-decoration: underline"
+          <a href="/admin/guia-do-editor" class="text-[#667eea]! underline"
             >Guia do Editor</a
           >
         </p>
       </div>
     </div>
+  </div>
 
-    <script>
-      function convertUrl() {
-        const input = document.getElementById('testUrl') as HTMLInputElement | null;
-        const result = document.getElementById('result');
-        
-        if (!input || !result) return;
-        
-        const url = input.value.trim();
+  <script>
+    function convertUrl() {
+      const input = document.getElementById(
+        'testUrl'
+      ) as HTMLInputElement | null;
+      const result = document.getElementById('result');
 
-        if (!url) {
-          result.className = 'result show error';
-          result.textContent = '❌ Por favor, cole uma URL do YouTube';
-          return;
-        }
+      if (!input || !result) return;
 
-        const id = url.match(
-          /(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/
-        )?.[1];
+      const url = input.value.trim();
 
-        if (!id) {
-          result.className = 'result show error';
-          result.textContent =
-            '❌ URL inválida. Certifique-se de que é uma URL válida do YouTube.';
-          return;
-        }
-
-        const shortcode = `[[youtube:${id}]]`;
-        result.className = 'result show success';
-        result.innerHTML = `
-          <strong>✅ Conversão bem-sucedida!</strong><br><br>
-          <strong>Shortcode:</strong><br>
-          <code style="background: #f0f0f0; padding: 10px; display: block; margin-top: 10px; border-radius: 4px;">${shortcode}</code>
-          <br>
-          <button 
-            onclick="navigator.clipboard.writeText('${shortcode}').then(() => alert('✅ Copiado!'))" 
-            style="margin-top: 10px; padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;"
-          >
-            📋 Copiar Shortcode
-          </button>
-        `;
+      if (!url) {
+        result.className =
+          'mt-[15px] p-[15px] bg-white rounded-md font-[monospace] block text-[#dc3545]';
+        result.textContent = '❌ Por favor, cole uma URL do YouTube';
+        return;
       }
 
-      // Permite pressionar Enter para converter
-      const testUrlInput = document.getElementById('testUrl');
-      if (testUrlInput) {
-        testUrlInput.addEventListener('keypress', function (e) {
-          if (e.key === 'Enter') {
-            convertUrl();
-          }
-        });
+      const id = url.match(
+        /(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/
+      )?.[1];
+
+      if (!id) {
+        result.className =
+          'mt-[15px] p-[15px] bg-white rounded-md font-[monospace] block text-[#dc3545]';
+        result.textContent =
+          '❌ URL inválida. Certifique-se de que é uma URL válida do YouTube.';
+        return;
       }
-    </script>
-  </body>
-</html>
+
+      const shortcode = `[[youtube:${id}]]`;
+      result.className =
+        'mt-[15px] p-[15px] bg-white rounded-md font-[monospace] block text-[#28a745]';
+      result.innerHTML = `
+        <strong>✅ Conversão bem-sucedida!</strong><br><br>
+        <strong>Shortcode:</strong><br>
+        <code style="background: #f0f0f0; padding: 10px; display: block; margin-top: 10px; border-radius: 4px;">${shortcode}</code>
+        <br>
+        <button 
+          onclick="navigator.clipboard.writeText('${shortcode}').then(() => alert('✅ Copiado!'))" 
+          style="margin-top: 10px; padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;"
+        >
+          📋 Copiar Shortcode
+        </button>
+      `;
+    }
+
+    // Permite pressionar Enter para converter
+    const testUrlInput = document.getElementById('testUrl');
+    if (testUrlInput) {
+      testUrlInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          convertUrl();
+        }
+      });
+    }
+  </script>
+</Layout>
