@@ -258,9 +258,98 @@
             buttonContainer.appendChild(button);
             buttonContainer.appendChild(statusDiv);
             
-            // Inserir logo após a section do endereço
+                        // Inserir logo após a section do endereço
             enderecoSection.parentElement.insertBefore(buttonContainer, enderecoSection.nextSibling);
         }
     </script>
+
+    <!-- Botão de Ajuda de Layout para Editor Markdown -->
+    <script>
+        setTimeout(() => {
+            // Verificar se está em uma página de coleção (edição/criação de post)
+            const currentPath = window.location.hash || window.location.pathname;
+            if (!currentPath.includes('collections/')) {
+                console.log('Não está em uma página de coleção, botão Layout Helper não será exibido');
+                return;
+            }
+
+            // Procurar pelo campo body (markdown editor)
+            const bodyField = document.querySelector('[data-key-path="body"]');
+            
+            if (!bodyField) {
+                console.log('Campo body não encontrado ainda, tentando novamente...');
+                return;
+            }
+
+            // Verificar se já foi injetado
+            if (document.getElementById('layout-helper-button-container')) {
+                return;
+            }
+
+            console.log('Campo body encontrado em página de coleção, injetando botão de Layout Helper');
+
+            // Container do botão
+            const buttonContainer = document.createElement('div');
+            buttonContainer.id = 'layout-helper-button-container';
+            buttonContainer.style.cssText = `
+                margin: 12px 0;
+                padding: 12px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            `;
+
+            // Botão
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = '✨ Abrir Content Helper';
+            button.style.cssText = `
+                width: 100%;
+                padding: 10px 16px;
+                background: white;
+                color: #667eea;
+                border: none;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            `;
+            
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'translateY(-2px)';
+                button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translateY(0)';
+                button.style.boxShadow = 'none';
+            });
+
+            button.addEventListener('click', () => {
+                window.open('/admin/content-helper', '_blank');
+            });
+
+            // Info text
+            const infoText = document.createElement('p');
+            infoText.textContent = '💡 Use shortcodes para criar layouts avançados e adicionar vídeos!';
+            infoText.style.cssText = `
+                margin: 8px 0 0 0;
+                font-size: 12px;
+                color: white;
+                text-align: center;
+                opacity: 0.9;
+            `;
+
+            buttonContainer.appendChild(button);
+            buttonContainer.appendChild(infoText);
+
+            // Inserir acima do campo body
+            bodyField.parentElement.insertBefore(buttonContainer, bodyField);
+            
+            console.log('✅ Botão Content Helper injetado com sucesso!');
+        }, 3500);
+    </script>
 </body>
 </html>
+```

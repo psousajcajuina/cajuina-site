@@ -1,0 +1,989 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+const metadata = {
+  title: 'Content Helper - Assistente de Publicações',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <style>
+    /* Dark theme baseado no Sveltia CMS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a1a1a;
+      color: #e0e0e0;
+      font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: #242424;
+      border-radius: 12px;
+      padding: 20px;
+      position: sticky;
+      top: 20px;
+      border: 1px solid #333;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    .block-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .block-item {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 12px;
+      border-radius: 8px;
+      cursor: move;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+
+    .block-item.youtube-block {
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    }
+
+    .block-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .block-item:active {
+      transform: scale(0.98);
+    }
+
+    .block-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 2px;
+    }
+
+    .block-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Main content */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel {
+      background: #242424;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #333;
+      color: #e0e0e0;
+    }
+
+    .btn-secondary:hover {
+      background: #444;
+    }
+
+    .btn-success {
+      background: #10b981 !important;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      min-height: 200px;
+      border: 2px dashed #444;
+      border-radius: 8px;
+      padding: 20px;
+      background: #1a1a1a;
+      transition: all 0.2s;
+    }
+
+    .drop-zone.drag-over {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.1);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .blocks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .added-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 12px;
+      transition: all 0.2s;
+    }
+
+    .added-block:hover {
+      border-color: #667eea;
+    }
+
+    .added-block-code {
+      flex: 1;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #10b981;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-remove {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-remove:hover {
+      background: #dc2626;
+    }
+
+    /* Preview */
+    .preview-container {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      min-height: 200px;
+      color: #1a1a1a;
+    }
+
+    .preview-empty {
+      color: #999;
+      font-style: italic;
+      text-align: center;
+      padding: 40px;
+    }
+
+    /* Code block */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #58a6ff;
+      overflow-x: auto;
+      min-height: 120px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .code-empty {
+      color: #6e7681;
+      font-style: italic;
+    }
+
+    /* YouTube modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #242424;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 12px;
+      color: #e0e0e0;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .bookmarklet-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #333;
+    }
+
+    .bookmarklet-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #999;
+      margin-bottom: 12px;
+    }
+
+    .bookmarklet-button {
+      display: inline-block;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: move;
+      transition: all 0.2s;
+    }
+
+    .bookmarklet-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+    }
+
+    .bookmarklet-hint {
+      font-size: 12px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* Examples section */
+    .examples-section {
+      background: #242424;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .examples-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .example-card {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.2s;
+    }
+
+    .example-card:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .example-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 12px;
+    }
+
+    .example-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .example-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .example-after {
+      color: #10b981;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>✨ Content Helper</h1>
+      <p>
+        Construa seu post com blocos visuais, adicione vídeos e copie tudo
+        pronto
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span>📦</span> Blocos
+        </div>
+        <div class="sidebar-subtitle">Arraste ou clique</div>
+
+        <div class="block-list">
+          <div
+            class="block-item youtube-block"
+            data-type="youtube"
+            draggable="true"
+          >
+            <div class="block-title">📺 Vídeo YouTube</div>
+            <div class="block-desc">Incorporar vídeo</div>
+          </div>
+
+          <div class="block-item" data-type="two-columns" draggable="true">
+            <div class="block-title">📐 Duas Colunas</div>
+            <div class="block-desc">Layout lado a lado</div>
+          </div>
+
+          <div class="block-item" data-type="image-left" draggable="true">
+            <div class="block-title">🖼️ Imagem Esquerda</div>
+            <div class="block-desc">Imagem + Texto</div>
+          </div>
+
+          <div class="block-item" data-type="image-right" draggable="true">
+            <div class="block-title">🖼️ Imagem Direita</div>
+            <div class="block-desc">Texto + Imagem</div>
+          </div>
+
+          <div class="block-item" data-type="card" draggable="true">
+            <div class="block-title">🃏 Card</div>
+            <div class="block-desc">Container simples</div>
+          </div>
+
+          <div class="block-item" data-type="card-highlighted" draggable="true">
+            <div class="block-title">✨ Card Destaque</div>
+            <div class="block-desc">Com gradiente</div>
+          </div>
+
+          <div class="block-item" data-type="alert-info" draggable="true">
+            <div class="block-title">ℹ️ Info</div>
+            <div class="block-desc">Informação</div>
+          </div>
+
+          <div class="block-item" data-type="alert-success" draggable="true">
+            <div class="block-title">✅ Sucesso</div>
+            <div class="block-desc">Confirmação</div>
+          </div>
+
+          <div class="block-item" data-type="alert-warning" draggable="true">
+            <div class="block-title">⚠️ Aviso</div>
+            <div class="block-desc">Atenção</div>
+          </div>
+
+          <div class="block-item" data-type="alert-error" draggable="true">
+            <div class="block-title">❌ Erro</div>
+            <div class="block-desc">Erro crítico</div>
+          </div>
+        </div>
+
+        <!-- Bookmarklet Section -->
+        <div class="bookmarklet-section">
+          <div class="bookmarklet-title">Atalho para o navegador:</div>
+          <a
+            href="javascript:(function(){const url=prompt('Cole a URL do YouTube:');if(!url)return;const match=url.match(/(?:v=|youtu\\.be\\/|embed\\/)([a-zA-Z0-9_-]{11})/);if(match){const code='[[youtube:'+match[1]+']]';navigator.clipboard.writeText(code).then(()=>alert('✅ Copiado!\\n\\n'+code));} else{alert('❌ URL inválida');}})();"
+            class="bookmarklet-button"
+          >
+            📺 YouTube → Shortcode
+          </a>
+          <div class="bookmarklet-hint">👆 Arraste para favoritos</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Builder -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>✍️</span> Editor de Conteúdo
+            </div>
+            <div class="button-group">
+              <button class="btn btn-secondary" id="clearButton">
+                <span>🗑️</span> Limpar
+              </button>
+              <button class="btn btn-primary" id="copyButton">
+                <span>📋</span> Copiar Tudo
+              </button>
+            </div>
+          </div>
+
+          <div class="drop-zone" id="dropZone">
+            <div class="empty-state" id="emptyState">
+              <div class="empty-state-icon">👈</div>
+              <div>Arraste ou clique nos blocos para começar seu post</div>
+            </div>
+            <div class="blocks-container" id="blocksContainer"></div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>👁️</span> Preview em Tempo Real
+            </div>
+          </div>
+          <div class="preview-container" id="preview">
+            <div class="preview-empty">Seu conteúdo aparecerá aqui...</div>
+          </div>
+        </div>
+
+        <!-- Code -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📝</span> Código Markdown (Cole no CMS)
+            </div>
+          </div>
+          <div class="code-block" id="codeBlock">
+            <span class="code-empty">// Seu código aparecerá aqui</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exemplos -->
+    <div class="examples-section">
+      <div class="examples-section">
+        <div class="examples-title">
+          <span>💡</span> Exemplos de Uso
+        </div>
+        <div class="example-grid">
+          <div class="example-card">
+            <div class="example-header">📐 Duas Colunas (70/30)</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[two-columns:70/30]]<br />[col1]<br />Conteúdo da coluna
+                esquerda<br />[/col1]<br />[col2]<br />Coluna direita<br
+                />[/col2]<br />[[/two-columns]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">🖼️ Imagem à Esquerda</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[image-left: /images/foto.jpg]]<br />Seu texto aqui ao lado da
+                imagem.<br />[[/image-left]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">🖼️ Imagem à Direita</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[image-right: /images/foto.jpg]]<br />Texto fica à esquerda.<br
+                />[[/image-right]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">🃏 Card Simples</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[card]]<br />Conteúdo do card<br />[[/card]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">✨ Card Destacado</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[card:highlighted]]<br />Card com gradiente roxo<br />[[/card]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">ℹ️ Alerta Info</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[alert:info]]<br />Informação importante<br />[[/alert]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">✅ Alerta Sucesso</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[alert:success]]<br />Operação bem sucedida!<br />[[/alert]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">⚠️ Alerta Aviso</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[alert:warning]]<br />Atenção ao prosseguir<br />[[/alert]]
+              </div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header">❌ Alerta Erro</div>
+            <div class="example-content">
+              <div class="example-box example-after">
+                [[alert:error]]<br />Erro encontrado<br />[[/alert]]
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube Modal -->
+      <div class="modal" id="youtubeModal">
+        <div class="modal-content">
+          <div class="modal-title">
+            <span>📺</span> Adicionar Vídeo do YouTube
+          </div>
+          <input
+            type="text"
+            class="modal-input"
+            id="youtubeInput"
+            placeholder="Cole a URL do YouTube aqui..."
+          />
+          <div class="modal-buttons">
+            <button class="btn" id="modalCancel">Cancelar</button>
+            <button class="btn btn-primary" id="modalConfirm">Adicionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const templates = {
+        'two-columns': `[[two-columns:70/30]]\n[col1]\nConteúdo da coluna 1 (70%)\n[/col1]\n[col2]\nConteúdo da coluna 2 (30%)\n[/col2]\n[[/two-columns]]`,
+        'image-left': `[[image-left: /images/sua-imagem.jpg]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
+        'image-right': `[[image-right: /images/sua-imagem.jpg]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
+        card: `[[card]]\nConteúdo do card simples.\n[[/card]]`,
+        'card-highlighted': `[[card:highlighted]]\nCard com gradiente - perfeito para CTAs!\n[[/card]]`,
+        'alert-info': `[[alert:info]]\nEsta é uma informação útil.\n[[/alert]]`,
+        'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
+        'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
+        'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
+      };
+
+      let blocks = [];
+
+      const dropZone = document.getElementById('dropZone');
+      const blocksContainer = document.getElementById('blocksContainer');
+      const emptyState = document.getElementById('emptyState');
+      const preview = document.getElementById('preview');
+      const codeBlock = document.getElementById('codeBlock');
+      const copyButton = document.getElementById('copyButton');
+      const clearButton = document.getElementById('clearButton');
+      const blockItems = document.querySelectorAll('.block-item');
+      const youtubeModal = document.getElementById('youtubeModal');
+      const youtubeInput = document.getElementById('youtubeInput');
+      const modalCancel = document.getElementById('modalCancel');
+      const modalConfirm = document.getElementById('modalConfirm');
+
+      // Drag and Drop
+      blockItems.forEach((item) => {
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', item.dataset.type);
+        });
+
+        item.addEventListener('click', () => {
+          const type = item.dataset.type;
+          if (type === 'youtube') {
+            openYoutubeModal();
+          } else {
+            addBlock(type);
+          }
+        });
+      });
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const type = e.dataTransfer.getData('text/plain');
+        if (type === 'youtube') {
+          openYoutubeModal();
+        } else if (type) {
+          addBlock(type);
+        }
+      });
+
+      // YouTube Modal
+      function openYoutubeModal() {
+        youtubeModal.classList.add('active');
+        youtubeInput.value = '';
+        youtubeInput.focus();
+      }
+
+      function closeYoutubeModal() {
+        youtubeModal.classList.remove('active');
+      }
+
+      modalCancel.addEventListener('click', closeYoutubeModal);
+
+      modalConfirm.addEventListener('click', () => {
+        const url = youtubeInput.value.trim();
+        if (!url) {
+          alert('Por favor, cole uma URL do YouTube');
+          return;
+        }
+
+        const match = url.match(
+          /(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/
+        );
+        if (!match) {
+          alert('❌ URL do YouTube inválida');
+          return;
+        }
+
+        const videoId = match[1];
+        const shortcode = `[[youtube:${videoId}]]`;
+        blocks.push(shortcode);
+        updateUI();
+        closeYoutubeModal();
+      });
+
+      youtubeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          modalConfirm.click();
+        }
+      });
+
+      youtubeModal.addEventListener('click', (e) => {
+        if (e.target === youtubeModal) {
+          closeYoutubeModal();
+        }
+      });
+
+      function addBlock(type) {
+        const template = templates[type];
+        if (!template) return;
+        blocks.push(template);
+        updateUI();
+      }
+
+      function removeBlock(index) {
+        blocks.splice(index, 1);
+        updateUI();
+      }
+
+      function updateUI() {
+        if (blocks.length === 0) {
+          emptyState.style.display = 'block';
+          blocksContainer.innerHTML = '';
+        } else {
+          emptyState.style.display = 'none';
+          blocksContainer.innerHTML = blocks
+            .map((block, index) => {
+              const firstLine = block.split('\n')[0];
+              return `
+              <div class="added-block">
+                <div class="added-block-code">${escapeHtml(firstLine)}...</div>
+                <button class="btn-remove" onclick="removeBlock(${index})">✕</button>
+              </div>
+            `;
+            })
+            .join('');
+        }
+
+        const markdown = blocks.join('\n\n');
+        codeBlock.innerHTML = markdown
+          ? `<span style="color:#58a6ff">${escapeHtml(markdown)}</span>`
+          : '<span class="code-empty">// Seu código aparecerá aqui</span>';
+
+        updatePreview(markdown);
+      }
+
+      function updatePreview(markdown) {
+        if (!markdown) {
+          preview.innerHTML =
+            '<div class="preview-empty">Seu conteúdo aparecerá aqui...</div>';
+          return;
+        }
+
+        preview.innerHTML = processShortcodes(markdown);
+      }
+
+      function processShortcodes(markdown) {
+        let html = markdown;
+
+        // YouTube
+        html = html.replace(
+          /\[\[youtube:([a-zA-Z0-9_-]+)\]\]/g,
+          (match, videoId) => {
+            return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          }
+        );
+
+        // Two columns
+        html = html.replace(
+          /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
+          (match, col1, col2, content) => {
+            const col1Content =
+              content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
+            const col2Content =
+              content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
+            return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Content.trim()}</div><div class="layout-column-2">${col2Content.trim()}</div></div>`;
+          }
+        );
+
+        // Image left/right
+        html = html.replace(
+          /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
+          (match, position, url, content) => {
+            return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${content.trim()}</div></div>`;
+          }
+        );
+
+        // Cards
+        html = html.replace(
+          /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
+          (match, variant, content) => {
+            const cardClass = variant ? `layout-card-${variant.trim()}` : '';
+            return `<div class="layout-card ${cardClass}">${content.trim()}</div>`;
+          }
+        );
+
+        // Alerts
+        html = html.replace(
+          /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
+          (match, type, content) => {
+            const icons = {
+              info: 'ℹ️',
+              success: '✅',
+              warning: '⚠️',
+              error: '❌',
+            };
+            const icon = icons[type] || icons.info;
+            return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${content.trim()}</div></div>`;
+          }
+        );
+
+        return html;
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      copyButton.addEventListener('click', () => {
+        const markdown = blocks.join('\n\n');
+        if (!markdown) {
+          alert('Adicione alguns blocos primeiro!');
+          return;
+        }
+
+        navigator.clipboard.writeText(markdown).then(() => {
+          const originalHTML = copyButton.innerHTML;
+          copyButton.innerHTML = '<span>✅</span> Copiado!';
+          copyButton.classList.add('btn-success');
+
+          setTimeout(() => {
+            copyButton.innerHTML = originalHTML;
+            copyButton.classList.remove('btn-success');
+          }, 2000);
+        });
+      });
+
+      clearButton.addEventListener('click', () => {
+        if (blocks.length === 0) return;
+        if (confirm('Limpar todos os blocos?')) {
+          blocks = [];
+          updateUI();
+        }
+      });
+
+      window.removeBlock = removeBlock;
+
+      updateUI();
+    </script>
+  </div>
+</Layout>

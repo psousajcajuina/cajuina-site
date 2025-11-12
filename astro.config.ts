@@ -19,6 +19,7 @@ import {
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
 import { remarkYouTubePlugin } from './src/utils/remark-youtube';
+import { remarkLayoutShortcodes } from './src/utils/remark-layout-shortcodes';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -95,6 +96,7 @@ export default defineConfig({
       readingTimeRemarkPlugin,
       resolveImagePathsRemarkPlugin,
       remarkYouTubePlugin,
+      remarkLayoutShortcodes,
     ],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
     shikiConfig: {

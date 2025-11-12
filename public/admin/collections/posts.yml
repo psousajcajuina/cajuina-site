@@ -53,7 +53,6 @@ collections:
           label: 'Conteúdo',
           name: 'body',
           widget: 'markdown',
-          hint: '💡 Dica: Use o bookmarklet "YouTube → Shortcode" para converter URLs de vídeos automaticamente. Acesse /admin/youtube-helper para instalar a ferramenta.',
         }
 
   - name: categories
