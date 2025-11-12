@@ -2,8 +2,8 @@
 id: 9
 title: São Geraldo Laranja Lata
 slug: laranja-350ml
-normalImage: /src/assets/images/350ml-laranja-1.webp
-hoverImage: /src/assets/images/350ml-laranja-hover-1.webp
+normalImage: /src/assets/images/product/350ml-laranja.webp
+hoverImage: /src/assets/images/product/350ml-laranja-hover.webp
 sizes:
   width: 80
   height: 95
@@ -12,8 +12,8 @@ sizesMd:
   height: 250
 details:
   name: São Geraldo Laranja Lata
-  image: /src/assets/images/laranja350mlDetails.webp
-  nutritionalInfo: /src/assets/images/laranjaNutricional350ml.webp
+  image: /src/assets/images/product/laranja350mlDetails.webp
+  nutritionalInfo: /src/assets/images/product/laranjaNutricional350ml.webp
 ingredients: ''
 ---
 

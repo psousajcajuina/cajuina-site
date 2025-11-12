@@ -3,6 +3,8 @@ collections:
     label: "Products"
     folder: "src/data/product"
     create: true
+    media_folder: '/src/assets/images/product' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/product' # The src attribute for uploaded media
     fields:
       - { label: "ID", name: "id", widget: "number" }
       - { label: "Nome", name: "title", widget: "string" }

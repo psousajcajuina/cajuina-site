@@ -6,10 +6,24 @@ collections:
     identifier_field: title
     slug: '{{slug}}'
     create: true
+    media_folder: '/src/assets/images/post' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/post' # The src attribute for uploaded media
     fields:
       - { label: 'Título', name: 'title', widget: 'string' }
       - { label: 'Descrição', name: 'excerpt', widget: 'string' }
       - { label: 'Rascunho', name: 'draft', widget: 'boolean', default: false }
+      - {
+          name: categories,
+          label: Categoria,
+          widget: relation,
+          multiple: false,
+          collection: categories,
+          search_fields: [title],
+          display_fields: [title],
+          value_field: '{{slug}}',
+          default: 'noticias',
+          required: true,
+        }
       - {
           name: tags,
           label: Tags,
@@ -36,6 +50,19 @@ collections:
           default: 'Redação São Geraldo',
         }
       - { label: 'Conteúdo', name: 'body', widget: 'markdown' }
+
+  - name: categories
+    label: Categorias
+    label_singular: Categoria
+    icon: topic
+    folder: src/data/category
+    create: true
+    editor:
+      preview: false
+    fields:
+      - { name: title, widget: string, label: Nome }
+      - { name: description, label: Descrição, widget: text, required: false }
+      - { name: image, label: Image, widget: image, required: false }
 
   - name: tags
     label: Tags

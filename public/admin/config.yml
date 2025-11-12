@@ -37,6 +37,8 @@ collections:
     slug: '{{slug}}'
     editor:
       preview: false
+    media_folder: '/src/assets/images/banner' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/banner' # The src attribute for uploaded media
     fields:
       - { name: title, label: Título, widget: string }
       - { name: subtitle, label: Subtítulo, widget: string, required: false }
@@ -127,6 +129,8 @@ collections:
     folder: src/data/middle-banner
     create: false
     slug: '{{slug}}'
+    media_folder: '/src/assets/images/middle-banner' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/middle-banner' # The src attribute for uploaded media
     editor:
       preview: false
     fields:
@@ -146,6 +150,8 @@ collections:
     folder: src/data/distribuidor
     create: true
     slug: '{{fields.nome}}'
+    media_folder: '/src/assets/images/distribuidor' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/distribuidor' # The src attribute for uploaded media
     editor:
       preview: false
     fields:

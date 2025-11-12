@@ -2,7 +2,7 @@
 title: capa2
 subtitle: ''
 description: ''
-image: /src/assets/images/Prancheta 2.webp
+image: /src/assets/images/banner/banner02.webp
 imageMobile: ''
 cta: null
 textPosition: center

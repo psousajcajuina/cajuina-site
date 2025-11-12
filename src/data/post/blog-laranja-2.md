@@ -1,10 +1,10 @@
 ---
-title: blog-laranja-2
+title: São Geraldo lança oficialmente refrigerante de caju zero adição de açúcar. Reduzido em calorias, o refrigerante de caju já está disponível para os consumidores
 excerpt: São Geraldo lança oficialmente refrigerante de caju zero adição de açúcar. Reduzido em calorias, o refrigerante de caju já está disponível para os consumidores
 draft: false
-tags:
-  - noticias
-image: https://cajuinasaogeraldo.com.br/wp-content/uploads/2025/07/Adobe-Express-file.jpg
+categories: noticias
+tags: []
+image: /src/assets/images/post/Adobe-Express-file.webp
 publishDate: 2025-07-25T16:30:00
 author: Redação São Geraldo
 ---

@@ -2,8 +2,8 @@
 id: 10
 title: São Geraldo Laranja 1L PET
 slug: laranja-1l
-normalImage: /src/assets/images/1L-LARANJA.webp
-hoverImage: /src/assets/images/1L-LARANJA-hover.webp
+normalImage: /src/assets/images/product/1L-LARANJA.webp
+hoverImage: /src/assets/images/product/1L-LARANJA-hover.webp
 sizes:
   width: 78
   height: 108
@@ -12,8 +12,8 @@ sizesMd:
   height: 280
 details:
   name: São Geraldo Laranja 1L PET
-  image: /src/assets/images/laranja1LDetails.webp
-  nutritionalInfo: /src/assets/images/laranjaNutricional1L.webp
+  image: /src/assets/images/product/laranja1LDetails.webp
+  nutritionalInfo: /src/assets/images/product/laranjaNutricional1L.webp
 ingredients: ''
 ---
 

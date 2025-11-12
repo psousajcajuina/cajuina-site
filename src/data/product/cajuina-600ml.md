@@ -2,8 +2,8 @@
 id: 2
 title: São Geraldo Retornavel 600ml
 slug: saogeraldo-retornavel-600ml
-normalImage: /src/assets/images/600ml.webp
-hoverImage: /src/assets/images/600ml-hover.webp
+normalImage: /src/assets/images/product/600ml.webp
+hoverImage: /src/assets/images/product/200ml-hover.webp
 sizes:
   width: 80
   height: 110
@@ -12,8 +12,8 @@ sizesMd:
   height: 290
 details:
   name: São Geraldo Retornavel 600ml
-  image: /src/assets/images/vidro600mlDetails.webp
-  nutritionalInfo: /src/assets/images/nutricional1L-1.webp
+  image: /src/assets/images/product/vidro600mlDetails.webp
+  nutritionalInfo: /src/assets/images/product/nutricional1L.webp
 ingredients: ''
 ---
 
