@@ -18,6 +18,7 @@ import {
   lazyImagesRehypePlugin,
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
+import { remarkYouTubePlugin } from './src/utils/remark-youtube';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -90,7 +91,11 @@ export default defineConfig({
   },
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin, resolveImagePathsRemarkPlugin],
+    remarkPlugins: [
+      readingTimeRemarkPlugin,
+      resolveImagePathsRemarkPlugin,
+      remarkYouTubePlugin,
+    ],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
     shikiConfig: {
       wrap: true,
