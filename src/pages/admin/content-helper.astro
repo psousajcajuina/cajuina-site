@@ -7,6 +7,8 @@ import PreviewPanel from '@/components/widgets/content-helper/PreviewPanel.astro
 import ExampleSection from '@/components/widgets/content-helper/ExampleSection.astro';
 import YoutubeModal from '@/components/widgets/content-helper/YoutubeModal.astro';
 import HeadingModal from '@/components/widgets/content-helper/HeadingModal.astro';
+import ImageModal from '@/components/widgets/content-helper/ImageModal.astro';
+import LinkModal from '@/components/widgets/content-helper/LinkModal.astro';
 
 const metadata = {
   title: 'Assistente de Publicações',
@@ -31,7 +33,7 @@ const metadata = {
     </div>
 
     {/* Builder & Preview */}
-    <div class="flex flex-col gap-5 lg:flex-row">
+    <div class="mb-8 flex flex-col gap-5 lg:flex-row">
       <div
         class="flex flex-1 flex-col rounded-xl border border-neutral-700 bg-neutral-900 p-6"
       >
@@ -72,9 +74,9 @@ const metadata = {
     </div>
 
     {/* Blocks Library */}
-    <div class="mb-6 rounded-xl border border-neutral-700 bg-neutral-900 p-5">
+    <div class="mb-6 rounded-xl border border-neutral-700 bg-neutral-900 p-6">
       <div
-        class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between"
+        class="mb-4 flex flex-col gap-1 md:flex-row md:items-center md:justify-between"
       >
         <div class="flex items-center gap-2 text-base font-semibold text-white">
           <span>📦</span>
@@ -85,426 +87,599 @@ const metadata = {
         </div>
       </div>
 
+      {/* All Blocks in Grid */}
+      {/* Category Filter */}
+      <div class="mb-3">
+        <select
+          id="categoryFilter"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-2.5 text-sm text-white transition-colors hover:border-neutral-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none sm:w-auto"
+        >
+          <option value="all">Todos os blocos</option>
+          <option value="content">📝 Conteúdo</option>
+          <option value="layout">📐 Layout</option>
+          <option value="containers">📦 Containers</option>
+          <option value="alerts">⚠️ Alertas</option>
+        </select>
+      </div>
+
+      {/* Blocks Grid */}
       <div
-        class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        id="blocksGrid"
+        class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
         <BlockItem
-          type="youtube"
-          title="Vídeo YouTube"
-          description="Incorporar vídeo"
-          icon="📺"
-          variant="youtube"
+          type="text"
+          title="Texto"
+          description="Parágrafo"
+          icon="📄"
+          data-category="content"
         />
-
+        <BlockItem
+          type="heading-accent"
+          title="Título"
+          description="Com cor"
+          icon="🔶"
+          data-category="content"
+        />
+        <!-- <BlockItem
+          type="image-block"
+          title="Imagem"
+          description="Upload"
+          icon="🖼️"
+          data-category="content"
+        /> -->
+        <BlockItem
+          type="link"
+          title="Link"
+          description="Hyperlink"
+          icon="🔗"
+          data-category="content"
+        />
+        <BlockItem
+          type="youtube"
+          title="YouTube"
+          description="Vídeo"
+          icon="▶️"
+          variant="youtube"
+          data-category="content"
+        />
         <BlockItem
           type="two-columns"
-          title="Duas Colunas"
-          description="Layout lado a lado"
+          title="2 Colunas"
+          description="Layout"
           icon="📐"
+          data-category="layout"
         />
-
-        <BlockItem
+        <!-- <BlockItem
           type="image-left"
-          title="Imagem Esquerda"
-          description="Imagem + Texto"
-          icon="🖼️"
+          title="Img + Texto"
+          description="Esquerda"
+          icon="◀️"
+          data-category="layout"
         />
-
         <BlockItem
           type="image-right"
-          title="Imagem Direita"
-          description="Texto + Imagem"
-          icon="🖼️"
-        />
-
+          title="Texto + Img"
+          description="Direita"
+          icon="▶️"
+          data-category="layout"
+        /> -->
         <BlockItem
           type="card"
           title="Card"
-          description="Container simples"
+          description="Container"
           icon="🃏"
+          data-category="containers"
         />
-
         <BlockItem
           type="card-highlighted"
-          title="Card Destaque"
-          description="Com gradiente"
+          title="Card ✨"
+          description="Destaque"
           icon="✨"
+          data-category="containers"
         />
-
-        <BlockItem
-          type="heading-accent"
-          title="Heading Destaque"
-          description="H4 com cor #D98338"
-          icon="🔶"
-        />
-
         <BlockItem
           type="alert-info"
           title="Info"
           description="Informação"
           icon="ℹ️"
+          data-category="alerts"
         />
-
         <BlockItem
           type="alert-success"
           title="Sucesso"
-          description="Confirmação"
+          description="Positivo"
           icon="✅"
+          data-category="alerts"
         />
-
         <BlockItem
           type="alert-warning"
           title="Aviso"
           description="Atenção"
           icon="⚠️"
+          data-category="alerts"
         />
-
         <BlockItem
           type="alert-error"
           title="Erro"
-          description="Erro crítico"
+          description="Crítico"
           icon="❌"
+          data-category="alerts"
         />
       </div>
 
-      <div
-        class="mt-6 flex flex-col gap-3 rounded-lg border border-neutral-700/70 bg-neutral-950/60 p-4 md:flex-row md:items-center md:justify-between"
-      >
-        <div>
-          <div class="text-sm font-semibold text-neutral-300">
-            Atalho para o navegador
-          </div>
-          <div class="text-xs text-neutral-500">
-            Gere o shortcode de vídeos do YouTube em um clique.
-          </div>
-        </div>
-        <a
-          href="javascript:(function(){const url=prompt('Cole a URL do YouTube:');if(!url)return;const match=url.match(/(?:v=|youtu\\.be\\/|embed\\/)([a-zA-Z0-9_-]{11})/);if(match){const code='[[youtube:'+match[1]+']]';navigator.clipboard.writeText(code).then(()=>alert('✅ Copiado!\\n\\n'+code));} else{alert('❌ URL inválida');}})();"
-          class="inline-flex cursor-move items-center justify-center gap-2 rounded-lg bg-linear-to-br from-red-600 to-red-700 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/40"
-        >
-          <span>📺</span>
-          <span>YouTube → Shortcode</span>
-        </a>
+      {/* Code Panel */}
+      <div class="mt-5">
+        <CodePanel />
       </div>
+
+      {/* Examples Section */}
+      <div class="mt-5">
+        <ExampleSection />
+      </div>
+
+      {/* YouTube Modal */}
+      <YoutubeModal />
+
+      {/* Heading Modal */}
+      <HeadingModal />
+
+      {/* Image Modal */}
+      <ImageModal />
+
+      {/* Link Modal */}
+      <LinkModal />
     </div>
 
-    {/* Code Panel */}
-    <div class="mt-5">
-      <CodePanel />
-    </div>
+    <script>
+      const DEFAULT_HEADING_COLOR = '#D98338';
+      const HEX_COLOR_REGEX =
+        /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 
-    {/* Examples Section */}
-    <div class="mt-5">
-      <ExampleSection />
-    </div>
+      // Templates para cada tipo de bloco
+      const templates: Record<string, string> = {
+        text: `Seu texto markdown aqui.\n\nVocê pode usar **negrito**, *itálico*, e outros recursos markdown.`,
+        'two-columns': `[[two-columns:70/30]]\n[col1]\nConteúdo da coluna 1 (70%)\n[/col1]\n[col2]\nConteúdo da coluna 2 (30%)\n[/col2]\n[[/two-columns]]`,
+        'image-left': `[[image-left: /images/sua-imagem.jpg]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
+        'image-right': `[[image-right: /images/sua-imagem.jpg]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
+        card: `[[card]]\nConteúdo do card simples.\n[[/card]]`,
+        'card-highlighted': `[[card:highlighted]]\nCard com gradiente - perfeito para CTAs!\n[[/card]]`,
+        'heading-accent': `[[heading:h4|${DEFAULT_HEADING_COLOR}]]Um título chamativo aqui[[/heading]]`,
+        'alert-info': `[[alert:info]]\nEsta é uma informação útil.\n[[/alert]]`,
+        'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
+        'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
+        'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
+      };
 
-    {/* YouTube Modal */}
-    <YoutubeModal />
+      function isHexColor(value: string): boolean {
+        return HEX_COLOR_REGEX.test(value);
+      }
 
-    {/* Heading Modal */}
-    <HeadingModal />
-  </div>
+      function normalizeHeadingColor(value: string): string {
+        const trimmed = value.trim();
+        if (!trimmed) {
+          return DEFAULT_HEADING_COLOR;
+        }
 
-  <script>
-    const DEFAULT_HEADING_COLOR = '#D98338';
-    const HEX_COLOR_REGEX =
-      /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+        if (trimmed.startsWith('var(')) {
+          return trimmed;
+        }
 
-    // Templates para cada tipo de bloco
-    const templates: Record<string, string> = {
-      'two-columns': `[[two-columns:70/30]]\n[col1]\nConteúdo da coluna 1 (70%)\n[/col1]\n[col2]\nConteúdo da coluna 2 (30%)\n[/col2]\n[[/two-columns]]`,
-      'image-left': `[[image-left: /images/sua-imagem.jpg]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
-      'image-right': `[[image-right: /images/sua-imagem.jpg]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
-      card: `[[card]]\nConteúdo do card simples.\n[[/card]]`,
-      'card-highlighted': `[[card:highlighted]]\nCard com gradiente - perfeito para CTAs!\n[[/card]]`,
-      'heading-accent': `[[heading:h4|${DEFAULT_HEADING_COLOR}]]Um título chamativo aqui[[/heading]]`,
-      'alert-info': `[[alert:info]]\nEsta é uma informação útil.\n[[/alert]]`,
-      'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
-      'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
-      'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
-    };
+        let candidate = trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
+        candidate = candidate.toUpperCase();
 
-    function isHexColor(value: string): boolean {
-      return HEX_COLOR_REGEX.test(value);
-    }
+        if (isHexColor(candidate)) {
+          if (candidate.length === 4) {
+            const r = candidate[1];
+            const g = candidate[2];
+            const b = candidate[3];
+            return `#${r}${r}${g}${g}${b}${b}`;
+          }
 
-    function normalizeHeadingColor(value: string): string {
-      const trimmed = value.trim();
-      if (!trimmed) {
+          if (candidate.length === 5) {
+            const r = candidate[1];
+            const g = candidate[2];
+            const b = candidate[3];
+            const a = candidate[4];
+            return `#${r}${r}${g}${g}${b}${b}${a}${a}`;
+          }
+
+          return candidate;
+        }
+
         return DEFAULT_HEADING_COLOR;
       }
 
-      if (trimmed.startsWith('var(')) {
-        return trimmed;
-      }
+      // Estado global
+      let blocks: string[] = [];
+      let draggedBlockIndex: number | null = null;
+      let lastHeadingColor = DEFAULT_HEADING_COLOR;
+      let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
 
-      let candidate = trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
-      candidate = candidate.toUpperCase();
-
-      if (isHexColor(candidate)) {
-        if (candidate.length === 4) {
-          const r = candidate[1];
-          const g = candidate[2];
-          const b = candidate[3];
-          return `#${r}${r}${g}${g}${b}${b}`;
+      // Função para carregar do localStorage
+      function loadFromStorage() {
+        try {
+          const saved = localStorage.getItem('contentHelperBlocks');
+          if (saved) {
+            blocks = JSON.parse(saved);
+            updateUI();
+          }
+        } catch (e) {
+          console.error('Erro ao carregar do localStorage:', e);
         }
+      }
 
-        if (candidate.length === 5) {
-          const r = candidate[1];
-          const g = candidate[2];
-          const b = candidate[3];
-          const a = candidate[4];
-          return `#${r}${r}${g}${g}${b}${b}${a}${a}`;
+      // Função para salvar no localStorage
+      function saveToStorage() {
+        try {
+          localStorage.setItem('contentHelperBlocks', JSON.stringify(blocks));
+        } catch (e) {
+          console.error('Erro ao salvar no localStorage:', e);
         }
-
-        return candidate;
       }
 
-      return DEFAULT_HEADING_COLOR;
-    }
+      // Elementos DOM
+      const dropZone = document.getElementById('dropZone')!;
+      const blocksContainer = document.getElementById('blocksContainer')!;
+      const emptyState = document.getElementById('emptyState')!;
+      const preview = document.getElementById('preview')!;
+      const codeBlock = document.getElementById('codeBlock')!;
+      const copyButton = document.getElementById('copyButton')!;
+      const clearButton = document.getElementById('clearButton')!;
+      const categoryFilter = document.getElementById(
+        'categoryFilter'
+      ) as HTMLSelectElement;
+      const blockItems = document.querySelectorAll('.block-item');
+      const youtubeModal = document.getElementById('youtubeModal')!;
+      const youtubeInput = document.getElementById(
+        'youtubeInput'
+      ) as HTMLInputElement;
+      const modalCancel = document.getElementById('modalCancel')!;
+      const modalConfirm = document.getElementById('modalConfirm')!;
+      const headingModal = document.getElementById('headingModal')!;
+      const headingTextInput = document.getElementById(
+        'headingTextInput'
+      ) as HTMLInputElement;
+      const headingColorInput = document.getElementById(
+        'headingColorInput'
+      ) as HTMLInputElement;
+      const headingColorHex = document.getElementById(
+        'headingColorHex'
+      ) as HTMLInputElement;
+      const headingLevelSelect = document.getElementById(
+        'headingLevelSelect'
+      ) as HTMLSelectElement;
+      const headingCancel = document.getElementById('headingCancel')!;
+      const headingConfirm = document.getElementById('headingConfirm')!;
 
-    // Estado global
-    let blocks: string[] = [];
-    let draggedBlockIndex: number | null = null;
-    let lastHeadingColor = DEFAULT_HEADING_COLOR;
-    let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
+      // Image Modal Elements
+      const imageModal = document.getElementById('imageModal')!;
+      const imageUrlInput = document.getElementById(
+        'imageUrlInput'
+      ) as HTMLInputElement;
+      const imageAltInput = document.getElementById(
+        'imageAltInput'
+      ) as HTMLInputElement;
+      const imageWidthSelect = document.getElementById(
+        'imageWidthSelect'
+      ) as HTMLSelectElement;
+      const imageAlignSelect = document.getElementById(
+        'imageAlignSelect'
+      ) as HTMLSelectElement;
+      const imageCancel = document.getElementById('imageCancel')!;
+      const imageConfirm = document.getElementById('imageConfirm')!;
 
-    // Função para carregar do localStorage
-    function loadFromStorage() {
-      try {
-        const saved = localStorage.getItem('contentHelperBlocks');
-        if (saved) {
-          blocks = JSON.parse(saved);
-          updateUI();
-        }
-      } catch (e) {
-        console.error('Erro ao carregar do localStorage:', e);
-      }
-    }
+      // Link Modal Elements
+      const linkModal = document.getElementById('linkModal')!;
+      const linkTextInput = document.getElementById(
+        'linkTextInput'
+      ) as HTMLInputElement;
+      const linkUrlInput = document.getElementById(
+        'linkUrlInput'
+      ) as HTMLInputElement;
+      const linkNewTabCheck = document.getElementById(
+        'linkNewTabCheck'
+      ) as HTMLInputElement;
+      const linkCancel = document.getElementById('linkCancel')!;
+      const linkConfirm = document.getElementById('linkConfirm')!;
 
-    // Função para salvar no localStorage
-    function saveToStorage() {
-      try {
-        localStorage.setItem('contentHelperBlocks', JSON.stringify(blocks));
-      } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
-      }
-    }
+      // Category Filter
+      categoryFilter.addEventListener('change', () => {
+        const selectedCategory = categoryFilter.value;
+        blockItems.forEach((item) => {
+          const element = item as HTMLElement;
+          const category = element.dataset.category;
 
-    // Elementos DOM
-    const dropZone = document.getElementById('dropZone')!;
-    const blocksContainer = document.getElementById('blocksContainer')!;
-    const emptyState = document.getElementById('emptyState')!;
-    const preview = document.getElementById('preview')!;
-    const codeBlock = document.getElementById('codeBlock')!;
-    const copyButton = document.getElementById('copyButton')!;
-    const clearButton = document.getElementById('clearButton')!;
-    const blockItems = document.querySelectorAll('.block-item');
-    const youtubeModal = document.getElementById('youtubeModal')!;
-    const youtubeInput = document.getElementById(
-      'youtubeInput'
-    ) as HTMLInputElement;
-    const modalCancel = document.getElementById('modalCancel')!;
-    const modalConfirm = document.getElementById('modalConfirm')!;
-    const headingModal = document.getElementById('headingModal')!;
-    const headingTextInput = document.getElementById(
-      'headingTextInput'
-    ) as HTMLInputElement;
-    const headingColorInput = document.getElementById(
-      'headingColorInput'
-    ) as HTMLInputElement;
-    const headingColorHex = document.getElementById(
-      'headingColorHex'
-    ) as HTMLInputElement;
-    const headingLevelSelect = document.getElementById(
-      'headingLevelSelect'
-    ) as HTMLSelectElement;
-    const headingCancel = document.getElementById('headingCancel')!;
-    const headingConfirm = document.getElementById('headingConfirm')!;
-
-    // Drag and Drop
-    blockItems.forEach((item) => {
-      const element = item as HTMLElement;
-
-      element.addEventListener('dragstart', (e) => {
-        e.dataTransfer!.setData('text/plain', element.dataset.type || '');
+          if (selectedCategory === 'all' || category === selectedCategory) {
+            element.style.display = '';
+          } else {
+            element.style.display = 'none';
+          }
+        });
       });
 
-      element.addEventListener('click', () => {
-        const type = element.dataset.type;
+      // Drag and Drop
+      blockItems.forEach((item) => {
+        const element = item as HTMLElement;
+
+        element.addEventListener('dragstart', (e) => {
+          e.dataTransfer!.setData('text/plain', element.dataset.type || '');
+        });
+
+        element.addEventListener('click', () => {
+          const type = element.dataset.type;
+          if (type === 'youtube') {
+            openYoutubeModal();
+          } else if (type === 'heading-accent') {
+            openHeadingModal();
+          } else if (type === 'image-block') {
+            openImageModal();
+          } else if (type === 'link') {
+            openLinkModal();
+          } else if (type) {
+            addBlock(type);
+          }
+        });
+      });
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const type = e.dataTransfer!.getData('text/plain');
         if (type === 'youtube') {
           openYoutubeModal();
         } else if (type === 'heading-accent') {
           openHeadingModal();
+        } else if (type === 'image-block') {
+          openImageModal();
+        } else if (type === 'link') {
+          openLinkModal();
         } else if (type) {
           addBlock(type);
         }
       });
-    });
 
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('drag-over');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('drag-over');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('drag-over');
-      const type = e.dataTransfer!.getData('text/plain');
-      if (type === 'youtube') {
-        openYoutubeModal();
-      } else if (type === 'heading-accent') {
-        openHeadingModal();
-      } else if (type) {
-        addBlock(type);
-      }
-    });
-
-    // YouTube Modal
-    function openYoutubeModal() {
-      youtubeModal.classList.add('active');
-      youtubeInput.value = '';
-      youtubeInput.focus();
-    }
-
-    function closeYoutubeModal() {
-      youtubeModal.classList.remove('active');
-    }
-
-    modalCancel.addEventListener('click', closeYoutubeModal);
-
-    modalConfirm.addEventListener('click', () => {
-      const url = youtubeInput.value.trim();
-      if (!url) {
-        alert('Por favor, cole uma URL do YouTube');
-        return;
+      // YouTube Modal
+      function openYoutubeModal() {
+        youtubeModal.classList.add('active');
+        youtubeInput.value = '';
+        youtubeInput.focus();
       }
 
-      const match = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-      if (!match) {
-        alert('❌ URL do YouTube inválida');
-        return;
+      function closeYoutubeModal() {
+        youtubeModal.classList.remove('active');
       }
 
-      const videoId = match[1];
-      const shortcode = `[[youtube:${videoId}]]`;
-      blocks.push(shortcode);
-      updateUI();
-      saveToStorage();
-      closeYoutubeModal();
-    });
+      modalCancel.addEventListener('click', closeYoutubeModal);
 
-    youtubeInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        modalConfirm.click();
-      }
-    });
+      modalConfirm.addEventListener('click', () => {
+        const url = youtubeInput.value.trim();
+        if (!url) {
+          alert('Por favor, cole uma URL do YouTube');
+          return;
+        }
 
-    youtubeModal.addEventListener('click', (e) => {
-      if (e.target === youtubeModal) {
+        const match = url.match(
+          /(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/
+        );
+        if (!match) {
+          alert('❌ URL do YouTube inválida');
+          return;
+        }
+
+        const videoId = match[1];
+        const shortcode = `[[youtube:${videoId}]]`;
+        blocks.push(shortcode);
+        updateUI();
+        saveToStorage();
         closeYoutubeModal();
+      });
+
+      youtubeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          modalConfirm.click();
+        }
+      });
+
+      youtubeModal.addEventListener('click', (e) => {
+        if (e.target === youtubeModal) {
+          closeYoutubeModal();
+        }
+      });
+
+      // Heading Modal
+      function openHeadingModal() {
+        headingModal.classList.add('active');
+        headingTextInput.value = '';
+        headingColorHex.value = lastHeadingColor;
+        headingLevelSelect.value = lastHeadingLevel;
+
+        if (isHexColor(lastHeadingColor) && lastHeadingColor.length === 7) {
+          headingColorInput.value = lastHeadingColor;
+        } else {
+          headingColorInput.value = DEFAULT_HEADING_COLOR;
+        }
+
+        setTimeout(() => headingTextInput.focus(), 0);
       }
-    });
 
-    // Heading Modal
-    function openHeadingModal() {
-      headingModal.classList.add('active');
-      headingTextInput.value = '';
-      headingColorHex.value = lastHeadingColor;
-      headingLevelSelect.value = lastHeadingLevel;
-
-      if (isHexColor(lastHeadingColor) && lastHeadingColor.length === 7) {
-        headingColorInput.value = lastHeadingColor;
-      } else {
-        headingColorInput.value = DEFAULT_HEADING_COLOR;
+      function closeHeadingModal() {
+        headingModal.classList.remove('active');
       }
 
-      setTimeout(() => headingTextInput.focus(), 0);
-    }
+      headingCancel.addEventListener('click', closeHeadingModal);
 
-    function closeHeadingModal() {
-      headingModal.classList.remove('active');
-    }
+      headingConfirm.addEventListener('click', () => {
+        const textValue = headingTextInput.value.trim() || 'Título de destaque';
+        const selectedLevel = (
+          headingLevelSelect.value || 'h4'
+        ).toLowerCase() as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-    headingCancel.addEventListener('click', closeHeadingModal);
+        const rawColor = headingColorHex.value || headingColorInput.value;
+        const normalizedColor = normalizeHeadingColor(rawColor);
 
-    headingConfirm.addEventListener('click', () => {
-      const textValue = headingTextInput.value.trim() || 'Título de destaque';
-      const selectedLevel = (headingLevelSelect.value || 'h4').toLowerCase() as
-        | 'h2'
-        | 'h3'
-        | 'h4'
-        | 'h5'
-        | 'h6';
-
-      const rawColor = headingColorHex.value || headingColorInput.value;
-      const normalizedColor = normalizeHeadingColor(rawColor);
-
-      const shortcode = `[[heading:${selectedLevel}|${normalizedColor}]]${textValue}[[/heading]]`;
-      blocks.push(shortcode);
-      lastHeadingColor = normalizedColor;
-      lastHeadingLevel = selectedLevel;
-      updateUI();
-      saveToStorage();
-      closeHeadingModal();
-    });
-
-    headingTextInput.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        headingConfirm.click();
-      }
-    });
-
-    headingColorInput.addEventListener('input', () => {
-      const colorValue = headingColorInput.value.toUpperCase();
-      headingColorHex.value = colorValue;
-    });
-
-    headingColorHex.addEventListener('blur', () => {
-      const normalized = normalizeHeadingColor(headingColorHex.value);
-      headingColorHex.value = normalized;
-      if (isHexColor(normalized) && normalized.length === 7) {
-        headingColorInput.value = normalized;
-      }
-    });
-
-    headingModal.addEventListener('click', (event) => {
-      if (event.target === headingModal) {
+        const shortcode = `[[heading:${selectedLevel}|${normalizedColor}]]${textValue}[[/heading]]`;
+        blocks.push(shortcode);
+        lastHeadingColor = normalizedColor;
+        lastHeadingLevel = selectedLevel;
+        updateUI();
+        saveToStorage();
         closeHeadingModal();
+      });
+
+      headingTextInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          headingConfirm.click();
+        }
+      });
+
+      headingColorInput.addEventListener('input', () => {
+        const colorValue = headingColorInput.value.toUpperCase();
+        headingColorHex.value = colorValue;
+      });
+
+      headingColorHex.addEventListener('blur', () => {
+        const normalized = normalizeHeadingColor(headingColorHex.value);
+        headingColorHex.value = normalized;
+        if (isHexColor(normalized) && normalized.length === 7) {
+          headingColorInput.value = normalized;
+        }
+      });
+
+      headingModal.addEventListener('click', (event) => {
+        if (event.target === headingModal) {
+          closeHeadingModal();
+        }
+      });
+
+      // Image Modal
+      function openImageModal() {
+        imageModal.classList.add('active');
+        imageUrlInput.value = '';
+        imageAltInput.value = '';
+        imageWidthSelect.value = 'medium';
+        imageAlignSelect.value = 'center';
+        setTimeout(() => imageUrlInput.focus(), 0);
       }
-    });
 
-    // Funções principais
-    function addBlock(type: string) {
-      const template = templates[type];
-      if (!template) return;
-      blocks.push(template);
-      updateUI();
-      saveToStorage();
-    }
+      function closeImageModal() {
+        imageModal.classList.remove('active');
+      }
 
-    function removeBlock(index: number) {
-      blocks.splice(index, 1);
-      updateUI();
-      saveToStorage();
-    }
+      imageCancel.addEventListener('click', closeImageModal);
 
-    function updateUI() {
-      if (blocks.length === 0) {
-        emptyState.classList.remove('hidden');
-        blocksContainer.classList.add('hidden');
-        blocksContainer.innerHTML = '';
-      } else {
-        emptyState.classList.add('hidden');
-        blocksContainer.classList.remove('hidden');
-        blocksContainer.innerHTML = blocks
-          .map((block, index) => {
-            return `
+      imageConfirm.addEventListener('click', () => {
+        const url = imageUrlInput.value.trim();
+        if (!url) {
+          alert('Por favor, insira a URL da imagem');
+          return;
+        }
+
+        const alt = imageAltInput.value.trim() || 'Imagem';
+        const width = imageWidthSelect.value || 'medium';
+        const align = imageAlignSelect.value || 'center';
+
+        const shortcode = `[[image:${url}|${alt}|${width}:${align}]]`;
+        blocks.push(shortcode);
+        updateUI();
+        saveToStorage();
+        closeImageModal();
+      });
+
+      imageUrlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          imageConfirm.click();
+        }
+      });
+
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+          closeImageModal();
+        }
+      });
+
+      // Link Modal
+      function openLinkModal() {
+        linkModal.classList.add('active');
+        linkTextInput.value = '';
+        linkUrlInput.value = '';
+        linkNewTabCheck.checked = true;
+        setTimeout(() => linkTextInput.focus(), 0);
+      }
+
+      function closeLinkModal() {
+        linkModal.classList.remove('active');
+      }
+
+      linkCancel.addEventListener('click', closeLinkModal);
+
+      linkConfirm.addEventListener('click', () => {
+        const text = linkTextInput.value.trim();
+        const url = linkUrlInput.value.trim();
+
+        if (!text || !url) {
+          alert('Por favor, preencha o texto e a URL do link');
+          return;
+        }
+
+        const target = linkNewTabCheck.checked ? '_blank' : '_self';
+        const shortcode = `[[link:${url}|${target}]]${text}[[/link]]`;
+        blocks.push(shortcode);
+        updateUI();
+        saveToStorage();
+        closeLinkModal();
+      });
+
+      linkTextInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          linkConfirm.click();
+        }
+      });
+
+      linkModal.addEventListener('click', (e) => {
+        if (e.target === linkModal) {
+          closeLinkModal();
+        }
+      });
+
+      // Funções principais
+      function addBlock(type: string) {
+        const template = templates[type];
+        if (!template) return;
+        blocks.push(template);
+        updateUI();
+        saveToStorage();
+      }
+
+      function removeBlock(index: number) {
+        blocks.splice(index, 1);
+        updateUI();
+        saveToStorage();
+      }
+
+      function updateUI() {
+        if (blocks.length === 0) {
+          emptyState.classList.remove('hidden');
+          blocksContainer.classList.add('hidden');
+          blocksContainer.innerHTML = '';
+        } else {
+          emptyState.classList.add('hidden');
+          blocksContainer.classList.remove('hidden');
+          blocksContainer.innerHTML = blocks
+            .map((block, index) => {
+              return `
               <div class="added-block rounded-lg border border-neutral-700 bg-neutral-900 p-3 transition-all duration-200" data-index="${index}">
                 <div class="grid grid-cols-[auto_1fr_auto] items-start gap-3">
                   <div class="drag-handle mt-1 flex h-10 w-10 cursor-grab items-center justify-center rounded-md border border-neutral-700 bg-neutral-950 text-neutral-500 transition hover:text-neutral-200" draggable="true" data-index="${index}">
@@ -532,304 +707,355 @@ const metadata = {
                 </div>
               </div>
             `;
-          })
-          .join('');
+            })
+            .join('');
 
-        attachBlockEventListeners();
+          attachBlockEventListeners();
+        }
+
+        updateOutputs();
       }
 
-      updateOutputs();
-    }
+      function updateOutputs() {
+        const markdown = blocks.join('\n\n');
 
-    function updateOutputs() {
-      const markdown = blocks.join('\n\n');
+        if (markdown) {
+          codeBlock.textContent = markdown;
+        } else {
+          codeBlock.innerHTML =
+            '<span class="italic text-neutral-600">// Seu código aparecerá aqui</span>';
+        }
 
-      if (markdown) {
-        codeBlock.textContent = markdown;
-      } else {
-        codeBlock.innerHTML =
-          '<span class="italic text-neutral-600">// Seu código aparecerá aqui</span>';
+        updatePreview(markdown);
       }
 
-      updatePreview(markdown);
-    }
+      // Attach event listeners to dynamically created blocks
+      function attachBlockEventListeners() {
+        const addedBlocks = blocksContainer.querySelectorAll('.added-block');
 
-    // Attach event listeners to dynamically created blocks
-    function attachBlockEventListeners() {
-      const addedBlocks = blocksContainer.querySelectorAll('.added-block');
-
-      // Remove buttons
-      const removeButtons = blocksContainer.querySelectorAll('.remove-btn');
-      removeButtons.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const target = e.currentTarget as HTMLElement;
-          const index = parseInt(target.dataset.index || '0');
-          removeBlock(index);
-        });
-      });
-
-      // Editable textareas with auto-resize
-      const textareas =
-        blocksContainer.querySelectorAll<HTMLTextAreaElement>(
-          '.block-textarea'
-        );
-
-      textareas.forEach((textarea) => {
-        const initialIndex = parseInt(textarea.dataset.index || '0');
-        textarea.value = blocks[initialIndex] ?? '';
-        autoResize(textarea);
-        textarea.addEventListener('input', (event) => {
-          const target = event.currentTarget as HTMLTextAreaElement;
-          const currentIndex = parseInt(target.dataset.index || '0');
-          blocks[currentIndex] = target.value;
-          autoResize(target);
-          updateOutputs();
-          saveToStorage();
-        });
-      });
-
-      // Drag handles
-      const dragHandles = blocksContainer.querySelectorAll('.drag-handle');
-      dragHandles.forEach((handle) => {
-        const handleElement = handle as HTMLElement;
-        handleElement.addEventListener('dragstart', (e) => {
-          const parent = handleElement.closest(
-            '.added-block'
-          ) as HTMLElement | null;
-          if (!parent) return;
-          draggedBlockIndex = parseInt(parent.dataset.index || '0');
-          parent.classList.add('opacity-60');
-          if (e.dataTransfer && draggedBlockIndex !== null) {
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', String(draggedBlockIndex));
-          }
-        });
-
-        handleElement.addEventListener('dragend', () => {
-          const parent = handleElement.closest(
-            '.added-block'
-          ) as HTMLElement | null;
-          if (parent) {
-            parent.classList.remove('opacity-60');
-          }
-          draggedBlockIndex = null;
-          addedBlocks.forEach((block) => {
-            (block as HTMLElement).classList.remove(
-              'border-indigo-500',
-              'bg-neutral-800'
-            );
+        // Remove buttons
+        const removeButtons = blocksContainer.querySelectorAll('.remove-btn');
+        removeButtons.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const target = e.currentTarget as HTMLElement;
+            const index = parseInt(target.dataset.index || '0');
+            removeBlock(index);
           });
         });
-      });
 
-      addedBlocks.forEach((block) => {
-        const element = block as HTMLElement;
+        // Editable textareas with auto-resize
+        const textareas =
+          blocksContainer.querySelectorAll<HTMLTextAreaElement>(
+            '.block-textarea'
+          );
 
-        element.addEventListener('dragover', (e) => {
-          if (draggedBlockIndex === null) return;
-          e.preventDefault();
-          if (e.dataTransfer) {
-            e.dataTransfer.dropEffect = 'move';
-          }
-
-          const targetIndex = parseInt(element.dataset.index || '0');
-          if (targetIndex !== draggedBlockIndex) {
-            element.classList.add('border-indigo-500', 'bg-neutral-800');
-          }
+        textareas.forEach((textarea) => {
+          const initialIndex = parseInt(textarea.dataset.index || '0');
+          textarea.value = blocks[initialIndex] ?? '';
+          autoResize(textarea);
+          textarea.addEventListener('input', (event) => {
+            const target = event.currentTarget as HTMLTextAreaElement;
+            const currentIndex = parseInt(target.dataset.index || '0');
+            blocks[currentIndex] = target.value;
+            autoResize(target);
+            updateOutputs();
+            saveToStorage();
+          });
         });
 
-        element.addEventListener('dragleave', (e) => {
-          const rect = element.getBoundingClientRect();
-          const x = e.clientX;
-          const y = e.clientY;
-
-          if (
-            x < rect.left ||
-            x >= rect.right ||
-            y < rect.top ||
-            y >= rect.bottom
-          ) {
-            element.classList.remove('border-indigo-500', 'bg-neutral-800');
-          }
-        });
-
-        element.addEventListener('drop', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          element.classList.remove('border-indigo-500', 'bg-neutral-800');
-
-          if (draggedBlockIndex !== null) {
-            const targetIndex = parseInt(element.dataset.index || '0');
-            if (draggedBlockIndex !== targetIndex) {
-              const [movedBlock] = blocks.splice(draggedBlockIndex, 1);
-              blocks.splice(targetIndex, 0, movedBlock);
-              draggedBlockIndex = null;
-              updateUI();
-              saveToStorage();
+        // Drag handles
+        const dragHandles = blocksContainer.querySelectorAll('.drag-handle');
+        dragHandles.forEach((handle) => {
+          const handleElement = handle as HTMLElement;
+          handleElement.addEventListener('dragstart', (e) => {
+            const parent = handleElement.closest(
+              '.added-block'
+            ) as HTMLElement | null;
+            if (!parent) return;
+            draggedBlockIndex = parseInt(parent.dataset.index || '0');
+            parent.classList.add('opacity-60');
+            if (e.dataTransfer && draggedBlockIndex !== null) {
+              e.dataTransfer.effectAllowed = 'move';
+              e.dataTransfer.setData('text/plain', String(draggedBlockIndex));
             }
+          });
+
+          handleElement.addEventListener('dragend', () => {
+            const parent = handleElement.closest(
+              '.added-block'
+            ) as HTMLElement | null;
+            if (parent) {
+              parent.classList.remove('opacity-60');
+            }
+            draggedBlockIndex = null;
+            addedBlocks.forEach((block) => {
+              (block as HTMLElement).classList.remove(
+                'border-indigo-500',
+                'bg-neutral-800'
+              );
+            });
+          });
+        });
+
+        addedBlocks.forEach((block) => {
+          const element = block as HTMLElement;
+
+          element.addEventListener('dragover', (e) => {
+            if (draggedBlockIndex === null) return;
+            e.preventDefault();
+            if (e.dataTransfer) {
+              e.dataTransfer.dropEffect = 'move';
+            }
+
+            const targetIndex = parseInt(element.dataset.index || '0');
+            if (targetIndex !== draggedBlockIndex) {
+              element.classList.add('border-indigo-500', 'bg-neutral-800');
+            }
+          });
+
+          element.addEventListener('dragleave', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+
+            if (
+              x < rect.left ||
+              x >= rect.right ||
+              y < rect.top ||
+              y >= rect.bottom
+            ) {
+              element.classList.remove('border-indigo-500', 'bg-neutral-800');
+            }
+          });
+
+          element.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            element.classList.remove('border-indigo-500', 'bg-neutral-800');
+
+            if (draggedBlockIndex !== null) {
+              const targetIndex = parseInt(element.dataset.index || '0');
+              if (draggedBlockIndex !== targetIndex) {
+                const [movedBlock] = blocks.splice(draggedBlockIndex, 1);
+                blocks.splice(targetIndex, 0, movedBlock);
+                draggedBlockIndex = null;
+                updateUI();
+                saveToStorage();
+              }
+            }
+          });
+        });
+      }
+
+      function autoResize(textarea: HTMLTextAreaElement) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${Math.max(textarea.scrollHeight, 120)}px`;
+      }
+
+      function updatePreview(markdown: string) {
+        if (!markdown) {
+          preview.innerHTML =
+            '<div class="italic text-neutral-400">Seu conteúdo aparecerá aqui...</div>';
+          return;
+        }
+
+        preview.innerHTML = processShortcodes(markdown);
+      }
+
+      function processShortcodes(markdown: string, nested = false): string {
+        let html = markdown;
+
+        // Process simple/inline shortcodes first (these don't contain other blocks)
+
+        // YouTube
+        html = html.replace(
+          /\[\[youtube:([a-zA-Z0-9_-]+)\]\]/g,
+          (_, videoId) => {
+            return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
           }
+        );
+
+        // Image block
+        html = html.replace(
+          /\[\[image:([^|]+)\|([^|]+)\|([^:]+):([^\]]+)\]\]/g,
+          (_, url, alt, width, align) => {
+            const widthMap: Record<string, string> = {
+              small: 'max-w-xs',
+              medium: 'max-w-md',
+              large: 'max-w-2xl',
+              full: 'max-w-full',
+            };
+            const alignMap: Record<string, string> = {
+              center: 'mx-auto',
+              left: 'mr-auto',
+              right: 'ml-auto',
+            };
+            const widthClass = widthMap[width.trim()] || 'max-w-md';
+            const alignClass = alignMap[align.trim()] || 'mx-auto';
+            return `<div class="my-4"><img src="${url.trim()}" alt="${alt.trim()}" loading="lazy" class="${widthClass} ${alignClass} rounded-lg shadow-md" /></div>`;
+          }
+        );
+
+        // Link
+        html = html.replace(
+          /\[\[link:([^|]+)\|([^\]]+)\]\]([\s\S]*?)\[\[\/link\]\]/g,
+          (_, url, target, text) => {
+            const targetAttr =
+              target.trim() === '_blank'
+                ? 'target="_blank" rel="noopener noreferrer"'
+                : '';
+            return `<a href="${url.trim()}" ${targetAttr} class="text-blue-600 hover:text-blue-800 underline">${text.trim()}</a>`;
+          }
+        );
+
+        // Colored Headings
+        html = html.replace(
+          /\[\[heading:(h[1-6])\|([^\]]+)\]\]([\s\S]*?)\[\[\/heading\]\]/g,
+          (_, level, color, content) => {
+            const headingLevel = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(
+              level.toLowerCase()
+            )
+              ? level.toLowerCase()
+              : 'h4';
+            const colorValue = color.trim();
+            const safeColor = /^#[0-9a-fA-F]{3,8}$/.test(colorValue)
+              ? colorValue
+              : colorValue.startsWith('var(')
+                ? colorValue
+                : '#D98338';
+            const headingContent = escapeHtml(content.trim());
+            return `<${headingLevel} style="color:${safeColor};">${headingContent}</${headingLevel}>`;
+          }
+        );
+
+        // Only process container blocks if not already nested
+        if (!nested) {
+          // Two columns
+          html = html.replace(
+            /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
+            (_, col1, col2, content) => {
+              const col1Content =
+                content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
+              const col2Content =
+                content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
+              // Process nested shortcodes in columns
+              const col1Processed = processShortcodes(col1Content.trim(), true);
+              const col2Processed = processShortcodes(col2Content.trim(), true);
+              return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Processed}</div><div class="layout-column-2">${col2Processed}</div></div>`;
+            }
+          );
+
+          // Image left/right
+          html = html.replace(
+            /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
+            (_, position, url, content) => {
+              // Process nested shortcodes in content
+              const contentProcessed = processShortcodes(content.trim(), true);
+              return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
+            }
+          );
+
+          // Cards
+          html = html.replace(
+            /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
+            (_, variant, content) => {
+              const cardClass = variant ? `layout-card-${variant.trim()}` : '';
+              // Process nested shortcodes in card content
+              const contentProcessed = processShortcodes(content.trim(), true);
+              return `<div class="layout-card ${cardClass}">${contentProcessed}</div>`;
+            }
+          );
+
+          // Alerts
+          html = html.replace(
+            /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
+            (_, type, content) => {
+              const icons: Record<string, string> = {
+                info: 'ℹ️',
+                success: '✅',
+                warning: '⚠️',
+                error: '❌',
+              };
+              const icon = icons[type] || icons.info;
+              // Process nested shortcodes in alert content
+              const contentProcessed = processShortcodes(content.trim(), true);
+              return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${contentProcessed}</div></div>`;
+            }
+          );
+        }
+
+        return html;
+      }
+
+      function escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Botões de ação
+      copyButton.addEventListener('click', () => {
+        const markdown = blocks.join('\n\n');
+        if (!markdown) {
+          alert('Adicione alguns blocos primeiro!');
+          return;
+        }
+
+        navigator.clipboard.writeText(markdown).then(() => {
+          const originalHTML = copyButton.innerHTML;
+          copyButton.innerHTML = '<span>✅</span> <span>Copiado!</span>';
+          copyButton.classList.add('!bg-emerald-600');
+
+          setTimeout(() => {
+            copyButton.innerHTML = originalHTML;
+            copyButton.classList.remove('!bg-emerald-600');
+          }, 2000);
         });
       });
-    }
 
-    function autoResize(textarea: HTMLTextAreaElement) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${Math.max(textarea.scrollHeight, 120)}px`;
-    }
-
-    function updatePreview(markdown: string) {
-      if (!markdown) {
-        preview.innerHTML =
-          '<div class="italic text-neutral-400">Seu conteúdo aparecerá aqui...</div>';
-        return;
-      }
-
-      preview.innerHTML = processShortcodes(markdown);
-    }
-
-    function processShortcodes(markdown: string): string {
-      let html = markdown;
-
-      // YouTube
-      html = html.replace(/\[\[youtube:([a-zA-Z0-9_-]+)\]\]/g, (_, videoId) => {
-        return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+      clearButton.addEventListener('click', () => {
+        if (blocks.length === 0) return;
+        if (confirm('Limpar todos os blocos?')) {
+          blocks = [];
+          updateUI();
+          saveToStorage();
+        }
       });
 
-      // Two columns
-      html = html.replace(
-        /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
-        (_, col1, col2, content) => {
-          const col1Content =
-            content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
-          const col2Content =
-            content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
-          return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Content.trim()}</div><div class="layout-column-2">${col2Content.trim()}</div></div>`;
-        }
-      );
+      // Carregar dados salvos ao iniciar
+      loadFromStorage();
+    </script>
+  </div>
 
-      // Image left/right
-      html = html.replace(
-        /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
-        (_, position, url, content) => {
-          return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${content.trim()}</div></div>`;
-        }
-      );
-
-      // Cards
-      html = html.replace(
-        /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
-        (_, variant, content) => {
-          const cardClass = variant ? `layout-card-${variant.trim()}` : '';
-          return `<div class="layout-card ${cardClass}">${content.trim()}</div>`;
-        }
-      );
-
-      // Colored Headings
-      html = html.replace(
-        /\[\[heading:(h[1-6])\|([^\]]+)\]\]([\s\S]*?)\[\[\/heading\]\]/g,
-        (_, level, color, content) => {
-          const headingLevel = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(
-            level.toLowerCase()
-          )
-            ? level.toLowerCase()
-            : 'h4';
-          const colorValue = color.trim();
-          const safeColor = /^#[0-9a-fA-F]{3,8}$/.test(colorValue)
-            ? colorValue
-            : colorValue.startsWith('var(')
-              ? colorValue
-              : '#D98338';
-          const headingContent = escapeHtml(content.trim());
-          return `<${headingLevel} style="color:${safeColor};">${headingContent}</${headingLevel}>`;
-        }
-      );
-
-      // Alerts
-      html = html.replace(
-        /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
-        (_, type, content) => {
-          const icons: Record<string, string> = {
-            info: 'ℹ️',
-            success: '✅',
-            warning: '⚠️',
-            error: '❌',
-          };
-          const icon = icons[type] || icons.info;
-          return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${content.trim()}</div></div>`;
-        }
-      );
-
-      return html;
+  <style>
+    body {
+      font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #000000e1;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
 
-    function escapeHtml(text: string): string {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+    /* Drag & Drop styles */
+    #dropZone.drag-over {
+      border-color: #6366f1 !important;
+      background-color: rgba(99, 102, 241, 0.1) !important;
     }
 
-    // Botões de ação
-    copyButton.addEventListener('click', () => {
-      const markdown = blocks.join('\n\n');
-      if (!markdown) {
-        alert('Adicione alguns blocos primeiro!');
-        return;
-      }
+    .added-block {
+      transition: all 0.2s ease;
+    }
 
-      navigator.clipboard.writeText(markdown).then(() => {
-        const originalHTML = copyButton.innerHTML;
-        copyButton.innerHTML = '<span>✅</span> <span>Copiado!</span>';
-        copyButton.classList.add('!bg-emerald-600');
+    .added-block:hover {
+      transform: translateX(2px);
+    }
 
-        setTimeout(() => {
-          copyButton.innerHTML = originalHTML;
-          copyButton.classList.remove('!bg-emerald-600');
-        }, 2000);
-      });
-    });
-
-    clearButton.addEventListener('click', () => {
-      if (blocks.length === 0) return;
-      if (confirm('Limpar todos os blocos?')) {
-        blocks = [];
-        updateUI();
-        saveToStorage();
-      }
-    });
-
-    // Carregar dados salvos ao iniciar
-    loadFromStorage();
-  </script>
+    .added-block.dragging {
+      opacity: 0.4;
+    }
+  </style>
 </Layout>
-
-<style>
-  body {
-    font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #000000e1;
-    color: #333;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Drag & Drop styles */
-  #dropZone.drag-over {
-    border-color: #6366f1 !important;
-    background-color: rgba(99, 102, 241, 0.1) !important;
-  }
-
-  .added-block {
-    transition: all 0.2s ease;
-  }
-
-  .added-block:hover {
-    transform: translateX(2px);
-  }
-
-  .added-block.dragging {
-    opacity: 0.4;
-  }
-</style>
