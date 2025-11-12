@@ -8,7 +8,7 @@ image: /src/assets/images/post/Adobe-Express-file.webp
 publishDate: 2025-11-12T10:00:00
 author: Redação São Geraldo
 ---
-
+[[youtube:dEidUMf8hmU]]
 Este é um post de teste para validar a funcionalidade de embeds do YouTube no markdown.
 
 ## Como Funciona

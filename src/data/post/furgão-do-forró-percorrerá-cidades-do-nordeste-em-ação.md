@@ -5,7 +5,7 @@ draft: false
 categories: noticias
 tags: []
 image: /src/assets/images/post/Furgao-do-Forro-2024.webp
-publishDate: 2025-11-12T08:10:00
+publishDate: 2024-06-03T17:28:00
 author: Redação São Geraldo
 ---
 Imagine aí encontrar com nosso Furgão do Forró na sua cidade e dançar agarradinho com São Geraldo? Será inesquecível! 💃🏽🕺🏽

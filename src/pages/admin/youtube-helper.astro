@@ -28,7 +28,7 @@ const metadata = {
         class="my-[30px] rounded-xl border-2 border-dashed border-[#667eea] bg-[#f8f9fa] p-[30px] text-center"
       >
         <a
-          href="javascript:(function(){const url=prompt('Cole a URL do YouTube:');if(!url)return;const id=url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/)?.[1];if(!id){alert('❌ URL inválida do YouTube');return;}const code='[[youtube:'+id+']]';navigator.clipboard.writeText(code).then(()=>{alert('✅ Copiado para área de transferência!\n\n'+code+'\n\nCole no editor com Ctrl+V');}).catch(()=>{prompt('Copie o código abaixo:',code);});})();"
+          href="javascript:(function(){const url=prompt('Cole a URL do YouTube:');if(!url)return;const id=url.match(/(?:v=|youtu\\.be\\/|embed\\/)([a-zA-Z0-9_-]{11})/)?.[1];if(!id){alert('❌ URL inválida do YouTube');return;}const code='[[youtube:'+id+']]';navigator.clipboard.writeText(code).then(()=>{alert('✅ Copiado para área de transferência!\\n\\n'+code+'\\n\\nCole no editor com Ctrl+V');}).catch(()=>{prompt('Copie o código abaixo:',code);});})();"
           class="inline-block cursor-move rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] px-8 py-4 text-lg font-bold text-white shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)] max-[600px]:px-6 max-[600px]:py-3 max-[600px]:text-base"
           onclick="alert('⚠️ Não clique! Arraste este botão para a barra de favoritos do seu navegador.'); return false;"
         >
@@ -99,30 +99,16 @@ const metadata = {
         </div>
       </div>
 
-      <div
-        class="my-5 rounded border-l-4 border-[#2196f3] bg-[#e3f2fd] p-[15px]"
-      >
-        <div class="mb-2.5 font-bold text-[#1976d2]">
-          📝 Exemplo de Uso no CMS
+      <div class="mt-[30px] border-t-2 border-[#eee] pt-[30px]">
+        <h3 class="mb-[15px] text-[#667eea]">📚 Formatos de URL Suportados</h3>
+        <div
+          class="my-[15px] overflow-x-auto rounded-lg bg-[#2d2d2d] p-[15px] font-['Courier_New',monospace] text-sm text-[#f8f8f2]"
+        >
+          ✅ https://www.youtube.com/watch?v=dQw4w9WgXcQ<br />
+          ✅ https://youtu.be/dQw4w9WgXcQ<br />
+          ✅ https://www.youtube.com/embed/dQw4w9WgXcQ<br />
+          ✅ https://m.youtube.com/watch?v=dQw4w9WgXcQ
         </div>
-        <p class="text-sm">
-          <strong>1.</strong> Abra o YouTube e copie a URL:
-          <code class="text-sm"
-            >https://www.youtube.com/watch?v=dQw4w9WgXcQ</code
-          >
-        </p>
-        <p class="text-sm">
-          <strong>2.</strong> No editor do CMS, clique no bookmarklet nos favoritos
-        </p>
-        <p class="text-sm"><strong>3.</strong> Cole a URL quando solicitado</p>
-        <p class="text-sm">
-          <strong>4.</strong> O shortcode
-          <code class="text-sm">[[youtube:dQw4w9WgXcQ]]</code> é copiado automaticamente
-        </p>
-        <p class="text-sm">
-          <strong>5.</strong> Cole no editor markdown com
-          <strong>Ctrl+V</strong>
-        </p>
       </div>
 
       <div
@@ -150,35 +136,12 @@ const metadata = {
         >
         </div>
       </div>
-
-      <div class="mt-[30px] border-t-2 border-[#eee] pt-[30px]">
-        <h3 class="mb-[15px] text-[#667eea]">📚 Formatos de URL Suportados</h3>
-        <div
-          class="my-[15px] overflow-x-auto rounded-lg bg-[#2d2d2d] p-[15px] font-['Courier_New',monospace] text-sm text-[#f8f8f2]"
-        >
-          ✅ https://www.youtube.com/watch?v=dQw4w9WgXcQ<br />
-          ✅ https://youtu.be/dQw4w9WgXcQ<br />
-          ✅ https://www.youtube.com/embed/dQw4w9WgXcQ<br />
-          ✅ https://m.youtube.com/watch?v=dQw4w9WgXcQ
-        </div>
-      </div>
-
-      <div class="mt-[30px] text-center text-[#999]">
-        <p>
-          Precisa de ajuda? Consulte o
-          <a href="/admin/guia-do-editor" class="text-[#667eea]! underline"
-            >Guia do Editor</a
-          >
-        </p>
-      </div>
     </div>
   </div>
 
-  <script>
+  <script is:inline>
     function convertUrl() {
-      const input = document.getElementById(
-        'testUrl'
-      ) as HTMLInputElement | null;
+      const input = document.getElementById('testUrl');
       const result = document.getElementById('result');
 
       if (!input || !result) return;
