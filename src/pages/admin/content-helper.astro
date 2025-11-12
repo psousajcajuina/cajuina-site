@@ -185,13 +185,13 @@ const metadata = {
           icon="ℹ️"
           data-category="alerts"
         />
-        <BlockItem
+        <!-- <BlockItem
           type="alert-success"
           title="Sucesso"
           description="Positivo"
           icon="✅"
           data-category="alerts"
-        />
+        /> -->
         <BlockItem
           type="alert-warning"
           title="Aviso"
@@ -199,13 +199,13 @@ const metadata = {
           icon="⚠️"
           data-category="alerts"
         />
-        <BlockItem
+        <!-- <BlockItem
           type="alert-error"
           title="Erro"
           description="Crítico"
           icon="❌"
           data-category="alerts"
-        />
+        /> -->
       </div>
 
       {/* Code Panel */}
@@ -295,6 +295,7 @@ const metadata = {
       let draggedBlockIndex: number | null = null;
       let lastHeadingColor = DEFAULT_HEADING_COLOR;
       let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
+      let focusedTextarea: HTMLTextAreaElement | null = null;
 
       // Função para carregar do localStorage
       function loadFromStorage() {
@@ -478,9 +479,7 @@ const metadata = {
 
         const videoId = match[1];
         const shortcode = `[[youtube:${videoId}]]`;
-        blocks.push(shortcode);
-        updateUI();
-        saveToStorage();
+        insertContent(shortcode);
         closeYoutubeModal();
       });
 
@@ -528,11 +527,9 @@ const metadata = {
         const normalizedColor = normalizeHeadingColor(rawColor);
 
         const shortcode = `[[heading:${selectedLevel}|${normalizedColor}]]${textValue}[[/heading]]`;
-        blocks.push(shortcode);
         lastHeadingColor = normalizedColor;
         lastHeadingLevel = selectedLevel;
-        updateUI();
-        saveToStorage();
+        insertContent(shortcode);
         closeHeadingModal();
       });
 
@@ -590,9 +587,7 @@ const metadata = {
         const align = imageAlignSelect.value || 'center';
 
         const shortcode = `[[image:${url}|${alt}|${width}:${align}]]`;
-        blocks.push(shortcode);
-        updateUI();
-        saveToStorage();
+        insertContent(shortcode);
         closeImageModal();
       });
 
@@ -635,9 +630,7 @@ const metadata = {
 
         const target = linkNewTabCheck.checked ? '_blank' : '_self';
         const shortcode = `[[link:${url}|${target}]]${text}[[/link]]`;
-        blocks.push(shortcode);
-        updateUI();
-        saveToStorage();
+        insertContent(shortcode);
         closeLinkModal();
       });
 
@@ -655,12 +648,53 @@ const metadata = {
       });
 
       // Funções principais
+      function insertContent(content: string) {
+        const target =
+          focusedTextarea && blocksContainer.contains(focusedTextarea)
+            ? focusedTextarea
+            : null;
+
+        if (target) {
+          const currentIndex = parseInt(target.dataset.index || '0', 10);
+          if (!Number.isNaN(currentIndex)) {
+            const start = target.selectionStart ?? target.value.length;
+            const end = target.selectionEnd ?? target.value.length;
+            const value = target.value;
+            const before = value.slice(0, start);
+            const after = value.slice(end);
+            let insertion = content;
+            if (before && !before.endsWith('\n') && !content.startsWith('\n')) {
+              insertion = `\n${insertion}`;
+            }
+            if (after && !after.startsWith('\n') && !content.endsWith('\n')) {
+              insertion = `${insertion}\n`;
+            }
+            const newValue = `${before}${insertion}${after}`;
+            target.value = newValue;
+            blocks[currentIndex] = newValue;
+            autoResize(target);
+            focusedTextarea = target;
+            const caretPosition = start + insertion.length;
+            setTimeout(() => {
+              target.focus();
+              target.setSelectionRange(caretPosition, caretPosition);
+            }, 0);
+            updateOutputs();
+            saveToStorage();
+            return;
+          }
+        }
+
+        blocks.push(content);
+        focusedTextarea = null;
+        updateUI();
+        saveToStorage();
+      }
+
       function addBlock(type: string) {
         const template = templates[type];
         if (!template) return;
-        blocks.push(template);
-        updateUI();
-        saveToStorage();
+        insertContent(template);
       }
 
       function removeBlock(index: number) {
@@ -670,6 +704,7 @@ const metadata = {
       }
 
       function updateUI() {
+        focusedTextarea = null;
         if (blocks.length === 0) {
           emptyState.classList.remove('hidden');
           blocksContainer.classList.add('hidden');
@@ -754,10 +789,17 @@ const metadata = {
           const initialIndex = parseInt(textarea.dataset.index || '0');
           textarea.value = blocks[initialIndex] ?? '';
           autoResize(textarea);
+          textarea.addEventListener('focus', () => {
+            focusedTextarea = textarea;
+          });
+          textarea.addEventListener('click', () => {
+            focusedTextarea = textarea;
+          });
           textarea.addEventListener('input', (event) => {
             const target = event.currentTarget as HTMLTextAreaElement;
             const currentIndex = parseInt(target.dataset.index || '0');
             blocks[currentIndex] = target.value;
+            focusedTextarea = target;
             autoResize(target);
             updateOutputs();
             saveToStorage();
@@ -930,61 +972,55 @@ const metadata = {
           }
         );
 
-        // Only process container blocks if not already nested
-        if (!nested) {
-          // Two columns
-          html = html.replace(
-            /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
-            (_, col1, col2, content) => {
-              const col1Content =
-                content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
-              const col2Content =
-                content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
-              // Process nested shortcodes in columns
-              const col1Processed = processShortcodes(col1Content.trim(), true);
-              const col2Processed = processShortcodes(col2Content.trim(), true);
-              return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Processed}</div><div class="layout-column-2">${col2Processed}</div></div>`;
-            }
-          );
+        // Container blocks (supports nesting)
+        html = html.replace(
+          /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
+          (_, col1, col2, content) => {
+            const col1Content =
+              content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
+            const col2Content =
+              content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
+            // Process nested shortcodes in columns
+            const col1Processed = processShortcodes(col1Content.trim(), true);
+            const col2Processed = processShortcodes(col2Content.trim(), true);
+            return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Processed}</div><div class="layout-column-2">${col2Processed}</div></div>`;
+          }
+        );
 
-          // Image left/right
-          html = html.replace(
-            /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
-            (_, position, url, content) => {
-              // Process nested shortcodes in content
-              const contentProcessed = processShortcodes(content.trim(), true);
-              return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
-            }
-          );
+        html = html.replace(
+          /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
+          (_, position, url, content) => {
+            // Process nested shortcodes in content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
+          }
+        );
 
-          // Cards
-          html = html.replace(
-            /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
-            (_, variant, content) => {
-              const cardClass = variant ? `layout-card-${variant.trim()}` : '';
-              // Process nested shortcodes in card content
-              const contentProcessed = processShortcodes(content.trim(), true);
-              return `<div class="layout-card ${cardClass}">${contentProcessed}</div>`;
-            }
-          );
+        html = html.replace(
+          /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
+          (_, variant, content) => {
+            const cardClass = variant ? `layout-card-${variant.trim()}` : '';
+            // Process nested shortcodes in card content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-card ${cardClass}">${contentProcessed}</div>`;
+          }
+        );
 
-          // Alerts
-          html = html.replace(
-            /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
-            (_, type, content) => {
-              const icons: Record<string, string> = {
-                info: 'ℹ️',
-                success: '✅',
-                warning: '⚠️',
-                error: '❌',
-              };
-              const icon = icons[type] || icons.info;
-              // Process nested shortcodes in alert content
-              const contentProcessed = processShortcodes(content.trim(), true);
-              return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${contentProcessed}</div></div>`;
-            }
-          );
-        }
+        html = html.replace(
+          /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
+          (_, type, content) => {
+            const icons: Record<string, string> = {
+              info: 'ℹ️',
+              success: '✅',
+              warning: '⚠️',
+              error: '❌',
+            };
+            const icon = icons[type] || icons.info;
+            // Process nested shortcodes in alert content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${contentProcessed}</div></div>`;
+          }
+        );
 
         return html;
       }
