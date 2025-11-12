@@ -46,6 +46,14 @@ export interface Post {
   readingTime?: number;
 }
 
+export type ImageLayout =
+  | 'fixed'
+  | 'constrained'
+  | 'fullWidth'
+  | 'cover'
+  | 'responsive'
+  | 'contained';
+
 export interface Distribuidor {
   id: number;
   nome: string;

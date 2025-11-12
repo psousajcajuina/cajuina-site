@@ -4,9 +4,8 @@
  * Safe to use in client-side React components
  */
 
+import type { ImageLayout } from '@/types';
 import { transformUrl, parseUrl } from 'unpic';
-
-type Layout = 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
 
 export interface ImageProps {
   src?: string | null;
@@ -21,7 +20,7 @@ export interface ImageProps {
   fetchpriority?: 'high' | 'low' | 'auto' | null;
   inferSize?: boolean;
 
-  layout?: Layout;
+  layout?: ImageLayout;
   widths?: number[] | null;
   aspectRatio?: string | number | null;
   objectPosition?: string;
@@ -55,7 +54,9 @@ const config = {
   formats: ['image/webp'],
 };
 
-const parseAspectRatio = (aspectRatio: number | string | null | undefined): number | undefined => {
+const parseAspectRatio = (
+  aspectRatio: number | string | null | undefined
+): number | undefined => {
   if (typeof aspectRatio === 'number') return aspectRatio;
 
   if (typeof aspectRatio === 'string') {
@@ -76,30 +77,34 @@ const parseAspectRatio = (aspectRatio: number | string | null | undefined): numb
 /**
  * Gets the `sizes` attribute for an image, based on the layout and width
  */
-export const getSizes = (width?: number, layout?: Layout): string | undefined => {
+export const getSizes = (
+  width?: number,
+  layout?: ImageLayout
+): string | undefined => {
   if (!width || !layout) {
     return undefined;
   }
   switch (layout) {
-  // If screen is wider than the max size, image width is the max size,
-  // otherwise it's the width of the screen
-  case `constrained`:
-    return `(min-width: ${width}px) ${width}px, 100vw`;
+    // If screen is wider than the max size, image width is the max size,
+    // otherwise it's the width of the screen
+    case `constrained`:
+      return `(min-width: ${width}px) ${width}px, 100vw`;
 
     // Image is always the same width, whatever the size of the screen
-  case `fixed`:
-    return `${width}px`;
+    case `fixed`:
+      return `${width}px`;
 
     // Image is always the width of the screen
-  case `fullWidth`:
-    return `100vw`;
+    case `fullWidth`:
+      return `100vw`;
 
-  default:
-    return undefined;
+    default:
+      return undefined;
   }
 };
 
-const pixelate = (value?: number) => (value || value === 0 ? `${value}px` : undefined);
+const pixelate = (value?: number) =>
+  value || value === 0 ? `${value}px` : undefined;
 
 export const getImageStyles = ({
   width,
@@ -193,7 +198,7 @@ export const getBreakpoints = ({
 }: {
   width?: number;
   breakpoints?: number[];
-  layout: Layout;
+  layout: ImageLayout;
 }): number[] => {
   if (
     layout === 'fullWidth' ||
