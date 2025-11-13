@@ -1,9 +1,16 @@
 import type { PaginateFunction } from 'astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import type { Post } from '@/types';
+import type { News } from '@/types';
 import { APP_BLOG } from 'astrowind:config';
-import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
+import {
+  cleanSlug,
+  trimSlash,
+  BLOG_BASE,
+  POST_PERMALINK_PATTERN,
+  CATEGORY_BASE,
+  TAG_BASE,
+} from './permalinks';
 
 const generatePermalink = async ({
   id,
@@ -40,7 +47,9 @@ const generatePermalink = async ({
     .join('/');
 };
 
-const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
+const getNormalizedPost = async (
+  post: CollectionEntry<'post'>
+): Promise<News> => {
   const { id, data } = post;
   const { Content, remarkPluginFrontmatter } = await render(post);
 
@@ -63,9 +72,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
   const category = rawCategory
     ? {
-      slug: cleanSlug(rawCategory),
-      title: rawCategory,
-    }
+        slug: cleanSlug(rawCategory),
+        title: rawCategory,
+      }
     : undefined;
 
   const tags = rawTags.map((tag: string) => ({
@@ -76,7 +85,12 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   return {
     id: id,
     slug: slug,
-    permalink: await generatePermalink({ id, slug, publishDate, category: category?.slug }),
+    permalink: await generatePermalink({
+      id,
+      slug,
+      publishDate,
+      category: category?.slug,
+    }),
 
     publishDate: publishDate,
     updateDate: updateDate,
@@ -100,9 +114,11 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   };
 };
 
-const load = async function (): Promise<Array<Post>> {
+const load = async function (): Promise<Array<News>> {
   const posts = await getCollection('post');
-  const normalizedPosts = posts.map(async (post) => await getNormalizedPost(post));
+  const normalizedPosts = posts.map(
+    async (post) => await getNormalizedPost(post)
+  );
 
   const results = (await Promise.all(normalizedPosts))
     .sort((a, b) => b.publishDate.valueOf() - a.publishDate.valueOf())
@@ -111,11 +127,11 @@ const load = async function (): Promise<Array<Post>> {
   return results;
 };
 
-let _posts: Array<Post>;
+let _posts: Array<News>;
 
-/** 
+/**
  * @lintignore
-*/
+ */
 export const isBlogEnabled = APP_BLOG.isEnabled;
 export const isRelatedPostsEnabled = APP_BLOG.isRelatedPostsEnabled;
 export const isBlogListRouteEnabled = APP_BLOG.list.isEnabled;
@@ -131,7 +147,7 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
 /** */
-export const fetchPosts = async (): Promise<Array<Post>> => {
+export const fetchPosts = async (): Promise<Array<News>> => {
   if (!_posts) {
     _posts = await load();
   }
@@ -140,13 +156,15 @@ export const fetchPosts = async (): Promise<Array<Post>> => {
 };
 
 /** */
-export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post>> => {
+export const findPostsBySlugs = async (
+  slugs: Array<string>
+): Promise<Array<News>> => {
   if (!Array.isArray(slugs)) return [];
 
   const posts = await fetchPosts();
 
-  return slugs.reduce(function (r: Array<Post>, slug: string) {
-    posts.some(function (post: Post) {
+  return slugs.reduce(function (r: Array<News>, slug: string) {
+    posts.some(function (post: News) {
       return slug === post.slug && r.push(post);
     });
     return r;
@@ -154,13 +172,15 @@ export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post
 };
 
 /** */
-export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
+export const findPostsByIds = async (
+  ids: Array<string>
+): Promise<Array<News>> => {
   if (!Array.isArray(ids)) return [];
 
   const posts = await fetchPosts();
 
-  return ids.reduce(function (r: Array<Post>, id: string) {
-    posts.some(function (post: Post) {
+  return ids.reduce(function (r: Array<News>, id: string) {
+    posts.some(function (post: News) {
       return id === post.id && r.push(post);
     });
     return r;
@@ -168,7 +188,11 @@ export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> =
 };
 
 /** */
-export const findLatestPosts = async ({ count }: { count?: number }): Promise<Array<Post>> => {
+export const findLatestPosts = async ({
+  count,
+}: {
+  count?: number;
+}): Promise<Array<News>> => {
   const _count = count || 4;
   const posts = await fetchPosts();
 
@@ -176,7 +200,11 @@ export const findLatestPosts = async ({ count }: { count?: number }): Promise<Ar
 };
 
 /** */
-export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateFunction }) => {
+export const getStaticPathsBlogList = async ({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) => {
   if (!isBlogEnabled || !isBlogListRouteEnabled) return [];
   return paginate(await fetchPosts(), {
     params: { blog: BLOG_BASE || undefined },
@@ -264,33 +292,45 @@ export const getStaticPathsBlogTag = async ({
 };
 
 /** */
-export async function getRelatedPosts(originalPost: Post, maxResults: number = 4): Promise<Post[]> {
+export async function getRelatedPosts(
+  originalPost: News,
+  maxResults: number = 4
+): Promise<News[]> {
   const allPosts = await fetchPosts();
-  const originalTagsSet = new Set(originalPost.tags ? originalPost.tags.map((tag) => tag.slug) : []);
+  const originalTagsSet = new Set(
+    originalPost.tags ? originalPost.tags.map((tag) => tag.slug) : []
+  );
 
-  const postsWithScores = allPosts.reduce((acc: { post: Post; score: number }[], iteratedPost: Post) => {
-    if (iteratedPost.slug === originalPost.slug) return acc;
+  const postsWithScores = allPosts.reduce(
+    (acc: { post: News; score: number }[], iteratedPost: News) => {
+      if (iteratedPost.slug === originalPost.slug) return acc;
 
-    let score = 0;
-    if (iteratedPost.category && originalPost.category && iteratedPost.category.slug === originalPost.category.slug) {
-      score += 5;
-    }
+      let score = 0;
+      if (
+        iteratedPost.category &&
+        originalPost.category &&
+        iteratedPost.category.slug === originalPost.category.slug
+      ) {
+        score += 5;
+      }
 
-    if (iteratedPost.tags) {
-      iteratedPost.tags.forEach((tag) => {
-        if (originalTagsSet.has(tag.slug)) {
-          score += 1;
-        }
-      });
-    }
+      if (iteratedPost.tags) {
+        iteratedPost.tags.forEach((tag) => {
+          if (originalTagsSet.has(tag.slug)) {
+            score += 1;
+          }
+        });
+      }
 
-    acc.push({ post: iteratedPost, score });
-    return acc;
-  }, []);
+      acc.push({ post: iteratedPost, score });
+      return acc;
+    },
+    []
+  );
 
   postsWithScores.sort((a, b) => b.score - a.score);
 
-  const selectedPosts: Post[] = [];
+  const selectedPosts: News[] = [];
   let i = 0;
   while (selectedPosts.length < maxResults && i < postsWithScores.length) {
     selectedPosts.push(postsWithScores[i].post);

@@ -56,9 +56,18 @@ const tag = defineCollection({
   }),
 });
 
-// --- BLOG ---
-const post = defineCollection({
-  loader: glob({ base: './src/data/post', pattern: '**/*.{md,mdx}' }),
+// --- Categories ---
+const category = defineCollection({
+  loader: glob({ base: './src/data/category', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+});
+
+// --- NEWS ---
+const news = defineCollection({
+  loader: glob({ base: './src/data/news', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) =>
     z.object({
       layout: z.literal('posts').optional(),
@@ -169,9 +178,10 @@ const distribuidor = defineCollection({
 
 // --- EXPORT COLLECTIONS ---
 export const collections = {
-  post,
+  post: news,
   product,
   tag,
+  category,
   banner,
   middleBanner,
   distribuidor,
