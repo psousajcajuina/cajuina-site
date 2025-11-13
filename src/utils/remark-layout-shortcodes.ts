@@ -59,9 +59,11 @@ function extractTextFromParagraph(node: any): string {
     if (child.type === 'text') {
       text += child.value;
     } else if (child.type === 'strong') {
-      text += child.children.map((c: any) => c.value).join('');
+      text += '**' + child.children.map((c: any) => c.value).join('') + '**';
     } else if (child.type === 'emphasis') {
-      text += child.children.map((c: any) => c.value).join('');
+      text += '*' + child.children.map((c: any) => c.value).join('') + '*';
+    } else if (child.type === 'image') {
+      text += `![${child.alt || ''}](${child.url}${child.title ? ` "${child.title}"` : ''})`;
     } else if (child.children) {
       text += extractTextFromParagraph(child);
     }
@@ -91,6 +93,7 @@ function processParagraphNode(node: any, index: number, parent: any) {
         return `**${child.children.map((c: any) => c.value).join('')}**`;
       if (child.type === 'emphasis')
         return `*${child.children.map((c: any) => c.value).join('')}*`;
+      if (child.type === 'image') return `![${child.alt || ''}](${child.url})`;
       return '';
     })
     .join('');

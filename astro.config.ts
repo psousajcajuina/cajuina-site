@@ -20,6 +20,8 @@ import {
 } from './src/utils/frontmatter';
 import { remarkYouTubePlugin } from './src/utils/remark-youtube';
 import { remarkLayoutShortcodes } from './src/utils/remark-layout-shortcodes';
+import { preprocessShortcodes } from './src/utils/preprocess-shortcodes';
+import { viteShortcodePreprocessor } from './src/utils/vite-shortcode-preprocessor';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -95,6 +97,7 @@ export default defineConfig({
     remarkPlugins: [
       readingTimeRemarkPlugin,
       resolveImagePathsRemarkPlugin,
+      preprocessShortcodes, // ANTES do parser processar
       remarkYouTubePlugin,
       remarkLayoutShortcodes,
     ],
@@ -109,7 +112,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), viteShortcodePreprocessor()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
