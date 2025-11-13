@@ -18,15 +18,13 @@ public_folder: '/src/assets/images' # The src attribute for uploaded media
 media_libraries:
   default:
     config:
+      slugify_filename: true
       transformations:
         raster_image:
-          format: webp 
-          quality: 100 
-        svg:
-          optimize: true
-        png:
           format: webp
           quality: 100
+        svg:
+          optimize: true
 
 collections:
   - name: banners

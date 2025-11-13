@@ -5,7 +5,7 @@ draft: false
 categories: noticias
 tags: []
 image: /src/assets/images/post/3.webp
-publishDate: 2025-01-30T16:32:00
+publishDate: 2025-01-30T08:41:00
 author: Redação São Geraldo
 ---
 São Geraldo volta a produzir refrigerante de laranja e relança produto no mercado.

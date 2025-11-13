@@ -3,7 +3,8 @@ title: Furgão do Forró percorrerá cidades do nordeste em ação
 excerpt: Furgão do Forró percorrerá cidades do nordeste em ação
 draft: false
 categories: noticias
-tags: []
+tags:
+  - furgão-do-forró
 image: /src/assets/images/post/Furgao-do-Forro-2024.webp
 publishDate: 2024-06-03T17:28:00
 author: Redação São Geraldo

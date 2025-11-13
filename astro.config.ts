@@ -18,10 +18,7 @@ import {
   lazyImagesRehypePlugin,
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
-import { remarkYouTubePlugin } from './src/utils/remark-youtube';
-import { remarkLayoutShortcodes } from './src/utils/remark-layout-shortcodes';
-import { preprocessShortcodes } from './src/utils/preprocess-shortcodes';
-import { viteShortcodePreprocessor } from './src/utils/vite-shortcode-preprocessor';
+import { remarkShortcodes } from './src/utils/remark-plugins/shortcodes';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -97,9 +94,7 @@ export default defineConfig({
     remarkPlugins: [
       readingTimeRemarkPlugin,
       resolveImagePathsRemarkPlugin,
-      preprocessShortcodes, // ANTES do parser processar
-      remarkYouTubePlugin,
-      remarkLayoutShortcodes,
+      remarkShortcodes,
     ],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
     shikiConfig: {
@@ -112,7 +107,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss(), viteShortcodePreprocessor()],
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

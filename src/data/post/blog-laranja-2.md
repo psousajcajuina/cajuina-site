@@ -5,7 +5,7 @@ draft: false
 categories: noticias
 tags: []
 image: /src/assets/images/post/Adobe-Express-file.webp
-publishDate: 2025-07-25T16:30:00
+publishDate: 2025-07-25T14:08:00
 author: Redação São Geraldo
 ---
 A indústria Cajuína São Geraldo, tradicional marca nordestina reconhecida por seu refrigerante de caju, anuncia oficialmente o lançamento da versão zero adição de açúcar do seu principal produto. Reduzido em calorias, o refrigerante de caju já está disponível para os consumidores nos pontos de venda e marca um momento importante para a indústria, que atende a um desejo do público.

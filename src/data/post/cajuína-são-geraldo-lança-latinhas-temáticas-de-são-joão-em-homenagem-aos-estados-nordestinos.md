@@ -3,7 +3,12 @@ title: Cajuína São Geraldo lança latinhas temáticas de São João em homenag
 excerpt: Cajuína São Geraldo lança latinhas temáticas de São João em homenagem aos estados nordestinos
 draft: false
 categories: noticias
-tags: []
+tags:
+  - colecionáveis
+  - lata
+  - refri-em-lata
+  - são-joão
+  - latinhas
 image: /src/assets/images/post/latas-sao-joao-cajuina-sao-geraldo.webp
 publishDate: 2024-06-01T16:48:00
 author: Redação São Geraldo
