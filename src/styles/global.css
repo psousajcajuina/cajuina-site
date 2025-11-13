@@ -140,6 +140,28 @@ h4 {
   border-radius: 0.5rem;
 }
 
+/* Instagram Embed */
+.instagram-embed {
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 540px;
+}
+
+.instagram-embed iframe {
+  width: 100%;
+  min-height: 420px;
+  border-radius: 0.5rem;
+  border: 1px solid #dbdbdb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+
+.instagram-embed-error {
+  text-align: center;
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
 /* ===========================
    Layout Shortcodes Styles
    =========================== */

@@ -87,6 +87,47 @@ async function renderInlineMarkdown(
   return stripOuterParagraph(html).replace(/\n/g, '<br>');
 }
 
+function buildInstagramEmbedUrl(input: string): string | null {
+  if (!input) return null;
+
+  let normalized = input.trim();
+  if (!normalized) return null;
+
+  if (!/^https?:\/\//i.test(normalized)) {
+    normalized = `https://${normalized.replace(/^\/+/, '')}`;
+  }
+
+  try {
+    const url = new URL(normalized);
+    if (!url.hostname.includes('instagram.com')) {
+      return null;
+    }
+
+    url.search = '';
+    url.hash = '';
+
+    if (!url.pathname.endsWith('/')) {
+      url.pathname += '/';
+    }
+
+    const segments = url.pathname.split('/').filter(Boolean);
+    if (segments.length < 2) {
+      return null;
+    }
+
+    const resource = segments[0];
+    const identifier = segments[1];
+    const supported = ['p', 'reel', 'tv'];
+    if (!supported.includes(resource)) {
+      return null;
+    }
+
+    return `${url.origin}/${resource}/${identifier}/embed/captioned/`;
+  } catch (error) {
+    return null;
+  }
+}
+
 function rewriteAssetUrls(html: string, filePath?: string): string {
   if (!filePath) return html;
 
@@ -405,12 +446,10 @@ function processInlineShortcodes(text: string, filePath?: string): string {
     (_match: string, rawUrl: string) => {
       const permalink = String(rawUrl || '').trim();
       if (!permalink) return _match;
-      const escapedPermalink = escapeHtmlAttribute(permalink);
-      return `<div class="instagram-embed">
-  <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${escapedPermalink}" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:1px auto;max-width:540px;min-width:326px;padding:0;width:calc(100% - 2px);">
-  </blockquote>
-</div>
-<script async src="https://www.instagram.com/embed.js"></script>`;
+      const embedUrl = buildInstagramEmbedUrl(permalink);
+      if (!embedUrl) return _match;
+      const escapedUrl = escapeHtmlAttribute(embedUrl);
+      return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe></div>`;
     }
   );
 

@@ -282,11 +282,22 @@ const metadata = {
       function extractInstagramPermalink(rawInput: string): string | null {
         if (!rawInput) return null;
 
-        const urlMatch = rawInput.match(
-          /https?:\/\/www\.instagram\.com\/[^\s"']+/i
-        );
-        const candidate = urlMatch ? urlMatch[0] : rawInput.trim();
+        let candidate = rawInput.trim();
         if (!candidate) return null;
+
+        const markdownLinkMatch = candidate.match(
+          /^\[([^\]]+)\]\((https?:\/\/(?:www\.)?instagram\.com\/[^\s)]+)\)$/i
+        );
+        if (markdownLinkMatch) {
+          candidate = markdownLinkMatch[2];
+        }
+
+        const urlMatch = candidate.match(
+          /https?:\/\/(?:www\.)?instagram\.com\/[\w\-./?#=&%]+/i
+        );
+        if (urlMatch) {
+          candidate = urlMatch[0];
+        }
 
         let normalized = candidate;
         normalized = normalized.replace(/&amp;/gi, '&');
@@ -312,7 +323,7 @@ const metadata = {
           const identifier = segments[1];
           const supported = ['p', 'reel', 'tv'];
           if (!supported.includes(resource)) {
-            return `https://www.instagram.com/${segments.join('/')}/`;
+            return null;
           }
 
           return `https://www.instagram.com/${resource}/${identifier}/`;
@@ -320,6 +331,26 @@ const metadata = {
           return null;
         }
       }
+        function buildInstagramEmbedUrl(permalink: string): string | null {
+          const canonical = extractInstagramPermalink(permalink);
+          if (!canonical) {
+            return null;
+          }
+
+          try {
+            const url = new URL(canonical);
+            const segments = url.pathname.split('/').filter(Boolean);
+            if (segments.length < 2) {
+              return null;
+            }
+
+            const resource = segments[0];
+            const identifier = segments[1];
+            return `${url.origin}/${resource}/${identifier}/embed/captioned/`;
+          } catch (error) {
+            return null;
+          }
+        }
 
       function isHexColor(value: string): boolean {
         return HEX_COLOR_REGEX.test(value);
@@ -963,9 +994,17 @@ const metadata = {
           }
         );
 
-        html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
-          const permalink = escapeHtml(rawUrl.trim());
-          return `<div class="instagram-embed"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${permalink}" data-instgrm-version="14"></blockquote></div>`;
+          html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
+            const permalink = extractInstagramPermalink(rawUrl.trim()) ?? '';
+            if (!permalink) {
+              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
+            }
+            const embedUrl = buildInstagramEmbedUrl(permalink);
+            if (!embedUrl) {
+              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
+            }
+            const escapedUrl = escapeHtml(embedUrl);
+            return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no" referrerpolicy="origin-when-cross-origin" title="Instagram embed"></iframe></div>`;
         });
 
         // Image block
@@ -1134,22 +1173,11 @@ const metadata = {
     #dropZone.drag-over {
       border-color: #6366f1 !important;
       background-color: rgba(99, 102, 241, 0.1) !important;
-    }
-
-    .added-block {
+        // Removed the processInstagramEmbeds call as per the new implementation
       transition: all 0.2s ease;
     }
-
-    .added-block:hover {
       transform: translateX(2px);
-    }
 
-    .added-block.dragging {
-      opacity: 0.4;
-    }
-
-    .instagram-embed {
-      margin: 1rem 0;
-    }
   </style>
-</Layout>
+      // Removed the processInstagramEmbeds function as it is no longer needed
+    }
