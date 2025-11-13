@@ -1,0 +1,157 @@
+---
+// Preview panel com estilos para renderizar os shortcodes
+---
+
+<div
+  class="flex h-full flex-col rounded-xl border border-neutral-700 bg-neutral-900 p-6"
+>
+  <!-- {/* Header */}
+  <div class="mb-5 flex items-center gap-2">
+    <span class="text-xl">👁️</span>
+    <h3 class="text-lg font-semibold text-white">Preview em Tempo Real</h3>
+  </div> -->
+
+  {/* Preview Container */}
+  <div
+    id="preview"
+    class="min-h-0 flex-1 overflow-y-auto rounded-lg bg-white p-6 text-neutral-900"
+  >
+    <div class="text-neutral-400 italic">Seu conteúdo aparecerá aqui...</div>
+  </div>
+</div>
+
+<style is:global>
+  /* YouTube Embed */
+  .youtube-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .youtube-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.75rem;
+  }
+
+  /* Two Columns Layout */
+  .layout-two-columns {
+    display: grid;
+    grid-template-columns: var(--col1) var(--col2);
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, #f9fafb, #ffffff);
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+  }
+
+  .layout-column-1,
+  .layout-column-2 {
+    min-height: 100px;
+  }
+
+  /* Image Left/Right */
+  .layout-image-left,
+  .layout-image-right {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 0.75rem;
+  }
+
+  .layout-image-left {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .layout-image-right {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .layout-image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Cards */
+  .layout-card {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .layout-card-highlighted {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  }
+
+  /* Alerts */
+  .layout-alert {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid;
+  }
+
+  .layout-alert-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .layout-alert-content {
+    flex: 1;
+  }
+
+  .layout-alert-info {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+  }
+
+  .layout-alert-success {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+  }
+
+  .layout-alert-warning {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    color: #92400e;
+  }
+
+  .layout-alert-error {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .layout-two-columns,
+    .layout-image-left,
+    .layout-image-right {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+// Seção de exemplos de uso dos shortcodes
+const examples = [
+  {
+    title: '📸 Post do Instagram',
+    code: `[[instagram:https://www.instagram.com/p/CNpiBqvL5Oi/]]`,
+  },
+  {
+    title: '📐 Duas Colunas (70/30)',
+    code: `[[two-columns:70/30]]
+[col1]
+Conteúdo da coluna esquerda
+[/col1]
+[col2]
+Coluna direita
+[/col2]
+[[/two-columns]]`,
+  },
+  {
+    title: '🃏 Card Simples',
+    code: `[[card]]
+Conteúdo do card
+[[/card]]`,
+  },
+  {
+    title: 'ℹ️ Alerta Info',
+    code: `[[alert:info]]
+Informação importante
+[[/alert]]`,
+  },
+];
+---
+
+<div class="rounded-xl border border-neutral-700 bg-neutral-900 p-6">
+  {/* Header */}
+  <div class="mb-5 flex items-center gap-2">
+    <span class="text-2xl">💡</span>
+    <h3 class="text-xl font-semibold text-white">Exemplos de Uso</h3>
+  </div>
+
+  {/* Examples Grid */}
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {
+      examples.map((example) => (
+        <div class="group rounded-lg border border-neutral-700 bg-neutral-800 p-4 transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500 hover:shadow-lg">
+          {/* Title */}
+          <div class="mb-3 text-sm font-semibold text-indigo-400">
+            {example.title}
+          </div>
+
+          {/* Code */}
+          <div class="rounded-md border border-neutral-700 bg-neutral-950 p-3">
+            <pre class="overflow-x-auto text-xs leading-relaxed text-emerald-400">
+              <code>{example.code}</code>
+            </pre>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

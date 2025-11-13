@@ -1,0 +1,90 @@
+---
+// Modal para configurar links
+---
+
+<div
+  id="linkModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm"
+>
+  <div
+    class="animate-in fade-in zoom-in w-11/12 max-w-lg rounded-xl border border-neutral-700 bg-neutral-900 p-8 shadow-2xl duration-200"
+  >
+    {/* Header */}
+    <div class="mb-5 flex items-center gap-2">
+      <span class="text-2xl">🔗</span>
+      <h3 class="text-xl font-semibold text-white">Adicionar Link</h3>
+    </div>
+
+    <div class="space-y-4">
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          Texto do Link
+        </span>
+        <input
+          type="text"
+          id="linkTextInput"
+          placeholder="Clique aqui"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        />
+      </label>
+
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          URL de Destino
+        </span>
+        <input
+          type="text"
+          id="linkUrlInput"
+          placeholder="https://exemplo.com ou /pagina"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        />
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="linkNewTabCheck"
+          class="h-4 w-4 rounded border-neutral-700 bg-neutral-950 text-indigo-600 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-0"
+        />
+        <span class="text-sm text-neutral-300"> Abrir em nova aba </span>
+      </label>
+    </div>
+
+    {/* Buttons */}
+    <div class="mt-6 flex justify-end gap-3">
+      <button
+        id="linkCancel"
+        class="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all duration-200 hover:bg-neutral-700 active:scale-95"
+      >
+        Cancelar
+      </button>
+      <button
+        id="linkConfirm"
+        class="rounded-lg bg-linear-to-br from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:shadow-lg hover:shadow-green-500/40 active:scale-95"
+      >
+        Adicionar link
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes link-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-in {
+    animation: link-in 0.2s ease-out;
+  }
+
+  #linkModal.active {
+    display: flex;
+  }
+</style>

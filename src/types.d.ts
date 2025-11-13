@@ -3,7 +3,7 @@ import type { HTMLAttributes, ImageMetadata } from 'astro/types';
 
 declare module '@tailwindcss/typography';
 
-export interface Post {
+export interface News {
   /** A unique ID number that identifies a post. */
   id: string;
 
@@ -45,6 +45,14 @@ export interface Post {
   /**  */
   readingTime?: number;
 }
+
+export type ImageLayout =
+  | 'fixed'
+  | 'constrained'
+  | 'fullWidth'
+  | 'cover'
+  | 'responsive'
+  | 'contained';
 
 export interface Distribuidor {
   id: number;

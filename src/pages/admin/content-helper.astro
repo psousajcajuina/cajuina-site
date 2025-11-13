@@ -1,0 +1,1183 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import BlockItem from '@/components/widgets/content-helper/BlockItem.astro';
+import CodePanel from '@/components/widgets/content-helper/CodePanel.astro';
+import DropZone from '@/components/widgets/content-helper/DropZone.astro';
+import PreviewPanel from '@/components/widgets/content-helper/PreviewPanel.astro';
+import ExampleSection from '@/components/widgets/content-helper/ExampleSection.astro';
+import YoutubeModal from '@/components/widgets/content-helper/YoutubeModal.astro';
+import HeadingModal from '@/components/widgets/content-helper/HeadingModal.astro';
+import ImageModal from '@/components/widgets/content-helper/ImageModal.astro';
+import LinkModal from '@/components/widgets/content-helper/LinkModal.astro';
+import InstagramModal from '@/components/widgets/content-helper/InstagramModal.astro';
+
+const metadata = {
+  title: 'Assistente de Publicações',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="container mx-auto max-w-[1600px] px-5 py-5">
+    {/* Header */}
+    <div
+      class="mb-6 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-center shadow-lg shadow-indigo-500/30"
+    >
+      <h1 class="mb-1 text-2xl font-bold text-white">
+        Assistente de Publicações
+      </h1>
+      <p class="text-sm text-white/90">
+        Construa seu post com blocos visuais, adicione vídeos e copie tudo
+        pronto para o CMS
+      </p>
+    </div>
+
+    {/* Builder & Preview */}
+    <div class="mb-8 flex h-[500px] gap-5">
+      <div
+        class="flex flex-1 flex-col rounded-xl border border-neutral-700 bg-neutral-900 p-6"
+      >
+        {/* Panel Header */}
+        <div class="mb-5 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">✍️</span>
+            <h3 class="text-lg font-semibold text-white">Editor de Conteúdo</h3>
+          </div>
+
+          <div class="flex gap-2">
+            <button
+              id="clearButton"
+              class="flex items-center gap-1.5 rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all duration-200 hover:bg-neutral-700 active:scale-95"
+            >
+              <span>🗑️</span>
+              <span>Limpar</span>
+            </button>
+            <button
+              id="copyButton"
+              class="flex items-center gap-1.5 rounded-lg bg-linear-to-br from-indigo-500 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/40 active:scale-95"
+            >
+              <span>📋</span>
+              <span>Copiar Tudo</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Drop Zone */}
+        <div class="flex min-h-[400px] flex-1 flex-col">
+          <DropZone />
+        </div>
+      </div>
+
+      <div class="h-full flex-1">
+        <PreviewPanel />
+      </div>
+    </div>
+
+    {/* Blocks Library */}
+    <div class="mb-6 rounded-xl border border-neutral-700 bg-neutral-900 p-6">
+      <div
+        class="mb-4 flex flex-col gap-1 md:flex-row md:items-center md:justify-between"
+      >
+        <div class="flex items-center gap-2 text-base font-semibold text-white">
+          <span>📦</span>
+          <span>Blocos disponíveis</span>
+        </div>
+        <div class="text-xs text-neutral-400">
+          Arraste ou clique para adicionar
+        </div>
+      </div>
+
+      {/* All Blocks in Grid */}
+      {/* Category Filter */}
+      <div class="mb-3">
+        <select
+          id="categoryFilter"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-2.5 text-sm text-white transition-colors hover:border-neutral-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none sm:w-auto"
+        >
+          <option value="all">Todos os blocos</option>
+          <option value="content">📝 Conteúdo</option>
+          <option value="layout">📐 Layout</option>
+          <option value="containers">📦 Containers</option>
+          <option value="alerts">⚠️ Alertas</option>
+        </select>
+      </div>
+
+      {/* Blocks Grid */}
+      <div
+        id="blocksGrid"
+        class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+      >
+        <!-- <BlockItem
+          type="text"
+          title="Texto"
+          description="Parágrafo"
+          icon="📄"
+          data-category="content"
+        /> -->
+        <BlockItem
+          type="heading-accent"
+          title="Título"
+          description="Com cor"
+          icon="🔶"
+          data-category="content"
+        />
+        <!-- <BlockItem
+          type="image-block"
+          title="Imagem"
+          description="Upload"
+          icon="🖼️"
+          data-category="content"
+        /> -->
+        <BlockItem
+          type="link"
+          title="Link"
+          description="Hyperlink"
+          icon="🔗"
+          data-category="content"
+        />
+        <BlockItem
+          type="youtube"
+          title="YouTube"
+          description="Vídeo"
+          icon="▶️"
+          variant="youtube"
+          data-category="content"
+        />
+        <BlockItem
+          type="instagram"
+          title="Instagram"
+          description="Post"
+          icon="📸"
+          variant="instagram"
+          data-category="content"
+        />
+        <BlockItem
+          type="two-columns"
+          title="2 Colunas"
+          description="Layout"
+          icon="📐"
+          data-category="layout"
+        />
+        <!-- <BlockItem
+          type="image-left"
+          title="Img + Texto"
+          description="Esquerda"
+          icon="◀️"
+          data-category="layout"
+        />
+        <BlockItem
+          type="image-right"
+          title="Texto + Img"
+          description="Direita"
+          icon="▶️"
+          data-category="layout"
+        /> -->
+        <BlockItem
+          type="card"
+          title="Card"
+          description="Container"
+          icon="🃏"
+          data-category="containers"
+        />
+        <!-- <BlockItem
+          type="card-highlighted"
+          title="Card ✨"
+          description="Destaque"
+          icon="✨"
+          data-category="containers"
+        />
+        <BlockItem
+          type="alert-info"
+          title="Info"
+          description="Informação"
+          icon="ℹ️"
+          data-category="alerts"
+        />
+        <!-- <BlockItem
+          type="alert-success"
+          title="Sucesso"
+          description="Positivo"
+          icon="✅"
+          data-category="alerts"
+        /> -->
+        <!-- <BlockItem
+          type="alert-warning"
+          title="Aviso"
+          description="Atenção"
+          icon="⚠️"
+          data-category="alerts"
+        /> -->
+        <!-- <BlockItem
+          type="alert-error"
+          title="Erro"
+          description="Crítico"
+          icon="❌"
+          data-category="alerts"
+        /> -->
+      </div>
+
+      {/* Code Panel */}
+      <div class="mt-5">
+        <CodePanel />
+      </div>
+
+      {/* Examples Section */}
+      <div class="mt-5">
+        <ExampleSection />
+      </div>
+
+      {/* YouTube Modal */}
+      <YoutubeModal />
+
+      {/* Instagram Modal */}
+      <InstagramModal />
+
+      {/* Heading Modal */}
+      <HeadingModal />
+
+      {/* Image Modal */}
+      <ImageModal />
+
+      {/* Link Modal */}
+      <LinkModal />
+    </div>
+
+    <script>
+      const DEFAULT_HEADING_COLOR = '#D98338';
+      const HEX_COLOR_REGEX =
+        /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+
+      // Templates para cada tipo de bloco
+      const templates: Record<string, string> = {
+        text: `Seu texto markdown aqui.\n\nVocê pode usar **negrito**, *itálico*, e outros recursos markdown.`,
+        'two-columns': `[[two-columns:70/30]]\n[col1]\nConteúdo da coluna 1 (70%)\n[/col1]\n[col2]\nConteúdo da coluna 2 (30%)\n[/col2]\n[[/two-columns]]`,
+        'image-left': `[[image-left: /images/sua-imagem.jpg]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
+        'image-right': `[[image-right: /images/sua-imagem.jpg]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
+        card: `[[card]]\nConteúdo do card simples.\n[[/card]]`,
+        'card-highlighted': `[[card:highlighted]]\nCard com gradiente - perfeito para CTAs!\n[[/card]]`,
+        'heading-accent': `[[heading:h4|${DEFAULT_HEADING_COLOR}]]Um título chamativo aqui[[/heading]]`,
+        'alert-info': `[[alert:info]]\nEsta é uma informação útil.\n[[/alert]]`,
+        'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
+        'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
+        'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
+        instagram: `[[instagram:https://www.instagram.com/p/CNpiBqvL5Oi/]]`,
+      };
+
+      function normalizeShortcodeSpacing(block: string): string {
+        return block
+          .replace(/\r\n/g, '\n')
+          .replace(/\[\[\s+/g, '[[')
+          .replace(/\s+\]\]/g, ']]')
+          .replace(/\[\s+\/\s+/g, '[/')
+          .replace(/\[\s*(col[12])\s*\]/gi, (_match, name) => `[${name}]`)
+          .replace(
+            /\[\s*\/\s*(col[12])\s*\]/gi,
+            (_match, name) => `[/${name}]`
+          );
+      }
+
+      function extractInstagramPermalink(rawInput: string): string | null {
+        if (!rawInput) return null;
+
+        let candidate = rawInput.trim();
+        if (!candidate) return null;
+
+        const markdownLinkMatch = candidate.match(
+          /^\[([^\]]+)\]\((https?:\/\/(?:www\.)?instagram\.com\/[^\s)]+)\)$/i
+        );
+        if (markdownLinkMatch) {
+          candidate = markdownLinkMatch[2];
+        }
+
+        const urlMatch = candidate.match(
+          /https?:\/\/(?:www\.)?instagram\.com\/[\w\-./?#=&%]+/i
+        );
+        if (urlMatch) {
+          candidate = urlMatch[0];
+        }
+
+        let normalized = candidate;
+        normalized = normalized.replace(/&amp;/gi, '&');
+        if (!/^https?:\/\//i.test(normalized)) {
+          normalized = `https://${normalized.replace(/^\/+/, '')}`;
+        }
+
+        try {
+          const url = new URL(normalized);
+          if (!url.hostname.includes('instagram.com')) {
+            return null;
+          }
+
+          url.search = '';
+          url.hash = '';
+
+          const segments = url.pathname.split('/').filter(Boolean);
+          if (segments.length < 2) {
+            return null;
+          }
+
+          const resource = segments[0];
+          const identifier = segments[1];
+          const supported = ['p', 'reel', 'tv'];
+          if (!supported.includes(resource)) {
+            return null;
+          }
+
+          return `https://www.instagram.com/${resource}/${identifier}/`;
+        } catch (error) {
+          return null;
+        }
+      }
+        function buildInstagramEmbedUrl(permalink: string): string | null {
+          const canonical = extractInstagramPermalink(permalink);
+          if (!canonical) {
+            return null;
+          }
+
+          try {
+            const url = new URL(canonical);
+            const segments = url.pathname.split('/').filter(Boolean);
+            if (segments.length < 2) {
+              return null;
+            }
+
+            const resource = segments[0];
+            const identifier = segments[1];
+            return `${url.origin}/${resource}/${identifier}/embed/captioned/`;
+          } catch (error) {
+            return null;
+          }
+        }
+
+      function isHexColor(value: string): boolean {
+        return HEX_COLOR_REGEX.test(value);
+      }
+
+      function normalizeHeadingColor(value: string): string {
+        const trimmed = value.trim();
+        if (!trimmed) {
+          return DEFAULT_HEADING_COLOR;
+        }
+
+        if (trimmed.startsWith('var(')) {
+          return trimmed;
+        }
+
+        let candidate = trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
+        candidate = candidate.toUpperCase();
+
+        if (isHexColor(candidate)) {
+          if (candidate.length === 4) {
+            const r = candidate[1];
+            const g = candidate[2];
+            const b = candidate[3];
+            return `#${r}${r}${g}${g}${b}${b}`;
+          }
+
+          if (candidate.length === 5) {
+            const r = candidate[1];
+            const g = candidate[2];
+            const b = candidate[3];
+            const a = candidate[4];
+            return `#${r}${r}${g}${g}${b}${b}${a}${a}`;
+          }
+
+          return candidate;
+        }
+
+        return DEFAULT_HEADING_COLOR;
+      }
+
+      // Estado global
+      let editorContent = '';
+      let draggedBlockIndex: number | null = null;
+      let lastHeadingColor = DEFAULT_HEADING_COLOR;
+      let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
+
+      // Função para carregar do localStorage
+      function loadFromStorage() {
+        try {
+          const saved = localStorage.getItem('contentHelperContent');
+          if (saved) {
+            editorContent = saved;
+            updateEditorUI();
+          }
+        } catch (e) {
+          console.error('Erro ao carregar do localStorage:', e);
+        }
+      }
+
+      // Função para salvar no localStorage
+      function saveToStorage() {
+        try {
+          localStorage.setItem('contentHelperContent', editorContent);
+        } catch (e) {
+          console.error('Erro ao salvar no localStorage:', e);
+        }
+      }
+
+      // Elementos DOM
+      const dropZone = document.getElementById('dropZone')!;
+      const contentEditor = document.getElementById('contentEditor')!;
+      const preview = document.getElementById('preview')!;
+      const codeBlock = document.getElementById('codeBlock')!;
+      const copyButton = document.getElementById('copyButton')!;
+      const clearButton = document.getElementById('clearButton')!;
+      const categoryFilter = document.getElementById(
+        'categoryFilter'
+      ) as HTMLSelectElement;
+      const blockItems = document.querySelectorAll('.block-item');
+      const youtubeModal = document.getElementById('youtubeModal')!;
+      const youtubeInput = document.getElementById(
+        'youtubeInput'
+      ) as HTMLInputElement;
+      const modalCancel = document.getElementById('modalCancel')!;
+      const modalConfirm = document.getElementById('modalConfirm')!;
+      const instagramModal = document.getElementById('instagramModal')!;
+      const instagramInput = document.getElementById(
+        'instagramInput'
+      ) as HTMLTextAreaElement;
+      const instagramCancel = document.getElementById('instagramCancel')!;
+      const instagramConfirm = document.getElementById('instagramConfirm')!;
+      const headingModal = document.getElementById('headingModal')!;
+      const headingTextInput = document.getElementById(
+        'headingTextInput'
+      ) as HTMLInputElement;
+      const headingColorInput = document.getElementById(
+        'headingColorInput'
+      ) as HTMLInputElement;
+      const headingColorHex = document.getElementById(
+        'headingColorHex'
+      ) as HTMLInputElement;
+      const headingLevelSelect = document.getElementById(
+        'headingLevelSelect'
+      ) as HTMLSelectElement;
+      const headingCancel = document.getElementById('headingCancel')!;
+      const headingConfirm = document.getElementById('headingConfirm')!;
+
+      // Image Modal Elements
+      const imageModal = document.getElementById('imageModal')!;
+      const imageUrlInput = document.getElementById(
+        'imageUrlInput'
+      ) as HTMLInputElement;
+      const imageAltInput = document.getElementById(
+        'imageAltInput'
+      ) as HTMLInputElement;
+      const imageWidthSelect = document.getElementById(
+        'imageWidthSelect'
+      ) as HTMLSelectElement;
+      const imageAlignSelect = document.getElementById(
+        'imageAlignSelect'
+      ) as HTMLSelectElement;
+      const imageCancel = document.getElementById('imageCancel')!;
+      const imageConfirm = document.getElementById('imageConfirm')!;
+
+      // Link Modal Elements
+      const linkModal = document.getElementById('linkModal')!;
+      const linkTextInput = document.getElementById(
+        'linkTextInput'
+      ) as HTMLInputElement;
+      const linkUrlInput = document.getElementById(
+        'linkUrlInput'
+      ) as HTMLInputElement;
+      const linkNewTabCheck = document.getElementById(
+        'linkNewTabCheck'
+      ) as HTMLInputElement;
+      const linkCancel = document.getElementById('linkCancel')!;
+      const linkConfirm = document.getElementById('linkConfirm')!;
+
+      // Category Filter
+      categoryFilter.addEventListener('change', () => {
+        const selectedCategory = categoryFilter.value;
+        blockItems.forEach((item) => {
+          const element = item as HTMLElement;
+          const category = element.dataset.category;
+
+          if (selectedCategory === 'all' || category === selectedCategory) {
+            element.style.display = '';
+          } else {
+            element.style.display = 'none';
+          }
+        });
+      });
+
+      // Drag and Drop - simplificado para apenas adicionar ao editor
+      blockItems.forEach((item) => {
+        const element = item as HTMLElement;
+
+        element.addEventListener('dragstart', (e) => {
+          e.dataTransfer!.setData('text/plain', element.dataset.type || '');
+        });
+
+        element.addEventListener('click', () => {
+          const type = element.dataset.type;
+          if (type === 'youtube') {
+            openYoutubeModal();
+          } else if (type === 'instagram') {
+            openInstagramModal();
+          } else if (type === 'heading-accent') {
+            openHeadingModal();
+          } else if (type === 'image-block') {
+            openImageModal();
+          } else if (type === 'link') {
+            openLinkModal();
+          } else if (type) {
+            addBlock(type);
+          }
+        });
+      });
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const type = e.dataTransfer!.getData('text/plain');
+        if (type === 'youtube') {
+          openYoutubeModal();
+        } else if (type === 'instagram') {
+          openInstagramModal();
+        } else if (type === 'heading-accent') {
+          openHeadingModal();
+        } else if (type === 'image-block') {
+          openImageModal();
+        } else if (type === 'link') {
+          openLinkModal();
+        } else if (type) {
+          addBlock(type);
+        }
+      });
+
+      // YouTube Modal
+      function openYoutubeModal() {
+        youtubeModal.classList.add('active');
+        youtubeInput.value = '';
+        youtubeInput.focus();
+      }
+
+      function closeYoutubeModal() {
+        youtubeModal.classList.remove('active');
+      }
+
+      modalCancel.addEventListener('click', closeYoutubeModal);
+
+      modalConfirm.addEventListener('click', () => {
+        const url = youtubeInput.value.trim();
+        if (!url) {
+          alert('Por favor, cole uma URL do YouTube');
+          return;
+        }
+
+        const match = url.match(
+          /(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/
+        );
+        if (!match) {
+          alert('❌ URL do YouTube inválida');
+          return;
+        }
+
+        const videoId = match[1];
+        const shortcode = `[[youtube:${videoId}]]`;
+        insertContent(shortcode);
+        closeYoutubeModal();
+      });
+
+      youtubeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          modalConfirm.click();
+        }
+      });
+
+      youtubeModal.addEventListener('click', (e) => {
+        if (e.target === youtubeModal) {
+          closeYoutubeModal();
+        }
+      });
+
+      // Instagram Modal
+      function openInstagramModal() {
+        instagramModal.classList.add('active');
+        instagramInput.value = '';
+        setTimeout(() => instagramInput.focus(), 0);
+      }
+
+      function closeInstagramModal() {
+        instagramModal.classList.remove('active');
+      }
+
+      instagramCancel.addEventListener('click', closeInstagramModal);
+
+      instagramConfirm.addEventListener('click', () => {
+        const rawValue = instagramInput.value.trim();
+        if (!rawValue) {
+          alert(
+            'Por favor, cole a URL ou o código de incorporação do Instagram'
+          );
+          return;
+        }
+
+        const permalink = extractInstagramPermalink(rawValue);
+        if (!permalink) {
+          alert('❌ URL do Instagram inválida');
+          return;
+        }
+
+        const shortcode = `[[instagram:${permalink}]]`;
+        insertContent(shortcode);
+        closeInstagramModal();
+      });
+
+      instagramInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          instagramConfirm.click();
+        }
+      });
+
+      instagramModal.addEventListener('click', (event) => {
+        if (event.target === instagramModal) {
+          closeInstagramModal();
+        }
+      });
+
+      // Heading Modal
+      function openHeadingModal() {
+        headingModal.classList.add('active');
+        headingTextInput.value = '';
+        headingColorHex.value = lastHeadingColor;
+        headingLevelSelect.value = lastHeadingLevel;
+
+        if (isHexColor(lastHeadingColor) && lastHeadingColor.length === 7) {
+          headingColorInput.value = lastHeadingColor;
+        } else {
+          headingColorInput.value = DEFAULT_HEADING_COLOR;
+        }
+
+        setTimeout(() => headingTextInput.focus(), 0);
+      }
+
+      function closeHeadingModal() {
+        headingModal.classList.remove('active');
+      }
+
+      headingCancel.addEventListener('click', closeHeadingModal);
+
+      headingConfirm.addEventListener('click', () => {
+        const textValue = headingTextInput.value.trim() || 'Título de destaque';
+        const selectedLevel = (
+          headingLevelSelect.value || 'h4'
+        ).toLowerCase() as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+        const rawColor = headingColorHex.value || headingColorInput.value;
+        const normalizedColor = normalizeHeadingColor(rawColor);
+
+        const shortcode = `[[heading:${selectedLevel}|${normalizedColor}]]${textValue}[[/heading]]`;
+        lastHeadingColor = normalizedColor;
+        lastHeadingLevel = selectedLevel;
+        insertContent(shortcode);
+        closeHeadingModal();
+      });
+
+      headingTextInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          headingConfirm.click();
+        }
+      });
+
+      headingColorInput.addEventListener('input', () => {
+        const colorValue = headingColorInput.value.toUpperCase();
+        headingColorHex.value = colorValue;
+      });
+
+      headingColorHex.addEventListener('blur', () => {
+        const normalized = normalizeHeadingColor(headingColorHex.value);
+        headingColorHex.value = normalized;
+        if (isHexColor(normalized) && normalized.length === 7) {
+          headingColorInput.value = normalized;
+        }
+      });
+
+      headingModal.addEventListener('click', (event) => {
+        if (event.target === headingModal) {
+          closeHeadingModal();
+        }
+      });
+
+      // Image Modal
+      function openImageModal() {
+        imageModal.classList.add('active');
+        imageUrlInput.value = '';
+        imageAltInput.value = '';
+        imageWidthSelect.value = 'medium';
+        imageAlignSelect.value = 'center';
+        setTimeout(() => imageUrlInput.focus(), 0);
+      }
+
+      function closeImageModal() {
+        imageModal.classList.remove('active');
+      }
+
+      imageCancel.addEventListener('click', closeImageModal);
+
+      imageConfirm.addEventListener('click', () => {
+        const url = imageUrlInput.value.trim();
+        if (!url) {
+          alert('Por favor, insira a URL da imagem');
+          return;
+        }
+
+        const alt = imageAltInput.value.trim() || 'Imagem';
+        const width = imageWidthSelect.value || 'medium';
+        const align = imageAlignSelect.value || 'center';
+
+        const shortcode = `[[image:${url}|${alt}|${width}:${align}]]`;
+        insertContent(shortcode);
+        closeImageModal();
+      });
+
+      imageUrlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          imageConfirm.click();
+        }
+      });
+
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+          closeImageModal();
+        }
+      });
+
+      // Link Modal
+      function openLinkModal() {
+        linkModal.classList.add('active');
+        linkTextInput.value = '';
+        linkUrlInput.value = '';
+        linkNewTabCheck.checked = true;
+        setTimeout(() => linkTextInput.focus(), 0);
+      }
+
+      function closeLinkModal() {
+        linkModal.classList.remove('active');
+      }
+
+      linkCancel.addEventListener('click', closeLinkModal);
+
+      linkConfirm.addEventListener('click', () => {
+        const text = linkTextInput.value.trim();
+        const url = linkUrlInput.value.trim();
+
+        if (!text || !url) {
+          alert('Por favor, preencha o texto e a URL do link');
+          return;
+        }
+
+        const target = linkNewTabCheck.checked ? '_blank' : '_self';
+        const shortcode = `[[link:${url}|${target}]]${text}[[/link]]`;
+        insertContent(shortcode);
+        closeLinkModal();
+      });
+
+      linkTextInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          linkConfirm.click();
+        }
+      });
+
+      linkModal.addEventListener('click', (e) => {
+        if (e.target === linkModal) {
+          closeLinkModal();
+        }
+      });
+
+      // Funções principais
+      function insertContent(content: string) {
+        const selection = window.getSelection();
+
+        if (selection && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+
+          // Verifica se a seleção está dentro do editor
+          if (contentEditor.contains(range.commonAncestorContainer)) {
+            // Remove o conteúdo selecionado
+            range.deleteContents();
+
+            // Pega o texto antes e depois da posição do cursor
+            const fullText = contentEditor.textContent || '';
+            const startOffset = getAbsoluteOffset(
+              contentEditor,
+              range.startContainer,
+              range.startOffset
+            );
+
+            const textBefore = fullText.substring(0, startOffset);
+            const textAfter = fullText.substring(startOffset);
+
+            // Adiciona quebras de linha apropriadas
+            let contentToInsert = content;
+
+            // Se há texto antes e não termina com quebra de linha, adiciona quebra antes
+            if (textBefore && !textBefore.endsWith('\n')) {
+              contentToInsert = '\n\n' + contentToInsert;
+            }
+
+            // Se há texto depois e o conteúdo não termina com quebra de linha, adiciona quebra depois
+            if (textAfter && !contentToInsert.endsWith('\n')) {
+              contentToInsert = contentToInsert + '\n\n';
+            }
+
+            // Insere o conteúdo com as quebras de linha
+            const textNode = document.createTextNode(contentToInsert);
+            range.insertNode(textNode);
+
+            // Move o cursor para depois do conteúdo inserido
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Atualiza o conteúdo e sincroniza
+            editorContent = contentEditor.textContent || '';
+            updateOutputs();
+            saveToStorage();
+            contentEditor.focus();
+            return;
+          }
+        }
+
+        // Se não houver seleção válida, adiciona ao final
+        const currentText = contentEditor.textContent || '';
+        const newContent = currentText
+          ? `${currentText}\n\n${content}`
+          : content;
+        contentEditor.textContent = newContent;
+        editorContent = newContent;
+
+        // Move o cursor para o final
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(contentEditor);
+        range.collapse(false);
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+
+        updateOutputs();
+        saveToStorage();
+        contentEditor.focus();
+      }
+
+      // Função auxiliar para calcular o offset absoluto no texto
+      function getAbsoluteOffset(
+        root: Node,
+        node: Node,
+        offset: number
+      ): number {
+        let currentOffset = 0;
+        const walker = document.createTreeWalker(
+          root,
+          NodeFilter.SHOW_TEXT,
+          null
+        );
+
+        let currentNode = walker.nextNode();
+        while (currentNode) {
+          if (currentNode === node) {
+            return currentOffset + offset;
+          }
+          currentOffset += currentNode.textContent?.length || 0;
+          currentNode = walker.nextNode();
+        }
+
+        return currentOffset;
+      }
+
+      function addBlock(type: string) {
+        const template = templates[type];
+        if (!template) return;
+        insertContent(template);
+      }
+
+      function updateEditorUI() {
+        contentEditor.textContent = editorContent;
+        updateOutputs();
+      }
+
+      function updateOutputs() {
+        const markdown = editorContent.trim();
+
+        if (markdown) {
+          codeBlock.textContent = markdown;
+        } else {
+          codeBlock.innerHTML =
+            '<span class="italic text-neutral-600">// Seu código aparecerá aqui</span>';
+        }
+
+        updatePreview(markdown);
+      }
+
+      // Listener para mudanças no editor
+      contentEditor.addEventListener('input', () => {
+        editorContent = contentEditor.textContent || '';
+        updateOutputs();
+        saveToStorage();
+      });
+
+      contentEditor.addEventListener('paste', (e) => {
+        // Previne a colagem com formatação
+        e.preventDefault();
+        const text = e.clipboardData?.getData('text/plain') || '';
+        document.execCommand('insertText', false, text);
+      });
+
+      function updatePreview(markdown: string) {
+        if (!markdown) {
+          preview.innerHTML =
+            '<div class="italic text-neutral-400">Seu conteúdo aparecerá aqui...</div>';
+          return;
+        }
+
+        preview.innerHTML = processShortcodes(markdown);
+
+        if (preview.querySelector('.instagram-media')) {
+          processInstagramEmbeds();
+        }
+      }
+
+      function processInstagramEmbeds() {
+        const existingScript = document.getElementById('instagramEmbedScript');
+
+        const instgrm = (window as any).instgrm;
+        if (instgrm && instgrm.Embeds) {
+          instgrm.Embeds.process();
+          return;
+        }
+
+        if (existingScript) {
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.id = 'instagramEmbedScript';
+        script.src = 'https://www.instagram.com/embed.js';
+        script.async = true;
+        script.onload = () => {
+          const loadedInstgrm = (window as any).instgrm;
+          if (loadedInstgrm && loadedInstgrm.Embeds) {
+            loadedInstgrm.Embeds.process();
+          }
+        };
+        document.body.appendChild(script);
+      }
+
+      function processShortcodes(markdown: string, nested = false): string {
+        let html = markdown;
+
+        // Process simple/inline shortcodes first (these don't contain other blocks)
+
+        // YouTube
+        html = html.replace(
+          /\[\[youtube:([a-zA-Z0-9_-]+)\]\]/g,
+          (_, videoId) => {
+            return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          }
+        );
+
+          html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
+            const permalink = extractInstagramPermalink(rawUrl.trim()) ?? '';
+            if (!permalink) {
+              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
+            }
+            const embedUrl = buildInstagramEmbedUrl(permalink);
+            if (!embedUrl) {
+              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
+            }
+            const escapedUrl = escapeHtml(embedUrl);
+            return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no" referrerpolicy="origin-when-cross-origin" title="Instagram embed"></iframe></div>`;
+        });
+
+        // Image block
+        html = html.replace(
+          /\[\[image:([^|]+)\|([^|]+)\|([^:]+):([^\]]+)\]\]/g,
+          (_, url, alt, width, align) => {
+            const widthMap: Record<string, string> = {
+              small: 'max-w-xs',
+              medium: 'max-w-md',
+              large: 'max-w-2xl',
+              full: 'max-w-full',
+            };
+            const alignMap: Record<string, string> = {
+              center: 'mx-auto',
+              left: 'mr-auto',
+              right: 'ml-auto',
+            };
+            const widthClass = widthMap[width.trim()] || 'max-w-md';
+            const alignClass = alignMap[align.trim()] || 'mx-auto';
+            return `<div class="my-4"><img src="${url.trim()}" alt="${alt.trim()}" loading="lazy" class="${widthClass} ${alignClass} rounded-lg shadow-md" /></div>`;
+          }
+        );
+
+        // Link
+        html = html.replace(
+          /\[\[link:([^|]+)\|([^\]]+)\]\]([\s\S]*?)\[\[\/link\]\]/g,
+          (_, url, target, text) => {
+            const targetAttr =
+              target.trim() === '_blank'
+                ? 'target="_blank" rel="noopener noreferrer"'
+                : '';
+            return `<a href="${url.trim()}" ${targetAttr} class="text-blue-600 hover:text-blue-800 underline">${text.trim()}</a>`;
+          }
+        );
+
+        // Colored Headings
+        html = html.replace(
+          /\[\[heading:(h[1-6])\|([^\]]+)\]\]([\s\S]*?)\[\[\/heading\]\]/g,
+          (_, level, color, content) => {
+            const headingLevel = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(
+              level.toLowerCase()
+            )
+              ? level.toLowerCase()
+              : 'h4';
+            const colorValue = color.trim();
+            const safeColor = /^#[0-9a-fA-F]{3,8}$/.test(colorValue)
+              ? colorValue
+              : colorValue.startsWith('var(')
+                ? colorValue
+                : '#D98338';
+            const headingContent = escapeHtml(content.trim());
+            return `<${headingLevel} style="color:${safeColor};">${headingContent}</${headingLevel}>`;
+          }
+        );
+
+        // Container blocks (supports nesting)
+        html = html.replace(
+          /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
+          (_, col1, col2, content) => {
+            const col1Content =
+              content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
+            const col2Content =
+              content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
+            // Process nested shortcodes in columns
+            const col1Processed = processShortcodes(col1Content.trim(), true);
+            const col2Processed = processShortcodes(col2Content.trim(), true);
+            return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Processed}</div><div class="layout-column-2">${col2Processed}</div></div>`;
+          }
+        );
+
+        html = html.replace(
+          /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
+          (_, position, url, content) => {
+            // Process nested shortcodes in content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
+          }
+        );
+
+        html = html.replace(
+          /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
+          (_, variant, content) => {
+            const cardClass = variant ? `layout-card-${variant.trim()}` : '';
+            // Process nested shortcodes in card content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-card ${cardClass}">${contentProcessed}</div>`;
+          }
+        );
+
+        html = html.replace(
+          /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
+          (_, type, content) => {
+            const icons: Record<string, string> = {
+              info: 'ℹ️',
+              success: '✅',
+              warning: '⚠️',
+              error: '❌',
+            };
+            const icon = icons[type] || icons.info;
+            // Process nested shortcodes in alert content
+            const contentProcessed = processShortcodes(content.trim(), true);
+            return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${contentProcessed}</div></div>`;
+          }
+        );
+
+        return html;
+      }
+
+      function escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Botões de ação
+      copyButton.addEventListener('click', () => {
+        const markdown = editorContent.trim();
+        if (!markdown) {
+          alert('Adicione algum conteúdo primeiro!');
+          return;
+        }
+
+        const clipboardPayload = markdown.endsWith('\n')
+          ? markdown
+          : `${markdown}\n`;
+
+        navigator.clipboard.writeText(clipboardPayload).then(() => {
+          const originalHTML = copyButton.innerHTML;
+          copyButton.innerHTML = '<span>✅</span> <span>Copiado!</span>';
+          copyButton.classList.add('!bg-emerald-600');
+
+          setTimeout(() => {
+            copyButton.innerHTML = originalHTML;
+            copyButton.classList.remove('!bg-emerald-600');
+          }, 2000);
+        });
+      });
+
+      clearButton.addEventListener('click', () => {
+        if (!editorContent) return;
+        if (confirm('Limpar todo o conteúdo?')) {
+          editorContent = '';
+          contentEditor.textContent = '';
+          updateOutputs();
+          saveToStorage();
+        }
+      });
+
+      // Carregar dados salvos ao iniciar
+      loadFromStorage();
+    </script>
+  </div>
+
+  <style>
+    body {
+      font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #000000e1;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Drag & Drop styles */
+    #dropZone.drag-over {
+      border-color: #6366f1 !important;
+      background-color: rgba(99, 102, 241, 0.1) !important;
+        // Removed the processInstagramEmbeds call as per the new implementation
+      transition: all 0.2s ease;
+    }
+      transform: translateX(2px);
+
+  </style>
+      // Removed the processInstagramEmbeds function as it is no longer needed
+    }

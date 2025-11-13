@@ -1,6 +1,0 @@
----
-title: Tradição
-description: ''
-image: ''
----
-

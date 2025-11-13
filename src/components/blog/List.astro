@@ -1,19 +1,19 @@
 ---
 import Item from '@/components/blog/ListItem.astro';
-import type { Post } from '@/types';
+import type { News } from '@/types';
 
 export interface Props {
-  posts: Array<Post>;
+  news: Array<News>;
 }
 
-const { posts } = Astro.props;
+const { news } = Astro.props;
 ---
 
 <ul>
   {
-    posts.map((post) => (
+    news.map((notice) => (
       <li class="mb-12 md:mb-20">
-        <Item post={post} />
+        <Item news={notice} />
       </li>
     ))
   }

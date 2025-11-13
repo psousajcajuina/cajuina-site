@@ -2,8 +2,8 @@
 id: 3
 title: São Geraldo 200ml PET
 slug: saogeraldo-200ml-pet
-normalImage: ../../assets/images/home/produtos/200ml-pet.png
-hoverImage: ../../assets/images/home/produtos/200ml-pet-hover.png
+normalImage: /src/assets/images/product/200ml-pet.webp
+hoverImage: /src/assets/images/product/200ml-pet-hover.webp
 sizes:
   width: 80
   height: 90
@@ -12,7 +12,8 @@ sizesMd:
   height: 230
 details:
   name: São Geraldo 200ml PET
-  image: /src/assets/images/home/produtos/details/200ml.png
-  nutritionalInfo: ../../assets/images/home/produtos/nutricional-details/nutricional200ml.png
+  image: /src/assets/images/product/200mlDetails.webp
+  nutritionalInfo: /src/assets/images/product/nutricional200ml.webp
+ingredients: ''
 ---
 

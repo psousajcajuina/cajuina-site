@@ -1,6 +1,6 @@
 site:
   name: Cajuína São Geraldo - O tradicional refrigerante de Caju do Nordeste
-  site: 'https://cajuina.crudbox.tech'
+  site: 'https://cajuinasaogeraldo.com.br'
   base: '/'
   trailingSlash: false
 
@@ -10,7 +10,7 @@ site:
 metadata:
   title:
     default: Cajuína São Geraldo
-    template: '%s — São Geraldo'
+    template: '%s - Cajuína São Geraldo'
   description: 'Refrigerante de Caju São Geraldo, o sabor do nordeste que virou tradição. Conheça nossa história, nossos produtos e muito mais. Acesse agora!'
   robots:
     index: true
@@ -18,7 +18,7 @@ metadata:
   openGraph:
     site_name: São Geraldo
     images:
-      - url: '@/assets/images/home/slider/capa.png'
+      - url: '@/assets/images/banner/capa.webp'
         width: 1200
         height: 628
     type: website
@@ -69,4 +69,4 @@ analytics:
       id: null # or "G-XXXXXXXXXX"
 
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: 'light' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

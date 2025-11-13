@@ -1,9 +1,16 @@
 import { useMemo, useEffect, useState } from 'react';
 import type { HTMLAttributes } from 'react';
-import type { ImageProps } from '@/utils/images-optimization-react';
-import { getSizes, getBreakpoints, getImageStyles, isUnpicCompatible, unpicOptimizer } from '@/utils/images-optimization-react';
+import {
+  getSizes,
+  getBreakpoints,
+  getImageStyles,
+  isUnpicCompatible,
+  unpicOptimizer,
+} from '@/utils/images-optimization-react';
+import type { ImageLayout } from '@/types';
 
-interface ImageOptimizedProps extends Omit<HTMLAttributes<HTMLImageElement>, 'src' | 'style'> {
+interface ImageOptimizedProps
+  extends Omit<HTMLAttributes<HTMLImageElement>, 'src' | 'style'> {
   src: string;
   alt: string;
   width?: number;
@@ -12,7 +19,7 @@ interface ImageOptimizedProps extends Omit<HTMLAttributes<HTMLImageElement>, 'sr
   fetchPriority?: 'high' | 'low' | 'auto';
   sizes?: string;
   className?: string;
-  layout?: ImageProps['layout'];
+  layout?: ImageLayout;
   objectFit?: string;
   objectPosition?: string;
   aspectRatio?: string | number;
@@ -37,14 +44,14 @@ export default function ImageOptimized({
   fetchPriority = 'auto',
   sizes: customSizes,
   className = '',
-  layout = 'responsive',
+  layout = 'constrained',
   objectFit = 'cover',
   objectPosition = 'center',
   aspectRatio,
   ...rest
 }: ImageOptimizedProps) {
   const [srcSet, setSrcSet] = useState<string | undefined>(undefined);
-  
+
   const baseConfig = useMemo(() => {
     if (!src) return null;
 
@@ -68,7 +75,16 @@ export default function ImageOptimized({
       style: styles,
       breakpoints,
     };
-  }, [src, width, height, layout, aspectRatio, objectFit, objectPosition, customSizes]);
+  }, [
+    src,
+    width,
+    height,
+    layout,
+    aspectRatio,
+    objectFit,
+    objectPosition,
+    customSizes,
+  ]);
 
   // Try to use unpic optimizer for CDN images
   useEffect(() => {

@@ -1,0 +1,43 @@
+---
+interface Props {
+  code: string;
+  index: number;
+}
+
+const { code, index } = Astro.props;
+const firstLine = code.split('\n')[0];
+---
+
+<div
+  class="group flex items-center gap-3 rounded-lg border border-neutral-700 bg-neutral-800 p-3 transition-all duration-200 hover:border-indigo-500"
+  data-index={index}
+>
+  {/* Drag Handle */}
+  <div
+    class="cursor-move text-neutral-500 transition-colors group-hover:text-neutral-300"
+  >
+    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <circle cx="9" cy="5" r="1.5"></circle>
+      <circle cx="9" cy="12" r="1.5"></circle>
+      <circle cx="9" cy="19" r="1.5"></circle>
+      <circle cx="15" cy="5" r="1.5"></circle>
+      <circle cx="15" cy="12" r="1.5"></circle>
+      <circle cx="15" cy="19" r="1.5"></circle>
+    </svg>
+  </div>
+
+  {/* Code Preview */}
+  <div
+    class="min-w-0 flex-1 overflow-hidden font-mono text-xs text-ellipsis whitespace-nowrap text-emerald-400"
+  >
+    {firstLine}...
+  </div>
+
+  {/* Remove Button */}
+  <button
+    class="rounded bg-red-600 px-3 py-1.5 text-xs font-medium text-white transition-all duration-200 hover:bg-red-700 active:scale-95"
+    onclick={`removeBlock(${index})`}
+  >
+    ✕
+  </button>
+</div>

@@ -1,19 +1,30 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 backend:
-  name: "github"
-  repo: "psousajcajuina/cajuina-site"
-  branch: "development"
-  base_url: "https://cajuina-cms-auth.cadastro-cajuina.workers.dev/"
+  name: 'github'
+  repo: 'psousajcajuina/cajuina-site'
+  branch: 'development'
+  base_url: 'https://cajuina-cms-auth.cadastro-cajuina.workers.dev/'
   skip_ci: true
   commit_messages:
-    create: "[cms] Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
-    update: "[cms] Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
-    delete: "[cms] Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>"
-    uploadMedia: "[cms] Upload “{{path}}” - {{author-name}} <{{author-login}}>"
-    deleteMedia: "[cms] Delete “{{path}}” - {{author-name}} <{{author-login}}>"
+    create: '[cms] Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>'
+    update: '[cms] Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>'
+    delete: '[cms] Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}>'
+    uploadMedia: '[cms] Upload “{{path}}” - {{author-name}} <{{author-login}}>'
+    deleteMedia: '[cms] Delete “{{path}}” - {{author-name}} <{{author-login}}>'
 
-media_folder: "src/assets/images" # Location where files will be stored in the repo
-public_folder: "/src/assets/images" # The src attribute for uploaded media
+media_folder: 'src/assets/images' # Location where files will be stored in the repo
+public_folder: '/src/assets/images' # The src attribute for uploaded media
+
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 100
+        svg:
+          optimize: true
 
 collections:
   - name: banners
@@ -21,62 +32,114 @@ collections:
     label: Banners do Slide
     folder: src/data/banner
     create: true
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     editor:
       preview: false
+    media_folder: '/src/assets/images/banner' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/banner' # The src attribute for uploaded media
     fields:
       - { name: title, label: Título, widget: string }
       - { name: subtitle, label: Subtítulo, widget: string, required: false }
       - { name: description, label: Descrição, widget: text, required: false }
-      
-      - { name: image, label: "Imagem de Fundo", widget: image, required: true }
-      - { name: imageMobile, label: "Imagem Mobile (opcional)", widget: image, required: false, hint: "Imagem otimizada para dispositivos móveis" }
-      
+
+      - { name: image, label: 'Imagem de Fundo', widget: image, required: true }
+      - {
+          name: imageMobile,
+          label: 'Imagem Mobile (opcional)',
+          widget: image,
+          required: false,
+          hint: 'Imagem otimizada para dispositivos móveis',
+        }
+
       - name: cta
         label: Call to Action
         widget: object
         required: false
         fields:
-          - { name: text, label: "Texto do Botão", widget: string }
+          - { name: text, label: 'Texto do Botão', widget: string }
           - { name: url, label: Link, widget: string }
-          - { name: variant, label: Estilo, widget: select, options: ["primary", "secondary", "outline"], default: "primary" }
-      
+          - {
+              name: variant,
+              label: Estilo,
+              widget: select,
+              options: ['primary', 'secondary', 'outline'],
+              default: 'primary',
+            }
+
       - name: textPosition
-        label: "Posição do Texto"
+        label: 'Posição do Texto'
         widget: select
         options:
           - { label: Esquerda, value: left }
           - { label: Centro, value: center }
           - { label: Direita, value: right }
         default: center
-      
+
       - name: textAlign
-        label: "Alinhamento Vertical"
+        label: 'Alinhamento Vertical'
         widget: select
         options:
           - { label: Topo, value: top }
           - { label: Centro, value: middle }
           - { label: Rodapé, value: bottom }
         default: middle
-      
-      - { name: overlay, label: "Overlay Escuro", widget: boolean, default: true, hint: "Adiciona uma camada escura sobre a imagem para melhor legibilidade" }
-      - { name: order, label: Ordem, widget: number, default: 0, value_type: int, hint: "Ordem de exibição (menor número = primeiro)" }
-      - { name: active, label: Ativo, widget: boolean, default: true, hint: "Desmarque para ocultar este banner do site" }
-      - { name: publishDate, label: "Data de Publicação", widget: datetime, required: false, hint: "Banner só será exibido a partir desta data" }
-      - { name: expireDate, label: "Data de Expiração", widget: datetime, required: false, hint: "Banner será ocultado após esta data" }
-  
+
+      - {
+          name: overlay,
+          label: 'Overlay Escuro',
+          widget: boolean,
+          default: true,
+          hint: 'Adiciona uma camada escura sobre a imagem para melhor legibilidade',
+        }
+      - {
+          name: order,
+          label: Ordem,
+          widget: number,
+          default: 0,
+          value_type: int,
+          hint: 'Ordem de exibição (menor número = primeiro)',
+        }
+      - {
+          name: active,
+          label: Ativo,
+          widget: boolean,
+          default: true,
+          hint: 'Desmarque para ocultar este banner do site',
+        }
+      - {
+          name: publishDate,
+          label: 'Data de Publicação',
+          widget: datetime,
+          required: false,
+          hint: 'Banner só será exibido a partir desta data',
+        }
+      - {
+          name: expireDate,
+          label: 'Data de Expiração',
+          widget: datetime,
+          required: false,
+          hint: 'Banner será ocultado após esta data',
+        }
+
   - name: middle-banner
     icon: image
     label: Banner do Meio
     folder: src/data/middle-banner
     create: false
-    slug: "{{slug}}"
+    slug: '{{slug}}'
+    media_folder: '/src/assets/images/middle-banner' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/middle-banner' # The src attribute for uploaded media
     editor:
       preview: false
     fields:
       - { name: title, label: Título, widget: string }
-      - { name: image, label: "Imagem Desktop", widget: image, required: true }
-      - { name: imageMobile, label: "Imagem Mobile", widget: image, required: false }
+      - { name: image, label: 'Imagem Desktop', widget: image, required: true }
+      - {
+          name: imageMobile,
+          label: 'Imagem Mobile',
+          widget: image,
+          required: false,
+        }
       - { name: active, label: Ativo, widget: boolean, default: true }
 
   - name: distribuidores
@@ -84,15 +147,53 @@ collections:
     label: Distribuidores
     folder: src/data/distribuidor
     create: true
-    slug: "{{fields.nome}}"
+    slug: '{{fields.nome}}'
+    media_folder: '/src/assets/images/distribuidor' # Location where files will be stored in the repo
+    public_folder: '/src/assets/images/distribuidor' # The src attribute for uploaded media
     editor:
       preview: false
     fields:
       - { name: nome, label: Nome, widget: string, required: true }
-      - { name: endereco, label: Endereço, widget: string, required: true, hint: "Após preencher, use o botão abaixo para buscar as coordenadas automaticamente" }
-      - { name: telefone, label: Telefone, widget: string, required: true, pattern: ['\(?\d{2}\)?[\s-]?\d{4,5}[\s-]?\d{4}', "Formato esperado: (88) 3512-3400 ou (88) 98765-4321"] }
-      - { name: lat, label: Latitude, widget: number, value_type: float, min: -90, max: 90, step: 0.000001, required: true, hint: "Será preenchido automaticamente ao buscar coordenadas" }
-      - { name: lng, label: Longitude, widget: number, value_type: float, min: -180, max: 180, step: 0.000001, required: true, hint: "Será preenchido automaticamente ao buscar coordenadas" }
+      - {
+          name: endereco,
+          label: Endereço,
+          widget: string,
+          required: true,
+          hint: 'Após preencher, use o botão abaixo para buscar as coordenadas automaticamente',
+        }
+      - {
+          name: telefone,
+          label: Telefone,
+          widget: string,
+          required: true,
+          pattern:
+            [
+              '\(?\d{2}\)?[\s-]?\d{4,5}[\s-]?\d{4}',
+              'Formato esperado: (88) 3512-3400 ou (88) 98765-4321',
+            ],
+        }
+      - {
+          name: lat,
+          label: Latitude,
+          widget: number,
+          value_type: float,
+          min: -90,
+          max: 90,
+          step: 0.000001,
+          required: true,
+          hint: 'Será preenchido automaticamente ao buscar coordenadas',
+        }
+      - {
+          name: lng,
+          label: Longitude,
+          widget: number,
+          value_type: float,
+          min: -180,
+          max: 180,
+          step: 0.000001,
+          required: true,
+          hint: 'Será preenchido automaticamente ao buscar coordenadas',
+        }
       - { name: active, label: Ativo, widget: boolean, default: true }
 
   - divider: true
@@ -107,16 +208,34 @@ collections:
         label: Headers
         file: public/_headers
         fields:
-          - { name: body, label: Headers, widget: code, output_code_only: true, allow_language_selection: false }
-      
+          - {
+              name: body,
+              label: Headers,
+              widget: code,
+              output_code_only: true,
+              allow_language_selection: false,
+            }
+
       - name: redirects
         label: Redirects
         file: public/_redirects
         fields:
-          - { name: body, label: Redirects, widget: code, output_code_only: true, allow_language_selection: false }
-      
+          - {
+              name: body,
+              label: Redirects,
+              widget: code,
+              output_code_only: true,
+              allow_language_selection: false,
+            }
+
       - name: robots
         label: Robots
         file: public/robots.txt
         fields:
-          - { name: body, label: Robots, widget: code, output_code_only: true, allow_language_selection: false }
+          - {
+              name: body,
+              label: Robots,
+              widget: code,
+              output_code_only: true,
+              allow_language_selection: false,
+            }

@@ -1,6 +1,0 @@
----
-title: Verão
-description: ''
-image: ''
----
-

@@ -18,6 +18,7 @@ import {
   lazyImagesRehypePlugin,
   resolveImagePathsRemarkPlugin,
 } from './src/utils/frontmatter';
+import { remarkShortcodes } from './src/utils/remark-plugins/shortcodes';
 import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -90,7 +91,11 @@ export default defineConfig({
   },
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin, resolveImagePathsRemarkPlugin],
+    remarkPlugins: [
+      readingTimeRemarkPlugin,
+      resolveImagePathsRemarkPlugin,
+      remarkShortcodes,
+    ],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
     shikiConfig: {
       wrap: true,
@@ -103,6 +108,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ['astro-seo-schema'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

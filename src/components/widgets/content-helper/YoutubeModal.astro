@@ -1,0 +1,65 @@
+---
+// Modal para adicionar vídeos do YouTube
+---
+
+<div
+  id="youtubeModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm"
+>
+  <div
+    class="animate-in fade-in zoom-in w-11/12 max-w-lg rounded-xl border border-neutral-700 bg-neutral-900 p-8 shadow-2xl duration-200"
+  >
+    {/* Header */}
+    <div class="mb-5 flex items-center gap-2">
+      <span class="text-2xl">📺</span>
+      <h3 class="text-xl font-semibold text-white">
+        Adicionar Vídeo do YouTube
+      </h3>
+    </div>
+
+    {/* Input */}
+    <input
+      type="text"
+      id="youtubeInput"
+      placeholder="Cole a URL do YouTube aqui..."
+      class="mb-4 w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+    />
+
+    {/* Buttons */}
+    <div class="flex justify-end gap-3">
+      <button
+        id="modalCancel"
+        class="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all duration-200 hover:bg-neutral-700 active:scale-95"
+      >
+        Cancelar
+      </button>
+      <button
+        id="modalConfirm"
+        class="rounded-lg bg-linear-to-br from-indigo-500 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/50 active:scale-95"
+      >
+        Adicionar
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-in {
+    animation: in 0.2s ease-out;
+  }
+
+  #youtubeModal.active {
+    display: flex;
+  }
+</style>

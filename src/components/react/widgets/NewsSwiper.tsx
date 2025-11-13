@@ -1,32 +1,48 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
 import { Navigation, Autoplay } from 'swiper/modules';
 import ImageOptimized from '@/components/react/common/ImageOptimized';
-
-interface Post {
-  id: string;
-  title: string;
-  excerpt?: string;
-  content?: string;
-  image?: string;
-  permalink: string;
-}
+import { useState } from 'react';
+import { useIsMobile } from '../hooks/useIsMobile';
+import type { News } from '@/types';
 
 interface NewsSwiperProps {
-  posts: Post[];
+  news: Partial<News>[];
   arrowNext: string;
   arrowPrev: string;
 }
 
 export default function NewsSwiper({
-  posts,
+  news,
   arrowNext,
   arrowPrev,
 }: NewsSwiperProps) {
-  if (!posts || posts.length === 0) return null;
+  if (!news || news.length === 0) return null;
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const isMobile = useIsMobile();
+
+  const handlePause = () => {
+    if (swiperInstance?.autoplay) {
+      swiperInstance.autoplay.pause();
+      console.log('Autoplay paused');
+    }
+  };
+
+  const handleResume = () => {
+    if (swiperInstance?.autoplay) {
+      swiperInstance.autoplay.resume();
+      console.log('Autoplay resumed');
+    }
+  };
 
   return (
-    <div className="relative mt-6 w-full">
+    <div
+      className="relative mt-6 w-full md:px-12! lg:px-0"
+      onMouseEnter={handlePause}
+      onMouseLeave={handleResume}
+    >
       <Swiper
+        onSwiper={setSwiperInstance}
         modules={[Navigation, Autoplay]}
         slidesPerView={2}
         spaceBetween={20}
@@ -49,18 +65,26 @@ export default function NewsSwiper({
           },
           1024: {
             slidesPerView: 4,
+            spaceBetween: 25,
+          },
+          1280: {
+            slidesPerView: 5,
             spaceBetween: 35,
           },
         }}
-        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
+        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:min-h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
       >
-        {posts.map((post) => (
-          <SwiperSlide key={post.id}>
-            <div className="flex h-full flex-col text-left">
-              {post.image && (
+        {news.map((post) => (
+          <SwiperSlide
+            onMouseOut={isMobile ? handleResume : () => {}}
+            onClick={isMobile ? handlePause : () => {}}
+            key={post.id}
+          >
+            {post.image && (
+              <a className="cursor-pointer" href={post.permalink}>
                 <ImageOptimized
                   src={post.image}
-                  alt={post.title}
+                  alt={post.title!}
                   width={350}
                   height={280}
                   layout="responsive"
@@ -69,13 +93,14 @@ export default function NewsSwiper({
                   loading="lazy"
                   className="mb-3 h-[116px] w-full rounded-lg object-cover md:h-[280px]"
                 />
-              )}
-
+              </a>
+            )}
+            <div className="flex h-full flex-col text-left">
               <h5 className="text-caju-heading-primary mb-2 line-clamp-2 px-1 text-base md:text-lg">
                 {post.title}
               </h5>
 
-              <p className="font-inter mb-3 line-clamp-3 grow px-1 text-sm">
+              <p className="font-inter mb-3 line-clamp-3 max-h-24 min-h-24 grow px-1 text-sm">
                 {post.excerpt || post.content}
               </p>
 
@@ -102,7 +127,7 @@ export default function NewsSwiper({
           height={40}
           layout="fixed"
           loading="lazy"
-          className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
+          className="size-7! transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>
       <button
@@ -116,7 +141,7 @@ export default function NewsSwiper({
           height={40}
           layout="fixed"
           loading="lazy"
-          className="size-8 transition-transform duration-300 hover:scale-110 md:size-10"
+          className="size-7! transition-transform duration-300 hover:scale-110 md:size-10"
         />
       </button>
     </div>

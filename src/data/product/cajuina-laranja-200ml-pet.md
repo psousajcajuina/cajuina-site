@@ -2,8 +2,8 @@
 id: 8
 title: São Geraldo Laranja 200ml PET
 slug: laranja-200ml-pet
-normalImage: ../../assets/images/home/produtos/200ml-pet-LARANJA.png
-hoverImage: ../../assets/images/home/produtos/200ml-pet-LARANJA-hover.png
+normalImage: /src/assets/images/product/200ml-pet-LARANJA.webp
+hoverImage: /src/assets/images/product/200ml-pet-LARANJA-hover.webp
 sizes:
   width: 80
   height: 92
@@ -12,7 +12,8 @@ sizesMd:
   height: 230
 details:
   name: São Geraldo Laranja 200ml PET
-  image: /src/assets/images/home/produtos/details/laranja200ml.png
-  nutritionalInfo: ../../assets/images/home/produtos/nutricional-details/nutricional200ml.png
+  image: /src/assets/images/product/laranja200mlDetails.webp
+  nutritionalInfo: /src/assets/images/product/laranjaNutricional200ml.webp
+ingredients: ''
 ---
 

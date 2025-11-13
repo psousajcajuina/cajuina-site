@@ -1,0 +1,112 @@
+---
+// Modal para configurar headings com cor personalizada
+---
+
+<div
+  id="headingModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm"
+>
+  <div
+    class="animate-in fade-in zoom-in w-11/12 max-w-lg rounded-xl border border-neutral-700 bg-neutral-900 p-8 shadow-2xl duration-200"
+  >
+    {/* Header */}
+    <div class="mb-5 flex items-center gap-2">
+      <span class="text-2xl">🔶</span>
+      <h3 class="text-xl font-semibold text-white">Criar Heading Destaque</h3>
+    </div>
+
+    <div class="space-y-4">
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          Conteúdo do heading
+        </span>
+        <input
+          type="text"
+          id="headingTextInput"
+          placeholder="Digite o texto do heading"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        />
+      </label>
+
+      <div class="grid gap-4 sm:grid-cols-[1fr_auto]">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-neutral-300">
+            Cor do heading (Hex ou CSS Var)
+          </span>
+          <input
+            type="text"
+            id="headingColorHex"
+            placeholder="#D98338"
+            value="#D98338"
+            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+          />
+        </label>
+
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-neutral-300">
+            Seletor de cor
+          </span>
+          <input
+            type="color"
+            id="headingColorInput"
+            class="h-[52px] w-full cursor-pointer rounded-lg border border-neutral-700 bg-neutral-950 p-1"
+            value="#D98338"
+          />
+        </label>
+      </div>
+
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          Nível do heading
+        </span>
+        <select
+          id="headingLevelSelect"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        >
+          <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
+          <option value="h4" selected>Heading 4</option>
+          <option value="h5">Heading 5</option>
+          <option value="h6">Heading 6</option>
+        </select>
+      </label>
+    </div>
+
+    {/* Buttons */}
+    <div class="mt-6 flex justify-end gap-3">
+      <button
+        id="headingCancel"
+        class="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all duration-200 hover:bg-neutral-700 active:scale-95"
+      >
+        Cancelar
+      </button>
+      <button
+        id="headingConfirm"
+        class="rounded-lg bg-linear-to-br from-amber-500 to-orange-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:shadow-lg hover:shadow-amber-500/40 active:scale-95"
+      >
+        Adicionar heading
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes heading-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-in {
+    animation: heading-in 0.2s ease-out;
+  }
+
+  #headingModal.active {
+    display: flex;
+  }
+</style>
