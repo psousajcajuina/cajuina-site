@@ -108,6 +108,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ['astro-seo-schema'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

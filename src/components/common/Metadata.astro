@@ -1,6 +1,7 @@
 ---
 import merge from 'lodash.merge';
 import { AstroSeo } from '@astrolib/seo';
+import { Schema } from 'astro-seo-schema';
 
 import type { Props as AstroSeoProps } from '@astrolib/seo';
 
@@ -9,6 +10,13 @@ import type { MetaData } from '@/types';
 import { getCanonical } from '@/utils/permalinks';
 
 import { adaptOpenGraphImages } from '@/utils/images';
+
+import ldJsonImg from '@/assets/images/site/CajuinaTradicional.jpg';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+} from '@/utils/images-optimization';
+const image = await getImagesOptimized(ldJsonImg, {}, astroAssetsOptimizer);
 
 export interface Props extends MetaData {
   dontUseTitleTemplate?: boolean;
@@ -46,8 +54,14 @@ const seoProps: AstroSeoProps = merge(
   {
     title: METADATA?.title?.default,
     titleTemplate: METADATA?.title?.template,
-    noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
-    nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
+    noindex:
+      typeof METADATA?.robots?.index !== 'undefined'
+        ? !METADATA.robots.index
+        : undefined,
+    nofollow:
+      typeof METADATA?.robots?.follow !== 'undefined'
+        ? !METADATA.robots.follow
+        : undefined,
     description: METADATA?.description,
     openGraph: METADATA?.openGraph,
     twitter: METADATA?.twitter,
@@ -57,7 +71,8 @@ const seoProps: AstroSeoProps = merge(
     titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
     canonical: canonical,
     noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
+    nofollow:
+      typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
     description: description,
     openGraph: { url: canonical, ...openGraph },
     twitter: twitter,
@@ -65,4 +80,95 @@ const seoProps: AstroSeoProps = merge(
 );
 ---
 
-<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site) }} />
+<>
+  <AstroSeo
+    {...{
+      ...seoProps,
+      openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site),
+    }}
+  />
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebPage',
+          '@id': 'https://www.cajuinasaogeraldo.com.br/',
+          url: 'https://www.cajuinasaogeraldo.com.br/',
+          name: 'Cajuína São Geraldo - O tradicional refrigerante de Caju do Nordeste',
+          isPartOf: {
+            '@id': 'https://cajuinasaogeraldo.com.br/#website',
+          },
+          primaryImageOfPage: {
+            '@id': 'https://www.cajuinasaogeraldo.com.br/#primaryimage',
+          },
+          image: {
+            '@id': 'https://www.cajuinasaogeraldo.com.br/#primaryimage',
+          },
+          thumbnailUrl: image.src,
+          datePublished: '2017-06-14T09:23:16+00:00',
+          dateModified: '2025-03-18T14:23:17+00:00',
+          description:
+            'Refrigerante de Caju São Geraldo, o sabor do nordeste que virou tradição. Conheça nossa história, nossos produtos e muito mais. Acesse agora!',
+          breadcrumb: {
+            '@id': 'https://www.cajuinasaogeraldo.com.br/#breadcrumb',
+          },
+          inLanguage: 'pt-BR',
+          potentialAction: [
+            {
+              '@type': 'ReadAction',
+              target: ['https://www.cajuinasaogeraldo.com.br/'],
+            },
+          ],
+        },
+        {
+          '@type': 'ImageObject',
+          inLanguage: 'pt-BR',
+          '@id': 'https://www.cajuinasaogeraldo.com.br/#primaryimage',
+          url: image.src,
+          contentUrl: image.src,
+          //@ts-expect-error any
+          width: 512,
+          //@ts-expect-error any
+          height: 512,
+          caption: 'Logo São Geraldo Tradicional',
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': 'https://www.cajuinasaogeraldo.com.br/#breadcrumb',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Início',
+            },
+          ],
+        },
+        {
+          '@type': 'WebSite',
+          '@id': canonical + '#website',
+          url: canonical,
+          name: 'Cajuína São Geraldo',
+          description: 'O tradicional refrigerante de caju',
+          potentialAction: [
+            {
+              '@type': 'SearchAction',
+              target: {
+                '@type': 'EntryPoint',
+                urlTemplate:
+                  'https://cajuinasaogeraldo.com.br/?s={search_term_string}',
+              },
+              //@ts-expect-error any
+              'query-input': {
+                '@type': 'PropertyValueSpecification',
+                valueRequired: true,
+                valueName: 'search_term_string',
+              },
+            },
+          ],
+          inLanguage: 'pt-BR',
+        },
+      ],
+    }}
+  />
+</>
