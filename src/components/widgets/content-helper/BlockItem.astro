@@ -4,7 +4,7 @@ interface Props {
   title: string;
   description: string;
   icon: string;
-  variant?: 'default' | 'youtube';
+  variant?: 'default' | 'youtube' | 'instagram';
   'data-category'?: string;
 }
 
@@ -17,10 +17,16 @@ const {
   'data-category': category,
 } = Astro.props;
 
-const gradientClass =
-  variant === 'youtube'
-    ? 'bg-gradient-to-br from-red-600 to-red-700'
-    : 'bg-gradient-to-br from-indigo-500 to-purple-600';
+const gradientClass = (() => {
+  switch (variant) {
+    case 'youtube':
+      return 'bg-gradient-to-br from-red-600 to-red-700';
+    case 'instagram':
+      return 'bg-gradient-to-br from-amber-500 via-pink-500 to-purple-600';
+    default:
+      return 'bg-gradient-to-br from-indigo-500 to-purple-600';
+  }
+})();
 ---
 
 <div

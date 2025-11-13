@@ -130,6 +130,14 @@ function ensureLazyLoadedImages(html: string): string {
   return html.replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy" ');
 }
 
+function escapeHtmlAttribute(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 function stripOuterParagraph(html: string): string {
   const trimmed = html.trim();
   if (!trimmed) return trimmed;
@@ -389,6 +397,20 @@ function processInlineShortcodes(text: string, filePath?: string): string {
       return `<div class="youtube-embed">
   <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>`;
+    }
+  );
+
+  output = output.replace(
+    /\[\[\s*instagram:(.*?)\s*\]\]/gi,
+    (_match: string, rawUrl: string) => {
+      const permalink = String(rawUrl || '').trim();
+      if (!permalink) return _match;
+      const escapedPermalink = escapeHtmlAttribute(permalink);
+      return `<div class="instagram-embed">
+  <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${escapedPermalink}" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:1px auto;max-width:540px;min-width:326px;padding:0;width:calc(100% - 2px);">
+  </blockquote>
+</div>
+<script async src="https://www.instagram.com/embed.js"></script>`;
     }
   );
 

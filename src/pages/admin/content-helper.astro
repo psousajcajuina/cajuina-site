@@ -9,6 +9,7 @@ import YoutubeModal from '@/components/widgets/content-helper/YoutubeModal.astro
 import HeadingModal from '@/components/widgets/content-helper/HeadingModal.astro';
 import ImageModal from '@/components/widgets/content-helper/ImageModal.astro';
 import LinkModal from '@/components/widgets/content-helper/LinkModal.astro';
+import InstagramModal from '@/components/widgets/content-helper/InstagramModal.astro';
 
 const metadata = {
   title: 'Assistente de Publicações',
@@ -144,6 +145,14 @@ const metadata = {
           data-category="content"
         />
         <BlockItem
+          type="instagram"
+          title="Instagram"
+          description="Post"
+          icon="📸"
+          variant="instagram"
+          data-category="content"
+        />
+        <BlockItem
           type="two-columns"
           title="2 Colunas"
           description="Layout"
@@ -221,6 +230,9 @@ const metadata = {
       {/* YouTube Modal */}
       <YoutubeModal />
 
+      {/* Instagram Modal */}
+      <InstagramModal />
+
       {/* Heading Modal */}
       <HeadingModal />
 
@@ -249,7 +261,74 @@ const metadata = {
         'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
         'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
         'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
+        instagram: `[[instagram:https://www.instagram.com/p/CNpiBqvL5Oi/]]`,
       };
+
+      function normalizeShortcodeSpacing(block: string): string {
+        return block
+          .replace(/\r\n/g, '\n')
+          .replace(/\[\[\s+/g, '[[')
+          .replace(/\s+\]\]/g, ']]')
+          .replace(/\[\s+\/\s+/g, '[/')
+          .replace(/\[\s*(col[12])\s*\]/gi, (_match, name) => `[${name}]`)
+          .replace(
+            /\[\s*\/\s*(col[12])\s*\]/gi,
+            (_match, name) => `[/${name}]`
+          );
+      }
+
+      function sanitizeBlockForOutput(block: string): string {
+        return normalizeShortcodeSpacing(block).trim();
+      }
+
+      function buildMarkdownPayload(sourceBlocks: string[]): string {
+        return sourceBlocks
+          .map((block) => sanitizeBlockForOutput(block))
+          .filter((block) => block.length > 0)
+          .join('\n\n');
+      }
+
+      function extractInstagramPermalink(rawInput: string): string | null {
+        if (!rawInput) return null;
+
+        const urlMatch = rawInput.match(
+          /https?:\/\/www\.instagram\.com\/[^\s"']+/i
+        );
+        const candidate = urlMatch ? urlMatch[0] : rawInput.trim();
+        if (!candidate) return null;
+
+        let normalized = candidate;
+        normalized = normalized.replace(/&amp;/gi, '&');
+        if (!/^https?:\/\//i.test(normalized)) {
+          normalized = `https://${normalized.replace(/^\/+/, '')}`;
+        }
+
+        try {
+          const url = new URL(normalized);
+          if (!url.hostname.includes('instagram.com')) {
+            return null;
+          }
+
+          url.search = '';
+          url.hash = '';
+
+          const segments = url.pathname.split('/').filter(Boolean);
+          if (segments.length < 2) {
+            return null;
+          }
+
+          const resource = segments[0];
+          const identifier = segments[1];
+          const supported = ['p', 'reel', 'tv'];
+          if (!supported.includes(resource)) {
+            return `https://www.instagram.com/${segments.join('/')}/`;
+          }
+
+          return `https://www.instagram.com/${resource}/${identifier}/`;
+        } catch (error) {
+          return null;
+        }
+      }
 
       function isHexColor(value: string): boolean {
         return HEX_COLOR_REGEX.test(value);
@@ -337,6 +416,12 @@ const metadata = {
       ) as HTMLInputElement;
       const modalCancel = document.getElementById('modalCancel')!;
       const modalConfirm = document.getElementById('modalConfirm')!;
+      const instagramModal = document.getElementById('instagramModal')!;
+      const instagramInput = document.getElementById(
+        'instagramInput'
+      ) as HTMLTextAreaElement;
+      const instagramCancel = document.getElementById('instagramCancel')!;
+      const instagramConfirm = document.getElementById('instagramConfirm')!;
       const headingModal = document.getElementById('headingModal')!;
       const headingTextInput = document.getElementById(
         'headingTextInput'
@@ -411,6 +496,8 @@ const metadata = {
           const type = element.dataset.type;
           if (type === 'youtube') {
             openYoutubeModal();
+          } else if (type === 'instagram') {
+            openInstagramModal();
           } else if (type === 'heading-accent') {
             openHeadingModal();
           } else if (type === 'image-block') {
@@ -438,6 +525,8 @@ const metadata = {
         const type = e.dataTransfer!.getData('text/plain');
         if (type === 'youtube') {
           openYoutubeModal();
+        } else if (type === 'instagram') {
+          openInstagramModal();
         } else if (type === 'heading-accent') {
           openHeadingModal();
         } else if (type === 'image-block') {
@@ -492,6 +581,52 @@ const metadata = {
       youtubeModal.addEventListener('click', (e) => {
         if (e.target === youtubeModal) {
           closeYoutubeModal();
+        }
+      });
+
+      // Instagram Modal
+      function openInstagramModal() {
+        instagramModal.classList.add('active');
+        instagramInput.value = '';
+        setTimeout(() => instagramInput.focus(), 0);
+      }
+
+      function closeInstagramModal() {
+        instagramModal.classList.remove('active');
+      }
+
+      instagramCancel.addEventListener('click', closeInstagramModal);
+
+      instagramConfirm.addEventListener('click', () => {
+        const rawValue = instagramInput.value.trim();
+        if (!rawValue) {
+          alert(
+            'Por favor, cole a URL ou o código de incorporação do Instagram'
+          );
+          return;
+        }
+
+        const permalink = extractInstagramPermalink(rawValue);
+        if (!permalink) {
+          alert('❌ URL do Instagram inválida');
+          return;
+        }
+
+        const shortcode = `[[instagram:${permalink}]]`;
+        insertContent(shortcode);
+        closeInstagramModal();
+      });
+
+      instagramInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          instagramConfirm.click();
+        }
+      });
+
+      instagramModal.addEventListener('click', (event) => {
+        if (event.target === instagramModal) {
+          closeInstagramModal();
         }
       });
 
@@ -752,7 +887,7 @@ const metadata = {
       }
 
       function updateOutputs() {
-        const markdown = blocks.join('\n\n');
+        const markdown = buildMarkdownPayload(blocks);
 
         if (markdown) {
           codeBlock.textContent = markdown;
@@ -904,6 +1039,36 @@ const metadata = {
         }
 
         preview.innerHTML = processShortcodes(markdown);
+
+        if (preview.querySelector('.instagram-media')) {
+          processInstagramEmbeds();
+        }
+      }
+
+      function processInstagramEmbeds() {
+        const existingScript = document.getElementById('instagramEmbedScript');
+
+        const instgrm = (window as any).instgrm;
+        if (instgrm && instgrm.Embeds) {
+          instgrm.Embeds.process();
+          return;
+        }
+
+        if (existingScript) {
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.id = 'instagramEmbedScript';
+        script.src = 'https://www.instagram.com/embed.js';
+        script.async = true;
+        script.onload = () => {
+          const loadedInstgrm = (window as any).instgrm;
+          if (loadedInstgrm && loadedInstgrm.Embeds) {
+            loadedInstgrm.Embeds.process();
+          }
+        };
+        document.body.appendChild(script);
       }
 
       function processShortcodes(markdown: string, nested = false): string {
@@ -918,6 +1083,11 @@ const metadata = {
             return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
           }
         );
+
+        html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
+          const permalink = escapeHtml(rawUrl.trim());
+          return `<div class="instagram-embed"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${permalink}" data-instgrm-version="14"></blockquote></div>`;
+        });
 
         // Image block
         html = html.replace(
@@ -1033,13 +1203,17 @@ const metadata = {
 
       // Botões de ação
       copyButton.addEventListener('click', () => {
-        const markdown = blocks.join('\n\n');
+        const markdown = buildMarkdownPayload(blocks);
         if (!markdown) {
           alert('Adicione alguns blocos primeiro!');
           return;
         }
 
-        navigator.clipboard.writeText(markdown).then(() => {
+        const clipboardPayload = markdown.endsWith('\n')
+          ? markdown
+          : `${markdown}\n`;
+
+        navigator.clipboard.writeText(clipboardPayload).then(() => {
           const originalHTML = copyButton.innerHTML;
           copyButton.innerHTML = '<span>✅</span> <span>Copiado!</span>';
           copyButton.classList.add('!bg-emerald-600');
@@ -1092,6 +1266,10 @@ const metadata = {
 
     .added-block.dragging {
       opacity: 0.4;
+    }
+
+    .instagram-embed {
+      margin: 1rem 0;
     }
   </style>
 </Layout>
