@@ -277,17 +277,6 @@ const metadata = {
           );
       }
 
-      function sanitizeBlockForOutput(block: string): string {
-        return normalizeShortcodeSpacing(block).trim();
-      }
-
-      function buildMarkdownPayload(sourceBlocks: string[]): string {
-        return sourceBlocks
-          .map((block) => sanitizeBlockForOutput(block))
-          .filter((block) => block.length > 0)
-          .join('\n\n');
-      }
-
       function extractInstagramPermalink(rawInput: string): string | null {
         if (!rawInput) return null;
 
@@ -370,19 +359,18 @@ const metadata = {
       }
 
       // Estado global
-      let blocks: string[] = [];
+      let editorContent = '';
       let draggedBlockIndex: number | null = null;
       let lastHeadingColor = DEFAULT_HEADING_COLOR;
       let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
-      let focusedTextarea: HTMLTextAreaElement | null = null;
 
       // Função para carregar do localStorage
       function loadFromStorage() {
         try {
-          const saved = localStorage.getItem('contentHelperBlocks');
+          const saved = localStorage.getItem('contentHelperContent');
           if (saved) {
-            blocks = JSON.parse(saved);
-            updateUI();
+            editorContent = saved;
+            updateEditorUI();
           }
         } catch (e) {
           console.error('Erro ao carregar do localStorage:', e);
@@ -392,7 +380,7 @@ const metadata = {
       // Função para salvar no localStorage
       function saveToStorage() {
         try {
-          localStorage.setItem('contentHelperBlocks', JSON.stringify(blocks));
+          localStorage.setItem('contentHelperContent', editorContent);
         } catch (e) {
           console.error('Erro ao salvar no localStorage:', e);
         }
@@ -400,8 +388,7 @@ const metadata = {
 
       // Elementos DOM
       const dropZone = document.getElementById('dropZone')!;
-      const blocksContainer = document.getElementById('blocksContainer')!;
-      const emptyState = document.getElementById('emptyState')!;
+      const contentEditor = document.getElementById('contentEditor')!;
       const preview = document.getElementById('preview')!;
       const codeBlock = document.getElementById('codeBlock')!;
       const copyButton = document.getElementById('copyButton')!;
@@ -484,7 +471,7 @@ const metadata = {
         });
       });
 
-      // Drag and Drop
+      // Drag and Drop - simplificado para apenas adicionar ao editor
       blockItems.forEach((item) => {
         const element = item as HTMLElement;
 
@@ -784,46 +771,54 @@ const metadata = {
 
       // Funções principais
       function insertContent(content: string) {
-        const target =
-          focusedTextarea && blocksContainer.contains(focusedTextarea)
-            ? focusedTextarea
-            : null;
+        const selection = window.getSelection();
 
-        if (target) {
-          const currentIndex = parseInt(target.dataset.index || '0', 10);
-          if (!Number.isNaN(currentIndex)) {
-            const start = target.selectionStart ?? target.value.length;
-            const end = target.selectionEnd ?? target.value.length;
-            const value = target.value;
-            const before = value.slice(0, start);
-            const after = value.slice(end);
-            let insertion = content;
-            if (before && !before.endsWith('\n') && !content.startsWith('\n')) {
-              insertion = `\n${insertion}`;
-            }
-            if (after && !after.startsWith('\n') && !content.endsWith('\n')) {
-              insertion = `${insertion}\n`;
-            }
-            const newValue = `${before}${insertion}${after}`;
-            target.value = newValue;
-            blocks[currentIndex] = newValue;
-            autoResize(target);
-            focusedTextarea = target;
-            const caretPosition = start + insertion.length;
-            setTimeout(() => {
-              target.focus();
-              target.setSelectionRange(caretPosition, caretPosition);
-            }, 0);
+        if (selection && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+
+          // Verifica se a seleção está dentro do editor
+          if (contentEditor.contains(range.commonAncestorContainer)) {
+            // Remove o conteúdo selecionado
+            range.deleteContents();
+
+            // Cria um node de texto com o conteúdo
+            const textNode = document.createTextNode(content);
+            range.insertNode(textNode);
+
+            // Move o cursor para depois do conteúdo inserido
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Atualiza o conteúdo e sincroniza
+            editorContent = contentEditor.textContent || '';
             updateOutputs();
             saveToStorage();
+            contentEditor.focus();
             return;
           }
         }
 
-        blocks.push(content);
-        focusedTextarea = null;
-        updateUI();
+        // Se não houver seleção válida, adiciona ao final
+        const currentText = contentEditor.textContent || '';
+        const newContent = currentText
+          ? `${currentText}\n\n${content}`
+          : content;
+        contentEditor.textContent = newContent;
+        editorContent = newContent;
+
+        // Move o cursor para o final
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(contentEditor);
+        range.collapse(false);
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+
+        updateOutputs();
         saveToStorage();
+        contentEditor.focus();
       }
 
       function addBlock(type: string) {
@@ -832,62 +827,13 @@ const metadata = {
         insertContent(template);
       }
 
-      function removeBlock(index: number) {
-        blocks.splice(index, 1);
-        updateUI();
-        saveToStorage();
-      }
-
-      function updateUI() {
-        focusedTextarea = null;
-        if (blocks.length === 0) {
-          emptyState.classList.remove('hidden');
-          blocksContainer.classList.add('hidden');
-          blocksContainer.innerHTML = '';
-        } else {
-          emptyState.classList.add('hidden');
-          blocksContainer.classList.remove('hidden');
-          blocksContainer.innerHTML = blocks
-            .map((block, index) => {
-              return `
-              <div class="added-block rounded-lg border border-neutral-700 bg-neutral-900 p-3 transition-all duration-200" data-index="${index}">
-                <div class="grid grid-cols-[auto_1fr_auto] items-start gap-3">
-                  <div class="drag-handle mt-1 flex h-10 w-10 cursor-grab items-center justify-center rounded-md border border-neutral-700 bg-neutral-950 text-neutral-500 transition hover:text-neutral-200" draggable="true" data-index="${index}">
-                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="9" cy="5" r="1.5"></circle>
-                      <circle cx="9" cy="12" r="1.5"></circle>
-                      <circle cx="9" cy="19" r="1.5"></circle>
-                      <circle cx="15" cy="5" r="1.5"></circle>
-                      <circle cx="15" cy="12" r="1.5"></circle>
-                      <circle cx="15" cy="19" r="1.5"></circle>
-                    </svg>
-                  </div>
-                  <textarea
-                    class="block-textarea min-h-[120px] w-full resize-none rounded-md border border-neutral-700 bg-neutral-950 p-3 font-mono text-xs text-emerald-300 transition focus:border-indigo-500 focus:outline-none focus:ring-0"
-                    data-index="${index}"
-                    spellcheck="false"
-                  >${escapeHtml(block)}</textarea>
-                  <button
-                    class="remove-btn mt-1 rounded-md border border-transparent bg-red-600 px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-red-700 active:scale-95"
-                    data-index="${index}"
-                    type="button"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            `;
-            })
-            .join('');
-
-          attachBlockEventListeners();
-        }
-
+      function updateEditorUI() {
+        contentEditor.textContent = editorContent;
         updateOutputs();
       }
 
       function updateOutputs() {
-        const markdown = buildMarkdownPayload(blocks);
+        const markdown = editorContent.trim();
 
         if (markdown) {
           codeBlock.textContent = markdown;
@@ -899,137 +845,19 @@ const metadata = {
         updatePreview(markdown);
       }
 
-      // Attach event listeners to dynamically created blocks
-      function attachBlockEventListeners() {
-        const addedBlocks = blocksContainer.querySelectorAll('.added-block');
+      // Listener para mudanças no editor
+      contentEditor.addEventListener('input', () => {
+        editorContent = contentEditor.textContent || '';
+        updateOutputs();
+        saveToStorage();
+      });
 
-        // Remove buttons
-        const removeButtons = blocksContainer.querySelectorAll('.remove-btn');
-        removeButtons.forEach((btn) => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const target = e.currentTarget as HTMLElement;
-            const index = parseInt(target.dataset.index || '0');
-            removeBlock(index);
-          });
-        });
-
-        // Editable textareas with auto-resize
-        const textareas =
-          blocksContainer.querySelectorAll<HTMLTextAreaElement>(
-            '.block-textarea'
-          );
-
-        textareas.forEach((textarea) => {
-          const initialIndex = parseInt(textarea.dataset.index || '0');
-          textarea.value = blocks[initialIndex] ?? '';
-          autoResize(textarea);
-          textarea.addEventListener('focus', () => {
-            focusedTextarea = textarea;
-          });
-          textarea.addEventListener('click', () => {
-            focusedTextarea = textarea;
-          });
-          textarea.addEventListener('input', (event) => {
-            const target = event.currentTarget as HTMLTextAreaElement;
-            const currentIndex = parseInt(target.dataset.index || '0');
-            blocks[currentIndex] = target.value;
-            focusedTextarea = target;
-            autoResize(target);
-            updateOutputs();
-            saveToStorage();
-          });
-        });
-
-        // Drag handles
-        const dragHandles = blocksContainer.querySelectorAll('.drag-handle');
-        dragHandles.forEach((handle) => {
-          const handleElement = handle as HTMLElement;
-          handleElement.addEventListener('dragstart', (e) => {
-            const parent = handleElement.closest(
-              '.added-block'
-            ) as HTMLElement | null;
-            if (!parent) return;
-            draggedBlockIndex = parseInt(parent.dataset.index || '0');
-            parent.classList.add('opacity-60');
-            if (e.dataTransfer && draggedBlockIndex !== null) {
-              e.dataTransfer.effectAllowed = 'move';
-              e.dataTransfer.setData('text/plain', String(draggedBlockIndex));
-            }
-          });
-
-          handleElement.addEventListener('dragend', () => {
-            const parent = handleElement.closest(
-              '.added-block'
-            ) as HTMLElement | null;
-            if (parent) {
-              parent.classList.remove('opacity-60');
-            }
-            draggedBlockIndex = null;
-            addedBlocks.forEach((block) => {
-              (block as HTMLElement).classList.remove(
-                'border-indigo-500',
-                'bg-neutral-800'
-              );
-            });
-          });
-        });
-
-        addedBlocks.forEach((block) => {
-          const element = block as HTMLElement;
-
-          element.addEventListener('dragover', (e) => {
-            if (draggedBlockIndex === null) return;
-            e.preventDefault();
-            if (e.dataTransfer) {
-              e.dataTransfer.dropEffect = 'move';
-            }
-
-            const targetIndex = parseInt(element.dataset.index || '0');
-            if (targetIndex !== draggedBlockIndex) {
-              element.classList.add('border-indigo-500', 'bg-neutral-800');
-            }
-          });
-
-          element.addEventListener('dragleave', (e) => {
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX;
-            const y = e.clientY;
-
-            if (
-              x < rect.left ||
-              x >= rect.right ||
-              y < rect.top ||
-              y >= rect.bottom
-            ) {
-              element.classList.remove('border-indigo-500', 'bg-neutral-800');
-            }
-          });
-
-          element.addEventListener('drop', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            element.classList.remove('border-indigo-500', 'bg-neutral-800');
-
-            if (draggedBlockIndex !== null) {
-              const targetIndex = parseInt(element.dataset.index || '0');
-              if (draggedBlockIndex !== targetIndex) {
-                const [movedBlock] = blocks.splice(draggedBlockIndex, 1);
-                blocks.splice(targetIndex, 0, movedBlock);
-                draggedBlockIndex = null;
-                updateUI();
-                saveToStorage();
-              }
-            }
-          });
-        });
-      }
-
-      function autoResize(textarea: HTMLTextAreaElement) {
-        textarea.style.height = 'auto';
-        textarea.style.height = `${Math.max(textarea.scrollHeight, 120)}px`;
-      }
+      contentEditor.addEventListener('paste', (e) => {
+        // Previne a colagem com formatação
+        e.preventDefault();
+        const text = e.clipboardData?.getData('text/plain') || '';
+        document.execCommand('insertText', false, text);
+      });
 
       function updatePreview(markdown: string) {
         if (!markdown) {
@@ -1203,9 +1031,9 @@ const metadata = {
 
       // Botões de ação
       copyButton.addEventListener('click', () => {
-        const markdown = buildMarkdownPayload(blocks);
+        const markdown = editorContent.trim();
         if (!markdown) {
-          alert('Adicione alguns blocos primeiro!');
+          alert('Adicione algum conteúdo primeiro!');
           return;
         }
 
@@ -1226,10 +1054,11 @@ const metadata = {
       });
 
       clearButton.addEventListener('click', () => {
-        if (blocks.length === 0) return;
-        if (confirm('Limpar todos os blocos?')) {
-          blocks = [];
-          updateUI();
+        if (!editorContent) return;
+        if (confirm('Limpar todo o conteúdo?')) {
+          editorContent = '';
+          contentEditor.textContent = '';
+          updateOutputs();
           saveToStorage();
         }
       });
