@@ -24,17 +24,19 @@ const metadata = {
   <div class="container mx-auto max-w-[1600px] px-5 py-5">
     {/* Header */}
     <div
-      class="mb-8 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 p-6 text-center shadow-lg shadow-indigo-500/30"
+      class="mb-6 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-center shadow-lg shadow-indigo-500/30"
     >
-      <h1 class="mb-2 text-3xl font-bold text-white">✨ Content Helper</h1>
+      <h1 class="mb-1 text-2xl font-bold text-white">
+        Assistente de Publicações
+      </h1>
       <p class="text-sm text-white/90">
         Construa seu post com blocos visuais, adicione vídeos e copie tudo
-        pronto
+        pronto para o CMS
       </p>
     </div>
 
     {/* Builder & Preview */}
-    <div class="mb-8 flex flex-col gap-5 lg:flex-row">
+    <div class="mb-8 flex h-[500px] gap-5">
       <div
         class="flex flex-1 flex-col rounded-xl border border-neutral-700 bg-neutral-900 p-6"
       >
@@ -64,12 +66,12 @@ const metadata = {
         </div>
 
         {/* Drop Zone */}
-        <div class="flex flex-1 flex-col">
+        <div class="flex min-h-[400px] flex-1 flex-col">
           <DropZone />
         </div>
       </div>
 
-      <div class="flex-1">
+      <div class="h-full flex-1">
         <PreviewPanel />
       </div>
     </div>
@@ -108,13 +110,13 @@ const metadata = {
         id="blocksGrid"
         class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
-        <BlockItem
+        <!-- <BlockItem
           type="text"
           title="Texto"
           description="Parágrafo"
           icon="📄"
           data-category="content"
-        />
+        /> -->
         <BlockItem
           type="heading-accent"
           title="Título"
@@ -781,8 +783,32 @@ const metadata = {
             // Remove o conteúdo selecionado
             range.deleteContents();
 
-            // Cria um node de texto com o conteúdo
-            const textNode = document.createTextNode(content);
+            // Pega o texto antes e depois da posição do cursor
+            const fullText = contentEditor.textContent || '';
+            const startOffset = getAbsoluteOffset(
+              contentEditor,
+              range.startContainer,
+              range.startOffset
+            );
+
+            const textBefore = fullText.substring(0, startOffset);
+            const textAfter = fullText.substring(startOffset);
+
+            // Adiciona quebras de linha apropriadas
+            let contentToInsert = content;
+
+            // Se há texto antes e não termina com quebra de linha, adiciona quebra antes
+            if (textBefore && !textBefore.endsWith('\n')) {
+              contentToInsert = '\n\n' + contentToInsert;
+            }
+
+            // Se há texto depois e o conteúdo não termina com quebra de linha, adiciona quebra depois
+            if (textAfter && !contentToInsert.endsWith('\n')) {
+              contentToInsert = contentToInsert + '\n\n';
+            }
+
+            // Insere o conteúdo com as quebras de linha
+            const textNode = document.createTextNode(contentToInsert);
             range.insertNode(textNode);
 
             // Move o cursor para depois do conteúdo inserido
@@ -819,6 +845,31 @@ const metadata = {
         updateOutputs();
         saveToStorage();
         contentEditor.focus();
+      }
+
+      // Função auxiliar para calcular o offset absoluto no texto
+      function getAbsoluteOffset(
+        root: Node,
+        node: Node,
+        offset: number
+      ): number {
+        let currentOffset = 0;
+        const walker = document.createTreeWalker(
+          root,
+          NodeFilter.SHOW_TEXT,
+          null
+        );
+
+        let currentNode = walker.nextNode();
+        while (currentNode) {
+          if (currentNode === node) {
+            return currentOffset + offset;
+          }
+          currentOffset += currentNode.textContent?.length || 0;
+          currentNode = walker.nextNode();
+        }
+
+        return currentOffset;
       }
 
       function addBlock(type: string) {
