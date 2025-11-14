@@ -188,6 +188,9 @@ const getAnalytics = (config: Config) => {
         partytown: true,
       },
     },
+    gtm: {
+      id: undefined,
+    },
   };
 
   return merge({}, _default, config?.analytics ?? {}) as AnalyticsConfig;
