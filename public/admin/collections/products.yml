@@ -11,18 +11,6 @@ collections:
       - { label: "Slug", name: "slug", widget: "string" }
       - { label: "Imagem Normal", name: "normalImage", widget: "image" }
       - { label: "Imagem Hover", name: "hoverImage", widget: "image" }
-      - label: "Tamanhos Mobile"
-        name: "sizes"
-        widget: "object"
-        fields:
-          - { label: "Largura", name: "width", widget: "number" }
-          - { label: "Altura", name: "height", widget: "number" }
-      - label: "Tamanhos Desktop (MD+)"
-        name: "sizesMd"
-        widget: "object"
-        fields:
-          - { label: "Largura", name: "width", widget: "number" }
-          - { label: "Altura", name: "height", widget: "number" }
       - label: "Detalhes"
         name: "details"
         widget: "object"

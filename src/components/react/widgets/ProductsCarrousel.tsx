@@ -100,59 +100,20 @@ export default function ProductCarousel({ products }: Props) {
                 className="group relative cursor-pointer transition-transform duration-300 hover:scale-105"
                 onClick={() => handleProductClick(product)}
               >
-                {/* Mobile - usa sizes padrão com tamanho exato */}
                 <ImageOptimized
                   src={product.normal.src}
                   alt={product.details?.name || 'produto'}
-                  width={product.sizes.width}
-                  height={product.sizes.height}
-                  layout="fixed"
                   loading="lazy"
-                  className={`object-contain transition-opacity duration-300 md:hidden ${
-                    selectedProduct?.id === product.id
-                      ? 'opacity-0'
-                      : 'group-hover:opacity-0'
+                  className={`h-auto w-full min-w-[100px] max-h-[200px] object-contain transition-opacity duration-300 group-hover:opacity-0 md:min-w-[175px] md:max-h-[300px] ${
+                    selectedProduct?.id === product.id ? 'opacity-0' : ''
                   }`}
                 />
                 <ImageOptimized
                   src={product.hover.src}
                   alt={product.details?.name || 'produto hover'}
-                  width={product.sizes.width}
-                  height={product.sizes.height}
-                  layout="fixed"
                   loading="lazy"
-                  className={`absolute inset-0 object-contain transition-opacity duration-300 md:hidden ${
-                    selectedProduct?.id === product.id
-                      ? 'opacity-100'
-                      : 'opacity-0 group-hover:opacity-100'
-                  }`}
-                />
-
-                {/* Desktop (md+) - usa sizesMd se disponível */}
-                <ImageOptimized
-                  src={product.normal.src}
-                  alt={product.details?.name || 'produto'}
-                  width={product.sizesMd?.width || product.sizes.width}
-                  height={product.sizesMd?.height || product.sizes.height}
-                  layout="fixed"
-                  loading="lazy"
-                  className={`hidden object-contain transition-opacity duration-300 md:block ${
-                    selectedProduct?.id === product.id
-                      ? 'opacity-0'
-                      : 'group-hover:opacity-0'
-                  }`}
-                />
-                <ImageOptimized
-                  src={product.hover.src}
-                  alt={product.details?.name || 'produto hover'}
-                  width={product.sizesMd?.width || product.sizes.width}
-                  height={product.sizesMd?.height || product.sizes.height}
-                  layout="fixed"
-                  loading="lazy"
-                  className={`absolute inset-0 hidden object-contain transition-opacity duration-300 md:block ${
-                    selectedProduct?.id === product.id
-                      ? 'opacity-100'
-                      : 'opacity-0 group-hover:opacity-100'
+                  className={`absolute inset-0 h-auto w-full min-w-[100px] max-h-[200px] object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:min-w-[175px] md:max-h-[300px] ${
+                    selectedProduct?.id === product.id ? 'opacity-100' : ''
                   }`}
                 />
               </div>
