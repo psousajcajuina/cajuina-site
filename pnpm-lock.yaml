@@ -29,9 +29,6 @@ importers:
       '@astrolib/seo':
         specifier: 1.0.0-beta.8
         version: 1.0.0-beta.8(astro@5.15.0(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.4)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.1))
-      '@digi4care/astro-google-tagmanager':
-        specifier: ^1.6.0
-        version: 1.6.0(astro@5.15.0(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.4)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.1))
       '@google-recaptcha/react':
         specifier: ^2.3.2
         version: 2.3.2(@types/react@19.2.2)(react@19.2.0)
@@ -449,11 +446,6 @@ packages:
   '@capsizecss/unpack@3.0.0':
     resolution: {integrity: sha512-+ntATQe1AlL7nTOYjwjj6w3299CgRot48wL761TUGYpYgAou3AaONZazp0PKZyCyWhudWsjhq1nvRHOvbMzhTA==}
     engines: {node: '>=18'}
-
-  '@digi4care/astro-google-tagmanager@1.6.0':
-    resolution: {integrity: sha512-xBEYnswcLPNDu62zRGh8W8hbRW97nK02O+SyellcopT4/NMkevygrvxv49xl0ZQeBd6dfJpwbktlBYDJDaRvWg==}
-    peerDependencies:
-      astro: ^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
   '@emmetio/abbreviation@2.3.3':
     resolution: {integrity: sha512-mgv58UrU3rh4YgbE/TzgLQwJ3pFsHHhCLqY20aJq+9comytTXUDNGG/SMtSeMJdkpxgXSXunBGLD8Boka3JyVA==}
@@ -4926,10 +4918,6 @@ snapshots:
   '@capsizecss/unpack@3.0.0':
     dependencies:
       fontkit: 2.0.4
-
-  '@digi4care/astro-google-tagmanager@1.6.0(astro@5.15.0(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.4)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.1))':
-    dependencies:
-      astro: 5.15.0(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.4)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.1)
 
   '@emmetio/abbreviation@2.3.3':
     dependencies:
