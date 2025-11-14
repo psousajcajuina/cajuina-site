@@ -26,6 +26,7 @@ metadata:
     handle: '@saogeraldocaju'
     site: '@saogeraldocaju'
     cardType: summary_large_image
+    creator: '@saogeraldocaju'
 
 i18n:
   language: pt-BR
