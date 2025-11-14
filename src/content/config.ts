@@ -117,16 +117,17 @@ const banner = defineCollection({
       image: image(),
       imageMobile: image().optional(),
 
-      cta: z
-        .object({
-          text: z.string(),
-          url: z.string(),
-          variant: z
-            .enum(['primary', 'secondary', 'outline'])
-            .default('primary'),
-        })
-        .nullish()
-        .optional(),
+      cta: z.string().nullish().optional(),
+      // cta: z
+      //   .object({
+      //     text: z.string(),
+      //     url: z.string(),
+      //     variant: z
+      //       .enum(['primary', 'secondary', 'outline'])
+      //       .default('primary'),
+      //   })
+      //   .nullish()
+      //   .optional(),
 
       textPosition: z.enum(['left', 'center', 'right']).default('center'),
       textAlign: z.enum(['top', 'middle', 'bottom']).default('middle'),

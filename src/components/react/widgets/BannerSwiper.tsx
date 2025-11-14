@@ -1,12 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { useState, useEffect } from 'react';
 import ImageOptimized from '@/components/react/common/ImageOptimized';
-
-interface CTAButton {
-  text: string;
-  url: string;
-  variant: 'primary' | 'secondary' | 'outline';
-}
 
 interface BannerData {
   title: string;
@@ -14,7 +9,7 @@ interface BannerData {
   description?: string;
   image: string;
   imageMobile?: string;
-  cta?: CTAButton;
+  cta?: string;
   textPosition: 'left' | 'center' | 'right';
   textAlign: 'top' | 'middle' | 'bottom';
   overlay: boolean;
@@ -39,11 +34,23 @@ const alignClasses: Record<BannerData['textAlign'], string> = {
   bottom: 'justify-end pb-20',
 };
 
-const ctaClasses: Record<CTAButton['variant'], string> = {
-  primary: 'bg-white text-gray-900 hover:bg-gray-100',
-  secondary: 'bg-blue-600 text-white hover:bg-blue-700',
-  outline:
-    'border-2 border-white text-white hover:bg-white hover:text-gray-900',
+// Função auxiliar do utils/images-optimization-react
+const parseAspectRatio = (
+  aspectRatio: number | string | null | undefined
+): number | undefined => {
+  if (typeof aspectRatio === 'number') return aspectRatio;
+
+  if (typeof aspectRatio === 'string') {
+    const match = aspectRatio.match(/(\d+)\s*[/:]\s*(\d+)/);
+    if (match) {
+      const [, num, den] = match.map(Number);
+      if (den && !isNaN(num)) return num / den;
+    } else {
+      const numericValue = parseFloat(aspectRatio);
+      if (!isNaN(numericValue)) return numericValue;
+    }
+  }
+  return undefined;
 };
 
 export default function BannerSwiper({ banners }: BannerSwiperProps) {
@@ -52,31 +59,8 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
   return (
     <>
       <style>{`
-        .banner-swiper-wrapper {
-          position: relative;
-          width: 100%;
-          height: 341px;
-          overflow: hidden;
-        }
-        
-        @media (min-width: 768px) {
-          .banner-swiper-wrapper {
-            height: 700px;
-          }
-        }
-        
-        .banner-swiper-wrapper .swiper {
-          width: 100%;
-          height: 100%;
-        }
-        
-        .banner-swiper-wrapper .swiper-slide {
-          width: 100%;
-          height: 100%;
-        }
-        
         /* Bullets customization */
-        .banner-swiper-wrapper .swiper-pagination-bullet {
+        .banner-swiper .swiper-pagination-bullet {
           width: 12px;
           height: 12px;
           background: rgba(247, 164, 33, 0.6);
@@ -85,25 +69,34 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
-        .banner-swiper-wrapper .swiper-pagination-bullet-active {
+        .banner-swiper .swiper-pagination-bullet-active {
           width: 32px;
           border-radius: 6px;
           background: linear-gradient(135deg, #f7a421 0%, #ea5426 100%);
           box-shadow: 0 4px 12px rgba(234, 84, 38, 0.4);
         }
         
-        .banner-swiper-wrapper .swiper-pagination-bullet:hover {
+        .banner-swiper .swiper-pagination-bullet:hover {
           background: rgba(247, 164, 33, 0.9);
           transform: scale(1.1);
         }
         
-        .banner-swiper-wrapper .swiper-pagination {
-          bottom: 0.25rem;
+        .banner-swiper .swiper-pagination {
+          bottom: 1.5rem !important;
+          z-index: 20 !important;
+          position: absolute !important;
+        }
+        
+        @media (max-width: 768px) {
+          .banner-swiper .swiper-pagination {
+            bottom: 1rem !important;
+          }
         }
       `}</style>
 
-      <div className="banner-swiper-wrapper">
+      <div className="relative h-[341px] w-full overflow-hidden md:h-[700px]">
         <Swiper
+          className="banner-swiper size-full"
           modules={[Navigation, Pagination, Autoplay, EffectFade]}
           effect="fade"
           fadeEffect={{
@@ -120,83 +113,115 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
             banners.length > 1
               ? {
                   clickable: true,
+                  el: '.banner-swiper .swiper-pagination',
                 }
               : false
           }
         >
-          {banners.map((banner, index) => {
-            const {
-              title,
-              subtitle,
-              description,
-              image,
-              imageMobile,
-              cta,
-              textPosition,
-              textAlign,
-              overlay,
-            } = banner.data;
-
-            return (
-              <SwiperSlide key={banner.id}>
-                <div className="relative size-full bg-gray-900">
-                  {/* Background Image */}
-                  <picture>
-                    {imageMobile && (
-                      <source media="(max-width: 768px)" srcSet={imageMobile} />
-                    )}
-                    <ImageOptimized
-                      src={image}
-                      alt={title}
-                      width={1920}
-                      height={700}
-                      layout="fullWidth"
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      fetchPriority={index === 0 ? 'high' : 'auto'}
-                      className="absolute inset-0 size-full object-cover object-center"
-                    />
-                  </picture>
-
-                  {/* Overlay */}
-                  {overlay && (
-                    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0/0.3),rgb(0_0_0/0.6))]" />
-                  )}
-
-                  {/* Content */}
-                  <div
-                    className={`relative flex size-full flex-col px-6 md:px-12 ${alignClasses[textAlign]}`}
-                  >
-                    <div
-                      className={`mx-auto flex w-full max-w-7xl flex-col ${positionClasses[textPosition]}`}
-                    >
-                      {subtitle && (
-                        <p className="mb-4 text-xl text-white/90 md:text-3xl">
-                          {subtitle}
-                        </p>
-                      )}
-
-                      {description && (
-                        <p className="mb-8 max-w-2xl text-base text-white/80 md:text-lg">
-                          {description}
-                        </p>
-                      )}
-
-                      {cta && (
-                        <a
-                          href={cta.url}
-                          className={`inline-block transform rounded-lg px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg ${ctaClasses[cta.variant]}`}
-                        >
-                          {cta.text}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            );
-          })}
+          {banners.map((banner, index) => (
+            <SwiperSlide key={banner.id}>
+              <BannerSlideContent banner={banner.data} index={index} />
+            </SwiperSlide>
+          ))}
         </Swiper>
+
+        {/* Pagination container - garantir que existe */}
+        {banners.length > 1 && <div className="swiper-pagination" />}
       </div>
     </>
+  );
+}
+
+// Componente separado para cada slide com detecção inteligente
+function BannerSlideContent({
+  banner,
+  index,
+}: {
+  banner: BannerData;
+  index: number;
+}) {
+  const [objectFit, setObjectFit] = useState<'cover' | 'contain'>('cover');
+  const [imageRatio, setImageRatio] = useState<number | null>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      const aspectRatio = img.width / img.height;
+      setImageRatio(aspectRatio);
+      // Se aspect ratio >= 2.5 (panorâmica tipo 3:1 ou mais), usa cover
+      // Senão (quadrado/vertical), usa contain para não cortar
+      setObjectFit(aspectRatio >= 2.5 ? 'contain' : 'cover');
+    };
+    img.src = banner.image;
+  }, [banner.image]);
+
+  const {
+    title,
+    subtitle,
+    description,
+    image,
+    imageMobile,
+    cta,
+    textPosition,
+    textAlign,
+    overlay,
+  } = banner;
+
+  const hasCTA = !!cta;
+
+  const content = (
+    <div className="bg-caju-heading-primary relative size-full">
+      {/* Background Image */}
+      <picture>
+        {imageMobile && (
+          <source media="(max-width: 768px)" srcSet={imageMobile} />
+        )}
+        <ImageOptimized
+          src={image}
+          alt={title}
+          width={1920}
+          height={700}
+          layout="fullWidth"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          fetchPriority={index === 0 ? 'high' : 'auto'}
+          className={`absolute inset-0 size-full object-${objectFit} object-center`}
+          objectFit={objectFit}
+          objectPosition="center"
+          aspectRatio={imageRatio || undefined}
+        />
+      </picture>
+
+      {/* Overlay */}
+      {overlay && (
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+      )}
+
+      {/* Content */}
+      <div
+        className={`relative z-10 flex size-full flex-col px-6 md:px-12 ${alignClasses[textAlign]}`}
+      >
+        <div
+          className={`mx-auto flex w-full max-w-7xl flex-col ${positionClasses[textPosition]}`}
+        >
+          {subtitle && (
+            <p className="mb-4 text-xl text-white/90 md:text-3xl">{subtitle}</p>
+          )}
+
+          {description && (
+            <p className="mb-8 max-w-2xl text-base text-white/80 md:text-lg">
+              {description}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return hasCTA ? (
+    <a href={cta} className="block size-full cursor-pointer" aria-label={title}>
+      {content}
+    </a>
+  ) : (
+    content
   );
 }

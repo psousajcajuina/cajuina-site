@@ -1,16 +1,16 @@
 ---
-title: capa2
+title: capa 3
 subtitle: ''
 description: ''
-image: /src/assets/images/banner/1417x480-banner-site.webp
+image: /src/assets/images/banner/1-1.webp
 imageMobile: ''
-cta: null
+cta: https://abre.ai/votesaogeraldo
 textPosition: center
 textAlign: middle
 overlay: false
-order: 2
+order: 3
 active: true
-publishDate: 2025-10-29T13:39:00
+publishDate: 2025-11-14T16:53:00
 expireDate: ''
 ---
 

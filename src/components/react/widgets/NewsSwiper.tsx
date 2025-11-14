@@ -67,10 +67,10 @@ export default function NewsSwiper({
             slidesPerView: 4,
             spaceBetween: 25,
           },
-          1280: {
-            slidesPerView: 5,
-            spaceBetween: 35,
-          },
+          // 1280: {
+          //   slidesPerView: 5,
+          //   spaceBetween: 35,
+          // },
         }}
         className="mx-auto h-80 w-full max-w-[350px] pb-4 md:min-h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
       >

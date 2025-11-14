@@ -9,31 +9,32 @@ export const headerData = {
     },
     {
       text: 'Sobre',
-      href: 'sobre',
+      href: '/sobre',
     },
     {
       text: 'Produtos',
-      href: 'produtos',
+      href: '/produtos',
     },
     {
       text: 'Notícias',
-      href: 'noticias',
+      href: '/blog',
     },
     {
       text: 'Nos Encontre',
-      href: 'nos-encontre',
+      href: '/nos-encontre',
     },
   ],
   actions: [
     {
       text: 'Trabalhe Conosco',
       variant: 'outlined',
-      href: 'trabalhe-conosco',
+      target: '_blank',
+      href: 'https://cajuinasaogeraldo.gupy.io/',
     },
     {
       text: 'Seja um distribuidor',
       variant: 'yellow',
-      href: 'seja-distribuidor',
+      href: '/seja-distribuidor',
     },
   ] as CallToAction[],
 };
@@ -43,31 +44,34 @@ export const footerData = {
     {
       title: 'Institucional',
       links: [
-        { text: 'Sobre', href: 'sobre' },
-        { text: 'Produtos', href: 'produtos' },
-        { text: 'Notícias', href: 'noticias' },
-        { text: 'Nos encontre', href: 'nos-encontre' },
-        { text: 'Trabalhe Conosco', href: 'trabalhe-conosco' },
+        { text: 'Sobre', href: '/sobre' },
+        { text: 'Produtos', href: '/produtos' },
+        { text: 'Notícias', href: '/blog' },
+        { text: 'Nos encontre', href: '/nos-encontre' },
+        {
+          text: 'Trabalhe Conosco',
+          href: 'https://cajuinasaogeraldo.gupy.io/',
+        },
       ],
     },
     {
       title: 'Contato',
       links: [
-        { text: 'Solicite Parceria', href: 'solicite/parcerias' },
-        { text: 'Portal de boletos', href: 'portal-de-boletos' },
-        { text: 'Seja distribuidor', href: 'seja-distribuidor' },
-        { text: 'Canal de denúncia', href: 'canal-de-denuncia' },
+        { text: 'Solicite Parceria', href: '/solicite/parcerias' },
+        { text: 'Portal de boletos', href: '/portal-de-boletos' },
+        { text: 'Seja distribuidor', href: '/seja-distribuidor' },
+        { text: 'Canal de denúncia', href: '/canal-de-denuncia' },
       ],
     },
     {
       title: 'Informações',
       links: [
-        { text: 'Política Anticorrupção', href: 'politica-anticorrupcao' },
+        { text: 'Política Anticorrupção', href: '/politica-anticorrupcao' },
         {
           text: 'Política recebimento de brinde',
-          href: 'politica-recebimento-de-brinde',
+          href: '/politica-recebimento-de-brinde',
         },
-        { text: 'Código de Conduta', href: 'codigo-de-conduta' },
+        { text: 'Código de Conduta', href: '/codigo-de-conduta' },
       ],
     },
   ],
@@ -79,7 +83,7 @@ export const footerData = {
     {
       ariaLabel: 'Instagram',
       icon: 'mdi:instagram',
-      href: 'https://www.instagram.com/cajuinasaogeraldo/#',
+      href: 'https://www.instagram.com/cajuinasaogeraldo',
     },
     {
       ariaLabel: 'Facebook',
@@ -109,7 +113,7 @@ export const footerData = {
     // { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
   footNote: `
-    <span class="block">
+    <span>
       &copy; 2025 Todos os direitos reservados à Cajuína São Geraldo / Av. Padre Cícero, Km 02 - Juazeiro do Norte, CE - CEP: 63022-115
     </span>
   `,
