@@ -52,19 +52,19 @@ collections:
         }
 
       - name: cta
-        label: Call to Action
-        widget: object
+        label: Call to Action Link
+        widget: string
         required: false
-        fields:
-          - { name: text, label: 'Texto do Botão', widget: string }
-          - { name: url, label: Link, widget: string }
-          - {
-              name: variant,
-              label: Estilo,
-              widget: select,
-              options: ['primary', 'secondary', 'outline'],
-              default: 'primary',
-            }
+        # fields:
+        #   - { name: text, label: 'Texto do Botão', widget: string }
+        #   - { name: url, label: Link, widget: string }
+        #   - {
+        #       name: variant,
+        #       label: Estilo,
+        #       widget: select,
+        #       options: ['primary', 'secondary', 'outline'],
+        #       default: 'primary',
+        #     }
 
       - name: textPosition
         label: 'Posição do Texto'

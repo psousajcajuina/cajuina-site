@@ -43,12 +43,12 @@ const config = {
     1668, // Various iPads
     1920, // 1080p
     2048, // QXGA
-    2560, // WQXGA
-    3200, // QHD+
-    3840, // 4K
-    4480, // 4.5K
-    5120, // 5K
-    6016, // 6K
+    // 2560, // WQXGA
+    // 3200, // QHD+
+    // 3840, // 4K
+    // 4480, // 4.5K
+    // 5120, // 5K
+    // 6016, // 6K
   ],
 
   formats: ['image/webp'],
@@ -262,7 +262,8 @@ export const unpicOptimizer = async (
 
   return Promise.all(
     breakpoints.map(async (w: number) => {
-      const _height = width && height ? computeHeight(w, width / height) : height;
+      const _height =
+        width && height ? computeHeight(w, width / height) : height;
       const url =
         transformUrl({
           url: image,

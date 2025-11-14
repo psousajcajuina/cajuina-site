@@ -9,15 +9,13 @@ import Metadata from '@/components/common/Metadata.astro';
 import SiteVerification from '@/components/common/SiteVerification.astro';
 import Analytics from '@/components/common/Analytics.astro';
 import BasicScripts from '@/components/common/BasicScripts.astro';
-import {
-  GoogleTagmanager,
-  GoogleTagmanagerNoscript,
-} from '@digi4care/astro-google-tagmanager';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '@/types';
+import GoogleTagmanager from '@/components/common/GoogleTagManager/GoogleTagmanager.astro';
+import GoogleTagmanagerNoScript from '@/components/common/GoogleTagManager/GoogleTagmanagerNoScript.astro';
 
 export interface Props {
   metadata?: MetaDataType;
@@ -44,7 +42,7 @@ const gtmId = ANALYTICS?.gtm?.id ? String(ANALYTICS.gtm.id) : null;
   </head>
 
   <body class="text-default bg-page tracking-tight antialiased">
-    {gtmId ? <GoogleTagmanagerNoscript id={gtmId} /> : null}
+    {gtmId ? <GoogleTagmanagerNoScript id={gtmId} /> : null}
     <slot />
 
     <BasicScripts />

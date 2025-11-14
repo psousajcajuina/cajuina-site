@@ -33,7 +33,7 @@ import { UI } from 'astrowind:config';
       applyTheme('light');
     }
   };
-  initTheme();
+  // initTheme();
 
   function attachEvent(selector, event, fn) {
     const matches =
@@ -183,7 +183,7 @@ import { UI } from 'astrowind:config';
   window.onpageshow = onPageShow;
 
   document.addEventListener('astro:after-swap', () => {
-    initTheme();
+    // initTheme();
     onLoad();
     onPageShow();
   });
