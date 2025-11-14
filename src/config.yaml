@@ -18,7 +18,7 @@ metadata:
   openGraph:
     site_name: São Geraldo
     images:
-      - url: '@/assets/images/banner/capa.webp'
+      - url: '@/assets/images/site/CajuinaTradicional.jpg'
         width: 1200
         height: 628
     type: website
@@ -26,6 +26,7 @@ metadata:
     handle: '@saogeraldocaju'
     site: '@saogeraldocaju'
     cardType: summary_large_image
+    creator: '@saogeraldocaju'
 
 i18n:
   language: pt-BR
@@ -67,6 +68,8 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
+  gtm:
+    id: 'GTM-NG7J626M'
 
 ui:
   theme: 'light' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

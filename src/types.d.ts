@@ -66,10 +66,8 @@ export interface Distribuidor {
 export interface ProductItem {
   id: string | number;
   normal: string | ImageMetadata;
-  hover: string | ImageMetadata;
+  hover?: string | ImageMetadata;
   alt?: string;
-  sizes: { width: number; height: number };
-  sizesMd?: { width: number; height: number }; // Tamanhos para tela md (768px+)
   details?: {
     name: string;
     image: string | ImageMetadata;

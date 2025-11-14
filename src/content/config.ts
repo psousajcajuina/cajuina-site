@@ -96,15 +96,7 @@ const product = defineCollection({
       title: z.string(),
       slug: z.string(),
       normalImage: image(),
-      hoverImage: image(),
-      sizes: z.object({
-        width: z.number(),
-        height: z.number(),
-      }),
-      sizesMd: z.object({
-        width: z.number(),
-        height: z.number(),
-      }),
+      hoverImage: image().optional(),
       details: z.object({
         name: z.string(),
         image: image(),

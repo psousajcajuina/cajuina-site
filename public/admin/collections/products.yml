@@ -1,34 +1,35 @@
 collections:
-  - name: "product"
-    label: "Products"
-    folder: "src/data/product"
+  - name: 'product'
+    label: 'Products'
+    folder: 'src/data/product'
     create: true
     media_folder: '/src/assets/images/product' # Location where files will be stored in the repo
     public_folder: '/src/assets/images/product' # The src attribute for uploaded media
     fields:
-      - { label: "ID", name: "id", widget: "number" }
-      - { label: "Nome", name: "title", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Imagem Normal", name: "normalImage", widget: "image" }
-      - { label: "Imagem Hover", name: "hoverImage", widget: "image" }
-      - label: "Tamanhos Mobile"
-        name: "sizes"
-        widget: "object"
+      - { label: 'ID', name: 'id', widget: 'number' }
+      - { label: 'Nome', name: 'title', widget: 'string' }
+      - { label: 'Slug', name: 'slug', widget: 'string' }
+      - { label: 'Imagem Normal', name: 'normalImage', widget: 'image' }
+      - {
+          label: 'Imagem Hover',
+          name: 'hoverImage',
+          widget: 'image',
+          required: false,
+        }
+      - label: 'Detalhes'
+        name: 'details'
+        widget: 'object'
         fields:
-          - { label: "Largura", name: "width", widget: "number" }
-          - { label: "Altura", name: "height", widget: "number" }
-      - label: "Tamanhos Desktop (MD+)"
-        name: "sizesMd"
-        widget: "object"
-        fields:
-          - { label: "Largura", name: "width", widget: "number" }
-          - { label: "Altura", name: "height", widget: "number" }
-      - label: "Detalhes"
-        name: "details"
-        widget: "object"
-        fields:
-          - { label: "Nome Completo", name: "name", widget: "string" }
-          - { label: "Imagem de Detalhes", name: "image", widget: "image" }
-          - { label: "Informações Nutricionais", name: "nutritionalInfo", widget: "image" }
-      - { label: "Ingredientes", name: "ingredients", widget: "text", required: false }
-    
+          - { label: 'Nome Completo', name: 'name', widget: 'string' }
+          - { label: 'Imagem de Detalhes', name: 'image', widget: 'image' }
+          - {
+              label: 'Informações Nutricionais',
+              name: 'nutritionalInfo',
+              widget: 'image',
+            }
+      - {
+          label: 'Ingredientes',
+          name: 'ingredients',
+          widget: 'text',
+          required: false,
+        }

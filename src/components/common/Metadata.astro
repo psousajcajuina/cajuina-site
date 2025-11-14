@@ -18,6 +18,17 @@ import {
 } from '@/utils/images-optimization';
 const image = await getImagesOptimized(ldJsonImg, {}, astroAssetsOptimizer);
 
+// Garante URL absoluta com hostname
+const getAbsoluteImageUrl = (imgSrc: string, site?: URL) => {
+  if (imgSrc.startsWith('http://') || imgSrc.startsWith('https://')) {
+    return imgSrc;
+  }
+  const baseUrl = site?.origin || 'https://cajuinasaogeraldo.com.br';
+  return `${baseUrl}${imgSrc.startsWith('/') ? '' : '/'}${imgSrc}`;
+};
+
+const absoluteImageUrl = getAbsoluteImageUrl(image.src, Astro.site);
+
 export interface Props extends MetaData {
   dontUseTitleTemplate?: boolean;
 }
@@ -105,7 +116,7 @@ const seoProps: AstroSeoProps = merge(
           image: {
             '@id': 'https://www.cajuinasaogeraldo.com.br/#primaryimage',
           },
-          thumbnailUrl: image.src,
+          thumbnailUrl: absoluteImageUrl,
           datePublished: '2017-06-14T09:23:16+00:00',
           dateModified: '2025-03-18T14:23:17+00:00',
           description:
@@ -125,8 +136,8 @@ const seoProps: AstroSeoProps = merge(
           '@type': 'ImageObject',
           inLanguage: 'pt-BR',
           '@id': 'https://www.cajuinasaogeraldo.com.br/#primaryimage',
-          url: image.src,
-          contentUrl: image.src,
+          url: absoluteImageUrl,
+          contentUrl: absoluteImageUrl,
           //@ts-expect-error any
           width: 512,
           //@ts-expect-error any
