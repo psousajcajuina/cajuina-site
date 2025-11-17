@@ -37,7 +37,9 @@ const whenExternalScripts = (
 export default defineConfig({
   site: import.meta.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
   trailingSlash: 'always',
-
+  redirects: {
+    'https://www.cajuinasaogeraldo.com.br': 'https://cajuinasaogeraldo.com.br',
+  },
   // SSG completo por padrão
   output: 'static',
 

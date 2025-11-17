@@ -324,7 +324,10 @@
         // Verificar se está em uma página de coleção (edição/criação de post)
         const currentPath = window.location.hash || window.location.pathname;
 
-        if (!currentPath.includes('collections/')) {
+        if (
+          !currentPath.includes('collections/') ||
+          currentPath.includes('collections/config')
+        ) {
           console.log(
             'Não está em uma página de coleção, botão Layout Helper não será exibido'
           );

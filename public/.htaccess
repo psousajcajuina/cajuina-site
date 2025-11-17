@@ -1,0 +1,8 @@
+RewriteEngine On
+
+
+RewriteCond %{HTTP_HOST} ^www\.cajuinasaogeraldo\.com\.br$ [NC]
+RewriteRule ^(.*)$ https://cajuinasaogeraldo.com.br/$1 [L,R=301]
+
+
+Redirect 301 /noticias/ /blog/

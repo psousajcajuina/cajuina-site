@@ -1,11 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Image from './common/Image.astro';
-import {
-  astroAssetsOptimizer,
-  getImagesOptimized,
-} from '@/utils/images-optimization';
-import { findImage } from '@/utils/images';
 
 // Busca o banner ativo da coleção middleBanner
 const middleBanners = await getCollection(
@@ -13,20 +8,8 @@ const middleBanners = await getCollection(
   ({ data }) => data.active
 );
 const bannerData = middleBanners[0]?.data;
-
-const _bannerImage = await findImage(bannerData.image);
-
-const banner = await getImagesOptimized(
-  // @ts-expect-error any
-  _bannerImage,
-  bannerData,
-  astroAssetsOptimizer
-);
 ---
 
 <div class="hidden md:block">
-  <Image
-    src={banner.src}
-    alt={banner.attributes.alt || banner.attributes.title}
-  />
+  <Image src={bannerData.image} alt={bannerData.title} />
 </div>

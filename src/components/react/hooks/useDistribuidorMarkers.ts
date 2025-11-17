@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import type { Distribuidor } from '@/types';
 
 interface MarkerState {
   hoveredId: number | null;

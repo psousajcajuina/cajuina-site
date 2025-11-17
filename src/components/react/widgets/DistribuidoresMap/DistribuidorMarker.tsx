@@ -5,7 +5,6 @@ import {
   InfoWindow,
   Pin,
   useAdvancedMarkerRef,
-  type AdvancedMarkerProps,
 } from '@vis.gl/react-google-maps';
 import type { Distribuidor } from '@/types';
 
@@ -23,7 +22,10 @@ interface DistribuidorMarkerProps {
   isHovered: boolean;
   isSelected: boolean;
   onHover: (id: number | null) => void;
-  onSelect: (id: number, marker: google.maps.marker.AdvancedMarkerElement) => void;
+  onSelect: (
+    id: number,
+    marker: google.maps.marker.AdvancedMarkerElement
+  ) => void;
   showInfoWindow: boolean;
   onInfoWindowClose: () => void;
 }
@@ -87,10 +89,10 @@ export const DistribuidorMarker: React.FC<DistribuidorMarkerProps> = ({
           headerDisabled={false}
         >
           <div className="p-2">
-            <h3 className="font-bold text-base mb-2 text-caju-heading-primary">
+            <h3 className="text-caju-heading-primary mb-2 text-base font-bold">
               {distribuidor.nome}
             </h3>
-            <p className="text-sm mb-1">{distribuidor.endereco}</p>
+            <p className="mb-1 text-sm">{distribuidor.endereco}</p>
             {distribuidor.telefone && (
               <p className="text-sm font-medium">{distribuidor.telefone}</p>
             )}

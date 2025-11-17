@@ -1,19 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
-// import { SITE } from 'astrowind:config';
-// import { getHomePermalink } from '@/utils/permalinks';
 import { findImage } from '@/utils/images';
-import type { ImageType } from '../common/Image.astro';
 import {
   astroAssetsOptimizer,
   getImagesOptimized,
-  isUnpicCompatible,
-  unpicOptimizer,
 } from '@/utils/images-optimization';
 import Image from '../common/Image.astro';
 
 import footerBg from '@/assets/images/site/mobile/footer.png';
-import logoColorida from '@/assets/images/logo-colorida.png';
+import logoColorida from '@/assets/images/site/logo.png';
 
 interface Link {
   text?: string;
@@ -36,17 +31,7 @@ export interface Props {
 }
 
 const _image = await findImage(footerBg);
-let image: ImageType | undefined = undefined;
-
-if (
-  typeof _image === 'string' &&
-  (_image.startsWith('http://') || _image.startsWith('https://')) &&
-  isUnpicCompatible(_image)
-) {
-  image = await getImagesOptimized(_image, {}, unpicOptimizer);
-} else if (_image) {
-  image = await getImagesOptimized(_image, {}, astroAssetsOptimizer);
-}
+const image = await getImagesOptimized(_image!, {}, astroAssetsOptimizer);
 
 const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 ---
