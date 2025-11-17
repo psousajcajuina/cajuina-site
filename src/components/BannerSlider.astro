@@ -5,12 +5,6 @@ import SwiperLayout from './ui/SwiperLayout.astro';
 import BannerSwiper from './react/widgets/BannerSwiper';
 import BannerSliderSkeleton from './BannerSliderSkeleton.astro';
 
-interface CTAButton {
-  text: string;
-  url: string;
-  variant: 'primary' | 'secondary' | 'outline';
-}
-
 interface BannerData {
   title: string;
   subtitle?: string;
@@ -53,32 +47,28 @@ const bannersForReact = banners.map((banner) => ({
     imageMobile: banner.data.imageMobile?.src,
   },
 }));
-
-const hasBanners = banners.length > 0;
 ---
 
 <head>
-  {
-    hasBanners && (
-      <>
+  <>
+    <link
+      rel="preload"
+      as="image"
+      href={bannersForReact[0].data.image}
+      fetchpriority="high"
+    />
+
+    {
+      bannersForReact[0].data.imageMobile && (
         <link
           rel="preload"
           as="image"
-          href={bannersForReact[0].data.image}
-          fetchpriority="high"
+          href={bannersForReact[0].data.imageMobile}
+          media="(max-width: 768px)"
         />
-
-        {bannersForReact[0].data.imageMobile && (
-          <link
-            rel="preload"
-            as="image"
-            href={bannersForReact[0].data.imageMobile}
-            media="(max-width: 768px)"
-          />
-        )}
-      </>
-    )
-  }
+      )
+    }
+  </>
 </head>
 
 <div class="relative">

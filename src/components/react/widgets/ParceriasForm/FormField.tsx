@@ -65,8 +65,6 @@ export function FormField<TFormData extends Record<string, any>>({
   const finalPlaceholder =
     !label && required && placeholder ? `${placeholder} *` : placeholder;
 
-  const requiredClass = !label && required ? 'required-field' : '';
-
   if (type === 'checkbox') {
     return (
       <div className={twMerge('w-full', className)}>

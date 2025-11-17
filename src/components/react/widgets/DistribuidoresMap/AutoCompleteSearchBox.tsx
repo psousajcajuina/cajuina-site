@@ -2,8 +2,6 @@ import '@googlemaps/extended-component-library/react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef } from 'react';
 
-const MAX_RADIUS = 100_000; // 100km
-
 interface Props {
   onPlaceSelect: (place: google.maps.places.Place | null) => void;
   onReset?: () => void;

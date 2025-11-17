@@ -177,7 +177,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
 
             {!isSearchLoading && sortedDistribuidores.length > 0 && (
               <div className="hide-scrollbar flex cursor-grab gap-2 overflow-x-auto lg:max-h-[450px] lg:flex-col lg:overflow-y-auto">
-                {sortedDistribuidores.map((dist, index) => (
+                {sortedDistribuidores.map((dist) => (
                   <div
                     className="font-inter min-w-[225px] cursor-pointer border-2 border-gray-200 bg-[#FEF7FF] px-4 py-1 font-medium hover:border-gray-300 hover:shadow-md lg:max-h-20 lg:max-w-[650px]"
                     key={dist.id + dist.lat + dist.nome}
