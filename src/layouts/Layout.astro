@@ -31,7 +31,6 @@ const gtmId = ANALYTICS?.gtm?.id ? String(ANALYTICS.gtm.id) : null;
   <head>
     <CommonMeta />
     <Favicons />
-    <!-- <ApplyColorMode /> -->
     <Metadata {...metadata} />
     {gtmId ? <GoogleTagmanager id={gtmId} /> : null}
     <SiteVerification />

@@ -34,25 +34,6 @@ const alignClasses: Record<BannerData['textAlign'], string> = {
   bottom: 'justify-end pb-20',
 };
 
-// Função auxiliar do utils/images-optimization-react
-const parseAspectRatio = (
-  aspectRatio: number | string | null | undefined
-): number | undefined => {
-  if (typeof aspectRatio === 'number') return aspectRatio;
-
-  if (typeof aspectRatio === 'string') {
-    const match = aspectRatio.match(/(\d+)\s*[/:]\s*(\d+)/);
-    if (match) {
-      const [, num, den] = match.map(Number);
-      if (den && !isNaN(num)) return num / den;
-    } else {
-      const numericValue = parseFloat(aspectRatio);
-      if (!isNaN(numericValue)) return numericValue;
-    }
-  }
-  return undefined;
-};
-
 export default function BannerSwiper({ banners }: BannerSwiperProps) {
   if (!banners || banners.length === 0) return null;
 
@@ -113,7 +94,6 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
             banners.length > 1
               ? {
                   clickable: true,
-                  el: '.banner-swiper .swiper-pagination',
                 }
               : false
           }
@@ -124,9 +104,6 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Pagination container - garantir que existe */}
-        {banners.length > 1 && <div className="swiper-pagination" />}
       </div>
     </>
   );
@@ -148,8 +125,8 @@ function BannerSlideContent({
     img.onload = () => {
       const aspectRatio = img.width / img.height;
       setImageRatio(aspectRatio);
-      // Se aspect ratio >= 2.5 (panorâmica tipo 3:1 ou mais), usa cover
-      // Senão (quadrado/vertical), usa contain para não cortar
+      // Se aspect ratio >= 2.5 (panorâmica tipo 3:1 ou mais), usa contain
+      // Senão (quadrado/vertical), usa cover para não cortar
       setObjectFit(aspectRatio >= 2.5 ? 'contain' : 'cover');
     };
     img.src = banner.image;
@@ -171,7 +148,6 @@ function BannerSlideContent({
 
   const content = (
     <div className="bg-caju-heading-primary relative size-full">
-      {/* Background Image */}
       <picture>
         {imageMobile && (
           <source media="(max-width: 768px)" srcSet={imageMobile} />
