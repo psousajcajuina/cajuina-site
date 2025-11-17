@@ -217,7 +217,7 @@ collections:
 
       - name: redirects
         label: Redirects
-        file: public/_redirects
+        file: public/.htaccess
         fields:
           - {
               name: body,

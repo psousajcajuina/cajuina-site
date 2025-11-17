@@ -2,7 +2,7 @@ site:
   name: Cajuína São Geraldo - O tradicional refrigerante de Caju do Nordeste
   site: 'https://cajuinasaogeraldo.com.br'
   base: '/'
-  trailingSlash: false
+  trailingSlash: true
 
   googleSiteVerificationId: evbrXIdBUPoUf0D3tyc9quAlBu_ZDxp5FAIzsuglnBk
 
@@ -72,4 +72,4 @@ analytics:
     id: 'GTM-T6T7JJ54'
 
 ui:
-  theme: 'light' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: 'light:only' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
