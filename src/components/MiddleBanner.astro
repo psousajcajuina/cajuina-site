@@ -8,33 +8,25 @@ import {
 import { findImage } from '@/utils/images';
 
 // Busca o banner ativo da coleção middleBanner
-const middleBanners = await getCollection('middleBanner', ({ data }) => data.active);
+const middleBanners = await getCollection(
+  'middleBanner',
+  ({ data }) => data.active
+);
 const bannerData = middleBanners[0]?.data;
 
-// Define qual imagem usar baseado no viewport
-const bannerImage = bannerData?.imageMobile || bannerData?.image;
+const _bannerImage = await findImage(bannerData.image);
 
-const _bannerImage = await findImage(bannerImage);
-// @ts-expect-error any
-const banner = await getImagesOptimized(_bannerImage, {}, astroAssetsOptimizer);
+const banner = await getImagesOptimized(
+  // @ts-expect-error any
+  _bannerImage,
+  bannerData,
+  astroAssetsOptimizer
+);
 ---
 
-{bannerImage && (
-  <div>
-    <!-- Mobile -->
-    <div class="md:hidden">
-      <Image 
-        src={banner.src} 
-        alt={banner.attributes.alt || bannerData.title} 
-      />
-    </div>
-    
-    <!-- Desktop -->
-    <div class="hidden md:block">
-      <Image 
-        src={banner.src} 
-        alt={banner.attributes.alt || bannerData.title} 
-      />
-    </div>
-  </div>
-)}
+<div class="hidden md:block">
+  <Image
+    src={banner.src}
+    alt={banner.attributes.alt || banner.attributes.title}
+  />
+</div>

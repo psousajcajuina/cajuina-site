@@ -133,12 +133,12 @@ collections:
     fields:
       - { name: title, label: Título, widget: string }
       - { name: image, label: 'Imagem Desktop', widget: image, required: true }
-      - {
-          name: imageMobile,
-          label: 'Imagem Mobile',
-          widget: image,
-          required: false,
-        }
+      # - {
+      #     name: imageMobile,
+      #     label: 'Imagem Mobile',
+      #     widget: image,
+      #     required: false,
+      #   }
       - { name: active, label: Ativo, widget: boolean, default: true }
 
   - name: distribuidores
