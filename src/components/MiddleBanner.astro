@@ -1,14 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import Image from './common/Image.astro';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+} from '@/utils/images-optimization';
+import { findImage } from '@/utils/images';
 
 // Busca o banner ativo da coleção middleBanner
 const middleBanners = await getCollection('middleBanner', ({ data }) => data.active);
 const bannerData = middleBanners[0]?.data;
 
 // Define qual imagem usar baseado no viewport
-const isMobile = false; // Você pode ajustar isso conforme necessário
 const bannerImage = bannerData?.imageMobile || bannerData?.image;
+
+const _bannerImage = await findImage(bannerImage);
+// @ts-expect-error any
+const banner = await getImagesOptimized(_bannerImage, {}, astroAssetsOptimizer);
 ---
 
 {bannerImage && (
@@ -16,16 +24,16 @@ const bannerImage = bannerData?.imageMobile || bannerData?.image;
     <!-- Mobile -->
     <div class="md:hidden">
       <Image 
-        src={bannerData.imageMobile || bannerData.image} 
-        alt={bannerData.title} 
+        src={banner.src} 
+        alt={banner.attributes.alt || bannerData.title} 
       />
     </div>
     
     <!-- Desktop -->
     <div class="hidden md:block">
       <Image 
-        src={bannerData.image} 
-        alt={bannerData.title} 
+        src={banner.src} 
+        alt={banner.attributes.alt || bannerData.title} 
       />
     </div>
   </div>

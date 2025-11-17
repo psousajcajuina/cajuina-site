@@ -1,10 +1,23 @@
 ---
 import Image from './common/Image.astro';
-import logo from '@/assets/images/logo.png';
+import logoImage from '@/assets/images/logo.png';
+import { findImage } from '@/utils/images';
+import {
+  astroAssetsOptimizer,
+  getImagesOptimized,
+} from '@/utils/images-optimization';
+
+const _logo = await findImage(logoImage);
+// @ts-expect-error any
+const logo = await getImagesOptimized(_logo, {}, astroAssetsOptimizer);
 ---
 
 <span
   class="ml-2 self-center text-2xl font-bold whitespace-nowrap text-gray-900 md:text-xl rtl:mr-2 rtl:ml-0"
 >
-  <Image src={logo} alt="São geraldo" class="h-[52px] w-[85px] lg:size-20" />
+  <Image
+    src={logo.src}
+    alt="São geraldo"
+    class="h-[52px] w-[85px] lg:size-20"
+  />
 </span>
