@@ -9,10 +9,11 @@ tags:
   - camiseta-são-geraldo
   - compre-agora
   - estiloso
-image: /src/assets/images/post/camisetas-cajuina-sao-geraldo-1200x406.webp
+image: /src/assets/images/news/camisetas-cajuina-sao-geraldo-1200x406.webp
 publishDate: 2021-06-02T18:49:00
 author: Redação São Geraldo
 ---
+
 No último dia 14 de abril lançamos em suas redes sociais oficiais os primeiros modelos, com uma pegada nordestina e irreverente.
 
 Temos muitos fãs espalhados pelo Brasil. 💚✨

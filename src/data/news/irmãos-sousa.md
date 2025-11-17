@@ -8,10 +8,11 @@ tags:
   - história
   - são-geraldo
   - tarsila-sousa
-image: /src/assets/images/post/sem-imagem-1200x406.webp
+image: /src/assets/images/news/sem-imagem-1200x406.webp
 publishDate: 2021-06-16T16:17:00
 author: Redação São Geraldo
 ---
+
 _Texto retirado da obra Os Construtores de Juazeiro escrito por Dário Maia Coimbra em 1999_
 
 Na vida sócio-comercial-industrial de Juazeiro, uma família tem destaque especial. São os irmãos Sousa. Temos condições de falar sobre seus integrantes, pois os conhecimentos destes que eles eram simples trabalhadores em outras firmas.

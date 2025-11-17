@@ -4,10 +4,11 @@ excerpt: O Tradicional Forró da São Geraldo ganhou a versão digital
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/live-cajuina-sao-geraldo1-1200x600.webp
+image: /src/assets/images/news/live-cajuina-sao-geraldo1-1200x600.webp
 publishDate: 2021-12-30T11:08:00
 author: Redação São Geraldo
 ---
+
 Tradicionalmente, fazemos o “Forró da São Geraldo” no período da romaria de Nossa Senhora das Dores, durante as visitações em nossa fábrica. Este ano, em virtude do contexto atual pandêmico, optamos por realizá-lo no formato virtual.
 
 No dia 08 de outubro de 2021, dia do nordestino e data escolhida para o evento, por volta das 19:00hrs da noite, foi transmitida ao vivo no nosso canal do Youtube a “Live Forró da São Geraldo”.

@@ -4,10 +4,11 @@ excerpt: 'Dia do caju: São Geraldo distribui mudas em ação para celebrar a da
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/WhatsApp-Image-2024-11-08-at-09.14.23.webp
+image: /src/assets/images/news/WhatsApp-Image-2024-11-08-at-09.14.23.webp
 publishDate: 2024-11-08T08:24:00
 author: Redação São Geraldo
 ---
+
 Fortaleza, Juazeiro do Norte, Sobral, Quixadá e Aracaju participam da ‘blitz do caju’ para promover a conscientização de todos sobre a importância do fruto
 
 Comemorado no Ceará, o Dia Estadual do Caju (12/11) ganhou uma celebração especial da Cajuína São Geraldo. O suco do pseudofruto é o principal insumo na produção do refrigerante produzido pela marca, considerado “o refri de caju mais amado do mundo”. Pensando nisso, a São Geraldo distribuirá quatro mil mudas de Cajueiro Anão Precoce nas cidades de Juazeiro do Norte, Fortaleza, Quixadá e Sobral, no Ceará, além de Aracaju, capital de Sergipe.

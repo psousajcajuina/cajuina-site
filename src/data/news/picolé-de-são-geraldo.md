@@ -8,10 +8,11 @@ tags:
   - pardal-sorvetes
   - picolé-de-são-geraldo
   - picolé-pardal
-image: /src/assets/images/post/picolé-de-cajuina-sao-geraldo-1200x432.webp
+image: /src/assets/images/news/picolé-de-cajuina-sao-geraldo-1200x432.webp
 publishDate: 2021-04-08T15:30:00
 author: Redação São Geraldo
 ---
+
 E QUEM DISSE QUE SÃO GERALDO NÃO PODERIA FICAR AINDA MELHOR?🗣
 
 Sim, minha gente! **Agora é VALENDO**! Chegou aquela dupla de sucesso!

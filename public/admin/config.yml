@@ -39,18 +39,17 @@ collections:
     public_folder: '/src/assets/images/banner' # The src attribute for uploaded media
     fields:
       - { name: title, label: Título, widget: string }
-      - { name: subtitle, label: Subtítulo, widget: string, required: false }
-      - { name: description, label: Descrição, widget: text, required: false }
+      # - { name: subtitle, label: Subtítulo, widget: string, required: false }
+      # - { name: description, label: Descrição, widget: text, required: false }
 
       - { name: image, label: 'Imagem de Fundo', widget: image, required: true }
-      - {
-          name: imageMobile,
-          label: 'Imagem Mobile (opcional)',
-          widget: image,
-          required: false,
-          hint: 'Imagem otimizada para dispositivos móveis',
-        }
-
+      # - {
+      #     name: imageMobile,
+      #     label: 'Imagem Mobile (opcional)',
+      #     widget: image,
+      #     required: false,
+      #     hint: 'Imagem otimizada para dispositivos móveis',
+      #   }
       - name: cta
         label: Call to Action Link
         widget: string
@@ -66,31 +65,31 @@ collections:
         #       default: 'primary',
         #     }
 
-      - name: textPosition
-        label: 'Posição do Texto'
-        widget: select
-        options:
-          - { label: Esquerda, value: left }
-          - { label: Centro, value: center }
-          - { label: Direita, value: right }
-        default: center
+      # - name: textPosition
+      #   label: 'Posição do Texto'
+      #   widget: select
+      #   options:
+      #     - { label: Esquerda, value: left }
+      #     - { label: Centro, value: center }
+      #     - { label: Direita, value: right }
+      #   default: center
 
-      - name: textAlign
-        label: 'Alinhamento Vertical'
-        widget: select
-        options:
-          - { label: Topo, value: top }
-          - { label: Centro, value: middle }
-          - { label: Rodapé, value: bottom }
-        default: middle
+      # - name: textAlign
+      #   label: 'Alinhamento Vertical'
+      #   widget: select
+      #   options:
+      #     - { label: Topo, value: top }
+      #     - { label: Centro, value: middle }
+      #     - { label: Rodapé, value: bottom }
+      #   default: middle
 
-      - {
-          name: overlay,
-          label: 'Overlay Escuro',
-          widget: boolean,
-          default: true,
-          hint: 'Adiciona uma camada escura sobre a imagem para melhor legibilidade',
-        }
+      # - {
+      #     name: overlay,
+      #     label: 'Overlay Escuro',
+      #     widget: boolean,
+      #     default: true,
+      #     hint: 'Adiciona uma camada escura sobre a imagem para melhor legibilidade',
+      #   }
       - {
           name: order,
           label: Ordem,

@@ -4,10 +4,11 @@ excerpt: Lançamento do Programa de Conformidade do Grupo São Geraldo
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/Banner_Blog_Compliance-1200x432.webp
+image: /src/assets/images/news/Banner_Blog_Compliance-1200x432.webp
 publishDate: 2021-08-13T16:15:00
 author: Redação São Geraldo
 ---
+
 O Grupo São Geraldo tem a honra de apresentar o Programa de Conformidade, o qual visa definir ações para o desenvolvimento de melhores práticas, através do aprimoramento e ampliação dos processos existentes para Governança e Integração de Processos de Conformidades em nossas empresas.
 
 [[youtube:Q_Vx8U3XgD0]]

@@ -4,10 +4,11 @@ excerpt: Presidente e fundadora da São Geraldo é homenageada no evento “Bár
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/WhatsApp-Image-2024-11-29-at-14.26.06.webp
+image: /src/assets/images/news/WhatsApp-Image-2024-11-29-at-14.26.06.webp
 publishDate: 2024-11-29T14:34:00
 author: Redação São Geraldo
 ---
+
 A presidente e uma das fundadoras da São Geraldo, marca original do Cariri cearense, Tarcila Sousa, foi homenageada no evento “Bárbaras”, cujo tema foi “A mulher e o mercado de trabalho”. O nome do projeto, promovido pelo O Povo, é alusivo à Bárbara de Alencar, comerciante natural de Pernambuco que teve papel importante para a política no Crato–CE.
 
 Virgínia Sousa, diretora financeira da São Geraldo e filha de Tarcila, foi a representante da mãe no evento, durante a homenagem.

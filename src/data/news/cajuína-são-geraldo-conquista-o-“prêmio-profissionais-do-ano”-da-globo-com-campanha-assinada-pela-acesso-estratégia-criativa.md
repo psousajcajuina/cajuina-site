@@ -4,10 +4,11 @@ excerpt: Cajuína São Geraldo conquista o “Prêmio Profissionais do Ano” da
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/WhatsApp-Image-2024-11-29-at-15.27.39.webp
+image: /src/assets/images/news/WhatsApp-Image-2024-11-29-at-15.27.39.webp
 publishDate: 2024-11-29T14:37:00
 author: Redação São Geraldo
 ---
+
 Em uma noite de celebração e reconhecimento, a Cajuína São Geraldo conquistou a 46ª edição do “Prêmio Profissionais do Ano” 2024, da Globo, na categoria Filme, com a campanha “Bora ver se tu adivinha”, assinada pela Acesso Estratégia Criativa.
 A premiação, que reconhece os melhores trabalhos da publicidade, reuniu neste ano, mais de 800 projetos e, desta lista, foram selecionados 133 finalistas de todas as regiões do Brasil.
 “O PPA é a concretização de um sonho. Ano passado também fomos finalistas, mas não ganhamos. Este ano fomos finalistas com três filmes e ganhamos a categoria de melhor filme NO/NE. O mérito também é de toda equipe de gigantes que estava envolvida nos três projetos. Isso só nos mostra que estamos no caminho certo.”, explica o gerente de marketing da Cajuína São Geraldo, Tiago Caldas.

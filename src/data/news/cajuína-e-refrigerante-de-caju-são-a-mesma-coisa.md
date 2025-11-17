@@ -7,10 +7,11 @@ tags:
   - cajuína
   - diferenças
   - refrigerante-de-caju
-image: /src/assets/images/post/Cajuína-e-refrigerante-de-caju-são-a-mesma-coisa.webp
+image: /src/assets/images/news/Cajuína-e-refrigerante-de-caju-são-a-mesma-coisa.webp
 publishDate: 2024-09-26T17:44:00
 author: Redação São Geraldo
 ---
+
 Quando pensamos no nordeste brasileiro, logo vem a nossa mente a grande variedade de comidas e bebidas típicas desta terra maravilhosa. E entre as diversas opções da culinária nordestina estão a cajuína e o refrigerante de caju.
 
 Mas a cajuína e o refrigerante de caju são a mesma coisa?

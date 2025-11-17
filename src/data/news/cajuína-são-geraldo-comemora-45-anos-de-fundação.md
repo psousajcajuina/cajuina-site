@@ -10,17 +10,18 @@ tags:
   - ceará
   - juazeiro-do-norte
   - são-geraldo
-image: /src/assets/images/post/cajuina-são-geraldo-posts-blog.webp
+image: /src/assets/images/news/cajuina-são-geraldo-posts-blog.webp
 publishDate: 2021-02-15T17:52:00
 author: Redação São Geraldo
 ---
+
 O DED – Digital Experience Day é um evento com duração de um dia , que na edição de 2021, devido a pandemia, foi transmitido online e diretamente de dentro da Indústria do melhor refrigerante de caju do Nordeste.
 
 O dia 31 de janeiro de 2021 foi marcado pelo evento e pela comemoração dos 45 anos da Cajuína São Geraldo, mais conhecida como o sabor do Nordeste!
 
 Na ocasião foi organizado um momento simbólico transmitido ao vivo pelo Instagram, que contou com a participação de representantes da atual diretoria. Ana Maria, Terezinha Lisieux e Virginia de Sousa falaram em nome da empresa e agradeceram a todos os fornecedores, amigos, familiares, colaboradores, consumidores e clientes e todos aqueles que vestem a camisa da empresa.
 
-![](/src/assets/images/post/dem%C3%B3stenes-fidelis-e-lusyennir-lacerda-da-goma-e-arte-350x350.webp)**Curiosidades:** o topo do bolo foi feito por Demóstenes Fidelis e Lusyennir Lacerda da Goma e Arte, casal juazeirense conhecidos por usar como base para suas obras a fécula de mandioca. Além do topo, os 45 anos foram esculpidos na famosa pedra Cariri, diretamente de Santana do Cariri foi feito por Pedra sobre Pedra especialmente para esse momento.
+![](/src/assets/images/news/dem%C3%B3stenes-fidelis-e-lusyennir-lacerda-da-goma-e-arte-350x350.webp)**Curiosidades:** o topo do bolo foi feito por Demóstenes Fidelis e Lusyennir Lacerda da Goma e Arte, casal juazeirense conhecidos por usar como base para suas obras a fécula de mandioca. Além do topo, os 45 anos foram esculpidos na famosa pedra Cariri, diretamente de Santana do Cariri foi feito por Pedra sobre Pedra especialmente para esse momento.
 
 Confira a comemoração simbólica:
 

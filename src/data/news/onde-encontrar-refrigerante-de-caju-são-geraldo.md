@@ -5,10 +5,11 @@ draft: false
 categories: noticias
 tags:
   - refrigerante-de-caju
-image: /src/assets/images/post/onde-encontrar-cajuina-sao-geraldo.webp
+image: /src/assets/images/news/onde-encontrar-cajuina-sao-geraldo.webp
 publishDate: 2022-10-03T17:53:00
 author: Redação São Geraldo
 ---
+
 A bebida que tem o sabor do nordeste. Esse é o refrigerante de caju São Geraldo, uma marca da região do Cariri que leva além de sabor, a verdadeira essência nordestina em um produto para todo o território nacional.
 
 E antes de conhecer os lugares que você pode encontrar refrigerante de caju São Geraldo, que tal conhecer um pouco mais da nossa história?
@@ -45,5 +46,5 @@ Portanto, as principais diferenças entre a Cajuína e o refrigerante de caju S�
 
 [[two-columns:70/30]][col1]O refrigerante de caju São Geraldo pode ser encontrado em várias cidades brasileiras. Ele está presente em estabelecimentos comerciais, como food trucks, lanchonetes, churrascarias, mercearias, mercadinhos, supermercados, entre outros.
 Essa verdadeira delícia do nordeste pode chegar até o ser comércio por meio dos nossos distribuidores, ou com contato direto com a nossa fábrica, que possui logística própria de distribuição.[/col1][col2]
-![](/src/assets/images/post/onde-encontrar-cajuina-sao-geraldo.webp)
-[/col2][[/two-columns]]
+![](/src/assets/images/news/onde-encontrar-cajuina-sao-geraldo.webp)
+[/col2][/two-columns]]
