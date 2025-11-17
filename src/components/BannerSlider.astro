@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 import SwiperLayout from './ui/SwiperLayout.astro';
 import BannerSwiper from './react/widgets/BannerSwiper';
+import BannerSliderSkeleton from './BannerSliderSkeleton.astro';
 
 interface CTAButton {
   text: string;
@@ -56,10 +57,40 @@ const bannersForReact = banners.map((banner) => ({
 const hasBanners = banners.length > 0;
 ---
 
-{
-  hasBanners && (
+<head>
+  {
+    hasBanners && (
+      <>
+        <link
+          rel="preload"
+          as="image"
+          href={bannersForReact[0].data.image}
+          fetchpriority="high"
+        />
+
+        {bannersForReact[0].data.imageMobile && (
+          <link
+            rel="preload"
+            as="image"
+            href={bannersForReact[0].data.imageMobile}
+            media="(max-width: 768px)"
+          />
+        )}
+      </>
+    )
+  }
+</head>
+
+<div class="relative">
+  <!-- Skeleton SSR (aparece instantaneamente) -->
+  <div class="banner-skeleton-wrapper">
+    <BannerSliderSkeleton />
+  </div>
+
+  <!-- Banner React (hidrata depois) -->
+  <div class="banner-real-wrapper">
     <SwiperLayout>
-      <BannerSwiper banners={bannersForReact} client:only="react" />
+      <BannerSwiper banners={bannersForReact} client:load />
     </SwiperLayout>
-  )
-}
+  </div>
+</div>

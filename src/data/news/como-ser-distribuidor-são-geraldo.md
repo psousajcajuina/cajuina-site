@@ -4,10 +4,11 @@ excerpt: Como ser distribuidor São Geraldo?
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/Como-ser-distribuidor-São-Geraldo.webp
+image: /src/assets/images/news/Como-ser-distribuidor-São-Geraldo.webp
 publishDate: 2022-09-19T16:47:00
 author: Redação São Geraldo
 ---
+
 **Como ser distribuidor São Geraldo?**
 
 Você tem vontade de trabalhar como distribuidor? Já pensou que trabalhar com um produto inigualável, como o refrigerante de caju São Geraldo, pode ser o grande diferencial para o seu negócio? 

@@ -36,6 +36,7 @@ const whenExternalScripts = (
 // https://astro.build/config
 export default defineConfig({
   site: import.meta.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
+  trailingSlash: 'always',
 
   // SSG completo por padrão
   output: 'static',
@@ -61,7 +62,7 @@ export default defineConfig({
     }),
     ...whenExternalScripts(() =>
       partytown({
-        config: { forward: ['dataLayer.push', 'astro-seo-schema'] },
+        config: { forward: ['dataLayer.push'] },
       })
     ),
     compress({
@@ -108,9 +109,6 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      noExternal: ['astro-seo-schema'],
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

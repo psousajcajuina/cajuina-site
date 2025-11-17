@@ -4,10 +4,11 @@ excerpt: Receitas Juninas – Maçã do Amor Verde
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/banner_site_receita_maca.webp
+image: /src/assets/images/news/banner_site_receita_maca.webp
 publishDate: 2021-06-29T11:22:00
 author: Redação São Geraldo
 ---
+
 O amor está no ar e nada melhor do que uma receitinha para agradar o seu benzinho! 💚✨
 
 Bora lá? pra essa receita, você vai precisar de:

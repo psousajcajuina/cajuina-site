@@ -4,10 +4,11 @@ excerpt: Blog – Laranja
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/3.webp
+image: /src/assets/images/news/3.webp
 publishDate: 2025-01-30T08:41:00
 author: Redação São Geraldo
 ---
+
 São Geraldo volta a produzir refrigerante de laranja e relança produto no mercado.
 
 O sabor laranja é o primeiro de uma nova família de sabores que será lançada ainda este ano pela marca.

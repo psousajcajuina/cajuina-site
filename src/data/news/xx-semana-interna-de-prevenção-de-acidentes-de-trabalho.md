@@ -7,10 +7,11 @@ tags:
   - epi
   - prevenção-de-acidentes-de-trabalho
   - refrigerante-de-caju
-image: /src/assets/images/post/XX-Sipat-1200x675.webp
+image: /src/assets/images/news/XX-Sipat-1200x675.webp
 publishDate: 2021-10-28T15:47:00
 author: Redação São Geraldo
 ---
+
 Durante os dias 4 e 8 de outubro ocorreu a Semana Interna de Prevenção de Acidentes de Trabalho – SIPAT, ação desenvolvida pelo departamento de segurança do trabalho SESMT, que tem como principal objetivo conscientizar os  colaboradores sobre a importância da prevenção de acidentes e o cuidado da saúde.
 
 A semana tinha como tema “Pratique segurança, cuide do outro e garanta sua saúde no trabalho”, devido a pandemia, a principal atividade foi a distribuição de panfletos nos demais setores, que tinham como tópicos:

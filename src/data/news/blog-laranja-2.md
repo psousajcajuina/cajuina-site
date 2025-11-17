@@ -4,7 +4,7 @@ excerpt: São Geraldo lança oficialmente refrigerante de caju zero adição de 
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/Adobe-Express-file.webp
+image: /src/assets/images/news/Adobe-Express-file.webp
 publishDate: 2025-07-25T14:08:00
 author: Redação São Geraldo
 ---

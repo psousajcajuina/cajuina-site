@@ -4,10 +4,11 @@ excerpt: 'Cajuína São Geraldo lança campanha com Luiz Fidelis: “Com São Ge
 draft: false
 categories: noticias
 tags: []
-image: /src/assets/images/post/NATAL-CSG-SITE.webp
+image: /src/assets/images/news/NATAL-CSG-SITE.webp
 publishDate: 2024-12-11T16:03:00
 author: Gabriel Oliveira
 ---
+
 A campanha roda nas redes sociais e no Youtube da marca
 
 Com o mote “Com São Geraldo, o Natal é outra história”, a Cajuína São Geraldo convida seus consumidores a reviverem a magia do Natal ao lado de um produto tão emblemático da cultura local: o refrigerante de caju São Geraldo. Para protagonizar essa campanha, a marca escolheu um artista que é referência na música e tem uma relação especial com o produto: o compositor Luiz Fidelis.

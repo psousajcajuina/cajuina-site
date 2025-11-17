@@ -8,10 +8,11 @@ tags:
   - autonomous-sensory-meridian-response
   - dia-das-mães
   - homenagem
-image: /src/assets/images/post/video-em-asmr–autonomous-sensory-meridian-respons-cajuina-sao-geraldo.webp
+image: /src/assets/images/news/video-em-asmr–autonomous-sensory-meridian-respons-cajuina-sao-geraldo.webp
 publishDate: 2021-05-06T09:09:00
 author: Redação São Geraldo
 ---
+
 Fizemos essa homenagem com todo amor do mundo. 💚
 
 Neste dia das mães, escolhemos fazer uma homenagem de um jeito diferente. Através de um vídeo utilizando  a técnica ASMR – Autonomous Sensory Meridian Response, que em tradução livre significa resposta meridional sensorial autônoma. São sons emitidos para atingir a parte do cérebro responsável pelos estímulos sensoriais. Existem diversos vídeos usando essa técnica, esse em especial vai além, é do tipo roleplays (o espectador assume um papel), onde é reproduzida uma cena do dia a dia, que espontaneamente provoca um  efeito relaxante a quem está assistindo e o coloca como personagem. 🥰

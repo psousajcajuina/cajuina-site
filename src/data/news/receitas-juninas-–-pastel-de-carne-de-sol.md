@@ -8,10 +8,11 @@ tags:
   - festa-junina
   - maça-do-amor
   - são-geraldo
-image: /src/assets/images/post/banner_site_receita_pastel.webp
+image: /src/assets/images/news/banner_site_receita_pastel.webp
 publishDate: 2021-06-29T11:26:00
 author: Redação São Geraldo
 ---
+
 Como bons amantes de pastel, sabemos que ele e São Geraldo tem passe livre para qualquer festa, então trago essa receitinha com carne de sol delícia para sua festinha. Pense aí como fica bom! 😋
 
 Você vai precisar de:

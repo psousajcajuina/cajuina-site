@@ -9,10 +9,11 @@ tags:
   - refri-em-lata
   - são-joão
   - latinhas
-image: /src/assets/images/post/latas-sao-joao-cajuina-sao-geraldo.webp
+image: /src/assets/images/news/latas-sao-joao-cajuina-sao-geraldo.webp
 publishDate: 2024-06-01T16:48:00
 author: Redação São Geraldo
 ---
+
 Em comemoração a uma das principais festas culturais do Nordeste, o São João, a Cajuína São Geraldo apresenta a campanha “No São João, a gente veste o Nordeste” e lança sua mais recente embalagem, a lata (350ml), em uma versão temática, representando os nove estados da região. A nova campanha é assinada pela agência Bando.
 
 As latas personalizadas fazem parte de mais uma edição limitada da marca e devem estar disponíveis para o consumidor a partir de junho, em todos os pontos de vendas do Nordeste.
