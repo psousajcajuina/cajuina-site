@@ -1,6 +1,6 @@
 collections:
   - name: 'product'
-    label: 'Products'
+    label: 'Produtos'
     folder: 'src/data/product'
     create: true
     media_folder: '/src/assets/images/product' # Location where files will be stored in the repo

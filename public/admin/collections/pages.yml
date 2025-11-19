@@ -1,0 +1,20 @@
+collections:
+  - name: 'pages'
+    label: 'Páginas'
+    icon: 'description'
+    folder: 'src/data/pages'
+    identifier_field: title
+    slug: '{{slug}}'
+    create: true
+    editor:
+      preview: true
+    fields:
+      - { label: 'Título', name: 'title', widget: 'string' }
+      - { label: 'Rascunho', name: 'draft', widget: 'boolean', default: false }
+      - {
+          label: 'Layout',
+          name: 'layout',
+          widget: 'hidden',
+          default: '@/layouts/StaticPageLayout.astro',
+        }
+      - { label: 'Conteúdo', name: 'body', widget: 'markdown' }

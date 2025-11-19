@@ -27,6 +27,8 @@ media_libraries:
           optimize: true
 
 collections:
+  - divider: true
+
   - name: banners
     icon: panorama # https://fonts.google.com/icons?icon.set=Material+Symbols&icon.platform=web
     label: Banners do Slide

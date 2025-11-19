@@ -1,0 +1,94 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import merge from 'lodash.merge';
+import { twMerge } from 'tailwind-merge';
+import { getCanonical, getPermalink } from '@/utils/permalinks';
+import { fetchPages, getStaticPathspages } from '@/utils/pages';
+import { blogListRobots } from '@/utils/blog';
+import type { MetaData, Page } from '@/types';
+import StaticPageLayout from '@/layouts/StaticPageLayout.astro';
+
+import arrow from '@/assets/images/site/arrow-list.svg';
+
+export const prerender = true;
+
+const pages = await fetchPages();
+
+export const getStaticPaths = (async () => {
+  return await getStaticPathspages();
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props as Props;
+
+const url = getCanonical(getPermalink(page.permalink, 'pages'));
+// Valores padrão baseados no post
+const defaultMetadata = {
+  title: page.title,
+  description: page.description,
+  canonical: url,
+  robots: {
+    index: blogListRobots?.index ?? true,
+    follow: blogListRobots?.follow ?? true,
+  },
+  openGraph: {
+    url: url,
+    type: 'webpage',
+    locale: 'pt_BR',
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+  },
+};
+
+// Merge: valores padrão + metadata customizado do post
+const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
+---
+
+<StaticPageLayout metadata={metadata}>
+  <section
+    class="relative grid w-full grid-cols-1 gap-2 px-20 pb-12 md:grid-cols-[minmax(0,280px)_1fr]"
+  >
+    <div
+      class="bg-caju-heading-primary relative top-0 z-100 h-full w-full pt-20"
+    >
+      <div
+        class="b-black font-inter! absolute top-24 z-101 mx-auto w-full px-5 text-2xl md:top-10 md:text-2xl"
+      >
+        <ul
+          style=`list-style: url(${arrow})`
+          class="not-prose w-full list-outside"
+        >
+          {
+            pages.map((page: Page) => (
+              <li>
+                <a
+                  class="hover:text-caju-heading-orange! hover:scale-105 hover:underline"
+                  href={`/empresa/${page.permalink}/`}
+                >
+                  {page.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <div
+      class={twMerge(
+        'flex flex-col md:gap-10',
+        'font-inter prose prose-lg prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-blue-600 prose-img:rounded-md prose-img:shadow-lg max-w-4xl',
+        'px-2 pt-12 in-[h1_h2_h3_h4_h5_h6]:text-caju-heading-orange'
+      )}
+    >
+      {
+        page.Content ? (
+          <page.Content />
+        ) : (
+          <Fragment set:html={page.content || ''} />
+        )
+      }
+    </div>
+  </section>
+</StaticPageLayout>

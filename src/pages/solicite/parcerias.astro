@@ -9,7 +9,7 @@ const metadata: MetaData = {
 };
 
 const siteKey = import.meta.env.PUBLIC_GOOGLE_CAPTCHA_SITEKEY;
-console.log('siteKey', siteKey);
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL;
 ---
 
 <Layout metadata={metadata}>
@@ -51,7 +51,7 @@ console.log('siteKey', siteKey);
           você espera (divulgação, apoio financeiro, etc.)
         </li>
       </ul>
-      <Form client:load recaptchaSiteKey={siteKey} />
+      <Form client:only="react" apiUrl={apiUrl} recaptchaSiteKey={siteKey} />
     </div>
     <Banner />
   </section>

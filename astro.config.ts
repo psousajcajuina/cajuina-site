@@ -9,7 +9,6 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
-
 import astrowind from './vendor/integration';
 
 import {
@@ -37,11 +36,13 @@ const whenExternalScripts = (
 export default defineConfig({
   site: import.meta.env.SITE_URL || 'https://cajuinasaogeraldo.com.br',
   trailingSlash: 'always',
-  redirects: {
-    'https://www.cajuinasaogeraldo.com.br': 'https://cajuinasaogeraldo.com.br',
-  },
   // SSG completo por padrão
   output: 'static',
+  server: {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate max-age=0',
+    },
+  },
 
   integrations: [
     sitemap(),

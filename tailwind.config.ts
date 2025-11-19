@@ -8,9 +8,6 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,json,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
-      gridTemplateColumns: {
-        13: 'repeat(13, minmax(0, 1fr))',
-      },
       fontSize: {
         xxs: '10px',
         xsm: '12px',
@@ -58,11 +55,10 @@ export default {
     },
   },
   plugins: [
-    typographyPlugin,
+    // typographyPlugin,
     plugin(({ addVariant }) => {
       addVariant('intersect', '&:not([no-intersect])');
     }),
   ],
   purge: ['./src/**/*.html', './src/**/*.astro', './src/**/*.jsx'],
-  darkMode: 'class',
 };

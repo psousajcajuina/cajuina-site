@@ -18,6 +18,12 @@
 </div>
 
 <style>
+  #contentEditor {
+    white-space: pre-wrap; /* preserva espaços e quebras de linha */
+    word-break: break-word; /* evita overflow */
+    outline: none;
+  }
+
   #contentEditor:empty:before {
     content: attr(data-placeholder);
     color: #737373;

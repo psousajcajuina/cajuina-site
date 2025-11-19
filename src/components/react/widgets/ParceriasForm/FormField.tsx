@@ -20,7 +20,7 @@ interface FormFieldProps<TFormData extends Record<string, any>> {
   control?: Control<TFormData>;
   errors: FieldErrors<TFormData>;
   name: Path<TFormData>;
-  label?: string | null;
+  label?: React.ReactNode | null;
   type?:
     | 'text'
     | 'email'

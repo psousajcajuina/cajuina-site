@@ -24,14 +24,12 @@ export default function NewsSwiper({
   const handlePause = () => {
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.pause();
-      console.log('Autoplay paused');
     }
   };
 
   const handleResume = () => {
     if (swiperInstance?.autoplay) {
       swiperInstance.autoplay.resume();
-      console.log('Autoplay resumed');
     }
   };
 

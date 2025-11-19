@@ -12,13 +12,13 @@
     {/* Header */}
     <div class="mb-5 flex items-center gap-2">
       <span class="text-2xl">🔶</span>
-      <h3 class="text-xl font-semibold text-white">Criar Heading Destaque</h3>
+      <h3 class="text-xl font-semibold text-white">Adicionar Título</h3>
     </div>
 
     <div class="space-y-4">
       <label class="block">
         <span class="mb-2 block text-sm font-medium text-neutral-300">
-          Conteúdo do heading
+          Texto
         </span>
         <input
           type="text"
@@ -29,45 +29,41 @@
       </label>
 
       <div class="grid gap-4 sm:grid-cols-[1fr_auto]">
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-neutral-300">
-            Cor do heading (Hex ou CSS Var)
-          </span>
-          <input
-            type="text"
-            id="headingColorHex"
-            placeholder="#D98338"
-            value="#D98338"
-            class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
-          />
+        <label class="mb-2 block text-sm font-medium text-neutral-300">
+          Cor
         </label>
-
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-neutral-300">
-            Seletor de cor
-          </span>
-          <input
-            type="color"
-            id="headingColorInput"
-            class="h-[52px] w-full cursor-pointer rounded-lg border border-neutral-700 bg-neutral-950 p-1"
-            value="#D98338"
-          />
-        </label>
+        <!-- <input
+          type="text"
+          id="headingColorHex"
+          placeholder="#D98338"
+          value="#D98338"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        /> -->
+        <select
+          id="headingColorSelect"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+        >
+          <option value="primary">🟢 Verde Principal</option>
+          <option value="secondary">🟢 Verde Escuro</option>
+          <option value="yellow">🟡 Amarelo</option>
+          <option value="orange" selected>🟠 Laranja</option>
+        </select>
       </div>
 
       <label class="block">
         <span class="mb-2 block text-sm font-medium text-neutral-300">
-          Nível do heading
+          Nível
         </span>
         <select
           id="headingLevelSelect"
           class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
         >
-          <option value="h2">Heading 2</option>
-          <option value="h3">Heading 3</option>
-          <option value="h4" selected>Heading 4</option>
-          <option value="h5">Heading 5</option>
-          <option value="h6">Heading 6</option>
+          <option value="h1">H1</option>
+          <option value="h2">H2</option>
+          <option value="h3">H3</option>
+          <option value="h4" selected>H4</option>
+          <option value="h5">H5</option>
+          <option value="h6">H6</option>
         </select>
       </label>
     </div>

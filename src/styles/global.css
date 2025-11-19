@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import './tailwind.css';
 
 @theme inline {
@@ -9,6 +7,10 @@
 #dropZone.drag-over {
   @apply border-indigo-500 bg-indigo-500/10;
 }
+
+/* #sabosta > a {
+  @apply text-shadow-caju-secondary-yellow!;
+} */
 
 :root {
   --black: 15, 18, 25;
@@ -40,6 +42,11 @@
 @font-face {
   font-family: 'Bevan';
   src: url('/fonts/Bevan.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -104,6 +111,7 @@ h6 {
   margin: 0 0 0.5rem 0;
   /* line-height: 1.2; */
 }
+
 a {
   @apply font-inter;
   @apply text-white;
@@ -142,15 +150,23 @@ h4 {
   white-space: nowrap;
 }
 
-/* Estilo para campos obrigatórios - placeholder com indicador vermelho */
-.required-field::placeholder {
+/* Estilo
+  para
+  campos
+  obrigatórios
+  -
+  placeholder
+  com
+  indicador
+  vermelho
+  .required-field::placeholder {
   color: inherit;
 }
 
 .required-field::after {
   content: ' *';
   color: #ef4444;
-}
+} */
 
 /* YouTube Embed - Container responsivo para vídeos embeddados */
 .youtube-embed {
@@ -267,71 +283,4 @@ h4 {
       'image'
       'text';
   }
-}
-
-/* Cards */
-.layout-card {
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-}
-
-.layout-card-bordered {
-  border: 2px solid #667eea;
-}
-
-.layout-card-elevated {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-}
-
-.layout-card-highlighted {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-}
-
-/* Alerts */
-.layout-alert {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  border-radius: 0.5rem;
-  border-left: 4px solid;
-}
-
-.layout-alert-icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
-}
-
-.layout-alert-content {
-  flex: 1;
-}
-
-.layout-alert-info {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #1e40af;
-}
-
-.layout-alert-success {
-  background: #f0fdf4;
-  border-color: #22c55e;
-  color: #166534;
-}
-
-.layout-alert-warning {
-  background: #fffbeb;
-  border-color: #f59e0b;
-  color: #92400e;
-}
-
-.layout-alert-error {
-  background: #fef2f2;
-  border-color: #ef4444;
-  color: #991b1b;
 }
