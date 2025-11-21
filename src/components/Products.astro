@@ -12,6 +12,7 @@ const products: ProductItem[] = productsCollection
   .sort((a, b) => a.data.id - b.data.id)
   .map((product) => ({
     id: product.data.id,
+    slug: product.data.slug,
     normal: product.data.normalImage,
     hover: product.data.hoverImage,
     details: product.data.details,

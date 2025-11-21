@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+import { X } from 'lucide-react';
+import ProductCarousel from '@/components/react/widgets/ProductsCarrousel';
+import type { ProductItem } from '@/types';
+import SwiperLayout from '@/components/ui/SwiperLayout.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('product');
+  return products.map((product) => ({
+    params: { slug: product.data.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { details, ingredients } = product.data;
+
+const productsCollection = await getCollection('product');
+const similarProducts: ProductItem[] = productsCollection
+  .filter((p) => p.data.id !== product.data.id)
+  .sort((a, b) => a.data.id - b.data.id)
+  .map((p) => ({
+    id: p.data.id,
+    slug: p.data.slug,
+    normal: p.data.normalImage,
+    hover: p.data.hoverImage,
+    details: p.data.details,
+    ingredients: p.data.ingredients,
+  }));
+
+const metadata = {
+  title: `${details.name} - Cajuína São Geraldo`,
+  description: `Detalhes sobre ${details.name}. ${ingredients || ''}`,
+};
+---
+
+<PageLayout metadata={metadata}>
+  <div class="relative mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
+    {/* Botão Fechar (Voltar) */}
+    <a
+      href="/produtos"
+      class="absolute top-0 right-4 rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 md:top-4 md:right-4"
+      aria-label="Voltar para produtos"
+    >
+      <X className="h-6 w-6 md:h-8 md:w-8" />
+    </a>
+
+    <div class="mt-8 grid gap-10 rounded-lg bg-white md:grid-cols-2 md:p-6">
+      {/* Imagem */}
+      <div class="flex items-center justify-center rounded-lg bg-[#F7F7F7] p-8">
+        <Image
+          src={details.image}
+          alt={details.name}
+          class="h-auto max-h-[600px] w-full object-contain object-center"
+          loading="eager"
+        />
+      </div>
+
+      {/* Detalhes */}
+      <div
+        class="flex h-auto flex-col items-center justify-start gap-6 md:items-start"
+      >
+        <h1
+          class="text-caju-heading-primary text-center text-3xl font-normal uppercase md:text-left md:text-5xl"
+        >
+          {details.name}
+        </h1>
+
+        <Image
+          src={details.nutritionalInfo}
+          alt={`Informações Nutricionais - ${details.name}`}
+          class="h-auto max-h-[400px] w-full max-w-lg rounded-lg bg-[#F7F7F7] object-contain"
+        />
+
+        <p class="font-inter text-justify text-lg font-normal md:text-xl">
+          {ingredients || 'Sem informação de ingredientes.'}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Produtos Similares */}
+  <div class="w-full bg-white py-12">
+    <div class="mx-auto max-w-7xl px-4">
+      <SwiperLayout>
+        <ProductCarousel client:load products={similarProducts} />
+      </SwiperLayout>
+    </div>
+  </div>
+</PageLayout>
