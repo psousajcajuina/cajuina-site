@@ -32,7 +32,7 @@ const {
   links = [],
   actions = [],
   isSticky = false,
-  isFixed = true,
+  isFixed = false,
 } = Astro.props;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;

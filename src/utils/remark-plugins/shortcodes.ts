@@ -36,7 +36,6 @@ async function getMarkdownProcessor(): Promise<MarkdownProcessor> {
   if (!markdownProcessorPromise) {
     markdownProcessorPromise = createMarkdownProcessor();
   }
-
   return markdownProcessorPromise;
 }
 
@@ -150,9 +149,7 @@ function rewriteAssetUrls(html: string, filePath?: string): string {
         .split(',')
         .map((entry: string) => {
           const trimmedEntry = entry.trim();
-          if (!trimmedEntry) {
-            return trimmedEntry;
-          }
+          if (!trimmedEntry) return trimmedEntry;
           const parts = trimmedEntry.split(/\s+/);
           const [candidate, ...rest] = parts;
           const resolved = resolveAssetUrl(candidate || '', filePath);
@@ -189,115 +186,182 @@ function stripOuterParagraph(html: string): string {
   return match[1].trim();
 }
 
-async function renderMarkdownImage(
-  url: string,
-  alt: string,
+async function processListShortcodes(
+  content: string,
   filePath?: string
 ): Promise<string> {
-  const trimmedUrl = url.trim();
-  if (!trimmedUrl) return '';
+  const regex =
+    /\[\[\s*list(?::([^\]]*))?\s*\]\]([\s\S]*?)\[\[\s*\/\s*list\s*\]\]/gi;
 
-  const safeAlt = alt.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
-  const markdown = `![${safeAlt}](${trimmedUrl})`;
-  const html = await renderMarkdownBase(markdown, filePath, {
-    rewriteAssets: false,
-  });
-  if (!html) return '';
-  return unwrapParagraphsAroundMedia(html);
+  let result = content;
+  const matches: Array<{
+    fullMatch: string;
+    index: number;
+    styleParam: string;
+    inner: string;
+  }> = [];
+
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(result)) !== null) {
+    matches.push({
+      fullMatch: match[0],
+      index: match.index,
+      styleParam: (match[1] || '').trim(),
+      inner: match[2],
+    });
+  }
+
+  // Processa em ordem reversa
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const { fullMatch, index, styleParam, inner } = matches[i];
+
+    const styleClass = getListStyleClass(styleParam);
+
+    let html = `<ul class="list-block ${styleClass}">`;
+    let prevLevel = 0;
+
+    const lines = inner.split('\n');
+
+    for (let line of lines) {
+      line = line.trim();
+      if (!line) continue;
+
+      const slashMatch = line.match(/^(\/\/+)\s+(.*)$/);
+      if (!slashMatch) continue;
+
+      const slashes = slashMatch[1].length;
+      const text = slashMatch[2];
+      const newLevel = Math.floor(slashes / 2);
+
+      // Abre sublistas
+      while (prevLevel < newLevel) {
+        html += `<ul class="${styleClass}">`;
+        prevLevel++;
+      }
+
+      // Fecha sublistas e items
+      while (prevLevel > newLevel) {
+        html += '</li></ul>';
+        prevLevel--;
+      }
+
+      // Fecha item anterior do mesmo nível (exceto no primeiro)
+      if (prevLevel === newLevel && prevLevel > 0) {
+        html += '</li>';
+      }
+
+      // Processa conteúdo do item
+      let itemHtml = await processInlineShortcodesInText(text, filePath);
+      itemHtml = await renderInlineMarkdown(itemHtml, filePath);
+
+      html += `<li>${itemHtml}`;
+    }
+
+    // Fecha todas as tags abertas
+    while (prevLevel > 0) {
+      html += '</li></ul>';
+      prevLevel--;
+    }
+
+    html += '</li></ul>';
+
+    result =
+      result.slice(0, index) + html + result.slice(index + fullMatch.length);
+  }
+
+  return result;
 }
 
-function addClassesToImageTag(html: string, classes: string): string {
-  const classNames = classes.trim();
-  if (!classNames) return html;
+function getListStyleClass(param: string): string {
+  switch (param) {
+    case '>':
+      return 'list-style-arrow';
+    case '-':
+      return 'list-style-dash';
+    case '•':
+    case 'disc':
+      return 'list-style-disc';
+    case '○':
+    case 'circle':
+      return 'list-style-circle';
+    case '▪':
+    case 'square':
+      return 'list-style-square';
+    default:
+      return 'list-style-disc';
+  }
+}
 
-  return html.replace(/<img\b([^>]*?)(\/)?>/i, (match, attrs, closing = '') => {
-    if (/\sclass\s*=/.test(attrs)) {
-      return match.replace(
-        /class\s*=\s*"([^"]*)"/i,
-        (_m, existing) => `class="${existing} ${classNames}"`
-      );
+async function processInlineShortcodesInText(
+  text: string,
+  filePath?: string
+): Promise<string> {
+  let output = text;
+
+  output = output.replace(
+    /\[\[\s*youtube:(.*?)\s*\]\]/gi,
+    (_match: string, rawId: string) => {
+      const videoId = String(rawId || '').trim();
+      if (!videoId) return _match;
+      return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     }
+  );
 
-    const space = attrs.trim() ? ' ' : '';
-    return `<img class="${classNames}"${space}${attrs.trim()}${closing ? ' ' : ''}${closing}>`;
+  output = output.replace(
+    /\[\[\s*instagram:(.*?)\s*\]\]/gi,
+    (_match: string, rawUrl: string) => {
+      const permalink = String(rawUrl || '').trim();
+      if (!permalink) return _match;
+      const embedUrl = buildInstagramEmbedUrl(permalink);
+      if (!embedUrl) return _match;
+      const escapedUrl = escapeHtmlAttribute(embedUrl);
+      return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe></div>`;
+    }
+  );
+
+  return output;
+}
+
+function normalizeShortcodeSyntax(text: string): string {
+  return text
+    .replace(/\[\[\s+/g, '[[')
+    .replace(/\s+\]\]/g, ']]')
+    .replace(/\[\s+\/\s+/g, '[/')
+    .replace(/\[\s*(col[12])\s*\]/gi, (_m, name) => `[${name}]`)
+    .replace(/\[\s*\/\s*(col[12])\s*\]/gi, (_m, name) => `[/${name}]`);
+}
+
+function sanitizeTwoColumnsBlocks(text: string): string {
+  const blockRegex =
+    /\[\[\s*two-columns[^\]]*\]\][\s\S]*?\[\[\s*\/\s*two-columns\s*\]\]/gi;
+
+  return text.replace(blockRegex, (block: string) => {
+    let sanitized = block;
+    sanitized = sanitized.replace(/\r\n/g, '\n');
+    sanitized = sanitized.replace(/(\]\]|\])\s*\n+\s*(?=\[)/g, '$1');
+    sanitized = sanitized.replace(/\[(\s+)/g, '[');
+    sanitized = sanitized.replace(/(\s+)\]/g, ']');
+    sanitized = sanitized.replace(
+      /\[col([12])\]\s*\n+/gi,
+      (_m: string, col: string) => `[col${col}]`
+    );
+    sanitized = sanitized.replace(
+      /\n+\s*\[\/col([12])\]/gi,
+      (_m: string, col: string) => `[/col${col}]`
+    );
+    return sanitized;
   });
 }
 
-export const remarkShortcodes: RemarkPlugin = () => {
-  return async (tree: any, file: any) => {
-    const filePath =
-      typeof file?.history?.[0] === 'string' ? file.history[0] : undefined;
-
-    const replacements: ShortcodeReplacement[] = [];
-
-    visit(
-      tree,
-      (node: any, index: number | undefined, parent: ParentNode | null) => {
-        if (!parent || typeof index !== 'number') return;
-
-        if (node.type !== 'text' && node.type !== 'paragraph') return;
-
-        const initialText =
-          node.type === 'text'
-            ? String(node.value ?? '')
-            : extractParagraphText(node);
-
-        if (!containsShortcode(initialText)) return;
-
-        const { combinedText, endIndex } = collectShortcodeRange(parent, index);
-        replacements.push({
-          parent,
-          startIndex: index,
-          endIndex,
-          combinedText,
-        });
-
-        return SKIP;
-      }
-    );
-
-    if (replacements.length === 0) {
-      return;
-    }
-
-    const resolved: ResolvedReplacement[] = await Promise.all(
-      replacements.map(async (item) => {
-        const processed = await transformShortcodes(
-          item.combinedText,
-          filePath
-        );
-        return { ...item, processed };
-      })
-    );
-
-    const grouped = new Map<ParentNode, ResolvedReplacement[]>();
-
-    for (const item of resolved) {
-      if (item.processed === item.combinedText) continue;
-
-      const existing = grouped.get(item.parent);
-      if (existing) {
-        existing.push(item);
-      } else {
-        grouped.set(item.parent, [item]);
-      }
-    }
-
-    for (const list of grouped.values()) {
-      list.sort((a, b) => b.startIndex - a.startIndex);
-
-      for (const { parent, startIndex, endIndex, processed } of list) {
-        parent.children.splice(startIndex, endIndex - startIndex + 1, {
-          type: 'html',
-          value: processed,
-        });
-      }
-    }
-  };
-};
-
-function containsShortcode(text: string): boolean {
-  return /\[\[.+?\]\]/.test(text);
+function extractNodeText(node: any): string {
+  if (!node) return '';
+  if (node.type === 'text') {
+    return String(node.value ?? '');
+  }
+  if (node.type === 'paragraph') {
+    return extractParagraphText(node);
+  }
+  return '';
 }
 
 function extractParagraphText(node: any): string {
@@ -328,62 +392,6 @@ function extractParagraphText(node: any): string {
     .join('');
 }
 
-async function transformShortcodes(
-  raw: string,
-  filePath?: string
-): Promise<string> {
-  const normalized = normalizeShortcodeSyntax(raw);
-  const sanitizedBlocks = sanitizeTwoColumnsBlocks(normalized);
-  const inlineHandled = processInlineShortcodes(sanitizedBlocks, filePath);
-  return processShortcodesRecursive(inlineHandled, filePath);
-}
-
-function normalizeShortcodeSyntax(text: string): string {
-  return text
-    .replace(/\[\[\s+/g, '[[')
-    .replace(/\s+\]\]/g, ']]')
-    .replace(/\[\s+\/\s+/g, '[/')
-    .replace(/\[\s*(col[12])\s*\]/gi, (_m, name) => `[${name}]`)
-    .replace(/\[\s*\/\s*(col[12])\s*\]/gi, (_m, name) => `[/${name}]`);
-}
-
-function sanitizeTwoColumnsBlocks(text: string): string {
-  const blockRegex =
-    /\[\[\s*two-columns[^\]]*\]\][\s\S]*?\[\[\s*\/\s*two-columns\s*\]\]/gi;
-
-  return text.replace(blockRegex, (block: string) => {
-    let sanitized = block;
-
-    sanitized = sanitized.replace(/\r\n/g, '\n');
-    sanitized = sanitized.replace(/(\]\]|\])\s*\n+\s*(?=\[)/g, '$1');
-
-    sanitized = sanitized.replace(/\[(\s+)/g, '[');
-    sanitized = sanitized.replace(/(\s+)\]/g, ']');
-
-    sanitized = sanitized.replace(
-      /\[col([12])\]\s*\n+/gi,
-      (_m: string, col: string) => `[col${col}]`
-    );
-    sanitized = sanitized.replace(
-      /\n+\s*\[\/col([12])\]/gi,
-      (_m: string, col: string) => `[/col${col}]`
-    );
-
-    return sanitized;
-  });
-}
-
-function extractNodeText(node: any): string {
-  if (!node) return '';
-  if (node.type === 'text') {
-    return String(node.value ?? '');
-  }
-  if (node.type === 'paragraph') {
-    return extractParagraphText(node);
-  }
-  return '';
-}
-
 function collectShortcodeRange(
   parent: ParentNode,
   startIndex: number
@@ -398,15 +406,10 @@ function collectShortcodeRange(
     const fragment = extractNodeText(child);
 
     if (fragment) {
-      if (
-        combined &&
-        previousChild &&
-        previousChild.type === 'paragraph' &&
-        child.type === 'paragraph'
-      ) {
-        combined += '\n\n';
+      // MUDANÇA CRÍTICA: Preserva quebras de linha originais
+      if (combined && previousChild) {
+        combined += '\n';
       }
-
       combined += fragment;
     }
 
@@ -429,15 +432,105 @@ function collectShortcodeRange(
   return { combinedText: combined, endIndex };
 }
 
+function parseShortcodes(text: string): ShortcodeMatch[] {
+  const regex = /\[\[\s*([^\]]+?)\s*\]\]/g;
+  const matches: ShortcodeMatch[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    const fullMatch = match[0];
+    const rawContent = match[1]?.trim() ?? '';
+
+    if (!rawContent) continue;
+
+    const isClosing = rawContent.startsWith('/');
+
+    if (isClosing) {
+      const name = rawContent.slice(1).trim();
+      matches.push({
+        type: 'closing',
+        name,
+        fullMatch,
+        index: match.index,
+      });
+      continue;
+    }
+
+    const [namePart, ...paramsParts] = rawContent.split(':');
+    const name = namePart.trim();
+    const params = paramsParts.join(':').trim() || undefined;
+
+    matches.push({
+      type: 'opening',
+      name,
+      params,
+      fullMatch,
+      index: match.index,
+    });
+  }
+
+  return matches;
+}
+
+function hasBalancedShortcodes(text: string): boolean {
+  const normalized = normalizeShortcodeSyntax(text);
+  const tokens = parseShortcodes(normalized);
+
+  if (tokens.length === 0) return false;
+
+  const stack: ShortcodeMatch[] = [];
+  let sawClosing = false;
+
+  for (const token of tokens) {
+    if (token.type === 'opening') {
+      stack.push(token);
+      continue;
+    }
+
+    sawClosing = true;
+    let matched = false;
+
+    for (let i = stack.length - 1; i >= 0; i--) {
+      if (stack[i].name === token.name) {
+        stack.splice(i, 1);
+        matched = true;
+        break;
+      }
+    }
+
+    if (!matched) return false;
+  }
+
+  return sawClosing && stack.length === 0;
+}
+
+function containsShortcode(text: string): boolean {
+  return /\[\[.+?\]\]/.test(text);
+}
+
+async function transformShortcodes(
+  raw: string,
+  filePath?: string
+): Promise<string> {
+  const normalized = normalizeShortcodeSyntax(raw);
+  const sanitizedBlocks = sanitizeTwoColumnsBlocks(normalized);
+
+  // Processa listas ANTES de tudo
+  const listsProcessed = await processListShortcodes(sanitizedBlocks, filePath);
+
+  const inlineHandled = processInlineShortcodes(listsProcessed, filePath);
+  return processShortcodesRecursive(inlineHandled, filePath);
+}
+
 function processInlineShortcodes(text: string, filePath?: string): string {
-  let output = text.replace(
+  let output = text;
+
+  output = output.replace(
     /\[\[\s*youtube:(.*?)\s*\]\]/gi,
     (_match: string, rawId: string) => {
       const videoId = String(rawId || '').trim();
       if (!videoId) return _match;
-      return `<div class="youtube-embed">
-  <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>`;
+      return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     }
   );
 
@@ -453,12 +546,6 @@ function processInlineShortcodes(text: string, filePath?: string): string {
     }
   );
 
-  if (filePath) {
-    output = output.replace(/!\[[^\]]*\]\([^\)]+\)/g, (match: string) => {
-      return match;
-    });
-  }
-
   return output;
 }
 
@@ -469,9 +556,7 @@ async function processShortcodesRecursive(
   const text = normalizeShortcodeSyntax(source);
   const tokens = parseShortcodes(text);
 
-  if (tokens.length === 0) {
-    return text;
-  }
+  if (tokens.length === 0) return text;
 
   let result = '';
   let cursor = 0;
@@ -529,82 +614,6 @@ async function processShortcodesRecursive(
   return result || text;
 }
 
-function parseShortcodes(text: string): ShortcodeMatch[] {
-  const regex = /\[\[\s*([^\]]+?)\s*\]\]/g;
-  const matches: ShortcodeMatch[] = [];
-  let match: RegExpExecArray | null;
-
-  while ((match = regex.exec(text)) !== null) {
-    const fullMatch = match[0];
-    const rawContent = match[1]?.trim() ?? '';
-
-    if (!rawContent) continue;
-
-    const isClosing = rawContent.startsWith('/');
-
-    if (isClosing) {
-      const name = rawContent.slice(1).trim();
-      matches.push({
-        type: 'closing',
-        name,
-        fullMatch,
-        index: match.index,
-      });
-      continue;
-    }
-
-    const [namePart, ...paramsParts] = rawContent.split(':');
-    const name = namePart.trim();
-    const params = paramsParts.join(':').trim() || undefined;
-
-    matches.push({
-      type: 'opening',
-      name,
-      params,
-      fullMatch,
-      index: match.index,
-    });
-  }
-
-  return matches;
-}
-
-function hasBalancedShortcodes(text: string): boolean {
-  const normalized = normalizeShortcodeSyntax(text);
-  const tokens = parseShortcodes(normalized);
-
-  if (tokens.length === 0) {
-    return false;
-  }
-
-  const stack: ShortcodeMatch[] = [];
-  let sawClosing = false;
-
-  for (const token of tokens) {
-    if (token.type === 'opening') {
-      stack.push(token);
-      continue;
-    }
-
-    sawClosing = true;
-    let matched = false;
-
-    for (let i = stack.length - 1; i >= 0; i--) {
-      if (stack[i].name === token.name) {
-        stack.splice(i, 1);
-        matched = true;
-        break;
-      }
-    }
-
-    if (!matched) {
-      return false;
-    }
-  }
-
-  return sawClosing && stack.length === 0;
-}
-
 async function generateHTML(
   name: string,
   params: string | undefined,
@@ -613,17 +622,6 @@ async function generateHTML(
   filePath?: string
 ): Promise<string> {
   switch (name) {
-    case 'heading': {
-      if (!params) return content;
-      const [levelRaw, colorRaw] = params.split('|').map((item) => item.trim());
-      const level = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(levelRaw)
-        ? levelRaw
-        : 'h4';
-      const color = colorRaw || '#D98338';
-      const inner = await renderInlineMarkdown(content, filePath);
-      return `<${level} style="color:${color};">${inner}</${level}>`;
-    }
-
     case 'link': {
       if (!params) return content;
       const [urlRaw, targetRaw] = params.split('|').map((item) => item.trim());
@@ -634,44 +632,6 @@ async function generateHTML(
           : '';
       const inner = await renderInlineMarkdown(content, filePath);
       return `<a href="${href}"${targetAttr} class="text-blue-600 hover:text-blue-800 underline">${inner}</a>`;
-    }
-
-    case 'image': {
-      if (!params) return '';
-      const [urlRaw, altRaw, configRaw] = params
-        .split('|')
-        .map((item) => item.trim());
-      const alt = altRaw || 'Imagem';
-      const [widthToken, alignToken] = (configRaw || 'medium:center').split(
-        ':'
-      );
-
-      const widthMap: Record<string, string> = {
-        small: 'max-w-xs',
-        medium: 'max-w-md',
-        large: 'max-w-2xl',
-        full: 'max-w-full',
-      };
-
-      const alignMap: Record<string, string> = {
-        left: 'mr-auto',
-        center: 'mx-auto',
-        right: 'ml-auto',
-      };
-
-      const widthClass = widthMap[widthToken] || 'max-w-md';
-      const alignClass = alignMap[alignToken] || 'mx-auto';
-      const rendered = await renderMarkdownImage(urlRaw || '', alt, filePath);
-      if (!rendered) return '';
-      const imgHtml = addClassesToImageTag(
-        rendered,
-        'w-full rounded-lg shadow-md'
-      );
-      const containerClasses = ['my-4', widthClass, alignClass]
-        .filter(Boolean)
-        .join(' ');
-
-      return `<div class="${containerClasses}">${imgHtml}</div>`;
     }
 
     case 'two-columns': {
@@ -699,10 +659,7 @@ async function generateHTML(
         { rewriteAssets: false }
       );
 
-      return `<div class="layout-two-columns" style="--col1:${left}%;--col2:${right}%">
-  <div class="layout-column-1">${col1Content}</div>
-  <div class="layout-column-2">${col2Content}</div>
-</div>`;
+      return `<div class="layout-two-columns" style="--col1:${left}%;--col2:${right}%"><div class="layout-column-1">${col1Content}</div><div class="layout-column-2">${col2Content}</div></div>`;
     }
 
     case 'image-left':
@@ -711,45 +668,21 @@ async function generateHTML(
         .split('|')
         .map((item) => item.trim());
       const alt = altRaw || '';
-      const imageHtmlRaw = await renderMarkdownImage(
-        urlRaw || '',
-        alt,
-        filePath
-      );
-      if (!imageHtmlRaw) return '';
-      const imageHtml = addClassesToImageTag(imageHtmlRaw, 'w-full');
+      const url = urlRaw || '';
       const position = name === 'image-left' ? 'left' : 'right';
       const inner = await renderMarkdownBlock(content, processNested, filePath);
 
-      return `<div class="layout-image-${position}">
-  <div class="layout-image-container">
-    ${imageHtml}
-  </div>
-  <div class="layout-text-content">${inner}</div>
-</div>`;
+      return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url}" alt="${alt}" loading="lazy" class="w-full" /></div><div class="layout-text-content">${inner}</div></div>`;
     }
 
     case 'card': {
-      const variant = params ? params.trim() : '';
-      const cardClass = variant ? ` layout-card-${variant}` : '';
       const inner = await renderMarkdownBlock(content, processNested, filePath);
-      return `<div class="layout-card${cardClass}">${inner}</div>`;
+      return `<div class="layout-card">${inner}</div>`;
     }
 
-    case 'alert': {
-      const type = params ? params.trim() : 'info';
-      const icons: Record<string, string> = {
-        info: 'ℹ️',
-        success: '✅',
-        warning: '⚠️',
-        error: '❌',
-      };
-      const icon = icons[type] || icons.info;
-      const inner = await renderMarkdownBlock(content, processNested, filePath);
-      return `<div class="layout-alert layout-alert-${type}">
-  <span class="layout-alert-icon">${icon}</span>
-  <div class="layout-alert-content">${inner}</div>
-</div>`;
+    case 'list': {
+      // Se cair aqui, já foi processado antes
+      return content;
     }
 
     default:
@@ -774,9 +707,7 @@ function resolveAssetUrl(url: string, filePath?: string): string {
     return trimmed;
   }
 
-  if (!filePath) {
-    return trimmed;
-  }
+  if (!filePath) return trimmed;
 
   const projectRoot = process.cwd();
   const srcDir = path.join(projectRoot, 'src');
@@ -811,3 +742,73 @@ function resolveAssetUrl(url: string, filePath?: string): string {
   const target = path.resolve(fileDir, trimmed);
   return toRelativeFromFile(target);
 }
+
+export const remarkShortcodes: RemarkPlugin = () => {
+  return async (tree: any, file: any) => {
+    const filePath =
+      typeof file?.history?.[0] === 'string' ? file.history[0] : undefined;
+
+    const replacements: ShortcodeReplacement[] = [];
+
+    visit(
+      tree,
+      (node: any, index: number | undefined, parent: ParentNode | null) => {
+        if (!parent || typeof index !== 'number') return;
+        if (node.type !== 'text' && node.type !== 'paragraph') return;
+
+        const initialText =
+          node.type === 'text'
+            ? String(node.value ?? '')
+            : extractParagraphText(node);
+
+        if (!containsShortcode(initialText)) return;
+
+        const { combinedText, endIndex } = collectShortcodeRange(parent, index);
+        replacements.push({
+          parent,
+          startIndex: index,
+          endIndex,
+          combinedText,
+        });
+
+        return SKIP;
+      }
+    );
+
+    if (replacements.length === 0) return;
+
+    const resolved: ResolvedReplacement[] = await Promise.all(
+      replacements.map(async (item) => {
+        const processed = await transformShortcodes(
+          item.combinedText,
+          filePath
+        );
+        return { ...item, processed };
+      })
+    );
+
+    const grouped = new Map<ParentNode, ResolvedReplacement[]>();
+
+    for (const item of resolved) {
+      if (item.processed === item.combinedText) continue;
+
+      const existing = grouped.get(item.parent);
+      if (existing) {
+        existing.push(item);
+      } else {
+        grouped.set(item.parent, [item]);
+      }
+    }
+
+    for (const list of grouped.values()) {
+      list.sort((a, b) => b.startIndex - a.startIndex);
+
+      for (const { parent, startIndex, endIndex, processed } of list) {
+        parent.children.splice(startIndex, endIndex - startIndex + 1, {
+          type: 'html',
+          value: processed,
+        });
+      }
+    }
+  };
+};

@@ -21,7 +21,7 @@ export const headerData = {
     },
     {
       text: 'Nos Encontre',
-      href: '/nos-encontre',
+      href: '#nos-encontre',
     },
   ],
   actions: [
@@ -34,7 +34,7 @@ export const headerData = {
     {
       text: 'Seja um distribuidor',
       variant: 'yellow',
-      href: '/seja-distribuidor',
+      href: '/solicite/seja-um-distribuidor',
     },
   ] as CallToAction[],
 };
@@ -47,7 +47,7 @@ export const footerData = {
         { text: 'Sobre', href: '/sobre' },
         { text: 'Produtos', href: '/produtos' },
         { text: 'Notícias', href: '/blog' },
-        { text: 'Nos encontre', href: '/nos-encontre' },
+        { text: 'Nos encontre', href: '/#nos-encontre' },
         {
           text: 'Trabalhe Conosco',
           href: 'https://cajuinasaogeraldo.gupy.io/',
@@ -57,27 +57,39 @@ export const footerData = {
     {
       title: 'Contato',
       links: [
-        { text: 'Solicite Parceria', href: '/solicite/parcerias' },
-        { text: 'Portal de boletos', href: '/portal-de-boletos' },
-        { text: 'Seja distribuidor', href: '/seja-distribuidor' },
-        { text: 'Canal de denúncia', href: '/canal-de-denuncia' },
+        { text: 'Solicite Parceria', href: '/solicite/parcerias/' },
+        {
+          text: 'Portal de boletos',
+          href: 'https://boletos.cajuinasaogeraldo.com.br/',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        },
+        { text: 'Seja distribuidor', href: '/solicite/seja-um-distribuidor' },
+        { text: 'Canal de denúncia', href: '/empresa/canal-de-denuncia/' },
       ],
     },
     {
       title: 'Informações',
       links: [
-        { text: 'Política Anticorrupção', href: '/politica-anticorrupcao' },
+        {
+          text: 'Política Anticorrupção',
+          href: '/empresa/politica-anticorrupcao/',
+        },
         {
           text: 'Política recebimento de brinde',
-          href: '/politica-recebimento-de-brinde',
+          href: '/empresa/politica-de-recebimento-e-oferecimento-de-presentes-brindes-hospitalidades-e-contrapartidas-de-patrocinio/',
         },
-        { text: 'Código de Conduta', href: '/codigo-de-conduta' },
+        { text: 'Código de Conduta', href: '/empresa/codigo-de-conduta/' },
       ],
     },
   ],
   secondaryLinks: [
     { text: 'Promoções', href: '/promocoes' },
-    { text: 'Política de Privacidade', href: getPermalink('/privacy') },
+    // { text: 'Política de Privacidade', href: getPermalink('/privacy') },
+    {
+      text: 'Política de Privacidade',
+      href: '/empresa/politica-de-privacidade/',
+    },
   ],
   socialLinks: [
     {

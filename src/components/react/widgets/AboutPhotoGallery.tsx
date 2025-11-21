@@ -19,9 +19,6 @@ export default function AboutPhotoGallery() {
             disableOnInteraction: true,
           }}
           breakpoints={{
-            320: {
-              slidesPerView: 3,
-            },
             768: {
               slidesPerView: 6,
             },

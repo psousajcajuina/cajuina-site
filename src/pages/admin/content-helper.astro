@@ -7,21 +7,20 @@ import PreviewPanel from '@/components/widgets/content-helper/PreviewPanel.astro
 import ExampleSection from '@/components/widgets/content-helper/ExampleSection.astro';
 import YoutubeModal from '@/components/widgets/content-helper/YoutubeModal.astro';
 import HeadingModal from '@/components/widgets/content-helper/HeadingModal.astro';
-import ImageModal from '@/components/widgets/content-helper/ImageModal.astro';
-import LinkModal from '@/components/widgets/content-helper/LinkModal.astro';
 import InstagramModal from '@/components/widgets/content-helper/InstagramModal.astro';
+import ListModal from '@/components/widgets/content-helper/ListModal.astro';
+import LinkModal from '@/components/widgets/content-helper/LinkModal.astro';
 
 const metadata = {
   title: 'Assistente de Publicações',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  robots: { index: false, follow: false },
 };
 ---
 
 <Layout metadata={metadata}>
-  <div class="container mx-auto max-w-[1600px] px-5 py-5">
+  <div
+    class="in-[h1_h2_h3_h4_h5_h6]:text-caju-heading-orange! container mx-auto max-w-[1600px] px-5 py-5"
+  >
     {/* Header */}
     <div
       class="mb-6 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 p-4 text-center shadow-lg shadow-indigo-500/30"
@@ -30,17 +29,15 @@ const metadata = {
         Assistente de Publicações
       </h1>
       <p class="text-sm text-white/90">
-        Construa seu post com blocos visuais, adicione vídeos e copie tudo
-        pronto para o CMS
+        Construa seu post com blocos visuais e copie tudo pronto para o CMS
       </p>
     </div>
 
     {/* Builder & Preview */}
-    <div class="mb-8 flex h-[500px] gap-5">
+    <div class="mb-8 flex min-h-[500px] gap-5">
       <div
         class="flex flex-1 flex-col rounded-xl border border-neutral-700 bg-neutral-900 p-6"
       >
-        {/* Panel Header */}
         <div class="mb-5 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="text-xl">✍️</span>
@@ -65,7 +62,6 @@ const metadata = {
           </div>
         </div>
 
-        {/* Drop Zone */}
         <div class="flex min-h-[400px] flex-1 flex-col">
           <DropZone />
         </div>
@@ -90,7 +86,6 @@ const metadata = {
         </div>
       </div>
 
-      {/* All Blocks in Grid */}
       {/* Category Filter */}
       <div class="mb-3">
         <select
@@ -101,7 +96,6 @@ const metadata = {
           <option value="content">📝 Conteúdo</option>
           <option value="layout">📐 Layout</option>
           <option value="containers">📦 Containers</option>
-          <option value="alerts">⚠️ Alertas</option>
         </select>
       </div>
 
@@ -110,32 +104,25 @@ const metadata = {
         id="blocksGrid"
         class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
-        <!-- <BlockItem
-          type="text"
-          title="Texto"
-          description="Parágrafo"
-          icon="📄"
-          data-category="content"
-        /> -->
         <BlockItem
-          type="heading-accent"
+          type="heading"
           title="Título"
-          description="Com cor"
-          icon="🔶"
+          description="H2-H6"
+          icon="📑"
           data-category="content"
         />
-        <!-- <BlockItem
-          type="image-block"
-          title="Imagem"
-          description="Upload"
-          icon="🖼️"
-          data-category="content"
-        /> -->
         <BlockItem
           type="link"
           title="Link"
           description="Hyperlink"
           icon="🔗"
+          data-category="content"
+        />
+        <BlockItem
+          type="list"
+          title="Lista"
+          description="Lista de Itens"
+          icon="📝"
           data-category="content"
         />
         <BlockItem
@@ -161,7 +148,7 @@ const metadata = {
           icon="📐"
           data-category="layout"
         />
-        <!-- <BlockItem
+        <BlockItem
           type="image-left"
           title="Img + Texto"
           description="Esquerda"
@@ -174,7 +161,7 @@ const metadata = {
           description="Direita"
           icon="▶️"
           data-category="layout"
-        /> -->
+        />
         <BlockItem
           type="card"
           title="Card"
@@ -182,41 +169,6 @@ const metadata = {
           icon="🃏"
           data-category="containers"
         />
-        <!-- <BlockItem
-          type="card-highlighted"
-          title="Card ✨"
-          description="Destaque"
-          icon="✨"
-          data-category="containers"
-        />
-        <BlockItem
-          type="alert-info"
-          title="Info"
-          description="Informação"
-          icon="ℹ️"
-          data-category="alerts"
-        />
-        <!-- <BlockItem
-          type="alert-success"
-          title="Sucesso"
-          description="Positivo"
-          icon="✅"
-          data-category="alerts"
-        /> -->
-        <!-- <BlockItem
-          type="alert-warning"
-          title="Aviso"
-          description="Atenção"
-          icon="⚠️"
-          data-category="alerts"
-        /> -->
-        <!-- <BlockItem
-          type="alert-error"
-          title="Erro"
-          description="Crítico"
-          icon="❌"
-          data-category="alerts"
-        /> -->
       </div>
 
       {/* Code Panel */}
@@ -228,43 +180,39 @@ const metadata = {
       <div class="mt-5">
         <ExampleSection />
       </div>
-
-      {/* YouTube Modal */}
-      <YoutubeModal />
-
-      {/* Instagram Modal */}
-      <InstagramModal />
-
-      {/* Heading Modal */}
-      <HeadingModal />
-
-      {/* Image Modal */}
-      <ImageModal />
-
-      {/* Link Modal */}
-      <LinkModal />
     </div>
 
-    <script>
-      const DEFAULT_HEADING_COLOR = '#D98338';
-      const HEX_COLOR_REGEX =
-        /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+    {/* Modals */}
+    <YoutubeModal />
+    <InstagramModal />
+    <HeadingModal />
+    <LinkModal />
+    <ListModal />
 
-      // Templates para cada tipo de bloco
+    <script>
+      // ============================================
+      // CONFIGURAÇÕES E TIPOS
+      // ============================================
+
+      const HEADING_COLORS = {
+        primary: { label: '🟢 Verde Principal', value: 'text-[#09863C]' },
+        secondary: { label: '🟢 Verde Escuro', value: 'text-[#00422a]' },
+        yellow: { label: '🟡 Amarelo', value: 'text-[#F4B013]' },
+        orange: { label: '🟠 Laranja', value: 'text-[#D98338]' },
+      } as const;
+
+      const DEFAULT_HEADING_COLOR = 'orange';
+
       const templates: Record<string, string> = {
-        text: `Seu texto markdown aqui.\n\nVocê pode usar **negrito**, *itálico*, e outros recursos markdown.`,
         'two-columns': `[[two-columns:70/30]]\n[col1]\nConteúdo da coluna 1 (70%)\n[/col1]\n[col2]\nConteúdo da coluna 2 (30%)\n[/col2]\n[[/two-columns]]`,
-        'image-left': `[[image-left: /images/sua-imagem.jpg]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
-        'image-right': `[[image-right: /images/sua-imagem.jpg]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
+        'image-left': `[[image-left:/images/sua-imagem.jpg|Alt da imagem]]\nSeu texto aqui ao lado da imagem.\n[[/image-left]]`,
+        'image-right': `[[image-right:/images/sua-imagem.jpg|Alt da imagem]]\nTexto à esquerda da imagem.\n[[/image-right]]`,
         card: `[[card]]\nConteúdo do card simples.\n[[/card]]`,
-        'card-highlighted': `[[card:highlighted]]\nCard com gradiente - perfeito para CTAs!\n[[/card]]`,
-        'heading-accent': `[[heading:h4|${DEFAULT_HEADING_COLOR}]]Um título chamativo aqui[[/heading]]`,
-        'alert-info': `[[alert:info]]\nEsta é uma informação útil.\n[[/alert]]`,
-        'alert-success': `[[alert:success]]\nOperação realizada com sucesso!\n[[/alert]]`,
-        'alert-warning': `[[alert:warning]]\nAtenção: verifique antes de prosseguir.\n[[/alert]]`,
-        'alert-error': `[[alert:error]]\nErro: algo deu errado.\n[[/alert]]`,
-        instagram: `[[instagram:https://www.instagram.com/p/CNpiBqvL5Oi/]]`,
       };
+
+      // ============================================
+      // UTILITÁRIOS
+      // ============================================
 
       function normalizeShortcodeSpacing(block: string): string {
         return block
@@ -331,95 +279,42 @@ const metadata = {
           return null;
         }
       }
-        function buildInstagramEmbedUrl(permalink: string): string | null {
-          const canonical = extractInstagramPermalink(permalink);
-          if (!canonical) {
-            return null;
-          }
 
-          try {
-            const url = new URL(canonical);
-            const segments = url.pathname.split('/').filter(Boolean);
-            if (segments.length < 2) {
-              return null;
-            }
+      function buildInstagramEmbedUrl(permalink: string): string | null {
+        const canonical = extractInstagramPermalink(permalink);
+        if (!canonical) return null;
 
-            const resource = segments[0];
-            const identifier = segments[1];
-            return `${url.origin}/${resource}/${identifier}/embed/captioned/`;
-          } catch (error) {
-            return null;
-          }
+        try {
+          const url = new URL(canonical);
+          const segments = url.pathname.split('/').filter(Boolean);
+          if (segments.length < 2) return null;
+
+          const resource = segments[0];
+          const identifier = segments[1];
+          return `${url.origin}/${resource}/${identifier}/embed/captioned/`;
+        } catch (error) {
+          return null;
         }
-
-      function isHexColor(value: string): boolean {
-        return HEX_COLOR_REGEX.test(value);
       }
 
-      function normalizeHeadingColor(value: string): string {
-        const trimmed = value.trim();
-        if (!trimmed) {
-          return DEFAULT_HEADING_COLOR;
-        }
-
-        if (trimmed.startsWith('var(')) {
-          return trimmed;
-        }
-
-        let candidate = trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
-        candidate = candidate.toUpperCase();
-
-        if (isHexColor(candidate)) {
-          if (candidate.length === 4) {
-            const r = candidate[1];
-            const g = candidate[2];
-            const b = candidate[3];
-            return `#${r}${r}${g}${g}${b}${b}`;
-          }
-
-          if (candidate.length === 5) {
-            const r = candidate[1];
-            const g = candidate[2];
-            const b = candidate[3];
-            const a = candidate[4];
-            return `#${r}${r}${g}${g}${b}${b}${a}${a}`;
-          }
-
-          return candidate;
-        }
-
-        return DEFAULT_HEADING_COLOR;
+      function escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
       }
 
-      // Estado global
+      // ============================================
+      // ESTADO GLOBAL
+      // ============================================
+
       let editorContent = '';
-      let draggedBlockIndex: number | null = null;
       let lastHeadingColor = DEFAULT_HEADING_COLOR;
       let lastHeadingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
 
-      // Função para carregar do localStorage
-      function loadFromStorage() {
-        try {
-          const saved = localStorage.getItem('contentHelperContent');
-          if (saved) {
-            editorContent = saved;
-            updateEditorUI();
-          }
-        } catch (e) {
-          console.error('Erro ao carregar do localStorage:', e);
-        }
-      }
+      // ============================================
+      // ELEMENTOS DOM
+      // ============================================
 
-      // Função para salvar no localStorage
-      function saveToStorage() {
-        try {
-          localStorage.setItem('contentHelperContent', editorContent);
-        } catch (e) {
-          console.error('Erro ao salvar no localStorage:', e);
-        }
-      }
-
-      // Elementos DOM
       const dropZone = document.getElementById('dropZone')!;
       const contentEditor = document.getElementById('contentEditor')!;
       const preview = document.getElementById('preview')!;
@@ -430,52 +325,57 @@ const metadata = {
         'categoryFilter'
       ) as HTMLSelectElement;
       const blockItems = document.querySelectorAll('.block-item');
+
+      // YouTube Modal
       const youtubeModal = document.getElementById('youtubeModal')!;
       const youtubeInput = document.getElementById(
         'youtubeInput'
       ) as HTMLInputElement;
       const modalCancel = document.getElementById('modalCancel')!;
       const modalConfirm = document.getElementById('modalConfirm')!;
+
+      // ============================================
+      // LIST MODAL
+      // ============================================
       const instagramModal = document.getElementById('instagramModal')!;
       const instagramInput = document.getElementById(
         'instagramInput'
       ) as HTMLTextAreaElement;
       const instagramCancel = document.getElementById('instagramCancel')!;
       const instagramConfirm = document.getElementById('instagramConfirm')!;
+
+      const listModal = document.getElementById('listModal') as HTMLElement;
+      const listModeSelect = document.getElementById(
+        'listModeSelect'
+      ) as HTMLSelectElement;
+      const listItemsContainer = document.getElementById(
+        'listItems'
+      ) as HTMLElement;
+      const addItemBtn = document.getElementById(
+        'addItemBtn'
+      ) as HTMLButtonElement;
+      const confirmListBtn = document.getElementById(
+        'confirmListBtn'
+      ) as HTMLButtonElement;
+      const cancelListBtn = document.getElementById(
+        'cancelListBtn'
+      ) as HTMLButtonElement;
+
+      // Heading Modal
       const headingModal = document.getElementById('headingModal')!;
       const headingTextInput = document.getElementById(
         'headingTextInput'
       ) as HTMLInputElement;
-      const headingColorInput = document.getElementById(
-        'headingColorInput'
-      ) as HTMLInputElement;
-      const headingColorHex = document.getElementById(
-        'headingColorHex'
-      ) as HTMLInputElement;
+      const headingColorSelect = document.getElementById(
+        'headingColorSelect'
+      ) as HTMLSelectElement;
       const headingLevelSelect = document.getElementById(
         'headingLevelSelect'
       ) as HTMLSelectElement;
       const headingCancel = document.getElementById('headingCancel')!;
       const headingConfirm = document.getElementById('headingConfirm')!;
 
-      // Image Modal Elements
-      const imageModal = document.getElementById('imageModal')!;
-      const imageUrlInput = document.getElementById(
-        'imageUrlInput'
-      ) as HTMLInputElement;
-      const imageAltInput = document.getElementById(
-        'imageAltInput'
-      ) as HTMLInputElement;
-      const imageWidthSelect = document.getElementById(
-        'imageWidthSelect'
-      ) as HTMLSelectElement;
-      const imageAlignSelect = document.getElementById(
-        'imageAlignSelect'
-      ) as HTMLSelectElement;
-      const imageCancel = document.getElementById('imageCancel')!;
-      const imageConfirm = document.getElementById('imageConfirm')!;
-
-      // Link Modal Elements
+      // Link Modal
       const linkModal = document.getElementById('linkModal')!;
       const linkTextInput = document.getElementById(
         'linkTextInput'
@@ -489,7 +389,34 @@ const metadata = {
       const linkCancel = document.getElementById('linkCancel')!;
       const linkConfirm = document.getElementById('linkConfirm')!;
 
-      // Category Filter
+      // ============================================
+      // STORAGE
+      // ============================================
+
+      function loadFromStorage() {
+        try {
+          const saved = localStorage.getItem('contentHelperContent');
+          if (saved) {
+            editorContent = saved;
+            updateEditorUI();
+          }
+        } catch (e) {
+          console.error('Erro ao carregar do localStorage:', e);
+        }
+      }
+
+      function saveToStorage() {
+        try {
+          localStorage.setItem('contentHelperContent', editorContent);
+        } catch (e) {
+          console.error('Erro ao salvar no localStorage:', e);
+        }
+      }
+
+      // ============================================
+      // FILTRO DE CATEGORIAS
+      // ============================================
+
       categoryFilter.addEventListener('change', () => {
         const selectedCategory = categoryFilter.value;
         blockItems.forEach((item) => {
@@ -504,7 +431,10 @@ const metadata = {
         });
       });
 
-      // Drag and Drop - simplificado para apenas adicionar ao editor
+      // ============================================
+      // DRAG & DROP + CLICK
+      // ============================================
+
       blockItems.forEach((item) => {
         const element = item as HTMLElement;
 
@@ -518,10 +448,10 @@ const metadata = {
             openYoutubeModal();
           } else if (type === 'instagram') {
             openInstagramModal();
-          } else if (type === 'heading-accent') {
+          } else if (type === 'heading') {
             openHeadingModal();
-          } else if (type === 'image-block') {
-            openImageModal();
+          } else if (type === 'list') {
+            openListModal();
           } else if (type === 'link') {
             openLinkModal();
           } else if (type) {
@@ -547,18 +477,78 @@ const metadata = {
           openYoutubeModal();
         } else if (type === 'instagram') {
           openInstagramModal();
-        } else if (type === 'heading-accent') {
+        } else if (type === 'heading') {
           openHeadingModal();
-        } else if (type === 'image-block') {
-          openImageModal();
         } else if (type === 'link') {
           openLinkModal();
+        } else if (type === 'list') {
+          openListModal();
         } else if (type) {
           addBlock(type);
         }
       });
 
-      // YouTube Modal
+      // ============================================
+      // LIST MODAL
+      // ============================================
+      export function openListModal() {
+        listModal.classList.add('active');
+        resetListModal();
+      }
+
+      function closeListModal() {
+        listModal.classList.remove('active');
+      }
+
+      function resetListModal() {
+        listItemsContainer.innerHTML = '';
+        addListItem();
+      }
+
+      function addListItem(value = '') {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = value;
+        input.placeholder = 'Item da lista';
+        input.className =
+          'w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-2 text-sm text-neutral-200 placeholder-neutral-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none';
+
+        listItemsContainer.appendChild(input);
+      }
+
+      addItemBtn.addEventListener('click', () => addListItem());
+
+      confirmListBtn.addEventListener('click', () => {
+        const mode = listModeSelect.value;
+        const inputs = Array.from(
+          listItemsContainer.querySelectorAll('input')
+        ) as HTMLInputElement[];
+
+        const items = inputs.map((i) => i.value.trim()).filter(Boolean);
+        if (!items.length) {
+          alert('Adicione pelo menos um item!');
+          return;
+        }
+
+        const shortcode =
+          `[[list:${mode}]]\n\n` +
+          items.map((i) => `- ${i}`).join('\n\n') +
+          `\n\n[[/list]]`;
+
+        insertContent(shortcode);
+        closeListModal();
+      });
+
+      cancelListBtn.addEventListener('click', closeListModal);
+
+      listModal.addEventListener('click', (e) => {
+        if (e.target === listModal) closeListModal();
+      });
+
+      // ============================================
+      // YOUTUBE MODAL
+      // ============================================
+
       function openYoutubeModal() {
         youtubeModal.classList.add('active');
         youtubeInput.value = '';
@@ -604,7 +594,10 @@ const metadata = {
         }
       });
 
-      // Instagram Modal
+      // ============================================
+      // INSTAGRAM MODAL
+      // ============================================
+
       function openInstagramModal() {
         instagramModal.classList.add('active');
         instagramInput.value = '';
@@ -650,19 +643,15 @@ const metadata = {
         }
       });
 
-      // Heading Modal
+      // ============================================
+      // HEADING MODAL
+      // ============================================
+
       function openHeadingModal() {
         headingModal.classList.add('active');
         headingTextInput.value = '';
-        headingColorHex.value = lastHeadingColor;
+        headingColorSelect.value = lastHeadingColor;
         headingLevelSelect.value = lastHeadingLevel;
-
-        if (isHexColor(lastHeadingColor) && lastHeadingColor.length === 7) {
-          headingColorInput.value = lastHeadingColor;
-        } else {
-          headingColorInput.value = DEFAULT_HEADING_COLOR;
-        }
-
         setTimeout(() => headingTextInput.focus(), 0);
       }
 
@@ -674,15 +663,21 @@ const metadata = {
 
       headingConfirm.addEventListener('click', () => {
         const textValue = headingTextInput.value.trim() || 'Título de destaque';
-        const selectedLevel = (
-          headingLevelSelect.value || 'h4'
-        ).toLowerCase() as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+        const selectedLevel = (headingLevelSelect.value || 'h4') as
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6';
+        const selectedColor = headingColorSelect.value || DEFAULT_HEADING_COLOR;
 
-        const rawColor = headingColorHex.value || headingColorInput.value;
-        const normalizedColor = normalizeHeadingColor(rawColor);
+        const hashes = '#'.repeat(parseInt(selectedLevel.replace('h', '')));
+        const colorClass =
+          HEADING_COLORS[selectedColor as keyof typeof HEADING_COLORS].value;
 
-        const shortcode = `[[heading:${selectedLevel}|${normalizedColor}]]${textValue}[[/heading]]`;
-        lastHeadingColor = normalizedColor;
+        const shortcode = `<span class="${colorClass}">${hashes} ${textValue}</span>`;
+
+        lastHeadingColor = selectedColor;
         lastHeadingLevel = selectedLevel;
         insertContent(shortcode);
         closeHeadingModal();
@@ -695,71 +690,16 @@ const metadata = {
         }
       });
 
-      headingColorInput.addEventListener('input', () => {
-        const colorValue = headingColorInput.value.toUpperCase();
-        headingColorHex.value = colorValue;
-      });
-
-      headingColorHex.addEventListener('blur', () => {
-        const normalized = normalizeHeadingColor(headingColorHex.value);
-        headingColorHex.value = normalized;
-        if (isHexColor(normalized) && normalized.length === 7) {
-          headingColorInput.value = normalized;
-        }
-      });
-
       headingModal.addEventListener('click', (event) => {
         if (event.target === headingModal) {
           closeHeadingModal();
         }
       });
 
-      // Image Modal
-      function openImageModal() {
-        imageModal.classList.add('active');
-        imageUrlInput.value = '';
-        imageAltInput.value = '';
-        imageWidthSelect.value = 'medium';
-        imageAlignSelect.value = 'center';
-        setTimeout(() => imageUrlInput.focus(), 0);
-      }
+      // ============================================
+      // LINK MODAL
+      // ============================================
 
-      function closeImageModal() {
-        imageModal.classList.remove('active');
-      }
-
-      imageCancel.addEventListener('click', closeImageModal);
-
-      imageConfirm.addEventListener('click', () => {
-        const url = imageUrlInput.value.trim();
-        if (!url) {
-          alert('Por favor, insira a URL da imagem');
-          return;
-        }
-
-        const alt = imageAltInput.value.trim() || 'Imagem';
-        const width = imageWidthSelect.value || 'medium';
-        const align = imageAlignSelect.value || 'center';
-
-        const shortcode = `[[image:${url}|${alt}|${width}:${align}]]`;
-        insertContent(shortcode);
-        closeImageModal();
-      });
-
-      imageUrlInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          imageConfirm.click();
-        }
-      });
-
-      imageModal.addEventListener('click', (e) => {
-        if (e.target === imageModal) {
-          closeImageModal();
-        }
-      });
-
-      // Link Modal
       function openLinkModal() {
         linkModal.classList.add('active');
         linkTextInput.value = '';
@@ -802,19 +742,23 @@ const metadata = {
         }
       });
 
-      // Funções principais
+      // ============================================
+      // LIST MODAL
+      // ============================================
+
+      // ============================================
+      // FUNÇÕES PRINCIPAIS
+      // ============================================
+
       function insertContent(content: string) {
         const selection = window.getSelection();
 
         if (selection && selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
 
-          // Verifica se a seleção está dentro do editor
           if (contentEditor.contains(range.commonAncestorContainer)) {
-            // Remove o conteúdo selecionado
             range.deleteContents();
 
-            // Pega o texto antes e depois da posição do cursor
             const fullText = contentEditor.textContent || '';
             const startOffset = getAbsoluteOffset(
               contentEditor,
@@ -825,30 +769,24 @@ const metadata = {
             const textBefore = fullText.substring(0, startOffset);
             const textAfter = fullText.substring(startOffset);
 
-            // Adiciona quebras de linha apropriadas
             let contentToInsert = content;
 
-            // Se há texto antes e não termina com quebra de linha, adiciona quebra antes
             if (textBefore && !textBefore.endsWith('\n')) {
               contentToInsert = '\n\n' + contentToInsert;
             }
 
-            // Se há texto depois e o conteúdo não termina com quebra de linha, adiciona quebra depois
             if (textAfter && !contentToInsert.endsWith('\n')) {
               contentToInsert = contentToInsert + '\n\n';
             }
 
-            // Insere o conteúdo com as quebras de linha
             const textNode = document.createTextNode(contentToInsert);
             range.insertNode(textNode);
 
-            // Move o cursor para depois do conteúdo inserido
             range.setStartAfter(textNode);
             range.setEndAfter(textNode);
             selection.removeAllRanges();
             selection.addRange(range);
 
-            // Atualiza o conteúdo e sincroniza
             editorContent = contentEditor.textContent || '';
             updateOutputs();
             saveToStorage();
@@ -857,7 +795,6 @@ const metadata = {
           }
         }
 
-        // Se não houver seleção válida, adiciona ao final
         const currentText = contentEditor.textContent || '';
         const newContent = currentText
           ? `${currentText}\n\n${content}`
@@ -865,7 +802,6 @@ const metadata = {
         contentEditor.textContent = newContent;
         editorContent = newContent;
 
-        // Move o cursor para o final
         const range = document.createRange();
         const sel = window.getSelection();
         range.selectNodeContents(contentEditor);
@@ -878,7 +814,6 @@ const metadata = {
         contentEditor.focus();
       }
 
-      // Função auxiliar para calcular o offset absoluto no texto
       function getAbsoluteOffset(
         root: Node,
         node: Node,
@@ -927,7 +862,6 @@ const metadata = {
         updatePreview(markdown);
       }
 
-      // Listener para mudanças no editor
       contentEditor.addEventListener('input', () => {
         editorContent = contentEditor.textContent || '';
         updateOutputs();
@@ -935,7 +869,6 @@ const metadata = {
       });
 
       contentEditor.addEventListener('paste', (e) => {
-        // Previne a colagem com formatação
         e.preventDefault();
         const text = e.clipboardData?.getData('text/plain') || '';
         document.execCommand('insertText', false, text);
@@ -957,16 +890,14 @@ const metadata = {
 
       function processInstagramEmbeds() {
         const existingScript = document.getElementById('instagramEmbedScript');
-
         const instgrm = (window as any).instgrm;
+
         if (instgrm && instgrm.Embeds) {
           instgrm.Embeds.process();
           return;
         }
 
-        if (existingScript) {
-          return;
-        }
+        if (existingScript) return;
 
         const script = document.createElement('script');
         script.id = 'instagramEmbedScript';
@@ -981,10 +912,8 @@ const metadata = {
         document.body.appendChild(script);
       }
 
-      function processShortcodes(markdown: string, nested = false): string {
+      function processShortcodes(markdown: string): string {
         let html = markdown;
-
-        // Process simple/inline shortcodes first (these don't contain other blocks)
 
         // YouTube
         html = html.replace(
@@ -994,39 +923,19 @@ const metadata = {
           }
         );
 
-          html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
-            const permalink = extractInstagramPermalink(rawUrl.trim()) ?? '';
-            if (!permalink) {
-              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
-            }
-            const embedUrl = buildInstagramEmbedUrl(permalink);
-            if (!embedUrl) {
-              return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
-            }
-            const escapedUrl = escapeHtml(embedUrl);
-            return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no" referrerpolicy="origin-when-cross-origin" title="Instagram embed"></iframe></div>`;
-        });
-
-        // Image block
-        html = html.replace(
-          /\[\[image:([^|]+)\|([^|]+)\|([^:]+):([^\]]+)\]\]/g,
-          (_, url, alt, width, align) => {
-            const widthMap: Record<string, string> = {
-              small: 'max-w-xs',
-              medium: 'max-w-md',
-              large: 'max-w-2xl',
-              full: 'max-w-full',
-            };
-            const alignMap: Record<string, string> = {
-              center: 'mx-auto',
-              left: 'mr-auto',
-              right: 'ml-auto',
-            };
-            const widthClass = widthMap[width.trim()] || 'max-w-md';
-            const alignClass = alignMap[align.trim()] || 'mx-auto';
-            return `<div class="my-4"><img src="${url.trim()}" alt="${alt.trim()}" loading="lazy" class="${widthClass} ${alignClass} rounded-lg shadow-md" /></div>`;
+        // Instagram
+        html = html.replace(/\[\[instagram:([^\]]+)\]\]/g, (_, rawUrl) => {
+          const permalink = extractInstagramPermalink(rawUrl.trim()) ?? '';
+          if (!permalink) {
+            return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
           }
-        );
+          const embedUrl = buildInstagramEmbedUrl(permalink);
+          if (!embedUrl) {
+            return `<div class="instagram-embed instagram-embed-error">URL do Instagram inválida</div>`;
+          }
+          const escapedUrl = escapeHtml(embedUrl);
+          return `<div class="instagram-embed"><iframe src="${escapedUrl}" loading="lazy" allowtransparency="true" allowfullscreen="true" frameborder="0" scrolling="no" referrerpolicy="origin-when-cross-origin" title="Instagram embed"></iframe></div>`;
+        });
 
         // Link
         html = html.replace(
@@ -1040,27 +949,7 @@ const metadata = {
           }
         );
 
-        // Colored Headings
-        html = html.replace(
-          /\[\[heading:(h[1-6])\|([^\]]+)\]\]([\s\S]*?)\[\[\/heading\]\]/g,
-          (_, level, color, content) => {
-            const headingLevel = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(
-              level.toLowerCase()
-            )
-              ? level.toLowerCase()
-              : 'h4';
-            const colorValue = color.trim();
-            const safeColor = /^#[0-9a-fA-F]{3,8}$/.test(colorValue)
-              ? colorValue
-              : colorValue.startsWith('var(')
-                ? colorValue
-                : '#D98338';
-            const headingContent = escapeHtml(content.trim());
-            return `<${headingLevel} style="color:${safeColor};">${headingContent}</${headingLevel}>`;
-          }
-        );
-
-        // Container blocks (supports nesting)
+        // Two Columns
         html = html.replace(
           /\[\[two-columns:(\d+)\/(\d+)\]\]([\s\S]*?)\[\[\/two-columns\]\]/g,
           (_, col1, col2, content) => {
@@ -1068,58 +957,37 @@ const metadata = {
               content.match(/\[col1\]([\s\S]*?)\[\/col1\]/)?.[1] || '';
             const col2Content =
               content.match(/\[col2\]([\s\S]*?)\[\/col2\]/)?.[1] || '';
-            // Process nested shortcodes in columns
-            const col1Processed = processShortcodes(col1Content.trim(), true);
-            const col2Processed = processShortcodes(col2Content.trim(), true);
+            const col1Processed = processShortcodes(col1Content.trim());
+            const col2Processed = processShortcodes(col2Content.trim());
             return `<div class="layout-two-columns" style="--col1:${col1}%;--col2:${col2}%;"><div class="layout-column-1">${col1Processed}</div><div class="layout-column-2">${col2Processed}</div></div>`;
           }
         );
 
+        // Image Left/Right
         html = html.replace(
-          /\[\[image-(left|right):\s*([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
-          (_, position, url, content) => {
-            // Process nested shortcodes in content
-            const contentProcessed = processShortcodes(content.trim(), true);
-            return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
+          /\[\[image-(left|right):([^|]+)\|([^\]]+)\]\]([\s\S]*?)\[\[\/image-\1\]\]/g,
+          (_, position, url, alt, content) => {
+            const contentProcessed = processShortcodes(content.trim());
+            return `<div class="layout-image-${position}"><div class="layout-image-container"><img src="${url.trim()}" alt="${alt.trim()}" loading="lazy" /></div><div class="layout-text-content">${contentProcessed}</div></div>`;
           }
         );
 
+        // Card
         html = html.replace(
-          /\[\[card(?::([^\]]+))?\]\]([\s\S]*?)\[\[\/card\]\]/g,
-          (_, variant, content) => {
-            const cardClass = variant ? `layout-card-${variant.trim()}` : '';
-            // Process nested shortcodes in card content
-            const contentProcessed = processShortcodes(content.trim(), true);
-            return `<div class="layout-card ${cardClass}">${contentProcessed}</div>`;
-          }
-        );
-
-        html = html.replace(
-          /\[\[alert:(\w+)\]\]([\s\S]*?)\[\[\/alert\]\]/g,
-          (_, type, content) => {
-            const icons: Record<string, string> = {
-              info: 'ℹ️',
-              success: '✅',
-              warning: '⚠️',
-              error: '❌',
-            };
-            const icon = icons[type] || icons.info;
-            // Process nested shortcodes in alert content
-            const contentProcessed = processShortcodes(content.trim(), true);
-            return `<div class="layout-alert layout-alert-${type}"><span class="layout-alert-icon">${icon}</span><div class="layout-alert-content">${contentProcessed}</div></div>`;
+          /\[\[card\]\]([\s\S]*?)\[\[\/card\]\]/g,
+          (_, content) => {
+            const contentProcessed = processShortcodes(content.trim());
+            return `<div class="layout-card">${contentProcessed}</div>`;
           }
         );
 
         return html;
       }
 
-      function escapeHtml(text: string): string {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-      }
+      // ============================================
+      // BOTÕES DE AÇÃO
+      // ============================================
 
-      // Botões de ação
       copyButton.addEventListener('click', () => {
         const markdown = editorContent.trim();
         if (!markdown) {
@@ -1153,7 +1021,10 @@ const metadata = {
         }
       });
 
-      // Carregar dados salvos ao iniciar
+      // ============================================
+      // INICIALIZAÇÃO
+      // ============================================
+
       loadFromStorage();
     </script>
   </div>
@@ -1169,15 +1040,10 @@ const metadata = {
       padding: 0;
     }
 
-    /* Drag & Drop styles */
     #dropZone.drag-over {
       border-color: #6366f1 !important;
       background-color: rgba(99, 102, 241, 0.1) !important;
-        // Removed the processInstagramEmbeds call as per the new implementation
       transition: all 0.2s ease;
     }
-      transform: translateX(2px);
-
   </style>
-      // Removed the processInstagramEmbeds function as it is no longer needed
-    }
+</Layout>

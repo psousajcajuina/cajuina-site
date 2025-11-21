@@ -1,0 +1,41 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import type { MetaData } from '@/types';
+import ReactDistribuidorForm from '@/components/react/widgets/ReactDistribuidorForm';
+import Banner from '@/components/MiddleBanner.astro';
+
+const metadata: MetaData = {
+  title: 'Seja um distribuidor',
+};
+
+const siteKey = import.meta.env.PUBLIC_GOOGLE_CAPTCHA_SITEKEY;
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL;
+---
+
+<Layout metadata={metadata}>
+  <section class="first:mt-12 last:mb-12">
+    <Banner />
+    <div
+      class="flex h-fit w-full flex-col items-center justify-center gap-4 p-8"
+    >
+      <h4
+        class="text-caju-heading-primary self-start text-2xl! uppercase md:text-4xl!"
+      >
+        Seja um distribuidor
+      </h4>
+      <ul
+        class="font-inter flex list-disc flex-col gap-8 px-4 [&_li]:text-[24px]"
+      >
+        <li>
+            Preencha o formulário abaixo para que nosso time possa entrar em contato.
+        </li>
+      </ul>
+      <ReactDistribuidorForm
+        client:load
+        apiUrl={apiUrl}
+        recaptchaSiteKey={siteKey}
+      />
+    </div>
+    <Banner />
+  </section>
+</Layout>

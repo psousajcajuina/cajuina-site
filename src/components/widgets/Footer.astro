@@ -9,10 +9,11 @@ import Image from '../common/Image.astro';
 
 import footerBg from '@/assets/images/site/mobile/footer.png';
 import logoColorida from '@/assets/images/site/logo.png';
+import type { HTMLAttributes } from 'astro/types';
 
-interface Link {
+// ✅ Forma correta no Astro
+interface Link extends HTMLAttributes<'a'> {
   text?: string;
-  href?: string;
   ariaLabel?: string;
   icon?: string;
 }
@@ -81,16 +82,16 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
       <!-- Links -->
       <div class="grid flex-1 gap-5 pl-6">
         {
-          links.map(({ title, links }, index) => (
+          links.map(({ title, links: insideLinks }, index) => (
             <div class="flex flex-col gap-1 pb-3 last:border-b-0">
               <h5 class="text-caju-heading-yellow mb-0! text-sm uppercase lg:text-[32px]">
                 {title}
               </h5>
               <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-[24px]">
-                {links.map(({ href, text, ariaLabel }) => (
+                {insideLinks.map(({ href, text, ariaLabel, ...rest }) => (
                   <li
                     class:list={[
-                      { 'col-span-2': links.length <= 3 },
+                      { 'col-span-2': insideLinks.length <= 3 },
                       { 'row-span-3': index === 1 },
                     ]}
                   >
@@ -98,6 +99,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
                       class="hover:text-caju-secondary-orange text-white"
                       href={href}
                       aria-label={ariaLabel}
+                      {...rest}
                     >
                       {text}
                     </a>

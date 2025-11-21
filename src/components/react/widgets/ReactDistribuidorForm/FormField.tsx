@@ -20,7 +20,7 @@ interface FormFieldProps<TFormData extends Record<string, any>> {
   control?: Control<TFormData>;
   errors: FieldErrors<TFormData>;
   name: Path<TFormData>;
-  label?: string | null;
+  label?: React.ReactNode | null;
   type?:
     | 'text'
     | 'email'
@@ -65,21 +65,28 @@ export function FormField<TFormData extends Record<string, any>>({
   const finalPlaceholder =
     !label && required && placeholder ? `${placeholder} *` : placeholder;
 
+  const baseInputClasses =
+    'w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base font-semibold text-caju-heading-primary placeholder-gray-400 transition-all duration-200 focus:border-caju-heading-primary focus:outline-none focus:ring-2 focus:ring-caju-heading-primary/20 md:px-4 md:py-3 md:text-lg';
+
   if (type === 'checkbox') {
     return (
       <div className={twMerge('w-full', className)}>
-        <label className="flex items-start gap-3">
+        <label className="flex cursor-pointer items-start gap-3">
           <input
             type="checkbox"
             {...register(name)}
             className="text-caju-heading-primary focus:ring-caju-heading-primary/20 mt-1 h-5 w-5 rounded border-gray-300 focus:ring-2"
           />
           {label && (
-            <span className="text-caju-heading-primary text-sm">{label}</span>
+            <span className="text-caju-heading-primary text-sm select-none">
+              {label}
+            </span>
           )}
         </label>
         {errorMessage && (
-          <p className="mt-1 text-sm text-red-500">{errorMessage}</p>
+          <p className="font-inter mt-1 text-sm text-red-600/75">
+            {errorMessage}
+          </p>
         )}
       </div>
     );
@@ -100,26 +107,40 @@ export function FormField<TFormData extends Record<string, any>>({
           rows={rows}
           maxLength={2000}
           placeholder={finalPlaceholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
+          className={twMerge(baseInputClasses, 'font-inter resize-y')}
         />
       ) : type === 'select' ? (
-        <select
-          {...register(name)}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
-        >
-          {options?.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            {...register(name)}
+            className={twMerge(baseInputClasses, 'font-inter appearance-none')}
+          >
+            {options?.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+            <svg
+              className="h-4 w-4 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
       ) : type === 'file' ? (
         <input
           type="file"
           {...register(name)}
           multiple={multiple}
           accept={accept}
-          className="text-caju-heading-primary focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-sm font-bold file:mr-2 file:rounded-md file:border-0 file:bg-[#828282] file:px-3 file:py-1.5 file:text-xs file:text-white hover:file:bg-[#828282] focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px] md:file:mr-4 md:file:px-4 md:file:py-2 md:file:text-sm"
+          className={twMerge(
+            baseInputClasses,
+            'font-inter file:mr-4 file:rounded-md file:border-0 file:bg-gray-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-700'
+          )}
         />
       ) : type === 'date' ? (
         control ? (
@@ -139,11 +160,11 @@ export function FormField<TFormData extends Record<string, any>>({
                     helperText: errorMessage,
                     InputProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-lg! font-semibold! rounded-lg! bg-white!',
                     },
                     InputLabelProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
+                        'text-gray-500! font-inter! text-base! md:text-lg!',
                     },
                   },
                 }}
@@ -154,7 +175,7 @@ export function FormField<TFormData extends Record<string, any>>({
           <input
             type="date"
             {...register(name)}
-            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
+            className={twMerge(baseInputClasses, 'font-inter')}
           />
         )
       ) : type === 'time' ? (
@@ -176,11 +197,11 @@ export function FormField<TFormData extends Record<string, any>>({
                     helperText: errorMessage,
                     InputProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
+                        'text-caju-heading-primary! font-inter! text-base! md:text-lg! font-semibold! rounded-lg! bg-white!',
                     },
                     InputLabelProps: {
                       className:
-                        'text-caju-heading-primary! font-inter! text-base! md:text-[20px]! font-bold! truncate!',
+                        'text-gray-500! font-inter! text-base! md:text-lg!',
                     },
                   },
                 }}
@@ -191,7 +212,7 @@ export function FormField<TFormData extends Record<string, any>>({
           <input
             type="time"
             {...register(name)}
-            className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
+            className={twMerge(baseInputClasses, 'font-inter')}
           />
         )
       ) : (
@@ -200,12 +221,12 @@ export function FormField<TFormData extends Record<string, any>>({
           {...register(name)}
           maxLength={400}
           placeholder={finalPlaceholder}
-          className="focus:border-caju-heading-primary focus:ring-caju-heading-primary/20 text-caju-heading-primary font-inter placeholder-caju-heading-primary w-full truncate rounded-lg border border-gray-300 px-3 py-2 text-base font-bold focus:ring-2 focus:outline-none md:px-4 md:py-3 md:text-[24px]"
+          className={twMerge(baseInputClasses, 'font-inter')}
         />
       )}
 
       {errorMessage && type !== 'date' && type !== 'time' && (
-        <p className="text-xsm font-inter m-2 font-bold text-[#d32f2f]/70">
+        <p className="font-inter mt-1 text-sm text-red-600/75">
           {errorMessage}
         </p>
       )}

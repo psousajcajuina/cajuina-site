@@ -46,6 +46,23 @@ export interface News {
   readingTime?: number;
 }
 
+export interface Page {
+  id: string;
+  slug: string;
+  description?: string;
+  permalink: string;
+  title: string;
+  draft: boolean;
+  layout?: string;
+  /**  */
+  metadata?: MetaData;
+  /** */
+  Content?: AstroComponentFactory;
+  content?: string;
+  /**  */
+  body?: string | AstroComponentFactory;
+}
+
 export type ImageLayout =
   | 'fixed'
   | 'constrained'
@@ -65,6 +82,7 @@ export interface Distribuidor {
 
 export interface ProductItem {
   id: string | number;
+  slug: string;
   normal: string | ImageMetadata;
   hover?: string | ImageMetadata;
   alt?: string;

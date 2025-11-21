@@ -1,0 +1,85 @@
+---
+
+---
+
+<div
+  id="listModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm"
+>
+  <div
+    class="animate-in fade-in zoom-in w-11/12 max-w-lg rounded-xl border border-neutral-700 bg-neutral-900 p-8 shadow-2xl duration-200"
+  >
+    <div class="mb-5 flex items-center gap-2">
+      <span class="text-2xl">📝</span>
+      <h3 class="text-xl font-semibold text-white">Criar Lista</h3>
+    </div>
+
+    <div class="space-y-4">
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          Tipo de Lista
+        </span>
+        <select
+          id="listModeSelect"
+          class="w-full rounded-lg border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none"
+        >
+          <option value="-">Padrão (-)</option>
+          <option value=">">Citação (&gt;)</option>
+          <option value="•">Bolinha (•)</option>
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="mb-2 block text-sm font-medium text-neutral-300">
+          Itens
+        </span>
+
+        <div id="listItems" class="space-y-2"></div>
+
+        <button
+          id="addItemBtn"
+          class="mt-2 rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all hover:bg-neutral-700 active:scale-95"
+        >
+          + Adicionar Item
+        </button>
+      </label>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-3">
+      <button
+        id="cancelListBtn"
+        class="rounded-lg bg-neutral-800 px-4 py-2 text-sm font-medium text-neutral-200 transition-all hover:bg-neutral-700 active:scale-95"
+      >
+        Cancelar
+      </button>
+
+      <button
+        id="confirmListBtn"
+        class="rounded-lg bg-linear-to-br from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-green-500/40 active:scale-95"
+      >
+        Inserir Lista
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes list-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-in {
+    animation: list-in 0.2s ease-out;
+  }
+
+  #listModal.active {
+    display: flex;
+  }
+</style>

@@ -219,7 +219,7 @@ export const getStaticPathsBlogPost = async () => {
     params: {
       blog: post.permalink,
     },
-    props: { post },
+    props: { post: post },
   }));
 };
 
