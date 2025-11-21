@@ -30,6 +30,7 @@
     "@googlemaps/extended-component-library": "^0.6.14",
     "@hookform/resolvers": "^3.10.0",
     "@iconify-json/mdi": "^1.2.3",
+    "@lucide/astro": "^0.554.0",
     "@mui/x-date-pickers": "^8.18.0",
     "@sveltia/cms": "^0.119.0",
     "@tailwindcss/vite": "^4.1.17",

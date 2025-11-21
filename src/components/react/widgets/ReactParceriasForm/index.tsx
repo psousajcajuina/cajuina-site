@@ -348,7 +348,7 @@ esporte, meio ambiente ou social."
                       e.preventDefault();
                       setIsPrivacyModalOpen(true);
                     }}
-                    className="text-caju-heading-primary hover:text-caju-red-primary cursor-pointer font-bold font-semibold underline"
+                    className="text-caju-heading-primary hover:text-caju-red-primary cursor-pointer font-semibold underline"
                   >
                     Política de Privacidade e Proteção de Dados
                   </button>

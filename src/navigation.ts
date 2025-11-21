@@ -58,9 +58,13 @@ export const footerData = {
       title: 'Contato',
       links: [
         { text: 'Solicite Parceria', href: '/solicite/parcerias' },
-        { text: 'Portal de boletos', href: '/portal-de-boletos' },
+        {
+          text: 'Portal de boletos',
+          href: 'https://boletos.cajuinasaogeraldo.com.br/',
+          target: '_blank',
+        },
         { text: 'Seja distribuidor', href: '/seja-distribuidor' },
-        { text: 'Canal de denúncia', href: '/canal-de-denuncia' },
+        { text: 'Canal de denúncia', href: '/empresa/canal-de-denuncia' },
       ],
     },
     {
@@ -71,13 +75,17 @@ export const footerData = {
           text: 'Política recebimento de brinde',
           href: '/politica-recebimento-de-brinde',
         },
-        { text: 'Código de Conduta', href: '/codigo-de-conduta' },
+        { text: 'Código de Conduta', href: '/empresa/codigo-de-conduta/' },
       ],
     },
   ],
   secondaryLinks: [
     { text: 'Promoções', href: '/promocoes' },
-    { text: 'Política de Privacidade', href: getPermalink('/privacy') },
+    // { text: 'Política de Privacidade', href: getPermalink('/privacy') },
+    {
+      text: 'Política de Privacidade',
+      href: '/empresa/politica-de-privacidade',
+    },
   ],
   socialLinks: [
     {
