@@ -34,7 +34,7 @@ export const headerData = {
     {
       text: 'Seja um distribuidor',
       variant: 'yellow',
-      href: '/seja-distribuidor',
+      href: '/solicite/seja-um-distribuidor',
     },
   ] as CallToAction[],
 };
@@ -64,7 +64,7 @@ export const footerData = {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
-        { text: 'Seja distribuidor', href: '/seja-distribuidor' },
+        { text: 'Seja distribuidor', href: '/solicite/seja-um-distribuidor' },
         { text: 'Canal de denúncia', href: '/empresa/canal-de-denuncia/' },
       ],
     },
