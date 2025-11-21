@@ -90,7 +90,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
   };
 
   return (
-    <section className="min-h-[521px] w-full px-4 lg:px-12">
+    <section id="nos-encontre" className="min-h-[521px] w-full px-4 lg:px-12">
       <div className="mt-8 mb-4 lg:hidden">
         <h4 className="text-xxs text-caju-heading-primary scale-95 font-bold uppercase">
           Nos encontre perto de você
@@ -152,7 +152,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
             </div>
 
             {isSearchLoading && (
-              <div className="flex items-center justify-center gap-2 py-4">
+              <div className="font-inter flex items-center justify-center gap-2 py-4">
                 <div className="border-caju-heading-primary h-5 w-5 animate-spin rounded-full border-2 border-t-transparent"></div>
                 <span className="text-sm text-gray-600">
                   Buscando distribuidores próximos...
@@ -161,7 +161,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
             )}
 
             {!isSearchLoading && sortedDistribuidores.length === 0 && (
-              <div className="flex flex-col items-center justify-center gap-4 py-8">
+              <div className="font-inter flex flex-col items-center justify-center gap-4 py-8">
                 <p className="text-center">
                   Use sua localização para encontrar distribuidores próximos
                 </p>

@@ -21,7 +21,7 @@ export const headerData = {
     },
     {
       text: 'Nos Encontre',
-      href: '/nos-encontre',
+      href: '#nos-encontre',
     },
   ],
   actions: [

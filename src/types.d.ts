@@ -82,6 +82,7 @@ export interface Distribuidor {
 
 export interface ProductItem {
   id: string | number;
+  slug: string;
   normal: string | ImageMetadata;
   hover?: string | ImageMetadata;
   alt?: string;

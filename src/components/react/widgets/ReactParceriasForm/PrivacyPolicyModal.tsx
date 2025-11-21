@@ -30,7 +30,7 @@ export function PrivacyPolicyModal({ isOpen, onClose }: Props) {
           <X size={24} />
         </button>
 
-        <div className="prose prose-sm md:prose-base max-w-none">
+        <div className="prose prose-sm md:prose-base font-inter max-w-none">
           <h2 className="text-caju-heading-primary mb-6 text-2xl font-bold">
             Política de Privacidade e Proteção de Dados
           </h2>
@@ -40,14 +40,14 @@ export function PrivacyPolicyModal({ isOpen, onClose }: Props) {
             privacidade e seus dados pessoais. Esta política descreve como
             coletamos, usamos e protegemos suas informações.
           </p>
-
+          <br />
           <h3>1. Coleta de Dados</h3>
           <p>
             Coletamos informações que você nos fornece diretamente ao preencher
             nossos formulários, como nome, e-mail, telefone e informações sobre
             sua solicitação.
           </p>
-
+          <br />
           <h3>2. Uso dos Dados</h3>
           <p>Utilizamos seus dados para:</p>
           <ul>
@@ -60,21 +60,21 @@ export function PrivacyPolicyModal({ isOpen, onClose }: Props) {
             </li>
             <li>Cumprir obrigações legais e regulatórias.</li>
           </ul>
-
+          <br />
           <h3>3. Compartilhamento de Dados</h3>
           <p>
             Não vendemos ou alugamos seus dados pessoais. Podemos compartilhar
             suas informações com prestadores de serviços que nos ajudam a operar
             nosso negócio, sempre sob confidencialidade.
           </p>
-
+          <br />
           <h3>4. Seus Direitos</h3>
           <p>
             Você tem direito a acessar, corrigir ou solicitar a exclusão de seus
             dados pessoais. Para exercer esses direitos, entre em contato
             conosco.
           </p>
-
+          <br />
           <h3>5. Segurança</h3>
           <p>
             Adotamos medidas de segurança técnicas e organizacionais para

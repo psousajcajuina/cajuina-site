@@ -30,6 +30,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<ParceriasFormData>({
     resolver: zodResolver(parceriasSchema),
@@ -69,17 +70,10 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
             );
           } else if (val !== null && typeof val !== 'boolean') {
             formData.append(key, String(val));
-
-            // Duplicate for ambiguous field
-            if (key === 'eventRequestDetails') {
-              formData.append('requestDescription', String(val));
-            }
           } else if (typeof val === 'boolean') {
             formData.append(key, val ? 'true' : 'false');
           }
         });
-
-        console.log('FormData content:', Array.from(formData.entries()));
 
         const response = await fetch(
           `${apiUrl}/shared/brevo-mail/submit-form`,
@@ -106,6 +100,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
 
         alert('Formulário enviado com sucesso!');
         onSubmitSuccess?.();
+        reset();
       }
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
@@ -116,7 +111,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
   return (
     <div className="mx-auto w-full px-4 py-4 md:px-6 md:py-8">
       <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl bg-white">
-        <div className="mb-6 flex flex-col gap-8 md:mb-8 md:gap-20 [&_div_h3]:mb-4! md:[&_div_h3]:mb-6!">
+        <div className="mb-6 flex flex-col gap-8 md:mb-8 md:gap-12">
           <FormField
             className="w-full md:w-96"
             register={register}
@@ -134,7 +129,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
 
           {/* Informações pessoais  */}
           <div>
-            <h3 className="text-caju-heading-primary font-bevan text-2xl font-normal uppercase md:text-4xl">
+            <h3 className="text-caju-heading-primary font-bevan mb-4 text-2xl font-normal uppercase md:mb-6 md:text-4xl">
               Informações Pessoais
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -168,7 +163,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
 
           {/* Instituições */}
           <div>
-            <h3 className="text-caju-heading-primary font-bevan text-2xl font-normal uppercase md:text-4xl">
+            <h3 className="text-caju-heading-primary font-bevan mb-4 text-2xl font-normal uppercase md:mb-6 md:text-4xl">
               Instituições
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -185,7 +180,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
                 register={register}
                 errors={errors}
                 name="institutionEmail"
-                type="text"
+                type="email"
                 placeholder="Email da institucional (nome@email.com)"
                 className="col-span-1"
                 required
@@ -204,7 +199,7 @@ function Form({ onSubmitSuccess, apiUrl }: Props) {
 
           {/* Evento */}
           <div>
-            <h3 className="text-caju-heading-primary font-bevan text-2xl font-normal uppercase md:text-4xl">
+            <h3 className="text-caju-heading-primary font-bevan mb-4 text-2xl font-normal uppercase md:mb-6 md:text-4xl">
               Evento/Projeto
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -336,35 +331,35 @@ esporte, meio ambiente ou social."
               />
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center">
-          <FormField
-            register={register}
-            errors={errors}
-            name="acceptance"
-            type="checkbox"
-            label={
-              <span>
-                Declaro que li e aceito a{' '}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsPrivacyModalOpen(true);
-                  }}
-                  className="text-caju-heading-primary hover:text-caju-red-primary cursor-pointer underline"
-                >
-                  Política de Privacidade e Proteção de Dados
-                </button>
-                .
-              </span>
-            }
-            required
-          />
+          {/* Termos */}
+          <div className="font-inter flex flex-col items-stretch gap-4 md:flex-row md:items-center">
+            <FormField
+              register={register}
+              errors={errors}
+              name="acceptance"
+              type="checkbox"
+              label={
+                <span>
+                  Declaro que li e aceito a{' '}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsPrivacyModalOpen(true);
+                    }}
+                    className="text-caju-heading-primary hover:text-caju-red-primary cursor-pointer font-bold font-semibold underline"
+                  >
+                    Política de Privacidade e Proteção de Dados
+                  </button>
+                  .
+                </span>
+              }
+              required
+            />
+          </div>
         </div>
-
-        <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center">
+        <div className="flex flex-col items-center justify-start gap-4 md:flex-row">
           {/* reCAPTCHA */}
           <div className="flex flex-col gap-1">
             <GoogleReCaptchaCheckbox
@@ -380,8 +375,7 @@ esporte, meio ambiente ou social."
           <button
             type="submit"
             disabled={isSubmitting}
-            onClick={() => console.log('BUCETAAAA')}
-            className="btn-yellow w-full rounded-lg px-6 py-3 text-base font-semibold text-white transition-colors focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:max-w-80 md:px-8 md:py-4 md:text-lg"
+            className="btn-yellow w-full rounded-lg px-6 py-3 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:brightness-105 focus:ring-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:max-w-80 md:px-8 md:py-4 md:text-lg"
           >
             {isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}
           </button>
@@ -396,7 +390,10 @@ esporte, meio ambiente ou social."
   );
 }
 
-export default function ParceriasForm({ recaptchaSiteKey, apiUrl }: Props) {
+export default function ReactParceriasForm({
+  recaptchaSiteKey,
+  apiUrl,
+}: Props) {
   return (
     <GoogleReCaptchaProvider
       type="v2-checkbox"

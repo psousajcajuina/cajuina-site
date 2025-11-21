@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import type { MetaData } from '@/types';
-import Form from '@/components/react/widgets/ParceriasForm';
+import ReactParceriasForm from '@/components/react/widgets/ReactParceriasForm';
 import Banner from '@/components/MiddleBanner.astro';
 
 const metadata: MetaData = {
@@ -51,7 +51,11 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL;
           você espera (divulgação, apoio financeiro, etc.)
         </li>
       </ul>
-      <Form client:only="react" apiUrl={apiUrl} recaptchaSiteKey={siteKey} />
+      <ReactParceriasForm
+        client:load
+        apiUrl={apiUrl}
+        recaptchaSiteKey={siteKey}
+      />
     </div>
     <Banner />
   </section>
