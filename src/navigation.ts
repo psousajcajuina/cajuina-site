@@ -47,7 +47,7 @@ export const footerData = {
         { text: 'Sobre', href: '/sobre' },
         { text: 'Produtos', href: '/produtos' },
         { text: 'Notícias', href: '/blog' },
-        { text: 'Nos encontre', href: '/nos-encontre' },
+        { text: 'Nos encontre', href: '/#nos-encontre' },
         {
           text: 'Trabalhe Conosco',
           href: 'https://cajuinasaogeraldo.gupy.io/',
@@ -57,23 +57,27 @@ export const footerData = {
     {
       title: 'Contato',
       links: [
-        { text: 'Solicite Parceria', href: '/solicite/parcerias' },
+        { text: 'Solicite Parceria', href: '/solicite/parcerias/' },
         {
           text: 'Portal de boletos',
           href: 'https://boletos.cajuinasaogeraldo.com.br/',
           target: '_blank',
+          rel: 'noopener noreferrer',
         },
         { text: 'Seja distribuidor', href: '/seja-distribuidor' },
-        { text: 'Canal de denúncia', href: '/empresa/canal-de-denuncia' },
+        { text: 'Canal de denúncia', href: '/empresa/canal-de-denuncia/' },
       ],
     },
     {
       title: 'Informações',
       links: [
-        { text: 'Política Anticorrupção', href: '/politica-anticorrupcao' },
+        {
+          text: 'Política Anticorrupção',
+          href: '/empresa/politica-anticorrupcao/',
+        },
         {
           text: 'Política recebimento de brinde',
-          href: '/politica-recebimento-de-brinde',
+          href: '/empresa/politica-de-recebimento-e-oferecimento-de-presentes-brindes-hospitalidades-e-contrapartidas-de-patrocinio/',
         },
         { text: 'Código de Conduta', href: '/empresa/codigo-de-conduta/' },
       ],
@@ -84,7 +88,7 @@ export const footerData = {
     // { text: 'Política de Privacidade', href: getPermalink('/privacy') },
     {
       text: 'Política de Privacidade',
-      href: '/empresa/politica-de-privacidade',
+      href: '/empresa/politica-de-privacidade/',
     },
   ],
   socialLinks: [

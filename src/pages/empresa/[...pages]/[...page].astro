@@ -45,13 +45,16 @@ const defaultMetadata = {
 // Merge: valores padrão + metadata customizado do post
 const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
 ---
-
 <StaticPageLayout metadata={metadata}>
   <section
     class="grid w-full grid-cols-1 gap-2 p-20 pb-12 md:grid-cols-[minmax(0,280px)_1fr]"
   >
-    <div class="bg-caju-heading-primary relative! h-full w-full b-black">
+    <div
+      id="sidebar-container"
+      class="bg-caju-heading-primary relative! h-full w-full b-black"
+    >
       <div
+        id="sidebar-content"
         class="font-inter top-40 fixed max-w-[300px] mx-4 py-5 text-2xl"
       >
         <ul class="not-prose w-full space-y-3 text-lg">
@@ -65,8 +68,10 @@ const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
                     "hover:text-caju-heading-orange! hover:scale-105 hover:underline flex items-center", 
                 ]}
                   href={`/empresa/${page.permalink}/`}
+                  title={page.title}
                 >
-                  <ChevronRight /> {page.title}
+                  <ChevronRight class="min-size-4" />
+                  <span class="truncate flex-1 max-w-52">{page.title}</span>
                 </a>
               </li>
             ))
@@ -78,12 +83,13 @@ const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
       class={twMerge(
         'flex flex-col md:gap-10',
         'font-inter prose prose-lg prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-blue-600 prose-img:rounded-md prose-img:shadow-lg max-w-4xl',
-        'px-2 pt-12 in-[h1_h2_h3_h4_h5_h6]:text-caju-heading-orange'
+        'px-2 pt-12 ',
+        'page-content',
       )}
     >
       {
         page.Content ? (
-          <page.Content />
+          <page.Content class="in-[h1_h2_h3_h4_h5_h6]:text-caju-heading-orange" />
         ) : (
           <Fragment set:html={page.content || ''} />
         )
@@ -91,3 +97,78 @@ const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
     </div>
   </section>
 </StaticPageLayout>
+
+<style>
+  /* remove bullets do ul */
+  .page-content ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  /* li filhos diretos de qualquer ul dentro de .page-content */
+  .page-content ul > li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ícone aplicado */
+  .page-content ul > li::before {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+
+    /* máscara com SVG do lucide */
+    mask-image: url({ChevronRight.src});
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: url({ChevronRight.src});
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+
+    background-color: currentColor;
+  }
+</style>
+
+<script>
+  function initSidebar() {
+    const container = document.getElementById('sidebar-container');
+    const content = document.getElementById('sidebar-content');
+
+    if (!container || !content) return;
+
+    const handleScroll = () => {
+      const containerRect = container.getBoundingClientRect();
+      const contentHeight = content.offsetHeight;
+      // 10rem = 160px (assuming 16px root). Adjust if necessary or compute dynamically.
+      // Getting the computed top value if it's fixed might be safer, but hardcoded 160 matches 'top-40'
+      const topOffset = 160;
+
+      // The point where the sidebar (if fixed) would touch the bottom of the container
+      // Container bottom relative to viewport needs to be greater than sidebar bottom relative to viewport
+      const sidebarBottomLimit = topOffset + contentHeight;
+
+      // Added a small buffer (e.g., 20px) to prevent flickering or tight fits
+      if (containerRect.bottom < sidebarBottomLimit + 20) {
+        // We reached the bottom
+        content.classList.remove('fixed', 'top-40');
+        content.classList.add('absolute', 'bottom-0');
+      } else {
+        // We are scrolling freely
+        content.classList.add('fixed', 'top-40');
+        content.classList.remove('absolute', 'bottom-0');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    handleScroll(); // Initial check
+  }
+
+  // Run on load
+  initSidebar();
+
+  // Run on view transitions if enabled
+  document.addEventListener('astro:page-load', initSidebar);
+</script>
