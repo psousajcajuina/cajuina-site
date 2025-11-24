@@ -56,42 +56,6 @@ collections:
         label: Call to Action Link
         widget: string
         required: false
-        # fields:
-        #   - { name: text, label: 'Texto do Botão', widget: string }
-        #   - { name: url, label: Link, widget: string }
-        #   - {
-        #       name: variant,
-        #       label: Estilo,
-        #       widget: select,
-        #       options: ['primary', 'secondary', 'outline'],
-        #       default: 'primary',
-        #     }
-
-      # - name: textPosition
-      #   label: 'Posição do Texto'
-      #   widget: select
-      #   options:
-      #     - { label: Esquerda, value: left }
-      #     - { label: Centro, value: center }
-      #     - { label: Direita, value: right }
-      #   default: center
-
-      # - name: textAlign
-      #   label: 'Alinhamento Vertical'
-      #   widget: select
-      #   options:
-      #     - { label: Topo, value: top }
-      #     - { label: Centro, value: middle }
-      #     - { label: Rodapé, value: bottom }
-      #   default: middle
-
-      # - {
-      #     name: overlay,
-      #     label: 'Overlay Escuro',
-      #     widget: boolean,
-      #     default: true,
-      #     hint: 'Adiciona uma camada escura sobre a imagem para melhor legibilidade',
-      #   }
       - {
           name: order,
           label: Ordem,
@@ -135,12 +99,6 @@ collections:
     fields:
       - { name: title, label: Título, widget: string }
       - { name: image, label: 'Imagem Desktop', widget: image, required: true }
-      # - {
-      #     name: imageMobile,
-      #     label: 'Imagem Mobile',
-      #     widget: image,
-      #     required: false,
-      #   }
       - { name: active, label: Ativo, widget: boolean, default: true }
 
   - name: distribuidores

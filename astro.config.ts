@@ -40,7 +40,7 @@ export default defineConfig({
   output: 'static',
   server: {
     headers: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate max-age=0',
+      'Cache-Control': 'public, max-age=31536000, s-maxage=31536000',
     },
   },
 

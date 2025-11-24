@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { ProductItem } from '@/types';
 import ProductCarousel from './react/widgets/ProductsCarrousel';
-import SwiperLayout from './ui/SwiperLayout.astro';
+import WidgetWrapper from './ui/WidgetWrapper.astro';
 
 // Busca todos os produtos da coleção
 const productsCollection = await getCollection('product');
@@ -20,6 +20,6 @@ const products: ProductItem[] = productsCollection
   }));
 ---
 
-<SwiperLayout>
-  <ProductCarousel client:only="react" products={products} />
-</SwiperLayout>
+<WidgetWrapper id="products">
+  <ProductCarousel client:load products={products} />
+</WidgetWrapper>

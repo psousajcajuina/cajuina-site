@@ -56,7 +56,7 @@ const tag = defineCollection({
   }),
 });
 
-// --- Categories ---
+// --- CATEGORIES ---
 const category = defineCollection({
   loader: glob({ base: './src/data/category', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
@@ -106,6 +106,7 @@ const product = defineCollection({
     }),
 });
 
+// --- BANNER PRINCIPAL ---
 const banner = defineCollection({
   loader: glob({ base: './src/data/banner', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) =>

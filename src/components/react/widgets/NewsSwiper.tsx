@@ -65,12 +65,8 @@ export default function NewsSwiper({
             slidesPerView: 4,
             spaceBetween: 25,
           },
-          // 1280: {
-          //   slidesPerView: 5,
-          //   spaceBetween: 35,
-          // },
         }}
-        className="mx-auto h-80 w-full max-w-[350px] pb-4 md:min-h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
+        className="mx-auto h-fit w-full max-w-[350px] pb-4 md:max-h-[520px] md:max-w-[700px] lg:max-w-[1350px]"
       >
         {news.map((post) => (
           <SwiperSlide
@@ -93,7 +89,7 @@ export default function NewsSwiper({
                 />
               </a>
             )}
-            <div className="flex h-full flex-col text-left">
+            <div className="flex max-h-fit flex-col text-left">
               <h5 className="text-caju-heading-primary mb-2 line-clamp-2 px-1 text-base md:text-lg">
                 {post.title}
               </h5>
@@ -104,7 +100,7 @@ export default function NewsSwiper({
 
               <a
                 href={post.permalink}
-                className="mx-1 inline-block w-fit rounded bg-green-600 px-4 py-1.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-700"
+                className="mx-1 inline-block h-fit w-fit rounded bg-green-600 px-4 py-1.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-700"
               >
                 Leia Mais
               </a>

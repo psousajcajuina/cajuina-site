@@ -5,7 +5,7 @@ import NewsSwiper from './react/widgets/NewsSwiper';
 
 import arrowNext from '@/assets/images/site/arrowNext.png';
 import arrowPrev from '@/assets/images/site/arrowPrev.png';
-import SwiperLayout from './ui/SwiperLayout.astro';
+import WidgetWrapper from './ui/WidgetWrapper.astro';
 
 const news = await fetchPosts();
 
@@ -20,15 +20,16 @@ const newsForReact = news.map((news: News) => ({
 }));
 ---
 
-<div class="my-6 flex min-h-[340px] w-full flex-col text-center">
+<WidgetWrapper
+  id="noticias"
+  containerClass="flex min-h-[340px] w-full flex-col text-center"
+>
   <h4 class="text-caju-heading-primary uppercase">Notícias</h4>
 
-  <SwiperLayout>
-    <NewsSwiper
-      news={newsForReact}
-      arrowNext={arrowNext.src}
-      arrowPrev={arrowPrev.src}
-      client:only="react"
-    />
-  </SwiperLayout>
-</div>
+  <NewsSwiper
+    news={newsForReact}
+    arrowNext={arrowNext.src}
+    arrowPrev={arrowPrev.src}
+    client:load
+  />
+</WidgetWrapper>

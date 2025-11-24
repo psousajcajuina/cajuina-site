@@ -98,7 +98,7 @@ function Gmaps({ distribuidores, defaultPosition }: Omit<Props, 'apiKey'>) {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-6 lg:flex-row-reverse lg:gap-8">
-        <div className="z-0 h-[237px] w-full rounded-xl md:min-h-[500px] lg:ml-32 lg:min-h-[600px] lg:flex-2">
+        <div className="h-[237px] w-full rounded-xl md:min-h-[500px] lg:ml-32 lg:min-h-[600px] lg:flex-2">
           <Map
             onClick={handleMapClick}
             className="h-full w-full rounded-xl"

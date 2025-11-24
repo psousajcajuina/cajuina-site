@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', 'sans-serif';
+}
+
+.page-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bevan text-caju-heading-orange;
+  }
+
+  @apply py-2!;
+
+  /* Lista principal: ícone customizado */
+  ul > li {
+    display: block;
+    list-style: none;
+    margin-bottom: 0.5rem;
+  }
+
+  ul > li::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+    margin-right: 0.5rem;
+    float: left;
+
+    mask-image: var(--arrow-icon);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+
+    -webkit-mask-image: var(--arrow-icon);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+
+    background-color: currentColor;
+  }
+
+  /* Sublista: bullets tradicionais */
+  ul > li > ul {
+    clear: both;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+    list-style: disc;
+  }
+
+  ul > li > ul > li {
+    display: list-item;
+    list-style: inherit;
+    margin-bottom: 0.25rem;
+  }
+
+  ul > li > ul > li::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Sublista de 3º nível: bullets diferentes */
+  ul > li > ul > li > ul {
+    padding-left: 1.5rem;
+    margin-top: 0.25rem;
+    list-style: circle;
+  }
+
+  ul > li > ul > li > ul > li {
+    display: list-item;
+    list-style: inherit;
+    margin-bottom: 0.25rem;
+  }
+
+  ul > li > ul > li > ul > li::before {
+    content: none !important;
+    display: none !important;
+  }
+}

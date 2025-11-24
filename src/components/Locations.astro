@@ -1,13 +1,11 @@
 ---
 import type { Distribuidor } from '@/types';
-import SwiperLayout from './ui/SwiperLayout.astro';
 import { getCollection } from 'astro:content';
 import DistribuidoresGmaps from './react/widgets/DistribuidoresMap';
+import WidgetWrapper from './ui/WidgetWrapper.astro';
 
-// Buscar distribuidores da coleção
 const distribuidoresCollection = await getCollection('distribuidor');
 
-// Filtrar apenas os ativos e mapear para o formato esperado
 const distribuidores: Distribuidor[] = distribuidoresCollection
   .filter((dist) => dist.data.active)
   .map((dist, index) => ({
@@ -25,10 +23,10 @@ const apiKey =
     : import.meta.env.PUBLIC_GOOGLE_MAPS_KEY_DEV;
 ---
 
-<SwiperLayout>
+<WidgetWrapper id="distribuidores-map">
   <DistribuidoresGmaps
     client:only="react"
     distribuidores={distribuidores}
     apiKey={apiKey}
   />
-</SwiperLayout>
+</WidgetWrapper>

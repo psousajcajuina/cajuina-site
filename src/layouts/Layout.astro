@@ -16,6 +16,7 @@ import { ClientRouter } from 'astro:transitions';
 import type { MetaData as MetaDataType } from '@/types';
 import GoogleTagmanager from '@/components/common/GoogleTagManager/GoogleTagmanager.astro';
 import GoogleTagmanagerNoScript from '@/components/common/GoogleTagManager/GoogleTagmanagerNoScript.astro';
+import arrowListIcon from '@/assets/icons/arrow-list.svg';
 
 export interface Props {
   metadata?: MetaDataType;
@@ -27,7 +28,12 @@ const gtmId = ANALYTICS?.gtm?.id ? String(ANALYTICS.gtm.id) : null;
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<html
+  lang={language}
+  dir={textDirection}
+  class="2xl:text-[20px]"
+  style={`--arrow-icon: url(${arrowListIcon.src ?? arrowListIcon});`}
+>
   <head>
     <CommonMeta />
     <Favicons />
