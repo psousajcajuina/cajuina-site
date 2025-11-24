@@ -40,34 +40,40 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
   return (
     <>
       <style>{`
-        /* Bullets customization */
+       /* Bullets base — branco translúcido */
         .banner-swiper .swiper-pagination-bullet {
           width: 12px;
           height: 12px;
-          background: rgba(247, 164, 33, 0.6);
+          background: rgba(255, 255, 255, 0.5); /* branco suave */
           opacity: 1;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
-        
+
+        /* Bullet ativo — branco puro com leve gradiente */
         .banner-swiper .swiper-pagination-bullet-active {
           width: 32px;
           border-radius: 6px;
-          background: linear-gradient(135deg, #f7a421 0%, #ea5426 100%);
-          box-shadow: 0 4px 12px rgba(234, 84, 38, 0.4);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(230, 230, 230, 1) 100%
+          );
+          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
         }
-        
+
+        /* Hover — branco mais forte */
         .banner-swiper .swiper-pagination-bullet:hover {
-          background: rgba(247, 164, 33, 0.9);
+          background: rgba(255, 255, 255, 0.9);
           transform: scale(1.1);
         }
-        
+
         .banner-swiper .swiper-pagination {
           bottom: 1.5rem !important;
           z-index: 20 !important;
           position: absolute !important;
         }
-        
+
         @media (max-width: 768px) {
           .banner-swiper .swiper-pagination {
             bottom: 1rem !important;

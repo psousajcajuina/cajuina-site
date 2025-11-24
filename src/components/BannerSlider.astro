@@ -37,7 +37,6 @@ const banners = allBanners
   })
   .sort((a, b) => a.data.order - b.data.order);
 
-// Transformar dados para o componente React
 const bannersForReact = banners.map((banner) => ({
   ...banner,
   data: {
