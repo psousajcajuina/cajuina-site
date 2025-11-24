@@ -12,6 +12,7 @@ import Button from './ui/Button.astro';
 
 import aboutBgMobile from '@/assets/images/site/mobile/about-bg.png';
 import aboutBg from '@/assets/images/site/about/about-bg-desktop.png'; // Trocar depois para imagem desktop
+import HeroText from './widgets/HeroText.astro';
 
 type Props = ImageProps;
 
@@ -54,27 +55,39 @@ if (
     'grid grid-cols-2 items-center',
   ]}
 >
-  <div
-    class="col-span-2 flex flex-col items-center justify-evenly gap-2 text-center font-normal tracking-[-2%] text-white md:text-left lg:col-span-1 lg:col-start-2 lg:items-start lg:gap-4 lg:text-left"
-  >
+  <!-- 
     <h4
-      class="max-w-48 text-sm! leading-6 font-normal md:max-w-fit md:text-4xl md:leading-[auto] md:-tracking-[2%]"
+    class="max-w-48 text-sm! leading-6 font-normal md:max-w-fit md:text-4xl md:leading-[auto] md:-tracking-[2%]"
     >
-      NOSSO COMPROMISSO
-      <br />
-      É O QUE NOS MOVE!
-    </h4>
+    NOSSO COMPROMISSO
+    <br />
+    É O QUE NOS MOVE!
+  </h4>
     <p
-      class="text-xxs font-inter w-full max-w-[350px] md:max-w-[580px] md:text-2xl"
+    class="text-xxs font-inter w-full max-w-[350px] md:max-w-[580px] md:text-2xl"
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua.
     </p>
     <Button
-      variant="yellow"
-      class="md:max-h-16 md:max-w-44 md:px-6 md:py-3 md:text-xs"
+    variant="yellow"
+    class="md:max-h-16 md:max-w-44 md:px-6 md:py-3 md:text-xs"
       href="/sobre">Saiba Mais</Button
-    >
+      >
+      -->
+  <div
+    class="col-span-2 flex flex-col items-center justify-evenly gap-2 text-center font-normal tracking-[-2%] text-white md:text-left lg:col-span-1 lg:col-start-2 lg:items-start lg:gap-4 lg:text-left"
+  >
+    <!-- subtitle="CONHEÇA MAIS SOBRE ESSA TRADIÇÃO" -->
+    <HeroText
+      title="O tradicional Refrigerante de Caju com sabor do Nordeste."
+      callToAction={{
+        text: 'Saiba Mais',
+        href: '/sobre',
+        variant: 'yellow',
+        class: 'md:max-h-16 md:max-w-44 md:px-6 md:py-3 md:text-xs',
+      }}
+    />
   </div>
 </div>
 

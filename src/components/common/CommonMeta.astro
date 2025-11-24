@@ -9,3 +9,15 @@ import { getAsset } from '@/utils/permalinks';
   content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 />
 <link rel="sitemap" href={getAsset('/sitemap-index.xml')} />
+<link
+  rel="preload"
+  href="https://cdn.jsdelivr.net/npm/swiper@12.0.3/swiper-bundle.min.css"
+  as="style"
+  onload="this.rel='stylesheet'"
+/>
+<noscript>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@12.0.3/swiper-bundle.min.css"
+  />
+</noscript>

@@ -5,7 +5,7 @@ import {
   astroAssetsOptimizer,
   getImagesOptimized,
 } from '@/utils/images-optimization';
-import Image from '../common/Image.astro';
+import Image from './common/Image.astro';
 
 import footerBg from '@/assets/images/site/mobile/footer.png';
 import logoColorida from '@/assets/images/site/logo.png';
@@ -40,7 +40,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 <footer
   style={`background-image: url(${image?.src});`}
   class:list={[
-    'relative min-h-[546px] w-full bg-contain bg-center bg-repeat-x',
+    'relative max-h-[500px] w-full bg-contain bg-center bg-repeat-x',
     'px-4 py-6 lg:px-8',
     'flex flex-col justify-evenly gap-2 lg:gap-6',
   ]}
@@ -49,11 +49,11 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
   <div class="flex flex-col items-center justify-center gap-4 lg:flex-row">
     <!-- Links e Sociais -->
     <div
-      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start lg:gap-6"
+      class="flex h-full w-full items-center justify-center lg:flex-col-reverse lg:items-start lg:gap-4"
     >
       <!-- Social -->
       <div
-        class="relative flex h-full w-[30%] max-w-[180px] items-center justify-center lg:max-w-[250px] lg:justify-start"
+        class="relative flex h-full w-fit max-w-[180px] items-center justify-center lg:justify-start"
       >
         <div
           class="social-wrapper flex flex-col items-center gap-2.5 lg:flex-row"
@@ -66,7 +66,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
                 href={href}
               >
                 {icon && (
-                  <Icon name={icon} class="size-8 text-white lg:size-10" />
+                  <Icon name={icon} class="size-8 text-white lg:size-8" />
                 )}
                 <Fragment set:html={text} />
               </a>
@@ -79,15 +79,16 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
         >
         </div>
       </div>
+
       <!-- Links -->
-      <div class="grid flex-1 gap-5 pl-6">
+      <div class="grid flex-1 pl-3">
         {
           links.map(({ title, links: insideLinks }, index) => (
-            <div class="flex flex-col gap-1 pb-3 last:border-b-0">
-              <h5 class="text-caju-heading-yellow mb-0! text-sm uppercase lg:text-[32px]">
+            <div class="flex flex-col gap-1 pb-2 last:border-b-0">
+              <h5 class="text-caju-heading-yellow mb-0! text-sm uppercase lg:text-xl">
                 {title}
               </h5>
-              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-[24px]">
+              <ul class="font-inter text-xsm grid grid-cols-2 grid-rows-3 gap-2 lg:flex lg:flex-row lg:gap-6 lg:text-lg">
                 {insideLinks.map(({ href, text, ariaLabel, ...rest }) => (
                   <li
                     class:list={[
@@ -114,7 +115,7 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
 
     <!-- Logo -->
     <div
-      class="flex h-[94px]! w-[157px]! items-center justify-center lg:order-first lg:h-[322px]! lg:w-[540px]!"
+      class="flex h-[94px]! w-[157px]! items-center justify-center lg:order-first lg:h-[300px]! lg:w-[520px]!"
     >
       <Image
         class="h-full w-full object-cover"
@@ -126,9 +127,9 @@ const { socialLinks = [], links = [], footNote = '' } = Astro.props;
   </div>
 
   <!-- Footnote -->
-  <div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
+  <div class="flex flex-col items-center justify-center gap-4 lg:flex-row">
     <div
-      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-[20px]!"
+      class="text-xxs font-inter text-center leading-[140%] text-white lg:w-full lg:text-sm"
     >
       <Fragment set:html={footNote} />
     </div>

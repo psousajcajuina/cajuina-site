@@ -1,4 +1,5 @@
 @import './tailwind.css';
+@import './pages.css';
 
 @theme inline {
   --color-brand-green: #056b45;

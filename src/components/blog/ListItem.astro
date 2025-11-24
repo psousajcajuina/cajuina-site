@@ -24,7 +24,7 @@ const link = APP_BLOG?.post?.isEnabled
 ---
 
 <article
-  class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade ${image ? 'md:grid-cols-2' : ''}`}
+  class={`*:font-inter max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade ${image ? 'md:grid-cols-2' : ''}`}
 >
   {
     image &&
@@ -110,7 +110,7 @@ const link = APP_BLOG?.post?.isEnabled
         {
           link ? (
             <a
-              class="hover:text-primary inline-block transition duration-200 ease-in dark:hover:text-blue-700"
+              class="font-inter text-caju-heading-orange! inline-block transition duration-200 ease-in"
               href={link}
             >
               {news.title}
@@ -123,10 +123,8 @@ const link = APP_BLOG?.post?.isEnabled
     </header>
 
     {
-      news.excerpt && (
-        <p class="text-muted grow text-lg dark:text-slate-400">
-          {news.excerpt}
-        </p>
+      news.excerpt && false && (
+        <p class="text-muted font-inter grow text-lg">{news.excerpt}</p>
       )
     }
     {

@@ -42,12 +42,11 @@ const defaultMetadata = {
   },
 };
 
-// Merge: valores padrão + metadata customizado do post
 const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
 ---
 <StaticPageLayout metadata={metadata}>
   <section
-    class="grid w-full grid-cols-1 gap-2 p-20 pb-12 md:grid-cols-[minmax(0,280px)_1fr]"
+    class="grid w-full grid-cols-1 gap-2 md:p-20 pt-16! pb-12 md:grid-cols-[minmax(0,280px)_1fr]"
   >
     <div
       id="sidebar-container"
@@ -83,13 +82,14 @@ const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
       class={twMerge(
         'flex flex-col md:gap-10',
         'font-inter prose prose-lg prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-blue-600 prose-img:rounded-md prose-img:shadow-lg max-w-4xl',
-        'px-2 pt-12 ',
+        'px-2 pt-8',
         'page-content',
       )}
     >
+    <h1 class="font-heading! text-caju-heading-primary! text-3xl font-bold tracking-tighter md:text-5xl">{page.title}</h1>
       {
         page.Content ? (
-          <page.Content class="in-[h1_h2_h3_h4_h5_h6]:text-caju-heading-orange" />
+          <page.Content />
         ) : (
           <Fragment set:html={page.content || ''} />
         )
@@ -97,39 +97,6 @@ const metadata = merge(defaultMetadata, page?.metadata || {}) as MetaData;
     </div>
   </section>
 </StaticPageLayout>
-
-<style>
-  /* remove bullets do ul */
-  .page-content ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  /* li filhos diretos de qualquer ul dentro de .page-content */
-  .page-content ul > li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* ícone aplicado */
-  .page-content ul > li::before {
-    content: "";
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-
-    /* máscara com SVG do lucide */
-    mask-image: url({ChevronRight.src});
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-image: url({ChevronRight.src});
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-
-    background-color: currentColor;
-  }
-</style>
 
 <script>
   function initSidebar() {

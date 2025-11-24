@@ -46,6 +46,13 @@ export interface News {
   readingTime?: number;
 }
 
+export interface Tag {
+  /**  */
+  title: string;
+  /**  */
+  description: string;
+}
+
 export interface Page {
   id: string;
   slug: string;
@@ -97,6 +104,7 @@ export interface ProductItem {
 export interface Taxonomy {
   slug: string;
   title: string;
+  description?: string;
 }
 
 export interface MetaData {

@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import SwiperLayout from './ui/SwiperLayout.astro';
 import BannerSwiper from './react/widgets/BannerSwiper';
 import BannerSliderSkeleton from './BannerSliderSkeleton.astro';
 
@@ -38,7 +37,6 @@ const banners = allBanners
   })
   .sort((a, b) => a.data.order - b.data.order);
 
-// Transformar dados para o componente React
 const bannersForReact = banners.map((banner) => ({
   ...banner,
   data: {
@@ -72,15 +70,10 @@ const bannersForReact = banners.map((banner) => ({
 </head>
 
 <div class="relative">
-  <!-- Skeleton SSR (aparece instantaneamente) -->
   <div class="banner-skeleton-wrapper">
     <BannerSliderSkeleton />
   </div>
-
-  <!-- Banner React (hidrata depois) -->
   <div class="banner-real-wrapper">
-    <SwiperLayout>
-      <BannerSwiper banners={bannersForReact} client:load />
-    </SwiperLayout>
+    <BannerSwiper banners={bannersForReact} client:load />
   </div>
 </div>

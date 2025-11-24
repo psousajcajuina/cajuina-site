@@ -1,7 +1,7 @@
 import type { PaginateFunction } from 'astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import type { News } from '@/types';
+import type { News, Taxonomy } from '@/types';
 import { APP_BLOG } from 'astrowind:config';
 import {
   cleanSlug,
@@ -128,6 +128,7 @@ const load = async function (): Promise<Array<News>> {
 };
 
 let _posts: Array<News>;
+let _tags: Array<Taxonomy>;
 
 /**
  * @lintignore
@@ -153,6 +154,16 @@ export const fetchPosts = async (): Promise<Array<News>> => {
   }
 
   return _posts;
+};
+
+export const fetchTags = async (): Promise<typeof _tags> => {
+  if (!_tags) {
+    _tags = (await fetchPosts())
+      .flatMap((post) => post.tags)
+      .filter((tag): tag is Taxonomy => tag !== undefined);
+  }
+
+  return _tags;
 };
 
 /** */

@@ -3,7 +3,7 @@ title: Política de Anticorrupção
 draft: false
 layout: '@/layouts/StaticPageLayout.astro'
 ---
-### 1. OBJETIVO, DESTINATÁRIOS E ABRANGÊNCIA**&#160;**
+### 1. OBJETIVO, DESTINATÁRIOS E ABRANGÊNCIA
 
 - 1.1. O objetivo desta Política é o estabelecimento de regras e diretrizes para todos os colaboradores das empresas do Grupo São Geraldo, seus diretores, estagiários, Conselho de Administração, prestadores de serviços, fornecedores e partes relacionadas, a menos que, por exigência de legislação supervenientes, normas mais restritivas venham a ser desenvolvidas.
 - 1.2. Tais regras são baseadas em melhores práticas de Conformidade, bem como na legislação nacional, em especial na Lei 12.846/13 (Lei Anticorrupção) e no Decreto nº 8.420/15, podendo ainda ser alterada para contemplar regras de âmbito internacional caso as dinâmicas desenvolvidas pelas empresas do Grupo justifiquem tal iniciativa.
