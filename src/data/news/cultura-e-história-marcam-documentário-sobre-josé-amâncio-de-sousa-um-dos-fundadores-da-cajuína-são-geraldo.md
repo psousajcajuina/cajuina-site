@@ -1,6 +1,5 @@
 ---
-title: Cultura e história marcam documentário sobre José Amâncio de Sousa, um dos fundadores da Cajuína São Geraldo
-excerpt: Cultura e história marcam documentário sobre José Amâncio de Sousa, um dos fundadores da Cajuína São Geraldo
+title: e história marcam documentário sobre José Amâncio de Sousa, um dos fundadores da Cajuína São Geraldo
 draft: false
 categories: noticias
 tags:
@@ -9,8 +8,8 @@ tags:
 image: /src/assets/images/news/Jose-Amancio-de-Sousa-1-1200x600.webp
 publishDate: 2025-01-07T11:59:00
 author: Redação São Geraldo
+excerpt: Cultura e história marcam documentário sobre José Amâncio de Sousa, um dos fundadores da Cajuína São Geraldo
 ---
-
 As apresentações do Dia de Reis deram início às gravações e exposição na antiga casa da família Sousa e Souza.
 
 Embalados pela celebração do Dia de Reis, tradicional nas comemorações regionais, iniciamos dois projetos que buscam manter viva parte da história do Cariri a partir da nossa: as gravações do documentário sobre José Amâncio, um dos nossos fundadores, e a produção do livro contando a sua história. Resgatando a tradição dos grupos de reisado na Rua da Conceição n° 1090, onde tudo começou, contamos uma narrativa entrelaçada à história da região, a qual fazemos parte há mais de 50 anos, compondo não só uma indústria, como também a memória afetiva dos caririenses. Na casa, os grupos de reisado Discípulos de Mestre Pedro e Guerreiras de Santa Madalena abrilhantaram o dia 6 de janeiro e deram a partida inicial às gravações.
